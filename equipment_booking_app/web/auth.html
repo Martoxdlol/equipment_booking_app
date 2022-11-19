@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+        window.onload = function () {
+            if (window.opener && window.opener !== window) { //Used when working as a popup. Uses post message to respond to the parent window                
+                var parent = window.opener ?? window.parent;
+                parent.postMessage(location.href, "*");
+            }
+        }
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>
