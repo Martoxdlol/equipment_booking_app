@@ -4,6 +4,7 @@ import 'package:equipment_booking_app/components/weekly_grid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:shared/models.dart';
 
 class Login extends HookWidget {
   const Login({super.key});
@@ -12,6 +13,7 @@ class Login extends HookWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).viewPadding.top;
 
+    final authFlowState = useState<AuthFlow?>(null);
     final usernameState = useState<String>('');
     final loadingState = useState<bool>(true);
 
@@ -22,10 +24,13 @@ class Login extends HookWidget {
     Future<void> startAuth(BuildContext context, String username) async {
       final auth = AuthFlow.detectPlatform(context);
       loadingState.value = true;
+      authFlowState.value = auth;
       final navigator = Navigator.of(context);
       try {
-        final session = await auth.authtenticate(username);
-        if (session != null) {
+        final authResult = await auth.authtenticate(username);
+
+        if (authResult.status == AuthStatus.ok) {
+          Session.instance = authResult.session!;
           navigator.pushReplacement(
             CupertinoPageRoute(
               builder: (context) {
@@ -39,11 +44,13 @@ class Login extends HookWidget {
               },
             ),
           );
+        } else if (authResult.status == AuthStatus.error) {
+          // ignore: use_build_context_synchronously
+          showAuthErrorDialog(context, authResult.error);
         }
         loadingState.value = false;
-      } catch (e) {
-        print(e);
-        auth.showError();
+      } on Exception catch (e) {
+        showAuthErrorDialog(context, e);
         loadingState.value = false;
       }
     }
@@ -54,8 +61,25 @@ class Login extends HookWidget {
     }, []);
 
     if (loadingState.value) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const CircularProgressIndicator(),
+              TextButton(
+                onPressed: () {
+                  authFlowState.value?.closeAndCancel();
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Text("Cancelar"),
+                ),
+              )
+            ],
+          ),
+        ),
       );
     }
 
