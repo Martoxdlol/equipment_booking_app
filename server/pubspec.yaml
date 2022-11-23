@@ -18,3 +18,4 @@ dependencies:
     path: ../shared
   http: ^0.13.5
   shelf_cors_headers: ^0.1.4
+  openid_client: ^0.4.6

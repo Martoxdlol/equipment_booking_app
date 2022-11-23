@@ -46,15 +46,15 @@ dependencies:
   intl: ^0.17.0
   carousel_slider: ^4.1.1
   infinite_carousel: ^1.0.2
-  openidconnect: ^1.0.22
-  openid_client: ^0.4.6
-  oauth2: ^2.0.0
-  webview_flutter: ^3.0.4
-  webview_windows: ^0.2.2
   shared: 
     path: ../shared
   http: ^0.13.5
   universal_html: ^2.0.8
+  url_launcher: ^6.1.7
+  openidconnect: ^1.0.25
+  flutter_inappwebview: ^5.7.1+2
+  shelf: ^1.4.0
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

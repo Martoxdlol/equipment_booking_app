@@ -1,9 +1,14 @@
 import 'dart:convert';
 
+import 'package:openid_client/openid_client.dart';
+import 'package:server/openid_client.dart';
 import 'package:shared/models.dart';
 import 'package:shelf_plus/shelf_plus.dart';
-import 'package:shared/settings.dart';
-import 'package:http/http.dart' as http;
+
+enum RedirectType {
+  mobile,
+  web,
+}
 
 void auth(RouterPlus app) async {
   // Auth config
@@ -14,36 +19,36 @@ void auth(RouterPlus app) async {
 
   // Generate oauth login url
   app.get('/login', (Request request) async {
-    final url = await getLoginUri();
+    // Username user put into the login prompt
+    final loginHint = request.url.queryParameters['login_hint'];
+    final type = request.url.queryParameters['redirect_type'];
+    RedirectType redirectType;
+
+    if (type == 'mobile') {
+      redirectType = RedirectType.mobile;
+    } else {
+      redirectType = RedirectType.web;
+    }
+
+    final url = await getLoginUri(loginHint, redirectType);
     return Response.found(url);
   });
 
   // Return session token from oauth code
   app.get('/login/complete_with_code', (Request request) async {
-    final session = Session()
+    final code = request.url.queryParameters['code'];
+
+    final credential = await getFlow().callback({'code': code!, 'state': getFlow().state});
+
+    final userinfo = await credential.getUserInfo();
+
+    final session = Session({})
       ..id.set('1234')
-      ..profile.setFromJson(User()..name.set('Tomás'));
-
-    final body = Uri(queryParameters: {
-      "grant_type": "authorization_code",
-      "client_id": "675d4af3-d82e-4f57-9d03-ed71018de455",
-      "client_secret": secret,
-      "redirect_uri": "http://localhost:63644/auth.html",
-      "code": request.url.queryParameters['code']!,
-    }).query;
-
-    print(body);
-
-    final tokenEndpoint = Uri.parse('https://login.microsoftonline.com/6eae6170-6800-4e46-9695-5c90ab82bd68/oauth2/v2.0/token');
-    final response = await http.post(
-      tokenEndpoint,
-      body: body,
-    );
-
-    print(response.body);
-
-    //secret
-    // http.get(Uri.parse('https://graph.microsoft.com/oidc/userinfo?access_token='));
+      ..profile.setFromJson(
+        User()
+          ..name.set(userinfo.name ?? 'User')
+          ..id.set(userinfo.subject),
+      );
 
     return jsonEncode(session.toJson());
   });
@@ -54,19 +59,16 @@ void auth(RouterPlus app) async {
   });
 }
 
-const secret = 'u-c8Q~TYQWYygj7lZ.4IO9UxDSGif8JSGHae0aOG';
+Flow getFlow() {
+  final flow = Flow.authorizationCode(
+    state: '1000',
+    client,
+    redirectUri: Uri.parse("http://localhost:4000/auth.html"),
+    scopes: ['openid', 'profile', 'email'],
+  );
+  return flow;
+}
 
-Future<Uri> getLoginUri() async {
-  final resp = await http
-      .get(Uri.parse('https://login.microsoftonline.com/6eae6170-6800-4e46-9695-5c90ab82bd68/v2.0/.well-known/openid-configuration'));
-  final config = jsonDecode(resp.body);
-  final rawUrl = Uri.parse(config['authorization_endpoint']);
-
-  return Uri(scheme: rawUrl.scheme, path: rawUrl.path, host: rawUrl.host, queryParameters: {
-    "client_id": "675d4af3-d82e-4f57-9d03-ed71018de455",
-    // "redirect_uri": "http://localhost:4000/login/callback",
-    "redirect_uri": "http://localhost:63644/auth.html",
-    "scope": "profile openid",
-    "response_type": "code",
-  });
+Future<Uri> getLoginUri(String? loginHint, RedirectType redirectType) async {
+  return getFlow().authenticationUri;
 }

@@ -60,12 +60,17 @@ class EquipmentRequestEquipment extends ModelBuilder {
 }
 
 class Session extends ModelBuilder {
+  Session(super.source);
+
   @override
   Iterable<JsonType> get values => [id, profile];
 
   JsonString get id => jsonString('id');
 
   User get profile => jsonModel<User>('profile', User.new);
+
+  /// Session singleton instance only used in client
+  static Session instance = Session({});
 }
 
 class AuthConfig extends ModelBuilder {

@@ -1,4 +1,4 @@
-package com.example.equipment_booking_app
+package ar.abcd.equipment_booking_app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -3,11 +3,13 @@ import 'package:json_model_builder/json_model_builder.dart';
 
 class Settings extends ModelBuilder {
   @override
-  Iterable<JsonType> get values => [];
+  Iterable<JsonType> get values =>
+      [appName, serverUrl, durationRangeOptionsInMinutes, maxPickableFutureTimeInDays, equipmentTypes, locations, weekViewShowDaysByIndex];
 
   JsonString get appName => jsonString('app_name');
 
-  JsonString get apiUrl => jsonString('apiUrl');
+  JsonString get serverUrl => jsonString('server_url');
+  Uri get serverUri => Uri.parse(serverUrl.value);
 
   JsonList<JsonInt> get durationRangeOptionsInMinutes => jsonList('duration_range_options_in_minutes', JsonInt.new);
 
@@ -25,9 +27,11 @@ class Settings extends ModelBuilder {
     return equipmentTypes[index];
   }
 
+  JsonInt get localAuthPort => jsonInt('local_auth_port');
+
   static Settings instance = Settings()
     ..appName.set('App de pedidos')
-    ..apiUrl.set('')
+    ..serverUrl.set('http://10.0.31.28:4000')
     ..durationRangeOptionsInMinutes.setFromJson([
       const Duration(hours: 7, minutes: 30).inMinutes,
       const Duration(hours: 8, minutes: 30).inMinutes,
@@ -81,5 +85,6 @@ class Settings extends ModelBuilder {
       'Taller (laboratorio)',
       'Taller (otro)',
     ])
-    ..weekViewShowDaysByIndex.setFromJson([1, 2, 3, 4, 5]);
+    ..weekViewShowDaysByIndex.setFromJson([1, 2, 3, 4, 5])
+    ..localAuthPort.set(4000);
 }
