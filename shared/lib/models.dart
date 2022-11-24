@@ -59,19 +59,19 @@ class EquipmentRequestEquipment extends ModelBuilder {
   }
 }
 
-class Session extends ModelBuilder {
-  Session(super.source);
+// class Session extends ModelBuilder {
+//   Session(super.source);
 
-  @override
-  Iterable<JsonType> get values => [id, profile];
+//   @override
+//   Iterable<JsonType> get values => [id, profile];
 
-  JsonString get id => jsonString('id');
+//   JsonString get id => jsonString('id');
 
-  User get profile => jsonModel<User>('profile', User.new);
+//   User get profile => jsonModel<User>('profile', User.new);
 
-  /// Session singleton instance only used in client
-  static Session instance = Session({});
-}
+//   /// Session singleton instance only used in client
+//   static Session instance = Session({});
+// }
 
 class AuthConfig extends ModelBuilder {
   @override

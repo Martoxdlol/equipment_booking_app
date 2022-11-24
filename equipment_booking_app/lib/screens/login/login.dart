@@ -1,54 +1,43 @@
 import 'package:equipment_booking_app/auth/auth.dart';
-import 'package:equipment_booking_app/components/bottom_nav.dart';
-import 'package:equipment_booking_app/components/weekly_grid.dart';
+import 'package:equipment_booking_app/screens/home/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:shared/models.dart';
 
 class Login extends HookWidget {
   const Login({super.key});
 
-  @override
-  Widget build(BuildContext context) {
+  Widget buildContent(BuildContext context) {
     final height = MediaQuery.of(context).viewPadding.top;
 
-    final authFlowState = useState<AuthFlow?>(null);
     final usernameState = useState<String>('');
     final loadingState = useState<bool>(true);
 
     Future<void> init() async {
-      loadingState.value = false;
+      final isSignedIn = await Auth.instance.isSignedIn();
+      if (isSignedIn) {
+        // ignore: use_build_context_synchronously
+        launchHomeScreen(context);
+      } else {
+        loadingState.value = false;
+      }
     }
 
     Future<void> startAuth(BuildContext context, String username) async {
-      final auth = AuthFlow.detectPlatform(context);
       loadingState.value = true;
-      authFlowState.value = auth;
-      final navigator = Navigator.of(context);
       try {
-        final authResult = await auth.authtenticate(username);
+        final authResult = await Auth.instance.signIn(context, username);
 
         if (authResult.status == AuthStatus.ok) {
-          Session.instance = authResult.session!;
-          navigator.pushReplacement(
-            CupertinoPageRoute(
-              builder: (context) {
-                return Scaffold(
-                  appBar: AppBar(),
-                  body: Container(
-                    child: WeekView(),
-                  ),
-                  bottomNavigationBar: const BottomNav(),
-                );
-              },
-            ),
-          );
+          // ignore: use_build_context_synchronously
+          launchHomeScreen(context);
         } else if (authResult.status == AuthStatus.error) {
           // ignore: use_build_context_synchronously
           showAuthErrorDialog(context, authResult.error);
+          loadingState.value = false;
+        } else {
+          loadingState.value = false;
         }
-        loadingState.value = false;
       } on Exception catch (e) {
         showAuthErrorDialog(context, e);
         loadingState.value = false;
@@ -70,7 +59,7 @@ class Login extends HookWidget {
               const CircularProgressIndicator(),
               TextButton(
                 onPressed: () {
-                  authFlowState.value?.closeAndCancel();
+                  Auth.instance.currentFlow?.closeAndCancel();
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(12),
@@ -130,4 +119,22 @@ class Login extends HookWidget {
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      child: buildContent(context),
+      onWillPop: () async {
+        return false;
+      },
+    );
+  }
+}
+
+void launchHomeScreen(BuildContext context) {
+  Navigator.of(context).pushReplacement(
+    CupertinoPageRoute(
+      builder: (context) => HomeScreen(),
+    ),
+  );
 }

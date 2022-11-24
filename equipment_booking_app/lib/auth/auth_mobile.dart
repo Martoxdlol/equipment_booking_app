@@ -30,6 +30,18 @@ class AuthFlowMobile extends AuthFlow {
     await authServer?.close();
   }
 
+  @override
+  Future<void> complete(AuthorizationParams authorization) {
+    stopAuthServer();
+    return super.complete(authorization);
+  }
+
+  @override
+  void completeError(Exception e) {
+    stopAuthServer();
+    super.completeError(e);
+  }
+
   bool willCloseBrowser = false;
   void closeBrowser() {
     willCloseBrowser = true;
@@ -49,9 +61,11 @@ class AuthFlowMobile extends AuthFlow {
     }
 
     final code = request.url.queryParameters['code'];
+    final state = request.url.queryParameters['state'];
+    final sessionState = request.url.queryParameters['session_state'];
 
     if (code != null) {
-      complete(code);
+      complete(AuthorizationParams(code: code, state: state, sessionState: sessionState));
     } else {
       completeError(Exception("Oauth callback returned empty code"));
     }

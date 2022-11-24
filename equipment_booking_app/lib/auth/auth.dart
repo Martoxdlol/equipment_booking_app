@@ -1,14 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:equipment_booking_app/auth/auth_mobile.dart';
 import 'package:equipment_booking_app/auth/auth_web.dart';
-import 'package:equipment_booking_app/components/bottom_nav.dart';
-import 'package:equipment_booking_app/components/weekly_grid.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared/models.dart';
+import 'package:server/prisma_client.dart';
 import 'package:shared/settings.dart';
 import 'dart:io' show Platform;
 
@@ -70,10 +69,10 @@ abstract class AuthFlow {
     completeError(Exception("Cannot obtain authorization code"));
   }
 
-  Future<void> complete(String authorizationCode) async {
+  Future<void> complete(AuthorizationParams authorization) async {
     if (_task.isCompleted) return;
     try {
-      final session = await submitCode(authorizationCode);
+      final session = await submitCode(authorization);
       _task.complete(AuthResult(status: AuthStatus.ok, session: session));
     } on Exception catch (e) {
       print(e);
@@ -82,18 +81,17 @@ abstract class AuthFlow {
   }
 
   /// Send auth code to server in exchange for the user session
-  Future<Session> submitCode(String authorizationCode) async {
+  Future<Session> submitCode(AuthorizationParams authorization) async {
     final serverUri = Settings.instance.serverUri;
     final response = await http.get(Uri(
       scheme: serverUri.scheme,
       host: serverUri.host,
       port: serverUri.port,
       path: '${Settings.instance.serverUri.path}/login/complete_with_code',
-      queryParameters: {'code': authorizationCode},
+      queryParameters: {'code': authorization.code, 'state': authorization.state, 'session_state': authorization.sessionState},
     ));
 
-    final session = Session(response.body);
-    Session.instance = session;
+    final session = Session.fromJson(jsonDecode(response.body));
     return session;
   }
 
@@ -110,12 +108,21 @@ abstract class AuthFlow {
   }
 }
 
+class AuthorizationParams {
+  AuthorizationParams({required this.code, this.state, this.sessionState});
+
+  final String code;
+  final String? state;
+  final String? sessionState;
+}
+
 void showAuthErrorDialog(BuildContext context, [Exception? e]) {
   showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
         title: Text("Error iniciando sesión"),
+        content: Text(e.toString()),
         actions: [
           TextButton(
             onPressed: () {
@@ -129,68 +136,83 @@ void showAuthErrorDialog(BuildContext context, [Exception? e]) {
   );
 }
 
-// abstract class AuthFlow {
-//   Future<String?> getLocalSessionKey() async {
-//     final prefs = await SharedPreferences.getInstance();
-//     final sessionKey = prefs.getString('session_key');
-//     return sessionKey;
-//   }
+class Auth {
+  AuthFlow? currentFlow;
 
-//   Future<void> saveSessionKey(String key) async {
-//     final prefs = await SharedPreferences.getInstance();
-//     prefs.setString('session_key', key);
-//   }
+  Session? session;
 
-//   AuthFlow(this.context);
-//   final BuildContext context;
+  Future<bool> isSignedIn() async {
+    return await loadSession() != null;
+  }
 
-//   static AuthFlow detectPlatform(BuildContext context) {
-//     if (kIsWeb) {
-//       return AuthFlowWeb(context);
-//     }
-//     if (Platform.isAndroid || Platform.isIOS) {
-//       return AuthFlowMobile(context);
-//     }
-//     throw Exception("Unsupported platform detected");
-//   }
+  Future<void> saveSession([Session? session]) async {
+    this.session = session ?? this.session;
 
-//   Future<Session?> authtenticate(String username);
+    final prefs = await SharedPreferences.getInstance();
 
-//   Future<Session> submitCode(String code) async {
-//     final serverUri = Settings.instance.serverUri;
-//     final response = await http.get(Uri(
-//       scheme: serverUri.scheme,
-//       host: serverUri.host,
-//       port: serverUri.port,
-//       path: '${Settings.instance.serverUri.path}/login/complete_with_code',
-//       queryParameters: {'code': code},
-//     ));
+    prefs.setString('session', jsonEncode(this.session?.toJson()));
+  }
 
-//     final session = Session(response.body);
-//     Session.instance = session;
-//     return session;
-//   }
+  Future<void> deleteSession() {
+    session = null;
+    return saveSession();
+  }
 
-//   void obtainingCodeFailed() {
-//     throw Exception("No se pudo iniciar sessión");
-//   }
+  Future<Session?> loadSession() async {
+    final prefs = await SharedPreferences.getInstance();
 
-//   void showError() {
-//     showDialog(
-//       context: context,
-//       builder: (context) {
-//         return AlertDialog(
-//           title: Text("Error iniciando sesión"),
-//           actions: [
-//             TextButton(
-//               onPressed: () {
-//                 Navigator.of(context).pop();
-//               },
-//               child: Text("Cerrar"),
-//             )
-//           ],
-//         );
-//       },
-//     );
-//   }
-// }
+    try {
+      final sstring = prefs.getString('session');
+
+      if (sstring == null) {
+        session = null;
+        return null;
+      }
+
+      session = Session.fromJson(jsonDecode(sstring));
+    } catch (e) {
+      print(e);
+    }
+
+    return session;
+  }
+
+  Future<Session?> updateSession([String? key]) async {
+    if (key == null) {
+      await loadSession();
+      key = session?.key;
+    }
+
+    if (key == null) {
+      saveSession(null);
+    }
+
+    final response = await http.get(Uri.parse('${Settings.instance.serverUri}/session'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final session = Session.fromJson(data);
+      await saveSession(session);
+      return session;
+    } else if (response.statusCode == 400) {
+      await saveSession(null);
+    }
+    return null;
+  }
+
+  Future<AuthResult> signIn(BuildContext context, String username) async {
+    currentFlow = AuthFlow.detectPlatform(context);
+    final authResult = await currentFlow!.authtenticate(username);
+
+    if (authResult.session != null) {
+      saveSession(authResult.session);
+    }
+
+    return authResult;
+  }
+
+  Future<void> signOut() async {
+    await deleteSession();
+  }
+
+  static Auth instance = Auth();
+}

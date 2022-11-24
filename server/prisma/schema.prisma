@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider        = "prisma-client-dart"
+    previewFeatures = ["interactiveTransactions"]
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = "file:./prisma/prisma.db"
+}
+
+model Session {
+    key     String @id @unique
+    user    User   @relation(fields: [user_id], references: [id])
+    user_id String
+}
+
+model User {
+    id       String             @id @unique
+    email    String             @unique
+    name     String
+    requests EquipmentRequest[]
+    sessions Session[]
+}
+
+model EquipmentRequest {
+    id           Int           @id @default(autoincrement())
+    requested_by User          @relation(fields: [requester_id], references: [id])
+    requester_id String
+    items        RequestItem[]
+}
+
+model RequestItem {
+    id         Int              @id @default(autoincrement())
+    request    EquipmentRequest @relation(fields: [request_id], references: [id])
+    request_id Int
+}
+
+model AssetType {
+    id       String  @id @unique
+    title    String
+    assets   Asset[]
+    unique   Boolean @default(true)
+    quantity Int?
+}
+
+model Asset {
+    id      String    @id @unique
+    type    AssetType @relation(fields: [type_id], references: [id])
+    type_id String
+}

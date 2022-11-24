@@ -50,9 +50,13 @@ class AuthFlowWeb extends AuthFlow {
 
         if (data is String && data.isNotEmpty) {
           final uri = Uri.parse(data);
+
           final code = uri.queryParameters['code'];
+          final state = uri.queryParameters['state'];
+          final sessionState = uri.queryParameters['session_state'];
+
           if (code != null) {
-            complete(code);
+            complete(AuthorizationParams(code: code, state: state, sessionState: sessionState));
           } else {
             completeError(Exception("Callback returned empty code"));
           }

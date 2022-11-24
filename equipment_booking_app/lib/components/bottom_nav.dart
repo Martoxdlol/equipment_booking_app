@@ -14,10 +14,6 @@ class BottomNav extends HookWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.calendar_month_outlined),
-          label: 'Calendario',
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.add),
           label: 'Nuevo pedido',
         ),
