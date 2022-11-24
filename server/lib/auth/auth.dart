@@ -8,6 +8,7 @@ import 'package:server/prisma_client.dart';
 import 'package:shared/models.dart' show AuthConfig;
 import 'package:shelf_plus/shelf_plus.dart';
 import 'dart:math';
+import 'package:shared/errors.dart';
 
 enum RedirectType {
   mobile,
@@ -45,7 +46,7 @@ void auth(RouterPlus app) async {
     final state = request.url.queryParameters['state'];
 
     if (code == null) {
-      throw Exception('missing_code');
+      throw AuthtenticationError('missing authorization code');
     }
 
     final query = {'code': code};
@@ -61,7 +62,7 @@ void auth(RouterPlus app) async {
     final email = userinfo.email;
 
     if (email == null) {
-      throw Exception('missing_email_address');
+      throw AuthtenticationError('missing email address');
     }
 
     final userData = UserCreateInput(id: userinfo.subject, email: email, name: userinfo.name ?? userinfo.nickname ?? email.split("@")[0]);
@@ -77,6 +78,14 @@ void auth(RouterPlus app) async {
     );
 
     final session = Session(key: generateSecureQuey(256), user_id: userinfo.subject);
+    prisma.session.create(
+      data: SessionCreateInput(
+        key: session.key,
+        user: UserCreateNestedOneWithoutSessionsInput(
+          connect: UserWhereUniqueInput(id: userinfo.subject),
+        ),
+      ),
+    );
 
     final responseData = session.toJson();
     responseData['profile'] = user.toJson();
@@ -91,10 +100,10 @@ void auth(RouterPlus app) async {
 
   // Return user profile from session token
   app.get('/profile', handlerWrapperAuthtenticated((Request request, Session session) async {
-    final user = await prisma.user.findFirst(where: UserWhereInput(id: StringFilter(equals: session.user_id)));
+    final user = await prisma.user.findUnique(where: UserWhereUniqueInput(id: session.user_id));
 
     if (user == null) {
-      throw Exception("Not authtenticated");
+      throw AuthtenticationError("cannot find user");
     }
 
     return jsonResponse(user.toJson());

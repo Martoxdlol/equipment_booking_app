@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [
         Locale('es'),
+        Locale('en'),
       ],
       title: 'Flutter Demo',
       theme: ThemeData(

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:adaptative_modals/adaptative_modals.dart';
+import 'package:equipment_booking_app/auth/auth.dart';
 import 'package:equipment_booking_app/components/bigger_text_button.dart';
 import 'package:equipment_booking_app/components/bottom_toolbar.dart';
 import 'package:equipment_booking_app/components/date_selector.dart';
@@ -11,7 +12,12 @@ import 'package:equipment_booking_app/components/modal_scaffold.dart';
 import 'package:equipment_booking_app/components/row_or_column.dart';
 import 'package:equipment_booking_app/components/duration_picker.dart';
 import 'package:equipment_booking_app/components/week_recurrency_picker.dart';
-import 'package:shared/models.dart';
+import 'package:equipment_booking_app/util/api.dart';
+import 'package:server/db.dart';
+import 'package:server/prisma_client.dart';
+import 'package:shared/internationalization.dart';
+import 'package:shared/models.dart' show EquipmentRequestEquipment;
+// import 'package:shared/models.dart';
 import 'package:shared/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -117,13 +123,12 @@ class FormPart1 extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final defaultLocation = Settings.instance.locations[0].value;
-    final defaultUser = User()
-      ..id.value = 'tcichero'
-      ..name.value = 'Tomás Cichero';
+    final defaultUser = Auth.instance.user;
 
     final location = useState<String?>(defaultLocation);
     final requestedBy = useState<User?>(defaultUser);
     final date = useState<DateTime?>(null);
+    final notes = useState<String>('');
     final timeRange = useState<DurationRange?>(null);
     final makeRecurrentOnDaysOfWeeks = useState<List<DateTime>?>(null);
     final equipment = useState<EquipmentRequestEquipment?>(null);
@@ -162,19 +167,24 @@ class FormPart1 extends HookWidget {
 
     return RequestFormPageBody(
       hasBeenModified: hasBeenModified(),
-      action: () {
+      action: () async {
         if (actionIsSave) {
           if (!isCompleted()) return;
           final timeStart = date.value!.add(timeRange.value!.start);
           final timeEnd = date.value!.add(timeRange.value!.end);
-          final request = EquipmentRequest()
-            ..location.set(location.value!)
-            ..requestedBy.set(requestedBy.value!.id.value)
-            ..equipment.setFromJson(equipment.value!.toJson())
-            ..timeStart.set(timeStart)
-            ..timeEnd.set(timeEnd);
 
-          print(request.toJson());
+          final request = EquipmentRequest(
+            id: 0,
+            notes: notes.value,
+            requester_id: requestedBy.value!.id,
+            time_end: timeEnd,
+            time_start: timeStart,
+          );
+
+          print(await apiFetchPost('/request', {
+            ...request.toJson(),
+            "equipment": equipment.toString(),
+          }));
         } else {
           EquipmentPicker.show(context, equipment.value).then((value) => equipment.value = value);
         }
@@ -190,9 +200,10 @@ class FormPart1 extends HookWidget {
             ),
             LocationSelect(onChange: (value) => location.value = value, value: defaultLocation),
             TextFormField(
-              decoration: const InputDecoration(label: Text('Notas'), floatingLabelBehavior: FloatingLabelBehavior.always),
+              decoration: InputDecoration(label: Text(appStrings.notes.get), floatingLabelBehavior: FloatingLabelBehavior.always),
               minLines: 2,
               maxLines: 5,
+              onChanged: (value) => notes.value = value,
             ),
             RowOrColumn(gap: 12, children: [
               DatePicker(

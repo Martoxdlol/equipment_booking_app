@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:equipment_booking_app/auth/auth_mobile.dart';
 import 'package:equipment_booking_app/auth/auth_web.dart';
+import 'package:equipment_booking_app/util/api.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +13,7 @@ import 'package:shared/settings.dart';
 import 'dart:io' show Platform;
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared/errors.dart';
 
 enum AuthStatus {
   ok,
@@ -38,13 +40,14 @@ abstract class AuthFlow {
 
   /// Complete auth cycle
   Future<AuthResult> authtenticate(String? loginHint) async {
-    if (_started) throw Exception("Auth flow already started");
+    if (_started) throw InternalError("auth flow already stared");
     _started = true;
 
     try {
       await start(loginHint);
       return await _task.future;
     } on Exception catch (e) {
+      print("Authtentication failed");
       print(e);
       return AuthResult(status: AuthStatus.error, error: e);
     }
@@ -65,8 +68,8 @@ abstract class AuthFlow {
     _task.completeError(e);
   }
 
-  void completeErrorWhenObtainingCode() {
-    completeError(Exception("Cannot obtain authorization code"));
+  void completeErrorWhenObtainingCode(AppException? error) {
+    completeError(error ?? InternalError("cannot obtain authorization code"));
   }
 
   Future<void> complete(AuthorizationParams authorization) async {
@@ -75,6 +78,7 @@ abstract class AuthFlow {
       final session = await submitCode(authorization);
       _task.complete(AuthResult(status: AuthStatus.ok, session: session));
     } on Exception catch (e) {
+      print("Authentication task failed");
       print(e);
       return completeError(e);
     }
@@ -104,7 +108,7 @@ abstract class AuthFlow {
     if (Platform.isAndroid || Platform.isIOS) {
       return AuthFlowMobile(context);
     }
-    throw Exception("Unsupported platform detected");
+    throw InternalError("Unsupported platform detected");
   }
 }
 
@@ -140,9 +144,26 @@ class Auth {
   AuthFlow? currentFlow;
 
   Session? session;
+  User? _user;
+  User get user {
+    if (_user != null) return _user!;
+    throw AuthtenticationError("user is not logged in");
+  }
 
-  Future<bool> isSignedIn() async {
-    return await loadSession() != null;
+  Future<bool> localSignIn() async {
+    final r = await loadSession() != null;
+
+    if (r) {
+      try {
+        await userInfo();
+        return true;
+      } catch (e) {
+        print("Failed to load user info on login page");
+        print(e);
+        return false;
+      }
+    }
+    return false;
   }
 
   Future<void> saveSession([Session? session]) async {
@@ -171,6 +192,7 @@ class Auth {
 
       session = Session.fromJson(jsonDecode(sstring));
     } catch (e) {
+      print("Loading session failed");
       print(e);
     }
 
@@ -193,7 +215,7 @@ class Auth {
       final session = Session.fromJson(data);
       await saveSession(session);
       return session;
-    } else if (response.statusCode == 400) {
+    } else if (response.statusCode == AuthtenticationError().status) {
       await saveSession(null);
     }
     return null;
@@ -207,11 +229,47 @@ class Auth {
       saveSession(authResult.session);
     }
 
+    try {
+      await userInfo();
+    } on Exception catch (e) {
+      return AuthResult(status: AuthStatus.error, error: e, session: null);
+    }
+
     return authResult;
   }
 
   Future<void> signOut() async {
     await deleteSession();
+  }
+
+  Future<User> userInfo() async {
+    User? localUser = _user;
+
+    if (await loadSession() == null) {
+      throw AuthtenticationError("user is not signed in");
+    }
+
+    if (localUser != null) {
+      return localUser;
+    }
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final profileJsonData = prefs.getString('profile');
+      if (profileJsonData != null) {
+        localUser = User.fromJson(jsonDecode(profileJsonData));
+        _user = localUser;
+        return localUser;
+      }
+    } catch (e) {
+      print("Loading user info failed");
+      print(e);
+    }
+
+    final userData = await apiFetchGet('/profile');
+    localUser = User.fromJson(userData);
+    _user = localUser;
+    return localUser;
   }
 
   static Auth instance = Auth();

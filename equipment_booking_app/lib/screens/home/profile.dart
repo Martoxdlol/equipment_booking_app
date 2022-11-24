@@ -17,8 +17,8 @@ class ProfileDialog extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Usuario"),
-      content: Text(Auth.instance.session?.user_id ?? 'signed out'),
+      title: Text(Auth.instance.user.name),
+      content: Text(Auth.instance.user.email),
       actions: [
         TextButton(
           onPressed: () async {

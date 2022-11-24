@@ -14,7 +14,7 @@ class Login extends HookWidget {
     final loadingState = useState<bool>(true);
 
     Future<void> init() async {
-      final isSignedIn = await Auth.instance.isSignedIn();
+      final isSignedIn = await Auth.instance.localSignIn();
       if (isSignedIn) {
         // ignore: use_build_context_synchronously
         launchHomeScreen(context);

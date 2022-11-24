@@ -1,28 +1,28 @@
 import 'package:json_model_builder/json_model_builder.dart';
 
-class EquipmentRequest extends ModelBuilder {
-  @override
-  Iterable<JsonType> get values => [requestedBy, location];
+// class EquipmentRequest extends ModelBuilder {
+//   @override
+//   Iterable<JsonType> get values => [requestedBy, location];
 
-  JsonString get requestedBy => jsonString('requested_by');
+//   JsonString get requestedBy => jsonString('requested_by');
 
-  JsonString get location => jsonString('location');
+//   JsonString get location => jsonString('location');
 
-  JsonDateTime get timeStart => jsonDateTime('time_start');
+//   JsonDateTime get timeStart => jsonDateTime('time_start');
 
-  JsonDateTime get timeEnd => jsonDateTime('time_end');
+//   JsonDateTime get timeEnd => jsonDateTime('time_end');
 
-  EquipmentRequestEquipment get equipment => jsonModel('equipment', EquipmentRequestEquipment.new);
-}
+//   EquipmentRequestEquipment get equipment => jsonModel('equipment', EquipmentRequestEquipment.new);
+// }
 
-class User extends ModelBuilder {
-  @override
-  Iterable<JsonType> get values => [name, id];
+// class User extends ModelBuilder {
+//   @override
+//   Iterable<JsonType> get values => [name, id];
 
-  JsonString get name => jsonString('name');
+//   JsonString get name => jsonString('name');
 
-  JsonString get id => jsonString('id');
-}
+//   JsonString get id => jsonString('id');
+// }
 
 class EquipmentType extends ModelBuilder {
   @override

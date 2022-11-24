@@ -1,7 +1,7 @@
 library prisma.client; // ignore_for_file: no_leading_underscores_for_library_prefixes
 
-import 'package:orm/orm.dart' as _i1;
-import 'package:json_annotation/json_annotation.dart' as _i2;
+import 'package:json_annotation/json_annotation.dart' as _i1;
+import 'package:orm/orm.dart' as _i2;
 import 'package:orm/configure.dart' as _i3;
 import 'prisma_configurator.dart' as _i4;
 import 'package:orm/dmmf.dart' as _i5;
@@ -21,13 +21,25 @@ part 'prisma_client.g.dart';
 // GitHub: https://github.com/odroe/prisma-dart
 //******************************************************************************
 
-enum AssetScalarFieldEnum { id, type_id }
+enum AssetScalarFieldEnum { id, type_id, deployed_to_id }
 
 enum AssetTypeScalarFieldEnum { id, title, unique, quantity }
 
-enum EquipmentRequestScalarFieldEnum { id, requester_id }
+enum EquipmentRequestScalarFieldEnum {
+  id,
+  requester_id,
+  notes,
+  time_start,
+  time_end
+}
 
-enum RequestItemScalarFieldEnum { id, request_id }
+enum QueryMode {
+  @_i1.JsonValue('default')
+  default$,
+  insensitive
+}
+
+enum RequestItemScalarFieldEnum { id, request_id, quantity, asset_type_id }
 
 enum SessionScalarFieldEnum { key, user_id }
 
@@ -35,7 +47,7 @@ enum SortOrder { asc, desc }
 
 enum UserScalarFieldEnum { id, email, name }
 
-class SessionWhereInput implements _i1.JsonSerializable {
+class SessionWhereInput implements _i2.JsonSerializable {
   const SessionWhereInput({
     this.AND,
     this.OR,
@@ -45,17 +57,17 @@ class SessionWhereInput implements _i1.JsonSerializable {
     this.user_id,
   });
 
-  final _i1.PrismaNullable<SessionWhereInput> AND;
+  final _i2.PrismaNullable<SessionWhereInput> AND;
 
-  final _i1.PrismaNullable<List<SessionWhereInput>> OR;
+  final _i2.PrismaNullable<List<SessionWhereInput>> OR;
 
-  final _i1.PrismaNullable<SessionWhereInput> NOT;
+  final _i2.PrismaNullable<SessionWhereInput> NOT;
 
-  final _i1.PrismaNullable<StringFilter> key;
+  final _i2.PrismaNullable<StringFilter> key;
 
-  final _i1.PrismaNullable<UserRelationFilter> user;
+  final _i2.PrismaNullable<UserRelationFilter> user;
 
-  final _i1.PrismaNullable<StringFilter> user_id;
+  final _i2.PrismaNullable<StringFilter> user_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -70,18 +82,18 @@ class SessionWhereInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionOrderByWithRelationInput implements _i1.JsonSerializable {
+class SessionOrderByWithRelationInput implements _i2.JsonSerializable {
   const SessionOrderByWithRelationInput({
     this.key,
     this.user,
     this.user_id,
   });
 
-  final _i1.PrismaNullable<SortOrder> key;
+  final _i2.PrismaNullable<SortOrder> key;
 
-  final _i1.PrismaNullable<UserOrderByWithRelationInput> user;
+  final _i2.PrismaNullable<UserOrderByWithRelationInput> user;
 
-  final _i1.PrismaNullable<SortOrder> user_id;
+  final _i2.PrismaNullable<SortOrder> user_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -93,10 +105,10 @@ class SessionOrderByWithRelationInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionWhereUniqueInput implements _i1.JsonSerializable {
+class SessionWhereUniqueInput implements _i2.JsonSerializable {
   const SessionWhereUniqueInput({this.key});
 
-  final _i1.PrismaNullable<String> key;
+  final _i2.PrismaNullable<String> key;
 
   @override
   Map<String, dynamic> toJson() {
@@ -106,7 +118,7 @@ class SessionWhereUniqueInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionOrderByWithAggregationInput implements _i1.JsonSerializable {
+class SessionOrderByWithAggregationInput implements _i2.JsonSerializable {
   const SessionOrderByWithAggregationInput({
     this.key,
     this.user_id,
@@ -115,15 +127,15 @@ class SessionOrderByWithAggregationInput implements _i1.JsonSerializable {
     this.$min,
   });
 
-  final _i1.PrismaNullable<SortOrder> key;
+  final _i2.PrismaNullable<SortOrder> key;
 
-  final _i1.PrismaNullable<SortOrder> user_id;
+  final _i2.PrismaNullable<SortOrder> user_id;
 
-  final _i1.PrismaNullable<SessionCountOrderByAggregateInput> $count;
+  final _i2.PrismaNullable<SessionCountOrderByAggregateInput> $count;
 
-  final _i1.PrismaNullable<SessionMaxOrderByAggregateInput> $max;
+  final _i2.PrismaNullable<SessionMaxOrderByAggregateInput> $max;
 
-  final _i1.PrismaNullable<SessionMinOrderByAggregateInput> $min;
+  final _i2.PrismaNullable<SessionMinOrderByAggregateInput> $min;
 
   @override
   Map<String, dynamic> toJson() {
@@ -137,7 +149,7 @@ class SessionOrderByWithAggregationInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionScalarWhereWithAggregatesInput implements _i1.JsonSerializable {
+class SessionScalarWhereWithAggregatesInput implements _i2.JsonSerializable {
   const SessionScalarWhereWithAggregatesInput({
     this.AND,
     this.OR,
@@ -146,15 +158,15 @@ class SessionScalarWhereWithAggregatesInput implements _i1.JsonSerializable {
     this.user_id,
   });
 
-  final _i1.PrismaNullable<SessionScalarWhereWithAggregatesInput> AND;
+  final _i2.PrismaNullable<SessionScalarWhereWithAggregatesInput> AND;
 
-  final _i1.PrismaNullable<List<SessionScalarWhereWithAggregatesInput>> OR;
+  final _i2.PrismaNullable<List<SessionScalarWhereWithAggregatesInput>> OR;
 
-  final _i1.PrismaNullable<SessionScalarWhereWithAggregatesInput> NOT;
+  final _i2.PrismaNullable<SessionScalarWhereWithAggregatesInput> NOT;
 
-  final _i1.PrismaNullable<StringWithAggregatesFilter> key;
+  final _i2.PrismaNullable<StringWithAggregatesFilter> key;
 
-  final _i1.PrismaNullable<StringWithAggregatesFilter> user_id;
+  final _i2.PrismaNullable<StringWithAggregatesFilter> user_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -168,7 +180,7 @@ class SessionScalarWhereWithAggregatesInput implements _i1.JsonSerializable {
   }
 }
 
-class UserWhereInput implements _i1.JsonSerializable {
+class UserWhereInput implements _i2.JsonSerializable {
   const UserWhereInput({
     this.AND,
     this.OR,
@@ -180,21 +192,21 @@ class UserWhereInput implements _i1.JsonSerializable {
     this.sessions,
   });
 
-  final _i1.PrismaNullable<UserWhereInput> AND;
+  final _i2.PrismaNullable<UserWhereInput> AND;
 
-  final _i1.PrismaNullable<List<UserWhereInput>> OR;
+  final _i2.PrismaNullable<List<UserWhereInput>> OR;
 
-  final _i1.PrismaNullable<UserWhereInput> NOT;
+  final _i2.PrismaNullable<UserWhereInput> NOT;
 
-  final _i1.PrismaNullable<StringFilter> id;
+  final _i2.PrismaNullable<StringFilter> id;
 
-  final _i1.PrismaNullable<StringFilter> email;
+  final _i2.PrismaNullable<StringFilter> email;
 
-  final _i1.PrismaNullable<StringFilter> name;
+  final _i2.PrismaNullable<StringFilter> name;
 
-  final _i1.PrismaNullable<EquipmentRequestListRelationFilter> requests;
+  final _i2.PrismaNullable<EquipmentRequestListRelationFilter> requests;
 
-  final _i1.PrismaNullable<SessionListRelationFilter> sessions;
+  final _i2.PrismaNullable<SessionListRelationFilter> sessions;
 
   @override
   Map<String, dynamic> toJson() {
@@ -211,7 +223,7 @@ class UserWhereInput implements _i1.JsonSerializable {
   }
 }
 
-class UserOrderByWithRelationInput implements _i1.JsonSerializable {
+class UserOrderByWithRelationInput implements _i2.JsonSerializable {
   const UserOrderByWithRelationInput({
     this.id,
     this.email,
@@ -220,16 +232,16 @@ class UserOrderByWithRelationInput implements _i1.JsonSerializable {
     this.sessions,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> email;
+  final _i2.PrismaNullable<SortOrder> email;
 
-  final _i1.PrismaNullable<SortOrder> name;
+  final _i2.PrismaNullable<SortOrder> name;
 
-  final _i1.PrismaNullable<EquipmentRequestOrderByRelationAggregateInput>
+  final _i2.PrismaNullable<EquipmentRequestOrderByRelationAggregateInput>
       requests;
 
-  final _i1.PrismaNullable<SessionOrderByRelationAggregateInput> sessions;
+  final _i2.PrismaNullable<SessionOrderByRelationAggregateInput> sessions;
 
   @override
   Map<String, dynamic> toJson() {
@@ -243,15 +255,15 @@ class UserOrderByWithRelationInput implements _i1.JsonSerializable {
   }
 }
 
-class UserWhereUniqueInput implements _i1.JsonSerializable {
+class UserWhereUniqueInput implements _i2.JsonSerializable {
   const UserWhereUniqueInput({
     this.id,
     this.email,
   });
 
-  final _i1.PrismaNullable<String> id;
+  final _i2.PrismaNullable<String> id;
 
-  final _i1.PrismaNullable<String> email;
+  final _i2.PrismaNullable<String> email;
 
   @override
   Map<String, dynamic> toJson() {
@@ -262,7 +274,7 @@ class UserWhereUniqueInput implements _i1.JsonSerializable {
   }
 }
 
-class UserOrderByWithAggregationInput implements _i1.JsonSerializable {
+class UserOrderByWithAggregationInput implements _i2.JsonSerializable {
   const UserOrderByWithAggregationInput({
     this.id,
     this.email,
@@ -272,17 +284,17 @@ class UserOrderByWithAggregationInput implements _i1.JsonSerializable {
     this.$min,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> email;
+  final _i2.PrismaNullable<SortOrder> email;
 
-  final _i1.PrismaNullable<SortOrder> name;
+  final _i2.PrismaNullable<SortOrder> name;
 
-  final _i1.PrismaNullable<UserCountOrderByAggregateInput> $count;
+  final _i2.PrismaNullable<UserCountOrderByAggregateInput> $count;
 
-  final _i1.PrismaNullable<UserMaxOrderByAggregateInput> $max;
+  final _i2.PrismaNullable<UserMaxOrderByAggregateInput> $max;
 
-  final _i1.PrismaNullable<UserMinOrderByAggregateInput> $min;
+  final _i2.PrismaNullable<UserMinOrderByAggregateInput> $min;
 
   @override
   Map<String, dynamic> toJson() {
@@ -297,7 +309,7 @@ class UserOrderByWithAggregationInput implements _i1.JsonSerializable {
   }
 }
 
-class UserScalarWhereWithAggregatesInput implements _i1.JsonSerializable {
+class UserScalarWhereWithAggregatesInput implements _i2.JsonSerializable {
   const UserScalarWhereWithAggregatesInput({
     this.AND,
     this.OR,
@@ -307,17 +319,17 @@ class UserScalarWhereWithAggregatesInput implements _i1.JsonSerializable {
     this.name,
   });
 
-  final _i1.PrismaNullable<UserScalarWhereWithAggregatesInput> AND;
+  final _i2.PrismaNullable<UserScalarWhereWithAggregatesInput> AND;
 
-  final _i1.PrismaNullable<List<UserScalarWhereWithAggregatesInput>> OR;
+  final _i2.PrismaNullable<List<UserScalarWhereWithAggregatesInput>> OR;
 
-  final _i1.PrismaNullable<UserScalarWhereWithAggregatesInput> NOT;
+  final _i2.PrismaNullable<UserScalarWhereWithAggregatesInput> NOT;
 
-  final _i1.PrismaNullable<StringWithAggregatesFilter> id;
+  final _i2.PrismaNullable<StringWithAggregatesFilter> id;
 
-  final _i1.PrismaNullable<StringWithAggregatesFilter> email;
+  final _i2.PrismaNullable<StringWithAggregatesFilter> email;
 
-  final _i1.PrismaNullable<StringWithAggregatesFilter> name;
+  final _i2.PrismaNullable<StringWithAggregatesFilter> name;
 
   @override
   Map<String, dynamic> toJson() {
@@ -332,7 +344,7 @@ class UserScalarWhereWithAggregatesInput implements _i1.JsonSerializable {
   }
 }
 
-class EquipmentRequestWhereInput implements _i1.JsonSerializable {
+class EquipmentRequestWhereInput implements _i2.JsonSerializable {
   const EquipmentRequestWhereInput({
     this.AND,
     this.OR,
@@ -341,21 +353,33 @@ class EquipmentRequestWhereInput implements _i1.JsonSerializable {
     this.requested_by,
     this.requester_id,
     this.items,
+    this.notes,
+    this.time_start,
+    this.time_end,
+    this.asset,
   });
 
-  final _i1.PrismaNullable<EquipmentRequestWhereInput> AND;
+  final _i2.PrismaNullable<EquipmentRequestWhereInput> AND;
 
-  final _i1.PrismaNullable<List<EquipmentRequestWhereInput>> OR;
+  final _i2.PrismaNullable<List<EquipmentRequestWhereInput>> OR;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereInput> NOT;
+  final _i2.PrismaNullable<EquipmentRequestWhereInput> NOT;
 
-  final _i1.PrismaNullable<IntFilter> id;
+  final _i2.PrismaNullable<IntFilter> id;
 
-  final _i1.PrismaNullable<UserRelationFilter> requested_by;
+  final _i2.PrismaNullable<UserRelationFilter> requested_by;
 
-  final _i1.PrismaNullable<StringFilter> requester_id;
+  final _i2.PrismaNullable<StringFilter> requester_id;
 
-  final _i1.PrismaNullable<RequestItemListRelationFilter> items;
+  final _i2.PrismaNullable<RequestItemListRelationFilter> items;
+
+  final _i2.PrismaNullable<StringFilter> notes;
+
+  final _i2.PrismaNullable<DateTimeFilter> time_start;
+
+  final _i2.PrismaNullable<DateTimeFilter> time_end;
+
+  final _i2.PrismaNullable<AssetListRelationFilter> asset;
 
   @override
   Map<String, dynamic> toJson() {
@@ -367,25 +391,41 @@ class EquipmentRequestWhereInput implements _i1.JsonSerializable {
       'requested_by': requested_by,
       'requester_id': requester_id,
       'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
     };
   }
 }
 
-class EquipmentRequestOrderByWithRelationInput implements _i1.JsonSerializable {
+class EquipmentRequestOrderByWithRelationInput implements _i2.JsonSerializable {
   const EquipmentRequestOrderByWithRelationInput({
     this.id,
     this.requested_by,
     this.requester_id,
     this.items,
+    this.notes,
+    this.time_start,
+    this.time_end,
+    this.asset,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<UserOrderByWithRelationInput> requested_by;
+  final _i2.PrismaNullable<UserOrderByWithRelationInput> requested_by;
 
-  final _i1.PrismaNullable<SortOrder> requester_id;
+  final _i2.PrismaNullable<SortOrder> requester_id;
 
-  final _i1.PrismaNullable<RequestItemOrderByRelationAggregateInput> items;
+  final _i2.PrismaNullable<RequestItemOrderByRelationAggregateInput> items;
+
+  final _i2.PrismaNullable<SortOrder> notes;
+
+  final _i2.PrismaNullable<SortOrder> time_start;
+
+  final _i2.PrismaNullable<SortOrder> time_end;
+
+  final _i2.PrismaNullable<AssetOrderByRelationAggregateInput> asset;
 
   @override
   Map<String, dynamic> toJson() {
@@ -394,14 +434,18 @@ class EquipmentRequestOrderByWithRelationInput implements _i1.JsonSerializable {
       'requested_by': requested_by,
       'requester_id': requester_id,
       'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
     };
   }
 }
 
-class EquipmentRequestWhereUniqueInput implements _i1.JsonSerializable {
+class EquipmentRequestWhereUniqueInput implements _i2.JsonSerializable {
   const EquipmentRequestWhereUniqueInput({this.id});
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -412,10 +456,13 @@ class EquipmentRequestWhereUniqueInput implements _i1.JsonSerializable {
 }
 
 class EquipmentRequestOrderByWithAggregationInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestOrderByWithAggregationInput({
     this.id,
     this.requester_id,
+    this.notes,
+    this.time_start,
+    this.time_end,
     this.$count,
     this.$avg,
     this.$max,
@@ -423,25 +470,34 @@ class EquipmentRequestOrderByWithAggregationInput
     this.$sum,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> requester_id;
+  final _i2.PrismaNullable<SortOrder> requester_id;
 
-  final _i1.PrismaNullable<EquipmentRequestCountOrderByAggregateInput> $count;
+  final _i2.PrismaNullable<SortOrder> notes;
 
-  final _i1.PrismaNullable<EquipmentRequestAvgOrderByAggregateInput> $avg;
+  final _i2.PrismaNullable<SortOrder> time_start;
 
-  final _i1.PrismaNullable<EquipmentRequestMaxOrderByAggregateInput> $max;
+  final _i2.PrismaNullable<SortOrder> time_end;
 
-  final _i1.PrismaNullable<EquipmentRequestMinOrderByAggregateInput> $min;
+  final _i2.PrismaNullable<EquipmentRequestCountOrderByAggregateInput> $count;
 
-  final _i1.PrismaNullable<EquipmentRequestSumOrderByAggregateInput> $sum;
+  final _i2.PrismaNullable<EquipmentRequestAvgOrderByAggregateInput> $avg;
+
+  final _i2.PrismaNullable<EquipmentRequestMaxOrderByAggregateInput> $max;
+
+  final _i2.PrismaNullable<EquipmentRequestMinOrderByAggregateInput> $min;
+
+  final _i2.PrismaNullable<EquipmentRequestSumOrderByAggregateInput> $sum;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'requester_id': requester_id,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
       '_count': $count,
       '_avg': $avg,
       '_max': $max,
@@ -452,25 +508,34 @@ class EquipmentRequestOrderByWithAggregationInput
 }
 
 class EquipmentRequestScalarWhereWithAggregatesInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestScalarWhereWithAggregatesInput({
     this.AND,
     this.OR,
     this.NOT,
     this.id,
     this.requester_id,
+    this.notes,
+    this.time_start,
+    this.time_end,
   });
 
-  final _i1.PrismaNullable<EquipmentRequestScalarWhereWithAggregatesInput> AND;
+  final _i2.PrismaNullable<EquipmentRequestScalarWhereWithAggregatesInput> AND;
 
-  final _i1.PrismaNullable<List<EquipmentRequestScalarWhereWithAggregatesInput>>
+  final _i2.PrismaNullable<List<EquipmentRequestScalarWhereWithAggregatesInput>>
       OR;
 
-  final _i1.PrismaNullable<EquipmentRequestScalarWhereWithAggregatesInput> NOT;
+  final _i2.PrismaNullable<EquipmentRequestScalarWhereWithAggregatesInput> NOT;
 
-  final _i1.PrismaNullable<IntWithAggregatesFilter> id;
+  final _i2.PrismaNullable<IntWithAggregatesFilter> id;
 
-  final _i1.PrismaNullable<StringWithAggregatesFilter> requester_id;
+  final _i2.PrismaNullable<StringWithAggregatesFilter> requester_id;
+
+  final _i2.PrismaNullable<StringWithAggregatesFilter> notes;
+
+  final _i2.PrismaNullable<DateTimeWithAggregatesFilter> time_start;
+
+  final _i2.PrismaNullable<DateTimeWithAggregatesFilter> time_end;
 
   @override
   Map<String, dynamic> toJson() {
@@ -480,11 +545,14 @@ class EquipmentRequestScalarWhereWithAggregatesInput
       'NOT': NOT,
       'id': id,
       'requester_id': requester_id,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
     };
   }
 }
 
-class RequestItemWhereInput implements _i1.JsonSerializable {
+class RequestItemWhereInput implements _i2.JsonSerializable {
   const RequestItemWhereInput({
     this.AND,
     this.OR,
@@ -492,19 +560,28 @@ class RequestItemWhereInput implements _i1.JsonSerializable {
     this.id,
     this.request,
     this.request_id,
+    this.quantity,
+    this.asset_type,
+    this.asset_type_id,
   });
 
-  final _i1.PrismaNullable<RequestItemWhereInput> AND;
+  final _i2.PrismaNullable<RequestItemWhereInput> AND;
 
-  final _i1.PrismaNullable<List<RequestItemWhereInput>> OR;
+  final _i2.PrismaNullable<List<RequestItemWhereInput>> OR;
 
-  final _i1.PrismaNullable<RequestItemWhereInput> NOT;
+  final _i2.PrismaNullable<RequestItemWhereInput> NOT;
 
-  final _i1.PrismaNullable<IntFilter> id;
+  final _i2.PrismaNullable<IntFilter> id;
 
-  final _i1.PrismaNullable<EquipmentRequestRelationFilter> request;
+  final _i2.PrismaNullable<EquipmentRequestRelationFilter> request;
 
-  final _i1.PrismaNullable<IntFilter> request_id;
+  final _i2.PrismaNullable<IntFilter> request_id;
+
+  final _i2.PrismaNullable<IntFilter> quantity;
+
+  final _i2.PrismaNullable<AssetTypeRelationFilter> asset_type;
+
+  final _i2.PrismaNullable<StringFilter> asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -515,22 +592,34 @@ class RequestItemWhereInput implements _i1.JsonSerializable {
       'id': id,
       'request': request,
       'request_id': request_id,
+      'quantity': quantity,
+      'asset_type': asset_type,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
-class RequestItemOrderByWithRelationInput implements _i1.JsonSerializable {
+class RequestItemOrderByWithRelationInput implements _i2.JsonSerializable {
   const RequestItemOrderByWithRelationInput({
     this.id,
     this.request,
     this.request_id,
+    this.quantity,
+    this.asset_type,
+    this.asset_type_id,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<EquipmentRequestOrderByWithRelationInput> request;
+  final _i2.PrismaNullable<EquipmentRequestOrderByWithRelationInput> request;
 
-  final _i1.PrismaNullable<SortOrder> request_id;
+  final _i2.PrismaNullable<SortOrder> request_id;
+
+  final _i2.PrismaNullable<SortOrder> quantity;
+
+  final _i2.PrismaNullable<AssetTypeOrderByWithRelationInput> asset_type;
+
+  final _i2.PrismaNullable<SortOrder> asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -538,14 +627,17 @@ class RequestItemOrderByWithRelationInput implements _i1.JsonSerializable {
       'id': id,
       'request': request,
       'request_id': request_id,
+      'quantity': quantity,
+      'asset_type': asset_type,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
-class RequestItemWhereUniqueInput implements _i1.JsonSerializable {
+class RequestItemWhereUniqueInput implements _i2.JsonSerializable {
   const RequestItemWhereUniqueInput({this.id});
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -555,10 +647,12 @@ class RequestItemWhereUniqueInput implements _i1.JsonSerializable {
   }
 }
 
-class RequestItemOrderByWithAggregationInput implements _i1.JsonSerializable {
+class RequestItemOrderByWithAggregationInput implements _i2.JsonSerializable {
   const RequestItemOrderByWithAggregationInput({
     this.id,
     this.request_id,
+    this.quantity,
+    this.asset_type_id,
     this.$count,
     this.$avg,
     this.$max,
@@ -566,25 +660,31 @@ class RequestItemOrderByWithAggregationInput implements _i1.JsonSerializable {
     this.$sum,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> request_id;
+  final _i2.PrismaNullable<SortOrder> request_id;
 
-  final _i1.PrismaNullable<RequestItemCountOrderByAggregateInput> $count;
+  final _i2.PrismaNullable<SortOrder> quantity;
 
-  final _i1.PrismaNullable<RequestItemAvgOrderByAggregateInput> $avg;
+  final _i2.PrismaNullable<SortOrder> asset_type_id;
 
-  final _i1.PrismaNullable<RequestItemMaxOrderByAggregateInput> $max;
+  final _i2.PrismaNullable<RequestItemCountOrderByAggregateInput> $count;
 
-  final _i1.PrismaNullable<RequestItemMinOrderByAggregateInput> $min;
+  final _i2.PrismaNullable<RequestItemAvgOrderByAggregateInput> $avg;
 
-  final _i1.PrismaNullable<RequestItemSumOrderByAggregateInput> $sum;
+  final _i2.PrismaNullable<RequestItemMaxOrderByAggregateInput> $max;
+
+  final _i2.PrismaNullable<RequestItemMinOrderByAggregateInput> $min;
+
+  final _i2.PrismaNullable<RequestItemSumOrderByAggregateInput> $sum;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'request_id': request_id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
       '_count': $count,
       '_avg': $avg,
       '_max': $max,
@@ -595,24 +695,30 @@ class RequestItemOrderByWithAggregationInput implements _i1.JsonSerializable {
 }
 
 class RequestItemScalarWhereWithAggregatesInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const RequestItemScalarWhereWithAggregatesInput({
     this.AND,
     this.OR,
     this.NOT,
     this.id,
     this.request_id,
+    this.quantity,
+    this.asset_type_id,
   });
 
-  final _i1.PrismaNullable<RequestItemScalarWhereWithAggregatesInput> AND;
+  final _i2.PrismaNullable<RequestItemScalarWhereWithAggregatesInput> AND;
 
-  final _i1.PrismaNullable<List<RequestItemScalarWhereWithAggregatesInput>> OR;
+  final _i2.PrismaNullable<List<RequestItemScalarWhereWithAggregatesInput>> OR;
 
-  final _i1.PrismaNullable<RequestItemScalarWhereWithAggregatesInput> NOT;
+  final _i2.PrismaNullable<RequestItemScalarWhereWithAggregatesInput> NOT;
 
-  final _i1.PrismaNullable<IntWithAggregatesFilter> id;
+  final _i2.PrismaNullable<IntWithAggregatesFilter> id;
 
-  final _i1.PrismaNullable<IntWithAggregatesFilter> request_id;
+  final _i2.PrismaNullable<IntWithAggregatesFilter> request_id;
+
+  final _i2.PrismaNullable<IntWithAggregatesFilter> quantity;
+
+  final _i2.PrismaNullable<StringWithAggregatesFilter> asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -622,11 +728,13 @@ class RequestItemScalarWhereWithAggregatesInput
       'NOT': NOT,
       'id': id,
       'request_id': request_id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
-class AssetTypeWhereInput implements _i1.JsonSerializable {
+class AssetTypeWhereInput implements _i2.JsonSerializable {
   const AssetTypeWhereInput({
     this.AND,
     this.OR,
@@ -636,23 +744,26 @@ class AssetTypeWhereInput implements _i1.JsonSerializable {
     this.assets,
     this.unique,
     this.quantity,
+    this.RequestItem,
   });
 
-  final _i1.PrismaNullable<AssetTypeWhereInput> AND;
+  final _i2.PrismaNullable<AssetTypeWhereInput> AND;
 
-  final _i1.PrismaNullable<List<AssetTypeWhereInput>> OR;
+  final _i2.PrismaNullable<List<AssetTypeWhereInput>> OR;
 
-  final _i1.PrismaNullable<AssetTypeWhereInput> NOT;
+  final _i2.PrismaNullable<AssetTypeWhereInput> NOT;
 
-  final _i1.PrismaNullable<StringFilter> id;
+  final _i2.PrismaNullable<StringFilter> id;
 
-  final _i1.PrismaNullable<StringFilter> title;
+  final _i2.PrismaNullable<StringFilter> title;
 
-  final _i1.PrismaNullable<AssetListRelationFilter> assets;
+  final _i2.PrismaNullable<AssetListRelationFilter> assets;
 
-  final _i1.PrismaNullable<BoolFilter> unique;
+  final _i2.PrismaNullable<BoolFilter> unique;
 
-  final _i1.PrismaNullable<IntNullableFilter> quantity;
+  final _i2.PrismaNullable<IntNullableFilter> quantity;
+
+  final _i2.PrismaNullable<RequestItemListRelationFilter> RequestItem;
 
   @override
   Map<String, dynamic> toJson() {
@@ -665,28 +776,33 @@ class AssetTypeWhereInput implements _i1.JsonSerializable {
       'assets': assets,
       'unique': unique,
       'quantity': quantity,
+      'RequestItem': RequestItem,
     };
   }
 }
 
-class AssetTypeOrderByWithRelationInput implements _i1.JsonSerializable {
+class AssetTypeOrderByWithRelationInput implements _i2.JsonSerializable {
   const AssetTypeOrderByWithRelationInput({
     this.id,
     this.title,
     this.assets,
     this.unique,
     this.quantity,
+    this.RequestItem,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> title;
+  final _i2.PrismaNullable<SortOrder> title;
 
-  final _i1.PrismaNullable<AssetOrderByRelationAggregateInput> assets;
+  final _i2.PrismaNullable<AssetOrderByRelationAggregateInput> assets;
 
-  final _i1.PrismaNullable<SortOrder> unique;
+  final _i2.PrismaNullable<SortOrder> unique;
 
-  final _i1.PrismaNullable<SortOrder> quantity;
+  final _i2.PrismaNullable<SortOrder> quantity;
+
+  final _i2.PrismaNullable<RequestItemOrderByRelationAggregateInput>
+      RequestItem;
 
   @override
   Map<String, dynamic> toJson() {
@@ -696,14 +812,15 @@ class AssetTypeOrderByWithRelationInput implements _i1.JsonSerializable {
       'assets': assets,
       'unique': unique,
       'quantity': quantity,
+      'RequestItem': RequestItem,
     };
   }
 }
 
-class AssetTypeWhereUniqueInput implements _i1.JsonSerializable {
+class AssetTypeWhereUniqueInput implements _i2.JsonSerializable {
   const AssetTypeWhereUniqueInput({this.id});
 
-  final _i1.PrismaNullable<String> id;
+  final _i2.PrismaNullable<String> id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -713,7 +830,7 @@ class AssetTypeWhereUniqueInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetTypeOrderByWithAggregationInput implements _i1.JsonSerializable {
+class AssetTypeOrderByWithAggregationInput implements _i2.JsonSerializable {
   const AssetTypeOrderByWithAggregationInput({
     this.id,
     this.title,
@@ -726,23 +843,23 @@ class AssetTypeOrderByWithAggregationInput implements _i1.JsonSerializable {
     this.$sum,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> title;
+  final _i2.PrismaNullable<SortOrder> title;
 
-  final _i1.PrismaNullable<SortOrder> unique;
+  final _i2.PrismaNullable<SortOrder> unique;
 
-  final _i1.PrismaNullable<SortOrder> quantity;
+  final _i2.PrismaNullable<SortOrder> quantity;
 
-  final _i1.PrismaNullable<AssetTypeCountOrderByAggregateInput> $count;
+  final _i2.PrismaNullable<AssetTypeCountOrderByAggregateInput> $count;
 
-  final _i1.PrismaNullable<AssetTypeAvgOrderByAggregateInput> $avg;
+  final _i2.PrismaNullable<AssetTypeAvgOrderByAggregateInput> $avg;
 
-  final _i1.PrismaNullable<AssetTypeMaxOrderByAggregateInput> $max;
+  final _i2.PrismaNullable<AssetTypeMaxOrderByAggregateInput> $max;
 
-  final _i1.PrismaNullable<AssetTypeMinOrderByAggregateInput> $min;
+  final _i2.PrismaNullable<AssetTypeMinOrderByAggregateInput> $min;
 
-  final _i1.PrismaNullable<AssetTypeSumOrderByAggregateInput> $sum;
+  final _i2.PrismaNullable<AssetTypeSumOrderByAggregateInput> $sum;
 
   @override
   Map<String, dynamic> toJson() {
@@ -760,7 +877,7 @@ class AssetTypeOrderByWithAggregationInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetTypeScalarWhereWithAggregatesInput implements _i1.JsonSerializable {
+class AssetTypeScalarWhereWithAggregatesInput implements _i2.JsonSerializable {
   const AssetTypeScalarWhereWithAggregatesInput({
     this.AND,
     this.OR,
@@ -771,19 +888,19 @@ class AssetTypeScalarWhereWithAggregatesInput implements _i1.JsonSerializable {
     this.quantity,
   });
 
-  final _i1.PrismaNullable<AssetTypeScalarWhereWithAggregatesInput> AND;
+  final _i2.PrismaNullable<AssetTypeScalarWhereWithAggregatesInput> AND;
 
-  final _i1.PrismaNullable<List<AssetTypeScalarWhereWithAggregatesInput>> OR;
+  final _i2.PrismaNullable<List<AssetTypeScalarWhereWithAggregatesInput>> OR;
 
-  final _i1.PrismaNullable<AssetTypeScalarWhereWithAggregatesInput> NOT;
+  final _i2.PrismaNullable<AssetTypeScalarWhereWithAggregatesInput> NOT;
 
-  final _i1.PrismaNullable<StringWithAggregatesFilter> id;
+  final _i2.PrismaNullable<StringWithAggregatesFilter> id;
 
-  final _i1.PrismaNullable<StringWithAggregatesFilter> title;
+  final _i2.PrismaNullable<StringWithAggregatesFilter> title;
 
-  final _i1.PrismaNullable<BoolWithAggregatesFilter> unique;
+  final _i2.PrismaNullable<BoolWithAggregatesFilter> unique;
 
-  final _i1.PrismaNullable<IntNullableWithAggregatesFilter> quantity;
+  final _i2.PrismaNullable<IntNullableWithAggregatesFilter> quantity;
 
   @override
   Map<String, dynamic> toJson() {
@@ -799,7 +916,7 @@ class AssetTypeScalarWhereWithAggregatesInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetWhereInput implements _i1.JsonSerializable {
+class AssetWhereInput implements _i2.JsonSerializable {
   const AssetWhereInput({
     this.AND,
     this.OR,
@@ -807,19 +924,25 @@ class AssetWhereInput implements _i1.JsonSerializable {
     this.id,
     this.type,
     this.type_id,
+    this.deployed_to,
+    this.deployed_to_id,
   });
 
-  final _i1.PrismaNullable<AssetWhereInput> AND;
+  final _i2.PrismaNullable<AssetWhereInput> AND;
 
-  final _i1.PrismaNullable<List<AssetWhereInput>> OR;
+  final _i2.PrismaNullable<List<AssetWhereInput>> OR;
 
-  final _i1.PrismaNullable<AssetWhereInput> NOT;
+  final _i2.PrismaNullable<AssetWhereInput> NOT;
 
-  final _i1.PrismaNullable<StringFilter> id;
+  final _i2.PrismaNullable<StringFilter> id;
 
-  final _i1.PrismaNullable<AssetTypeRelationFilter> type;
+  final _i2.PrismaNullable<AssetTypeRelationFilter> type;
 
-  final _i1.PrismaNullable<StringFilter> type_id;
+  final _i2.PrismaNullable<StringFilter> type_id;
+
+  final _i2.PrismaNullable<EquipmentRequestRelationFilter> deployed_to;
+
+  final _i2.PrismaNullable<IntNullableFilter> deployed_to_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -830,22 +953,31 @@ class AssetWhereInput implements _i1.JsonSerializable {
       'id': id,
       'type': type,
       'type_id': type_id,
+      'deployed_to': deployed_to,
+      'deployed_to_id': deployed_to_id,
     };
   }
 }
 
-class AssetOrderByWithRelationInput implements _i1.JsonSerializable {
+class AssetOrderByWithRelationInput implements _i2.JsonSerializable {
   const AssetOrderByWithRelationInput({
     this.id,
     this.type,
     this.type_id,
+    this.deployed_to,
+    this.deployed_to_id,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<AssetTypeOrderByWithRelationInput> type;
+  final _i2.PrismaNullable<AssetTypeOrderByWithRelationInput> type;
 
-  final _i1.PrismaNullable<SortOrder> type_id;
+  final _i2.PrismaNullable<SortOrder> type_id;
+
+  final _i2.PrismaNullable<EquipmentRequestOrderByWithRelationInput>
+      deployed_to;
+
+  final _i2.PrismaNullable<SortOrder> deployed_to_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -853,14 +985,16 @@ class AssetOrderByWithRelationInput implements _i1.JsonSerializable {
       'id': id,
       'type': type,
       'type_id': type_id,
+      'deployed_to': deployed_to,
+      'deployed_to_id': deployed_to_id,
     };
   }
 }
 
-class AssetWhereUniqueInput implements _i1.JsonSerializable {
+class AssetWhereUniqueInput implements _i2.JsonSerializable {
   const AssetWhereUniqueInput({this.id});
 
-  final _i1.PrismaNullable<String> id;
+  final _i2.PrismaNullable<String> id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -870,55 +1004,70 @@ class AssetWhereUniqueInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetOrderByWithAggregationInput implements _i1.JsonSerializable {
+class AssetOrderByWithAggregationInput implements _i2.JsonSerializable {
   const AssetOrderByWithAggregationInput({
     this.id,
     this.type_id,
+    this.deployed_to_id,
     this.$count,
+    this.$avg,
     this.$max,
     this.$min,
+    this.$sum,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> type_id;
+  final _i2.PrismaNullable<SortOrder> type_id;
 
-  final _i1.PrismaNullable<AssetCountOrderByAggregateInput> $count;
+  final _i2.PrismaNullable<SortOrder> deployed_to_id;
 
-  final _i1.PrismaNullable<AssetMaxOrderByAggregateInput> $max;
+  final _i2.PrismaNullable<AssetCountOrderByAggregateInput> $count;
 
-  final _i1.PrismaNullable<AssetMinOrderByAggregateInput> $min;
+  final _i2.PrismaNullable<AssetAvgOrderByAggregateInput> $avg;
+
+  final _i2.PrismaNullable<AssetMaxOrderByAggregateInput> $max;
+
+  final _i2.PrismaNullable<AssetMinOrderByAggregateInput> $min;
+
+  final _i2.PrismaNullable<AssetSumOrderByAggregateInput> $sum;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'type_id': type_id,
+      'deployed_to_id': deployed_to_id,
       '_count': $count,
+      '_avg': $avg,
       '_max': $max,
       '_min': $min,
+      '_sum': $sum,
     };
   }
 }
 
-class AssetScalarWhereWithAggregatesInput implements _i1.JsonSerializable {
+class AssetScalarWhereWithAggregatesInput implements _i2.JsonSerializable {
   const AssetScalarWhereWithAggregatesInput({
     this.AND,
     this.OR,
     this.NOT,
     this.id,
     this.type_id,
+    this.deployed_to_id,
   });
 
-  final _i1.PrismaNullable<AssetScalarWhereWithAggregatesInput> AND;
+  final _i2.PrismaNullable<AssetScalarWhereWithAggregatesInput> AND;
 
-  final _i1.PrismaNullable<List<AssetScalarWhereWithAggregatesInput>> OR;
+  final _i2.PrismaNullable<List<AssetScalarWhereWithAggregatesInput>> OR;
 
-  final _i1.PrismaNullable<AssetScalarWhereWithAggregatesInput> NOT;
+  final _i2.PrismaNullable<AssetScalarWhereWithAggregatesInput> NOT;
 
-  final _i1.PrismaNullable<StringWithAggregatesFilter> id;
+  final _i2.PrismaNullable<StringWithAggregatesFilter> id;
 
-  final _i1.PrismaNullable<StringWithAggregatesFilter> type_id;
+  final _i2.PrismaNullable<StringWithAggregatesFilter> type_id;
+
+  final _i2.PrismaNullable<IntNullableWithAggregatesFilter> deployed_to_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -928,11 +1077,12 @@ class AssetScalarWhereWithAggregatesInput implements _i1.JsonSerializable {
       'NOT': NOT,
       'id': id,
       'type_id': type_id,
+      'deployed_to_id': deployed_to_id,
     };
   }
 }
 
-class SessionCreateInput implements _i1.JsonSerializable {
+class SessionCreateInput implements _i2.JsonSerializable {
   const SessionCreateInput({
     required this.key,
     required this.user,
@@ -951,7 +1101,7 @@ class SessionCreateInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionUncheckedCreateInput implements _i1.JsonSerializable {
+class SessionUncheckedCreateInput implements _i2.JsonSerializable {
   const SessionUncheckedCreateInput({
     required this.key,
     required this.user_id,
@@ -970,15 +1120,15 @@ class SessionUncheckedCreateInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionUpdateInput implements _i1.JsonSerializable {
+class SessionUpdateInput implements _i2.JsonSerializable {
   const SessionUpdateInput({
     this.key,
     this.user,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> key;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> key;
 
-  final _i1.PrismaNullable<UserUpdateOneRequiredWithoutSessionsNestedInput>
+  final _i2.PrismaNullable<UserUpdateOneRequiredWithoutSessionsNestedInput>
       user;
 
   @override
@@ -990,15 +1140,15 @@ class SessionUpdateInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionUncheckedUpdateInput implements _i1.JsonSerializable {
+class SessionUncheckedUpdateInput implements _i2.JsonSerializable {
   const SessionUncheckedUpdateInput({
     this.key,
     this.user_id,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> key;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> key;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> user_id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> user_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1009,10 +1159,29 @@ class SessionUncheckedUpdateInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionUpdateManyMutationInput implements _i1.JsonSerializable {
+class SessionCreateManyInput implements _i2.JsonSerializable {
+  const SessionCreateManyInput({
+    required this.key,
+    required this.user_id,
+  });
+
+  final String key;
+
+  final String user_id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+      'user_id': user_id,
+    };
+  }
+}
+
+class SessionUpdateManyMutationInput implements _i2.JsonSerializable {
   const SessionUpdateManyMutationInput({this.key});
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> key;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> key;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1022,15 +1191,15 @@ class SessionUpdateManyMutationInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionUncheckedUpdateManyInput implements _i1.JsonSerializable {
+class SessionUncheckedUpdateManyInput implements _i2.JsonSerializable {
   const SessionUncheckedUpdateManyInput({
     this.key,
     this.user_id,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> key;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> key;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> user_id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> user_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1041,7 +1210,7 @@ class SessionUncheckedUpdateManyInput implements _i1.JsonSerializable {
   }
 }
 
-class UserCreateInput implements _i1.JsonSerializable {
+class UserCreateInput implements _i2.JsonSerializable {
   const UserCreateInput({
     required this.id,
     required this.email,
@@ -1056,10 +1225,10 @@ class UserCreateInput implements _i1.JsonSerializable {
 
   final String name;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestCreateNestedManyWithoutRequested_byInput> requests;
 
-  final _i1.PrismaNullable<SessionCreateNestedManyWithoutUserInput> sessions;
+  final _i2.PrismaNullable<SessionCreateNestedManyWithoutUserInput> sessions;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1073,7 +1242,7 @@ class UserCreateInput implements _i1.JsonSerializable {
   }
 }
 
-class UserUncheckedCreateInput implements _i1.JsonSerializable {
+class UserUncheckedCreateInput implements _i2.JsonSerializable {
   const UserUncheckedCreateInput({
     required this.id,
     required this.email,
@@ -1088,11 +1257,11 @@ class UserUncheckedCreateInput implements _i1.JsonSerializable {
 
   final String name;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
           EquipmentRequestUncheckedCreateNestedManyWithoutRequested_byInput>
       requests;
 
-  final _i1.PrismaNullable<SessionUncheckedCreateNestedManyWithoutUserInput>
+  final _i2.PrismaNullable<SessionUncheckedCreateNestedManyWithoutUserInput>
       sessions;
 
   @override
@@ -1107,7 +1276,7 @@ class UserUncheckedCreateInput implements _i1.JsonSerializable {
   }
 }
 
-class UserUpdateInput implements _i1.JsonSerializable {
+class UserUpdateInput implements _i2.JsonSerializable {
   const UserUpdateInput({
     this.id,
     this.email,
@@ -1116,16 +1285,16 @@ class UserUpdateInput implements _i1.JsonSerializable {
     this.sessions,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> email;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> email;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> name;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> name;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestUpdateManyWithoutRequested_byNestedInput> requests;
 
-  final _i1.PrismaNullable<SessionUpdateManyWithoutUserNestedInput> sessions;
+  final _i2.PrismaNullable<SessionUpdateManyWithoutUserNestedInput> sessions;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1139,7 +1308,7 @@ class UserUpdateInput implements _i1.JsonSerializable {
   }
 }
 
-class UserUncheckedUpdateInput implements _i1.JsonSerializable {
+class UserUncheckedUpdateInput implements _i2.JsonSerializable {
   const UserUncheckedUpdateInput({
     this.id,
     this.email,
@@ -1148,17 +1317,17 @@ class UserUncheckedUpdateInput implements _i1.JsonSerializable {
     this.sessions,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> email;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> email;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> name;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> name;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
           EquipmentRequestUncheckedUpdateManyWithoutRequested_byNestedInput>
       requests;
 
-  final _i1.PrismaNullable<SessionUncheckedUpdateManyWithoutUserNestedInput>
+  final _i2.PrismaNullable<SessionUncheckedUpdateManyWithoutUserNestedInput>
       sessions;
 
   @override
@@ -1173,18 +1342,41 @@ class UserUncheckedUpdateInput implements _i1.JsonSerializable {
   }
 }
 
-class UserUpdateManyMutationInput implements _i1.JsonSerializable {
+class UserCreateManyInput implements _i2.JsonSerializable {
+  const UserCreateManyInput({
+    required this.id,
+    required this.email,
+    required this.name,
+  });
+
+  final String id;
+
+  final String email;
+
+  final String name;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'email': email,
+      'name': name,
+    };
+  }
+}
+
+class UserUpdateManyMutationInput implements _i2.JsonSerializable {
   const UserUpdateManyMutationInput({
     this.id,
     this.email,
     this.name,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> email;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> email;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> name;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> name;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1196,18 +1388,18 @@ class UserUpdateManyMutationInput implements _i1.JsonSerializable {
   }
 }
 
-class UserUncheckedUpdateManyInput implements _i1.JsonSerializable {
+class UserUncheckedUpdateManyInput implements _i2.JsonSerializable {
   const UserUncheckedUpdateManyInput({
     this.id,
     this.email,
     this.name,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> email;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> email;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> name;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> name;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1219,39 +1411,69 @@ class UserUncheckedUpdateManyInput implements _i1.JsonSerializable {
   }
 }
 
-class EquipmentRequestCreateInput implements _i1.JsonSerializable {
+class EquipmentRequestCreateInput implements _i2.JsonSerializable {
   const EquipmentRequestCreateInput({
     required this.requested_by,
     this.items,
+    this.notes,
+    required this.time_start,
+    required this.time_end,
+    this.asset,
   });
 
   final UserCreateNestedOneWithoutRequestsInput requested_by;
 
-  final _i1.PrismaNullable<RequestItemCreateNestedManyWithoutRequestInput>
+  final _i2.PrismaNullable<RequestItemCreateNestedManyWithoutRequestInput>
       items;
+
+  final _i2.PrismaNullable<String> notes;
+
+  final DateTime time_start;
+
+  final DateTime time_end;
+
+  final _i2.PrismaNullable<AssetCreateNestedManyWithoutDeployed_toInput> asset;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'requested_by': requested_by,
       'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
     };
   }
 }
 
-class EquipmentRequestUncheckedCreateInput implements _i1.JsonSerializable {
+class EquipmentRequestUncheckedCreateInput implements _i2.JsonSerializable {
   const EquipmentRequestUncheckedCreateInput({
     this.id,
     required this.requester_id,
     this.items,
+    this.notes,
+    required this.time_start,
+    required this.time_end,
+    this.asset,
   });
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
 
   final String requester_id;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       RequestItemUncheckedCreateNestedManyWithoutRequestInput> items;
+
+  final _i2.PrismaNullable<String> notes;
+
+  final DateTime time_start;
+
+  final DateTime time_end;
+
+  final _i2
+          .PrismaNullable<AssetUncheckedCreateNestedManyWithoutDeployed_toInput>
+      asset;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1259,44 +1481,78 @@ class EquipmentRequestUncheckedCreateInput implements _i1.JsonSerializable {
       'id': id,
       'requester_id': requester_id,
       'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
     };
   }
 }
 
-class EquipmentRequestUpdateInput implements _i1.JsonSerializable {
+class EquipmentRequestUpdateInput implements _i2.JsonSerializable {
   const EquipmentRequestUpdateInput({
     this.requested_by,
     this.items,
+    this.notes,
+    this.time_start,
+    this.time_end,
+    this.asset,
   });
 
-  final _i1.PrismaNullable<UserUpdateOneRequiredWithoutRequestsNestedInput>
+  final _i2.PrismaNullable<UserUpdateOneRequiredWithoutRequestsNestedInput>
       requested_by;
 
-  final _i1.PrismaNullable<RequestItemUpdateManyWithoutRequestNestedInput>
+  final _i2.PrismaNullable<RequestItemUpdateManyWithoutRequestNestedInput>
       items;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> notes;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_start;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
+
+  final _i2.PrismaNullable<AssetUpdateManyWithoutDeployed_toNestedInput> asset;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'requested_by': requested_by,
       'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
     };
   }
 }
 
-class EquipmentRequestUncheckedUpdateInput implements _i1.JsonSerializable {
+class EquipmentRequestUncheckedUpdateInput implements _i2.JsonSerializable {
   const EquipmentRequestUncheckedUpdateInput({
     this.id,
     this.requester_id,
     this.items,
+    this.notes,
+    this.time_start,
+    this.time_end,
+    this.asset,
   });
 
-  final _i1.PrismaNullable<IntFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> requester_id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> requester_id;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       RequestItemUncheckedUpdateManyWithoutRequestNestedInput> items;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> notes;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_start;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
+
+  final _i2
+          .PrismaNullable<AssetUncheckedUpdateManyWithoutDeployed_toNestedInput>
+      asset;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1304,149 +1560,290 @@ class EquipmentRequestUncheckedUpdateInput implements _i1.JsonSerializable {
       'id': id,
       'requester_id': requester_id,
       'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
     };
   }
 }
 
-class EquipmentRequestUpdateManyMutationInput implements _i1.JsonSerializable {
-  const EquipmentRequestUpdateManyMutationInput();
-
-  @override
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{};
-  }
-}
-
-class EquipmentRequestUncheckedUpdateManyInput implements _i1.JsonSerializable {
-  const EquipmentRequestUncheckedUpdateManyInput({
+class EquipmentRequestCreateManyInput implements _i2.JsonSerializable {
+  const EquipmentRequestCreateManyInput({
     this.id,
-    this.requester_id,
+    required this.requester_id,
+    this.notes,
+    required this.time_start,
+    required this.time_end,
   });
 
-  final _i1.PrismaNullable<IntFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<int> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> requester_id;
+  final String requester_id;
+
+  final _i2.PrismaNullable<String> notes;
+
+  final DateTime time_start;
+
+  final DateTime time_end;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'requester_id': requester_id,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
     };
   }
 }
 
-class RequestItemCreateInput implements _i1.JsonSerializable {
-  const RequestItemCreateInput({required this.request});
+class EquipmentRequestUpdateManyMutationInput implements _i2.JsonSerializable {
+  const EquipmentRequestUpdateManyMutationInput({
+    this.notes,
+    this.time_start,
+    this.time_end,
+  });
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> notes;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_start;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+    };
+  }
+}
+
+class EquipmentRequestUncheckedUpdateManyInput implements _i2.JsonSerializable {
+  const EquipmentRequestUncheckedUpdateManyInput({
+    this.id,
+    this.requester_id,
+    this.notes,
+    this.time_start,
+    this.time_end,
+  });
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> requester_id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> notes;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_start;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'requester_id': requester_id,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+    };
+  }
+}
+
+class RequestItemCreateInput implements _i2.JsonSerializable {
+  const RequestItemCreateInput({
+    required this.request,
+    required this.quantity,
+    required this.asset_type,
+  });
 
   final EquipmentRequestCreateNestedOneWithoutItemsInput request;
 
+  final int quantity;
+
+  final AssetTypeCreateNestedOneWithoutRequestItemInput asset_type;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'request': request,
+      'quantity': quantity,
+      'asset_type': asset_type,
     };
   }
 }
 
-class RequestItemUncheckedCreateInput implements _i1.JsonSerializable {
+class RequestItemUncheckedCreateInput implements _i2.JsonSerializable {
   const RequestItemUncheckedCreateInput({
     this.id,
     required this.request_id,
+    required this.quantity,
+    required this.asset_type_id,
   });
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
 
   final int request_id;
+
+  final int quantity;
+
+  final String asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'request_id': request_id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
-class RequestItemUpdateInput implements _i1.JsonSerializable {
-  const RequestItemUpdateInput({this.request});
+class RequestItemUpdateInput implements _i2.JsonSerializable {
+  const RequestItemUpdateInput({
+    this.request,
+    this.quantity,
+    this.asset_type,
+  });
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestUpdateOneRequiredWithoutItemsNestedInput> request;
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> quantity;
+
+  final _i2.PrismaNullable<
+      AssetTypeUpdateOneRequiredWithoutRequestItemNestedInput> asset_type;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'request': request,
+      'quantity': quantity,
+      'asset_type': asset_type,
     };
   }
 }
 
-class RequestItemUncheckedUpdateInput implements _i1.JsonSerializable {
+class RequestItemUncheckedUpdateInput implements _i2.JsonSerializable {
   const RequestItemUncheckedUpdateInput({
     this.id,
     this.request_id,
+    this.quantity,
+    this.asset_type_id,
   });
 
-  final _i1.PrismaNullable<IntFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<IntFieldUpdateOperationsInput> request_id;
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> request_id;
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> quantity;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'request_id': request_id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
-class RequestItemUpdateManyMutationInput implements _i1.JsonSerializable {
-  const RequestItemUpdateManyMutationInput();
+class RequestItemCreateManyInput implements _i2.JsonSerializable {
+  const RequestItemCreateManyInput({
+    this.id,
+    required this.request_id,
+    required this.quantity,
+    required this.asset_type_id,
+  });
+
+  final _i2.PrismaNullable<int> id;
+
+  final int request_id;
+
+  final int quantity;
+
+  final String asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{};
+    return <String, dynamic>{
+      'id': id,
+      'request_id': request_id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
+    };
   }
 }
 
-class RequestItemUncheckedUpdateManyInput implements _i1.JsonSerializable {
+class RequestItemUpdateManyMutationInput implements _i2.JsonSerializable {
+  const RequestItemUpdateManyMutationInput({this.quantity});
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> quantity;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'quantity': quantity,
+    };
+  }
+}
+
+class RequestItemUncheckedUpdateManyInput implements _i2.JsonSerializable {
   const RequestItemUncheckedUpdateManyInput({
     this.id,
     this.request_id,
+    this.quantity,
+    this.asset_type_id,
   });
 
-  final _i1.PrismaNullable<IntFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<IntFieldUpdateOperationsInput> request_id;
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> request_id;
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> quantity;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'request_id': request_id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
-class AssetTypeCreateInput implements _i1.JsonSerializable {
+class AssetTypeCreateInput implements _i2.JsonSerializable {
   const AssetTypeCreateInput({
     required this.id,
     required this.title,
     this.assets,
     this.unique,
     this.quantity,
+    this.RequestItem,
   });
 
   final String id;
 
   final String title;
 
-  final _i1.PrismaNullable<AssetCreateNestedManyWithoutTypeInput> assets;
+  final _i2.PrismaNullable<AssetCreateNestedManyWithoutTypeInput> assets;
 
-  final _i1.PrismaNullable<bool> unique;
+  final _i2.PrismaNullable<bool> unique;
 
-  final _i1.PrismaNullable<_i1.PrismaUnion<int, _i1.PrismaNull>> quantity;
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> quantity;
+
+  final _i2.PrismaNullable<RequestItemCreateNestedManyWithoutAsset_typeInput>
+      RequestItem;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1456,29 +1853,34 @@ class AssetTypeCreateInput implements _i1.JsonSerializable {
       'assets': assets,
       'unique': unique,
       'quantity': quantity,
+      'RequestItem': RequestItem,
     };
   }
 }
 
-class AssetTypeUncheckedCreateInput implements _i1.JsonSerializable {
+class AssetTypeUncheckedCreateInput implements _i2.JsonSerializable {
   const AssetTypeUncheckedCreateInput({
     required this.id,
     required this.title,
     this.assets,
     this.unique,
     this.quantity,
+    this.RequestItem,
   });
 
   final String id;
 
   final String title;
 
-  final _i1.PrismaNullable<AssetUncheckedCreateNestedManyWithoutTypeInput>
+  final _i2.PrismaNullable<AssetUncheckedCreateNestedManyWithoutTypeInput>
       assets;
 
-  final _i1.PrismaNullable<bool> unique;
+  final _i2.PrismaNullable<bool> unique;
 
-  final _i1.PrismaNullable<_i1.PrismaUnion<int, _i1.PrismaNull>> quantity;
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> quantity;
+
+  final _i2.PrismaNullable<
+      RequestItemUncheckedCreateNestedManyWithoutAsset_typeInput> RequestItem;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1488,28 +1890,33 @@ class AssetTypeUncheckedCreateInput implements _i1.JsonSerializable {
       'assets': assets,
       'unique': unique,
       'quantity': quantity,
+      'RequestItem': RequestItem,
     };
   }
 }
 
-class AssetTypeUpdateInput implements _i1.JsonSerializable {
+class AssetTypeUpdateInput implements _i2.JsonSerializable {
   const AssetTypeUpdateInput({
     this.id,
     this.title,
     this.assets,
     this.unique,
     this.quantity,
+    this.RequestItem,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> title;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> title;
 
-  final _i1.PrismaNullable<AssetUpdateManyWithoutTypeNestedInput> assets;
+  final _i2.PrismaNullable<AssetUpdateManyWithoutTypeNestedInput> assets;
 
-  final _i1.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
+  final _i2.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
 
-  final _i1.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
+  final _i2.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
+
+  final _i2.PrismaNullable<RequestItemUpdateManyWithoutAsset_typeNestedInput>
+      RequestItem;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1519,29 +1926,34 @@ class AssetTypeUpdateInput implements _i1.JsonSerializable {
       'assets': assets,
       'unique': unique,
       'quantity': quantity,
+      'RequestItem': RequestItem,
     };
   }
 }
 
-class AssetTypeUncheckedUpdateInput implements _i1.JsonSerializable {
+class AssetTypeUncheckedUpdateInput implements _i2.JsonSerializable {
   const AssetTypeUncheckedUpdateInput({
     this.id,
     this.title,
     this.assets,
     this.unique,
     this.quantity,
+    this.RequestItem,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> title;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> title;
 
-  final _i1.PrismaNullable<AssetUncheckedUpdateManyWithoutTypeNestedInput>
+  final _i2.PrismaNullable<AssetUncheckedUpdateManyWithoutTypeNestedInput>
       assets;
 
-  final _i1.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
+  final _i2.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
 
-  final _i1.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
+  final _i2.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
+
+  final _i2.PrismaNullable<
+      RequestItemUncheckedUpdateManyWithoutAsset_typeNestedInput> RequestItem;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1551,11 +1963,39 @@ class AssetTypeUncheckedUpdateInput implements _i1.JsonSerializable {
       'assets': assets,
       'unique': unique,
       'quantity': quantity,
+      'RequestItem': RequestItem,
     };
   }
 }
 
-class AssetTypeUpdateManyMutationInput implements _i1.JsonSerializable {
+class AssetTypeCreateManyInput implements _i2.JsonSerializable {
+  const AssetTypeCreateManyInput({
+    required this.id,
+    required this.title,
+    this.unique,
+    this.quantity,
+  });
+
+  final String id;
+
+  final String title;
+
+  final _i2.PrismaNullable<bool> unique;
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> quantity;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'title': title,
+      'unique': unique,
+      'quantity': quantity,
+    };
+  }
+}
+
+class AssetTypeUpdateManyMutationInput implements _i2.JsonSerializable {
   const AssetTypeUpdateManyMutationInput({
     this.id,
     this.title,
@@ -1563,13 +2003,13 @@ class AssetTypeUpdateManyMutationInput implements _i1.JsonSerializable {
     this.quantity,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> title;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> title;
 
-  final _i1.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
+  final _i2.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
 
-  final _i1.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
+  final _i2.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1582,7 +2022,7 @@ class AssetTypeUpdateManyMutationInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetTypeUncheckedUpdateManyInput implements _i1.JsonSerializable {
+class AssetTypeUncheckedUpdateManyInput implements _i2.JsonSerializable {
   const AssetTypeUncheckedUpdateManyInput({
     this.id,
     this.title,
@@ -1590,13 +2030,13 @@ class AssetTypeUncheckedUpdateManyInput implements _i1.JsonSerializable {
     this.quantity,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> title;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> title;
 
-  final _i1.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
+  final _i2.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
 
-  final _i1.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
+  final _i2.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1609,87 +2049,129 @@ class AssetTypeUncheckedUpdateManyInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetCreateInput implements _i1.JsonSerializable {
+class AssetCreateInput implements _i2.JsonSerializable {
   const AssetCreateInput({
     required this.id,
     required this.type,
+    this.deployed_to,
   });
 
   final String id;
 
   final AssetTypeCreateNestedOneWithoutAssetsInput type;
 
+  final _i2.PrismaNullable<EquipmentRequestCreateNestedOneWithoutAssetInput>
+      deployed_to;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'type': type,
+      'deployed_to': deployed_to,
     };
   }
 }
 
-class AssetUncheckedCreateInput implements _i1.JsonSerializable {
+class AssetUncheckedCreateInput implements _i2.JsonSerializable {
   const AssetUncheckedCreateInput({
     required this.id,
     required this.type_id,
+    this.deployed_to_id,
   });
 
   final String id;
 
   final String type_id;
 
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> deployed_to_id;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'type_id': type_id,
+      'deployed_to_id': deployed_to_id,
     };
   }
 }
 
-class AssetUpdateInput implements _i1.JsonSerializable {
+class AssetUpdateInput implements _i2.JsonSerializable {
   const AssetUpdateInput({
     this.id,
     this.type,
+    this.deployed_to,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<AssetTypeUpdateOneRequiredWithoutAssetsNestedInput>
+  final _i2.PrismaNullable<AssetTypeUpdateOneRequiredWithoutAssetsNestedInput>
       type;
+
+  final _i2.PrismaNullable<EquipmentRequestUpdateOneWithoutAssetNestedInput>
+      deployed_to;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'type': type,
+      'deployed_to': deployed_to,
     };
   }
 }
 
-class AssetUncheckedUpdateInput implements _i1.JsonSerializable {
+class AssetUncheckedUpdateInput implements _i2.JsonSerializable {
   const AssetUncheckedUpdateInput({
     this.id,
     this.type_id,
+    this.deployed_to_id,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> type_id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> type_id;
+
+  final _i2.PrismaNullable<NullableIntFieldUpdateOperationsInput>
+      deployed_to_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'type_id': type_id,
+      'deployed_to_id': deployed_to_id,
     };
   }
 }
 
-class AssetUpdateManyMutationInput implements _i1.JsonSerializable {
+class AssetCreateManyInput implements _i2.JsonSerializable {
+  const AssetCreateManyInput({
+    required this.id,
+    required this.type_id,
+    this.deployed_to_id,
+  });
+
+  final String id;
+
+  final String type_id;
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> deployed_to_id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'type_id': type_id,
+      'deployed_to_id': deployed_to_id,
+    };
+  }
+}
+
+class AssetUpdateManyMutationInput implements _i2.JsonSerializable {
   const AssetUpdateManyMutationInput({this.id});
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1699,26 +2181,31 @@ class AssetUpdateManyMutationInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetUncheckedUpdateManyInput implements _i1.JsonSerializable {
+class AssetUncheckedUpdateManyInput implements _i2.JsonSerializable {
   const AssetUncheckedUpdateManyInput({
     this.id,
     this.type_id,
+    this.deployed_to_id,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> type_id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> type_id;
+
+  final _i2.PrismaNullable<NullableIntFieldUpdateOperationsInput>
+      deployed_to_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'type_id': type_id,
+      'deployed_to_id': deployed_to_id,
     };
   }
 }
 
-class StringFilter implements _i1.JsonSerializable {
+class StringFilter implements _i2.JsonSerializable {
   const StringFilter({
     this.equals,
     this.in$,
@@ -1730,30 +2217,33 @@ class StringFilter implements _i1.JsonSerializable {
     this.contains,
     this.startsWith,
     this.endsWith,
+    this.mode,
     this.not,
   });
 
-  final _i1.PrismaNullable<String> equals;
+  final _i2.PrismaNullable<String> equals;
 
-  final _i1.PrismaNullable<List<String>> in$;
+  final _i2.PrismaNullable<List<String>> in$;
 
-  final _i1.PrismaNullable<List<String>> notIn;
+  final _i2.PrismaNullable<List<String>> notIn;
 
-  final _i1.PrismaNullable<String> lt;
+  final _i2.PrismaNullable<String> lt;
 
-  final _i1.PrismaNullable<String> lte;
+  final _i2.PrismaNullable<String> lte;
 
-  final _i1.PrismaNullable<String> gt;
+  final _i2.PrismaNullable<String> gt;
 
-  final _i1.PrismaNullable<String> gte;
+  final _i2.PrismaNullable<String> gte;
 
-  final _i1.PrismaNullable<String> contains;
+  final _i2.PrismaNullable<String> contains;
 
-  final _i1.PrismaNullable<String> startsWith;
+  final _i2.PrismaNullable<String> startsWith;
 
-  final _i1.PrismaNullable<String> endsWith;
+  final _i2.PrismaNullable<String> endsWith;
 
-  final _i1.PrismaNullable<NestedStringFilter> not;
+  final _i2.PrismaNullable<QueryMode> mode;
+
+  final _i2.PrismaNullable<NestedStringFilter> not;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1768,20 +2258,21 @@ class StringFilter implements _i1.JsonSerializable {
       'contains': contains,
       'startsWith': startsWith,
       'endsWith': endsWith,
+      'mode': mode,
       'not': not,
     };
   }
 }
 
-class UserRelationFilter implements _i1.JsonSerializable {
+class UserRelationFilter implements _i2.JsonSerializable {
   const UserRelationFilter({
     this.is$,
     this.isNot,
   });
 
-  final _i1.PrismaNullable<UserWhereInput> is$;
+  final _i2.PrismaNullable<UserWhereInput> is$;
 
-  final _i1.PrismaNullable<UserWhereInput> isNot;
+  final _i2.PrismaNullable<UserWhereInput> isNot;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1792,15 +2283,15 @@ class UserRelationFilter implements _i1.JsonSerializable {
   }
 }
 
-class SessionCountOrderByAggregateInput implements _i1.JsonSerializable {
+class SessionCountOrderByAggregateInput implements _i2.JsonSerializable {
   const SessionCountOrderByAggregateInput({
     this.key,
     this.user_id,
   });
 
-  final _i1.PrismaNullable<SortOrder> key;
+  final _i2.PrismaNullable<SortOrder> key;
 
-  final _i1.PrismaNullable<SortOrder> user_id;
+  final _i2.PrismaNullable<SortOrder> user_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1811,15 +2302,15 @@ class SessionCountOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionMaxOrderByAggregateInput implements _i1.JsonSerializable {
+class SessionMaxOrderByAggregateInput implements _i2.JsonSerializable {
   const SessionMaxOrderByAggregateInput({
     this.key,
     this.user_id,
   });
 
-  final _i1.PrismaNullable<SortOrder> key;
+  final _i2.PrismaNullable<SortOrder> key;
 
-  final _i1.PrismaNullable<SortOrder> user_id;
+  final _i2.PrismaNullable<SortOrder> user_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1830,15 +2321,15 @@ class SessionMaxOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionMinOrderByAggregateInput implements _i1.JsonSerializable {
+class SessionMinOrderByAggregateInput implements _i2.JsonSerializable {
   const SessionMinOrderByAggregateInput({
     this.key,
     this.user_id,
   });
 
-  final _i1.PrismaNullable<SortOrder> key;
+  final _i2.PrismaNullable<SortOrder> key;
 
-  final _i1.PrismaNullable<SortOrder> user_id;
+  final _i2.PrismaNullable<SortOrder> user_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1849,7 +2340,7 @@ class SessionMinOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class StringWithAggregatesFilter implements _i1.JsonSerializable {
+class StringWithAggregatesFilter implements _i2.JsonSerializable {
   const StringWithAggregatesFilter({
     this.equals,
     this.in$,
@@ -1861,39 +2352,42 @@ class StringWithAggregatesFilter implements _i1.JsonSerializable {
     this.contains,
     this.startsWith,
     this.endsWith,
+    this.mode,
     this.not,
     this.$count,
     this.$min,
     this.$max,
   });
 
-  final _i1.PrismaNullable<String> equals;
+  final _i2.PrismaNullable<String> equals;
 
-  final _i1.PrismaNullable<List<String>> in$;
+  final _i2.PrismaNullable<List<String>> in$;
 
-  final _i1.PrismaNullable<List<String>> notIn;
+  final _i2.PrismaNullable<List<String>> notIn;
 
-  final _i1.PrismaNullable<String> lt;
+  final _i2.PrismaNullable<String> lt;
 
-  final _i1.PrismaNullable<String> lte;
+  final _i2.PrismaNullable<String> lte;
 
-  final _i1.PrismaNullable<String> gt;
+  final _i2.PrismaNullable<String> gt;
 
-  final _i1.PrismaNullable<String> gte;
+  final _i2.PrismaNullable<String> gte;
 
-  final _i1.PrismaNullable<String> contains;
+  final _i2.PrismaNullable<String> contains;
 
-  final _i1.PrismaNullable<String> startsWith;
+  final _i2.PrismaNullable<String> startsWith;
 
-  final _i1.PrismaNullable<String> endsWith;
+  final _i2.PrismaNullable<String> endsWith;
 
-  final _i1.PrismaNullable<NestedStringWithAggregatesFilter> not;
+  final _i2.PrismaNullable<QueryMode> mode;
 
-  final _i1.PrismaNullable<NestedIntFilter> $count;
+  final _i2.PrismaNullable<NestedStringWithAggregatesFilter> not;
 
-  final _i1.PrismaNullable<NestedStringFilter> $min;
+  final _i2.PrismaNullable<NestedIntFilter> $count;
 
-  final _i1.PrismaNullable<NestedStringFilter> $max;
+  final _i2.PrismaNullable<NestedStringFilter> $min;
+
+  final _i2.PrismaNullable<NestedStringFilter> $max;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1908,6 +2402,7 @@ class StringWithAggregatesFilter implements _i1.JsonSerializable {
       'contains': contains,
       'startsWith': startsWith,
       'endsWith': endsWith,
+      'mode': mode,
       'not': not,
       '_count': $count,
       '_min': $min,
@@ -1916,18 +2411,18 @@ class StringWithAggregatesFilter implements _i1.JsonSerializable {
   }
 }
 
-class EquipmentRequestListRelationFilter implements _i1.JsonSerializable {
+class EquipmentRequestListRelationFilter implements _i2.JsonSerializable {
   const EquipmentRequestListRelationFilter({
     this.every,
     this.some,
     this.none,
   });
 
-  final _i1.PrismaNullable<EquipmentRequestWhereInput> every;
+  final _i2.PrismaNullable<EquipmentRequestWhereInput> every;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereInput> some;
+  final _i2.PrismaNullable<EquipmentRequestWhereInput> some;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereInput> none;
+  final _i2.PrismaNullable<EquipmentRequestWhereInput> none;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1939,18 +2434,18 @@ class EquipmentRequestListRelationFilter implements _i1.JsonSerializable {
   }
 }
 
-class SessionListRelationFilter implements _i1.JsonSerializable {
+class SessionListRelationFilter implements _i2.JsonSerializable {
   const SessionListRelationFilter({
     this.every,
     this.some,
     this.none,
   });
 
-  final _i1.PrismaNullable<SessionWhereInput> every;
+  final _i2.PrismaNullable<SessionWhereInput> every;
 
-  final _i1.PrismaNullable<SessionWhereInput> some;
+  final _i2.PrismaNullable<SessionWhereInput> some;
 
-  final _i1.PrismaNullable<SessionWhereInput> none;
+  final _i2.PrismaNullable<SessionWhereInput> none;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1963,10 +2458,10 @@ class SessionListRelationFilter implements _i1.JsonSerializable {
 }
 
 class EquipmentRequestOrderByRelationAggregateInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestOrderByRelationAggregateInput({this.$count});
 
-  final _i1.PrismaNullable<SortOrder> $count;
+  final _i2.PrismaNullable<SortOrder> $count;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1976,10 +2471,10 @@ class EquipmentRequestOrderByRelationAggregateInput
   }
 }
 
-class SessionOrderByRelationAggregateInput implements _i1.JsonSerializable {
+class SessionOrderByRelationAggregateInput implements _i2.JsonSerializable {
   const SessionOrderByRelationAggregateInput({this.$count});
 
-  final _i1.PrismaNullable<SortOrder> $count;
+  final _i2.PrismaNullable<SortOrder> $count;
 
   @override
   Map<String, dynamic> toJson() {
@@ -1989,18 +2484,18 @@ class SessionOrderByRelationAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class UserCountOrderByAggregateInput implements _i1.JsonSerializable {
+class UserCountOrderByAggregateInput implements _i2.JsonSerializable {
   const UserCountOrderByAggregateInput({
     this.id,
     this.email,
     this.name,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> email;
+  final _i2.PrismaNullable<SortOrder> email;
 
-  final _i1.PrismaNullable<SortOrder> name;
+  final _i2.PrismaNullable<SortOrder> name;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2012,18 +2507,18 @@ class UserCountOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class UserMaxOrderByAggregateInput implements _i1.JsonSerializable {
+class UserMaxOrderByAggregateInput implements _i2.JsonSerializable {
   const UserMaxOrderByAggregateInput({
     this.id,
     this.email,
     this.name,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> email;
+  final _i2.PrismaNullable<SortOrder> email;
 
-  final _i1.PrismaNullable<SortOrder> name;
+  final _i2.PrismaNullable<SortOrder> name;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2035,18 +2530,18 @@ class UserMaxOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class UserMinOrderByAggregateInput implements _i1.JsonSerializable {
+class UserMinOrderByAggregateInput implements _i2.JsonSerializable {
   const UserMinOrderByAggregateInput({
     this.id,
     this.email,
     this.name,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> email;
+  final _i2.PrismaNullable<SortOrder> email;
 
-  final _i1.PrismaNullable<SortOrder> name;
+  final _i2.PrismaNullable<SortOrder> name;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2058,7 +2553,7 @@ class UserMinOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class IntFilter implements _i1.JsonSerializable {
+class IntFilter implements _i2.JsonSerializable {
   const IntFilter({
     this.equals,
     this.in$,
@@ -2070,21 +2565,21 @@ class IntFilter implements _i1.JsonSerializable {
     this.not,
   });
 
-  final _i1.PrismaNullable<int> equals;
+  final _i2.PrismaNullable<int> equals;
 
-  final _i1.PrismaNullable<List<int>> in$;
+  final _i2.PrismaNullable<List<int>> in$;
 
-  final _i1.PrismaNullable<List<int>> notIn;
+  final _i2.PrismaNullable<List<int>> notIn;
 
-  final _i1.PrismaNullable<int> lt;
+  final _i2.PrismaNullable<int> lt;
 
-  final _i1.PrismaNullable<int> lte;
+  final _i2.PrismaNullable<int> lte;
 
-  final _i1.PrismaNullable<int> gt;
+  final _i2.PrismaNullable<int> gt;
 
-  final _i1.PrismaNullable<int> gte;
+  final _i2.PrismaNullable<int> gte;
 
-  final _i1.PrismaNullable<NestedIntFilter> not;
+  final _i2.PrismaNullable<NestedIntFilter> not;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2101,18 +2596,18 @@ class IntFilter implements _i1.JsonSerializable {
   }
 }
 
-class RequestItemListRelationFilter implements _i1.JsonSerializable {
+class RequestItemListRelationFilter implements _i2.JsonSerializable {
   const RequestItemListRelationFilter({
     this.every,
     this.some,
     this.none,
   });
 
-  final _i1.PrismaNullable<RequestItemWhereInput> every;
+  final _i2.PrismaNullable<RequestItemWhereInput> every;
 
-  final _i1.PrismaNullable<RequestItemWhereInput> some;
+  final _i2.PrismaNullable<RequestItemWhereInput> some;
 
-  final _i1.PrismaNullable<RequestItemWhereInput> none;
+  final _i2.PrismaNullable<RequestItemWhereInput> none;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2124,10 +2619,89 @@ class RequestItemListRelationFilter implements _i1.JsonSerializable {
   }
 }
 
-class RequestItemOrderByRelationAggregateInput implements _i1.JsonSerializable {
+class DateTimeFilter implements _i2.JsonSerializable {
+  const DateTimeFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.not,
+  });
+
+  final _i2.PrismaNullable<DateTime> equals;
+
+  final _i2.PrismaNullable<List<DateTime>> in$;
+
+  final _i2.PrismaNullable<List<DateTime>> notIn;
+
+  final _i2.PrismaNullable<DateTime> lt;
+
+  final _i2.PrismaNullable<DateTime> lte;
+
+  final _i2.PrismaNullable<DateTime> gt;
+
+  final _i2.PrismaNullable<DateTime> gte;
+
+  final _i2.PrismaNullable<NestedDateTimeFilter> not;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'not': not,
+    };
+  }
+}
+
+class AssetListRelationFilter implements _i2.JsonSerializable {
+  const AssetListRelationFilter({
+    this.every,
+    this.some,
+    this.none,
+  });
+
+  final _i2.PrismaNullable<AssetWhereInput> every;
+
+  final _i2.PrismaNullable<AssetWhereInput> some;
+
+  final _i2.PrismaNullable<AssetWhereInput> none;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'every': every,
+      'some': some,
+      'none': none,
+    };
+  }
+}
+
+class RequestItemOrderByRelationAggregateInput implements _i2.JsonSerializable {
   const RequestItemOrderByRelationAggregateInput({this.$count});
 
-  final _i1.PrismaNullable<SortOrder> $count;
+  final _i2.PrismaNullable<SortOrder> $count;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      '_count': $count,
+    };
+  }
+}
+
+class AssetOrderByRelationAggregateInput implements _i2.JsonSerializable {
+  const AssetOrderByRelationAggregateInput({this.$count});
+
+  final _i2.PrismaNullable<SortOrder> $count;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2138,29 +2712,41 @@ class RequestItemOrderByRelationAggregateInput implements _i1.JsonSerializable {
 }
 
 class EquipmentRequestCountOrderByAggregateInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestCountOrderByAggregateInput({
     this.id,
     this.requester_id,
+    this.notes,
+    this.time_start,
+    this.time_end,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> requester_id;
+  final _i2.PrismaNullable<SortOrder> requester_id;
+
+  final _i2.PrismaNullable<SortOrder> notes;
+
+  final _i2.PrismaNullable<SortOrder> time_start;
+
+  final _i2.PrismaNullable<SortOrder> time_end;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'requester_id': requester_id,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
     };
   }
 }
 
-class EquipmentRequestAvgOrderByAggregateInput implements _i1.JsonSerializable {
+class EquipmentRequestAvgOrderByAggregateInput implements _i2.JsonSerializable {
   const EquipmentRequestAvgOrderByAggregateInput({this.id});
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2170,48 +2756,72 @@ class EquipmentRequestAvgOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class EquipmentRequestMaxOrderByAggregateInput implements _i1.JsonSerializable {
+class EquipmentRequestMaxOrderByAggregateInput implements _i2.JsonSerializable {
   const EquipmentRequestMaxOrderByAggregateInput({
     this.id,
     this.requester_id,
+    this.notes,
+    this.time_start,
+    this.time_end,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> requester_id;
+  final _i2.PrismaNullable<SortOrder> requester_id;
+
+  final _i2.PrismaNullable<SortOrder> notes;
+
+  final _i2.PrismaNullable<SortOrder> time_start;
+
+  final _i2.PrismaNullable<SortOrder> time_end;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'requester_id': requester_id,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
     };
   }
 }
 
-class EquipmentRequestMinOrderByAggregateInput implements _i1.JsonSerializable {
+class EquipmentRequestMinOrderByAggregateInput implements _i2.JsonSerializable {
   const EquipmentRequestMinOrderByAggregateInput({
     this.id,
     this.requester_id,
+    this.notes,
+    this.time_start,
+    this.time_end,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> requester_id;
+  final _i2.PrismaNullable<SortOrder> requester_id;
+
+  final _i2.PrismaNullable<SortOrder> notes;
+
+  final _i2.PrismaNullable<SortOrder> time_start;
+
+  final _i2.PrismaNullable<SortOrder> time_end;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'requester_id': requester_id,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
     };
   }
 }
 
-class EquipmentRequestSumOrderByAggregateInput implements _i1.JsonSerializable {
+class EquipmentRequestSumOrderByAggregateInput implements _i2.JsonSerializable {
   const EquipmentRequestSumOrderByAggregateInput({this.id});
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2221,7 +2831,7 @@ class EquipmentRequestSumOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class IntWithAggregatesFilter implements _i1.JsonSerializable {
+class IntWithAggregatesFilter implements _i2.JsonSerializable {
   const IntWithAggregatesFilter({
     this.equals,
     this.in$,
@@ -2238,31 +2848,31 @@ class IntWithAggregatesFilter implements _i1.JsonSerializable {
     this.$max,
   });
 
-  final _i1.PrismaNullable<int> equals;
+  final _i2.PrismaNullable<int> equals;
 
-  final _i1.PrismaNullable<List<int>> in$;
+  final _i2.PrismaNullable<List<int>> in$;
 
-  final _i1.PrismaNullable<List<int>> notIn;
+  final _i2.PrismaNullable<List<int>> notIn;
 
-  final _i1.PrismaNullable<int> lt;
+  final _i2.PrismaNullable<int> lt;
 
-  final _i1.PrismaNullable<int> lte;
+  final _i2.PrismaNullable<int> lte;
 
-  final _i1.PrismaNullable<int> gt;
+  final _i2.PrismaNullable<int> gt;
 
-  final _i1.PrismaNullable<int> gte;
+  final _i2.PrismaNullable<int> gte;
 
-  final _i1.PrismaNullable<NestedIntWithAggregatesFilter> not;
+  final _i2.PrismaNullable<NestedIntWithAggregatesFilter> not;
 
-  final _i1.PrismaNullable<NestedIntFilter> $count;
+  final _i2.PrismaNullable<NestedIntFilter> $count;
 
-  final _i1.PrismaNullable<NestedFloatFilter> $avg;
+  final _i2.PrismaNullable<NestedFloatFilter> $avg;
 
-  final _i1.PrismaNullable<NestedIntFilter> $sum;
+  final _i2.PrismaNullable<NestedIntFilter> $sum;
 
-  final _i1.PrismaNullable<NestedIntFilter> $min;
+  final _i2.PrismaNullable<NestedIntFilter> $min;
 
-  final _i1.PrismaNullable<NestedIntFilter> $max;
+  final _i2.PrismaNullable<NestedIntFilter> $max;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2284,15 +2894,70 @@ class IntWithAggregatesFilter implements _i1.JsonSerializable {
   }
 }
 
-class EquipmentRequestRelationFilter implements _i1.JsonSerializable {
+class DateTimeWithAggregatesFilter implements _i2.JsonSerializable {
+  const DateTimeWithAggregatesFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.not,
+    this.$count,
+    this.$min,
+    this.$max,
+  });
+
+  final _i2.PrismaNullable<DateTime> equals;
+
+  final _i2.PrismaNullable<List<DateTime>> in$;
+
+  final _i2.PrismaNullable<List<DateTime>> notIn;
+
+  final _i2.PrismaNullable<DateTime> lt;
+
+  final _i2.PrismaNullable<DateTime> lte;
+
+  final _i2.PrismaNullable<DateTime> gt;
+
+  final _i2.PrismaNullable<DateTime> gte;
+
+  final _i2.PrismaNullable<NestedDateTimeWithAggregatesFilter> not;
+
+  final _i2.PrismaNullable<NestedIntFilter> $count;
+
+  final _i2.PrismaNullable<NestedDateTimeFilter> $min;
+
+  final _i2.PrismaNullable<NestedDateTimeFilter> $max;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'not': not,
+      '_count': $count,
+      '_min': $min,
+      '_max': $max,
+    };
+  }
+}
+
+class EquipmentRequestRelationFilter implements _i2.JsonSerializable {
   const EquipmentRequestRelationFilter({
     this.is$,
     this.isNot,
   });
 
-  final _i1.PrismaNullable<EquipmentRequestWhereInput> is$;
+  final _i2.PrismaNullable<EquipmentRequestWhereInput> is$;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereInput> isNot;
+  final _i2.PrismaNullable<EquipmentRequestWhereInput> isNot;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2303,133 +2968,161 @@ class EquipmentRequestRelationFilter implements _i1.JsonSerializable {
   }
 }
 
-class RequestItemCountOrderByAggregateInput implements _i1.JsonSerializable {
+class AssetTypeRelationFilter implements _i2.JsonSerializable {
+  const AssetTypeRelationFilter({
+    this.is$,
+    this.isNot,
+  });
+
+  final _i2.PrismaNullable<AssetTypeWhereInput> is$;
+
+  final _i2.PrismaNullable<AssetTypeWhereInput> isNot;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'is': is$,
+      'isNot': isNot,
+    };
+  }
+}
+
+class RequestItemCountOrderByAggregateInput implements _i2.JsonSerializable {
   const RequestItemCountOrderByAggregateInput({
     this.id,
     this.request_id,
+    this.quantity,
+    this.asset_type_id,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> request_id;
+  final _i2.PrismaNullable<SortOrder> request_id;
+
+  final _i2.PrismaNullable<SortOrder> quantity;
+
+  final _i2.PrismaNullable<SortOrder> asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'request_id': request_id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
-class RequestItemAvgOrderByAggregateInput implements _i1.JsonSerializable {
+class RequestItemAvgOrderByAggregateInput implements _i2.JsonSerializable {
   const RequestItemAvgOrderByAggregateInput({
     this.id,
     this.request_id,
+    this.quantity,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> request_id;
+  final _i2.PrismaNullable<SortOrder> request_id;
+
+  final _i2.PrismaNullable<SortOrder> quantity;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'request_id': request_id,
+      'quantity': quantity,
     };
   }
 }
 
-class RequestItemMaxOrderByAggregateInput implements _i1.JsonSerializable {
+class RequestItemMaxOrderByAggregateInput implements _i2.JsonSerializable {
   const RequestItemMaxOrderByAggregateInput({
     this.id,
     this.request_id,
+    this.quantity,
+    this.asset_type_id,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> request_id;
+  final _i2.PrismaNullable<SortOrder> request_id;
+
+  final _i2.PrismaNullable<SortOrder> quantity;
+
+  final _i2.PrismaNullable<SortOrder> asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'request_id': request_id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
-class RequestItemMinOrderByAggregateInput implements _i1.JsonSerializable {
+class RequestItemMinOrderByAggregateInput implements _i2.JsonSerializable {
   const RequestItemMinOrderByAggregateInput({
     this.id,
     this.request_id,
+    this.quantity,
+    this.asset_type_id,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> request_id;
+  final _i2.PrismaNullable<SortOrder> request_id;
+
+  final _i2.PrismaNullable<SortOrder> quantity;
+
+  final _i2.PrismaNullable<SortOrder> asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'request_id': request_id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
-class RequestItemSumOrderByAggregateInput implements _i1.JsonSerializable {
+class RequestItemSumOrderByAggregateInput implements _i2.JsonSerializable {
   const RequestItemSumOrderByAggregateInput({
     this.id,
     this.request_id,
+    this.quantity,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> request_id;
+  final _i2.PrismaNullable<SortOrder> request_id;
+
+  final _i2.PrismaNullable<SortOrder> quantity;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'request_id': request_id,
+      'quantity': quantity,
     };
   }
 }
 
-class AssetListRelationFilter implements _i1.JsonSerializable {
-  const AssetListRelationFilter({
-    this.every,
-    this.some,
-    this.none,
-  });
-
-  final _i1.PrismaNullable<AssetWhereInput> every;
-
-  final _i1.PrismaNullable<AssetWhereInput> some;
-
-  final _i1.PrismaNullable<AssetWhereInput> none;
-
-  @override
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'every': every,
-      'some': some,
-      'none': none,
-    };
-  }
-}
-
-class BoolFilter implements _i1.JsonSerializable {
+class BoolFilter implements _i2.JsonSerializable {
   const BoolFilter({
     this.equals,
     this.not,
   });
 
-  final _i1.PrismaNullable<bool> equals;
+  final _i2.PrismaNullable<bool> equals;
 
-  final _i1.PrismaNullable<NestedBoolFilter> not;
+  final _i2.PrismaNullable<NestedBoolFilter> not;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2440,7 +3133,7 @@ class BoolFilter implements _i1.JsonSerializable {
   }
 }
 
-class IntNullableFilter implements _i1.JsonSerializable {
+class IntNullableFilter implements _i2.JsonSerializable {
   const IntNullableFilter({
     this.equals,
     this.in$,
@@ -2452,21 +3145,21 @@ class IntNullableFilter implements _i1.JsonSerializable {
     this.not,
   });
 
-  final _i1.PrismaNullable<_i1.PrismaUnion<int, _i1.PrismaNull>> equals;
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> equals;
 
-  final _i1.PrismaNullable<List<int>> in$;
+  final _i2.PrismaNullable<List<int>> in$;
 
-  final _i1.PrismaNullable<List<int>> notIn;
+  final _i2.PrismaNullable<List<int>> notIn;
 
-  final _i1.PrismaNullable<int> lt;
+  final _i2.PrismaNullable<int> lt;
 
-  final _i1.PrismaNullable<int> lte;
+  final _i2.PrismaNullable<int> lte;
 
-  final _i1.PrismaNullable<int> gt;
+  final _i2.PrismaNullable<int> gt;
 
-  final _i1.PrismaNullable<int> gte;
+  final _i2.PrismaNullable<int> gte;
 
-  final _i1.PrismaNullable<NestedIntNullableFilter> not;
+  final _i2.PrismaNullable<NestedIntNullableFilter> not;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2483,20 +3176,7 @@ class IntNullableFilter implements _i1.JsonSerializable {
   }
 }
 
-class AssetOrderByRelationAggregateInput implements _i1.JsonSerializable {
-  const AssetOrderByRelationAggregateInput({this.$count});
-
-  final _i1.PrismaNullable<SortOrder> $count;
-
-  @override
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      '_count': $count,
-    };
-  }
-}
-
-class AssetTypeCountOrderByAggregateInput implements _i1.JsonSerializable {
+class AssetTypeCountOrderByAggregateInput implements _i2.JsonSerializable {
   const AssetTypeCountOrderByAggregateInput({
     this.id,
     this.title,
@@ -2504,13 +3184,13 @@ class AssetTypeCountOrderByAggregateInput implements _i1.JsonSerializable {
     this.quantity,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> title;
+  final _i2.PrismaNullable<SortOrder> title;
 
-  final _i1.PrismaNullable<SortOrder> unique;
+  final _i2.PrismaNullable<SortOrder> unique;
 
-  final _i1.PrismaNullable<SortOrder> quantity;
+  final _i2.PrismaNullable<SortOrder> quantity;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2523,10 +3203,10 @@ class AssetTypeCountOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetTypeAvgOrderByAggregateInput implements _i1.JsonSerializable {
+class AssetTypeAvgOrderByAggregateInput implements _i2.JsonSerializable {
   const AssetTypeAvgOrderByAggregateInput({this.quantity});
 
-  final _i1.PrismaNullable<SortOrder> quantity;
+  final _i2.PrismaNullable<SortOrder> quantity;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2536,7 +3216,7 @@ class AssetTypeAvgOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetTypeMaxOrderByAggregateInput implements _i1.JsonSerializable {
+class AssetTypeMaxOrderByAggregateInput implements _i2.JsonSerializable {
   const AssetTypeMaxOrderByAggregateInput({
     this.id,
     this.title,
@@ -2544,13 +3224,13 @@ class AssetTypeMaxOrderByAggregateInput implements _i1.JsonSerializable {
     this.quantity,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> title;
+  final _i2.PrismaNullable<SortOrder> title;
 
-  final _i1.PrismaNullable<SortOrder> unique;
+  final _i2.PrismaNullable<SortOrder> unique;
 
-  final _i1.PrismaNullable<SortOrder> quantity;
+  final _i2.PrismaNullable<SortOrder> quantity;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2563,7 +3243,7 @@ class AssetTypeMaxOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetTypeMinOrderByAggregateInput implements _i1.JsonSerializable {
+class AssetTypeMinOrderByAggregateInput implements _i2.JsonSerializable {
   const AssetTypeMinOrderByAggregateInput({
     this.id,
     this.title,
@@ -2571,13 +3251,13 @@ class AssetTypeMinOrderByAggregateInput implements _i1.JsonSerializable {
     this.quantity,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> title;
+  final _i2.PrismaNullable<SortOrder> title;
 
-  final _i1.PrismaNullable<SortOrder> unique;
+  final _i2.PrismaNullable<SortOrder> unique;
 
-  final _i1.PrismaNullable<SortOrder> quantity;
+  final _i2.PrismaNullable<SortOrder> quantity;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2590,10 +3270,10 @@ class AssetTypeMinOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetTypeSumOrderByAggregateInput implements _i1.JsonSerializable {
+class AssetTypeSumOrderByAggregateInput implements _i2.JsonSerializable {
   const AssetTypeSumOrderByAggregateInput({this.quantity});
 
-  final _i1.PrismaNullable<SortOrder> quantity;
+  final _i2.PrismaNullable<SortOrder> quantity;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2603,7 +3283,7 @@ class AssetTypeSumOrderByAggregateInput implements _i1.JsonSerializable {
   }
 }
 
-class BoolWithAggregatesFilter implements _i1.JsonSerializable {
+class BoolWithAggregatesFilter implements _i2.JsonSerializable {
   const BoolWithAggregatesFilter({
     this.equals,
     this.not,
@@ -2612,15 +3292,15 @@ class BoolWithAggregatesFilter implements _i1.JsonSerializable {
     this.$max,
   });
 
-  final _i1.PrismaNullable<bool> equals;
+  final _i2.PrismaNullable<bool> equals;
 
-  final _i1.PrismaNullable<NestedBoolWithAggregatesFilter> not;
+  final _i2.PrismaNullable<NestedBoolWithAggregatesFilter> not;
 
-  final _i1.PrismaNullable<NestedIntFilter> $count;
+  final _i2.PrismaNullable<NestedIntFilter> $count;
 
-  final _i1.PrismaNullable<NestedBoolFilter> $min;
+  final _i2.PrismaNullable<NestedBoolFilter> $min;
 
-  final _i1.PrismaNullable<NestedBoolFilter> $max;
+  final _i2.PrismaNullable<NestedBoolFilter> $max;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2634,7 +3314,7 @@ class BoolWithAggregatesFilter implements _i1.JsonSerializable {
   }
 }
 
-class IntNullableWithAggregatesFilter implements _i1.JsonSerializable {
+class IntNullableWithAggregatesFilter implements _i2.JsonSerializable {
   const IntNullableWithAggregatesFilter({
     this.equals,
     this.in$,
@@ -2651,31 +3331,31 @@ class IntNullableWithAggregatesFilter implements _i1.JsonSerializable {
     this.$max,
   });
 
-  final _i1.PrismaNullable<_i1.PrismaUnion<int, _i1.PrismaNull>> equals;
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> equals;
 
-  final _i1.PrismaNullable<List<int>> in$;
+  final _i2.PrismaNullable<List<int>> in$;
 
-  final _i1.PrismaNullable<List<int>> notIn;
+  final _i2.PrismaNullable<List<int>> notIn;
 
-  final _i1.PrismaNullable<int> lt;
+  final _i2.PrismaNullable<int> lt;
 
-  final _i1.PrismaNullable<int> lte;
+  final _i2.PrismaNullable<int> lte;
 
-  final _i1.PrismaNullable<int> gt;
+  final _i2.PrismaNullable<int> gt;
 
-  final _i1.PrismaNullable<int> gte;
+  final _i2.PrismaNullable<int> gte;
 
-  final _i1.PrismaNullable<NestedIntNullableWithAggregatesFilter> not;
+  final _i2.PrismaNullable<NestedIntNullableWithAggregatesFilter> not;
 
-  final _i1.PrismaNullable<NestedIntNullableFilter> $count;
+  final _i2.PrismaNullable<NestedIntNullableFilter> $count;
 
-  final _i1.PrismaNullable<NestedFloatNullableFilter> $avg;
+  final _i2.PrismaNullable<NestedFloatNullableFilter> $avg;
 
-  final _i1.PrismaNullable<NestedIntNullableFilter> $sum;
+  final _i2.PrismaNullable<NestedIntNullableFilter> $sum;
 
-  final _i1.PrismaNullable<NestedIntNullableFilter> $min;
+  final _i2.PrismaNullable<NestedIntNullableFilter> $min;
 
-  final _i1.PrismaNullable<NestedIntNullableFilter> $max;
+  final _i2.PrismaNullable<NestedIntNullableFilter> $max;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2697,95 +3377,114 @@ class IntNullableWithAggregatesFilter implements _i1.JsonSerializable {
   }
 }
 
-class AssetTypeRelationFilter implements _i1.JsonSerializable {
-  const AssetTypeRelationFilter({
-    this.is$,
-    this.isNot,
-  });
-
-  final _i1.PrismaNullable<AssetTypeWhereInput> is$;
-
-  final _i1.PrismaNullable<AssetTypeWhereInput> isNot;
-
-  @override
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'is': is$,
-      'isNot': isNot,
-    };
-  }
-}
-
-class AssetCountOrderByAggregateInput implements _i1.JsonSerializable {
+class AssetCountOrderByAggregateInput implements _i2.JsonSerializable {
   const AssetCountOrderByAggregateInput({
     this.id,
     this.type_id,
+    this.deployed_to_id,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> type_id;
+  final _i2.PrismaNullable<SortOrder> type_id;
+
+  final _i2.PrismaNullable<SortOrder> deployed_to_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'type_id': type_id,
+      'deployed_to_id': deployed_to_id,
     };
   }
 }
 
-class AssetMaxOrderByAggregateInput implements _i1.JsonSerializable {
+class AssetAvgOrderByAggregateInput implements _i2.JsonSerializable {
+  const AssetAvgOrderByAggregateInput({this.deployed_to_id});
+
+  final _i2.PrismaNullable<SortOrder> deployed_to_id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'deployed_to_id': deployed_to_id,
+    };
+  }
+}
+
+class AssetMaxOrderByAggregateInput implements _i2.JsonSerializable {
   const AssetMaxOrderByAggregateInput({
     this.id,
     this.type_id,
+    this.deployed_to_id,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> type_id;
+  final _i2.PrismaNullable<SortOrder> type_id;
+
+  final _i2.PrismaNullable<SortOrder> deployed_to_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'type_id': type_id,
+      'deployed_to_id': deployed_to_id,
     };
   }
 }
 
-class AssetMinOrderByAggregateInput implements _i1.JsonSerializable {
+class AssetMinOrderByAggregateInput implements _i2.JsonSerializable {
   const AssetMinOrderByAggregateInput({
     this.id,
     this.type_id,
+    this.deployed_to_id,
   });
 
-  final _i1.PrismaNullable<SortOrder> id;
+  final _i2.PrismaNullable<SortOrder> id;
 
-  final _i1.PrismaNullable<SortOrder> type_id;
+  final _i2.PrismaNullable<SortOrder> type_id;
+
+  final _i2.PrismaNullable<SortOrder> deployed_to_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'type_id': type_id,
+      'deployed_to_id': deployed_to_id,
     };
   }
 }
 
-class UserCreateNestedOneWithoutSessionsInput implements _i1.JsonSerializable {
+class AssetSumOrderByAggregateInput implements _i2.JsonSerializable {
+  const AssetSumOrderByAggregateInput({this.deployed_to_id});
+
+  final _i2.PrismaNullable<SortOrder> deployed_to_id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'deployed_to_id': deployed_to_id,
+    };
+  }
+}
+
+class UserCreateNestedOneWithoutSessionsInput implements _i2.JsonSerializable {
   const UserCreateNestedOneWithoutSessionsInput({
     this.create,
     this.connectOrCreate,
     this.connect,
   });
 
-  final _i1.PrismaNullable<UserCreateWithoutSessionsInput> create;
+  final _i2.PrismaNullable<UserCreateWithoutSessionsInput> create;
 
-  final _i1.PrismaNullable<UserCreateOrConnectWithoutSessionsInput>
+  final _i2.PrismaNullable<UserCreateOrConnectWithoutSessionsInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<UserWhereUniqueInput> connect;
+  final _i2.PrismaNullable<UserWhereUniqueInput> connect;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2797,10 +3496,10 @@ class UserCreateNestedOneWithoutSessionsInput implements _i1.JsonSerializable {
   }
 }
 
-class StringFieldUpdateOperationsInput implements _i1.JsonSerializable {
+class StringFieldUpdateOperationsInput implements _i2.JsonSerializable {
   const StringFieldUpdateOperationsInput({this.set$});
 
-  final _i1.PrismaNullable<String> set$;
+  final _i2.PrismaNullable<String> set$;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2811,7 +3510,7 @@ class StringFieldUpdateOperationsInput implements _i1.JsonSerializable {
 }
 
 class UserUpdateOneRequiredWithoutSessionsNestedInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const UserUpdateOneRequiredWithoutSessionsNestedInput({
     this.create,
     this.connectOrCreate,
@@ -2820,16 +3519,16 @@ class UserUpdateOneRequiredWithoutSessionsNestedInput
     this.update,
   });
 
-  final _i1.PrismaNullable<UserCreateWithoutSessionsInput> create;
+  final _i2.PrismaNullable<UserCreateWithoutSessionsInput> create;
 
-  final _i1.PrismaNullable<UserCreateOrConnectWithoutSessionsInput>
+  final _i2.PrismaNullable<UserCreateOrConnectWithoutSessionsInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<UserUpsertWithoutSessionsInput> upsert;
+  final _i2.PrismaNullable<UserUpsertWithoutSessionsInput> upsert;
 
-  final _i1.PrismaNullable<UserWhereUniqueInput> connect;
+  final _i2.PrismaNullable<UserWhereUniqueInput> connect;
 
-  final _i1.PrismaNullable<UserUpdateWithoutSessionsInput> update;
+  final _i2.PrismaNullable<UserUpdateWithoutSessionsInput> update;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2844,112 +3543,131 @@ class UserUpdateOneRequiredWithoutSessionsNestedInput
 }
 
 class EquipmentRequestCreateNestedManyWithoutRequested_byInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestCreateNestedManyWithoutRequested_byInput({
     this.create,
     this.connectOrCreate,
+    this.createMany,
     this.connect,
   });
 
-  final _i1.PrismaNullable<EquipmentRequestCreateWithoutRequested_byInput>
+  final _i2.PrismaNullable<EquipmentRequestCreateWithoutRequested_byInput>
       create;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestCreateOrConnectWithoutRequested_byInput> connectOrCreate;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
+  final _i2.PrismaNullable<EquipmentRequestCreateManyRequested_byInputEnvelope>
+      createMany;
+
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'create': create,
       'connectOrCreate': connectOrCreate,
+      'createMany': createMany,
       'connect': connect,
     };
   }
 }
 
-class SessionCreateNestedManyWithoutUserInput implements _i1.JsonSerializable {
+class SessionCreateNestedManyWithoutUserInput implements _i2.JsonSerializable {
   const SessionCreateNestedManyWithoutUserInput({
     this.create,
     this.connectOrCreate,
+    this.createMany,
     this.connect,
   });
 
-  final _i1.PrismaNullable<SessionCreateWithoutUserInput> create;
+  final _i2.PrismaNullable<SessionCreateWithoutUserInput> create;
 
-  final _i1.PrismaNullable<SessionCreateOrConnectWithoutUserInput>
+  final _i2.PrismaNullable<SessionCreateOrConnectWithoutUserInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<SessionWhereUniqueInput> connect;
+  final _i2.PrismaNullable<SessionCreateManyUserInputEnvelope> createMany;
+
+  final _i2.PrismaNullable<SessionWhereUniqueInput> connect;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'create': create,
       'connectOrCreate': connectOrCreate,
+      'createMany': createMany,
       'connect': connect,
     };
   }
 }
 
 class EquipmentRequestUncheckedCreateNestedManyWithoutRequested_byInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestUncheckedCreateNestedManyWithoutRequested_byInput({
     this.create,
     this.connectOrCreate,
+    this.createMany,
     this.connect,
   });
 
-  final _i1.PrismaNullable<EquipmentRequestCreateWithoutRequested_byInput>
+  final _i2.PrismaNullable<EquipmentRequestCreateWithoutRequested_byInput>
       create;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestCreateOrConnectWithoutRequested_byInput> connectOrCreate;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
+  final _i2.PrismaNullable<EquipmentRequestCreateManyRequested_byInputEnvelope>
+      createMany;
+
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'create': create,
       'connectOrCreate': connectOrCreate,
+      'createMany': createMany,
       'connect': connect,
     };
   }
 }
 
 class SessionUncheckedCreateNestedManyWithoutUserInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const SessionUncheckedCreateNestedManyWithoutUserInput({
     this.create,
     this.connectOrCreate,
+    this.createMany,
     this.connect,
   });
 
-  final _i1.PrismaNullable<SessionCreateWithoutUserInput> create;
+  final _i2.PrismaNullable<SessionCreateWithoutUserInput> create;
 
-  final _i1.PrismaNullable<SessionCreateOrConnectWithoutUserInput>
+  final _i2.PrismaNullable<SessionCreateOrConnectWithoutUserInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<SessionWhereUniqueInput> connect;
+  final _i2.PrismaNullable<SessionCreateManyUserInputEnvelope> createMany;
+
+  final _i2.PrismaNullable<SessionWhereUniqueInput> connect;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'create': create,
       'connectOrCreate': connectOrCreate,
+      'createMany': createMany,
       'connect': connect,
     };
   }
 }
 
 class EquipmentRequestUpdateManyWithoutRequested_byNestedInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestUpdateManyWithoutRequested_byNestedInput({
     this.create,
     this.connectOrCreate,
     this.upsert,
+    this.createMany,
     this.set$,
     this.disconnect,
     this.delete,
@@ -2959,30 +3677,33 @@ class EquipmentRequestUpdateManyWithoutRequested_byNestedInput
     this.deleteMany,
   });
 
-  final _i1.PrismaNullable<EquipmentRequestCreateWithoutRequested_byInput>
+  final _i2.PrismaNullable<EquipmentRequestCreateWithoutRequested_byInput>
       create;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestCreateOrConnectWithoutRequested_byInput> connectOrCreate;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestUpsertWithWhereUniqueWithoutRequested_byInput> upsert;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> set$;
+  final _i2.PrismaNullable<EquipmentRequestCreateManyRequested_byInputEnvelope>
+      createMany;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> disconnect;
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> set$;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> delete;
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> disconnect;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> delete;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
+
+  final _i2.PrismaNullable<
       EquipmentRequestUpdateWithWhereUniqueWithoutRequested_byInput> update;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestUpdateManyWithWhereWithoutRequested_byInput> updateMany;
 
-  final _i1.PrismaNullable<EquipmentRequestScalarWhereInput> deleteMany;
+  final _i2.PrismaNullable<EquipmentRequestScalarWhereInput> deleteMany;
 
   @override
   Map<String, dynamic> toJson() {
@@ -2990,6 +3711,7 @@ class EquipmentRequestUpdateManyWithoutRequested_byNestedInput
       'create': create,
       'connectOrCreate': connectOrCreate,
       'upsert': upsert,
+      'createMany': createMany,
       'set': set$,
       'disconnect': disconnect,
       'delete': delete,
@@ -3001,11 +3723,12 @@ class EquipmentRequestUpdateManyWithoutRequested_byNestedInput
   }
 }
 
-class SessionUpdateManyWithoutUserNestedInput implements _i1.JsonSerializable {
+class SessionUpdateManyWithoutUserNestedInput implements _i2.JsonSerializable {
   const SessionUpdateManyWithoutUserNestedInput({
     this.create,
     this.connectOrCreate,
     this.upsert,
+    this.createMany,
     this.set$,
     this.disconnect,
     this.delete,
@@ -3015,27 +3738,29 @@ class SessionUpdateManyWithoutUserNestedInput implements _i1.JsonSerializable {
     this.deleteMany,
   });
 
-  final _i1.PrismaNullable<SessionCreateWithoutUserInput> create;
+  final _i2.PrismaNullable<SessionCreateWithoutUserInput> create;
 
-  final _i1.PrismaNullable<SessionCreateOrConnectWithoutUserInput>
+  final _i2.PrismaNullable<SessionCreateOrConnectWithoutUserInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<SessionUpsertWithWhereUniqueWithoutUserInput> upsert;
+  final _i2.PrismaNullable<SessionUpsertWithWhereUniqueWithoutUserInput> upsert;
 
-  final _i1.PrismaNullable<SessionWhereUniqueInput> set$;
+  final _i2.PrismaNullable<SessionCreateManyUserInputEnvelope> createMany;
 
-  final _i1.PrismaNullable<SessionWhereUniqueInput> disconnect;
+  final _i2.PrismaNullable<SessionWhereUniqueInput> set$;
 
-  final _i1.PrismaNullable<SessionWhereUniqueInput> delete;
+  final _i2.PrismaNullable<SessionWhereUniqueInput> disconnect;
 
-  final _i1.PrismaNullable<SessionWhereUniqueInput> connect;
+  final _i2.PrismaNullable<SessionWhereUniqueInput> delete;
 
-  final _i1.PrismaNullable<SessionUpdateWithWhereUniqueWithoutUserInput> update;
+  final _i2.PrismaNullable<SessionWhereUniqueInput> connect;
 
-  final _i1.PrismaNullable<SessionUpdateManyWithWhereWithoutUserInput>
+  final _i2.PrismaNullable<SessionUpdateWithWhereUniqueWithoutUserInput> update;
+
+  final _i2.PrismaNullable<SessionUpdateManyWithWhereWithoutUserInput>
       updateMany;
 
-  final _i1.PrismaNullable<SessionScalarWhereInput> deleteMany;
+  final _i2.PrismaNullable<SessionScalarWhereInput> deleteMany;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3043,6 +3768,7 @@ class SessionUpdateManyWithoutUserNestedInput implements _i1.JsonSerializable {
       'create': create,
       'connectOrCreate': connectOrCreate,
       'upsert': upsert,
+      'createMany': createMany,
       'set': set$,
       'disconnect': disconnect,
       'delete': delete,
@@ -3055,11 +3781,12 @@ class SessionUpdateManyWithoutUserNestedInput implements _i1.JsonSerializable {
 }
 
 class EquipmentRequestUncheckedUpdateManyWithoutRequested_byNestedInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestUncheckedUpdateManyWithoutRequested_byNestedInput({
     this.create,
     this.connectOrCreate,
     this.upsert,
+    this.createMany,
     this.set$,
     this.disconnect,
     this.delete,
@@ -3069,30 +3796,33 @@ class EquipmentRequestUncheckedUpdateManyWithoutRequested_byNestedInput
     this.deleteMany,
   });
 
-  final _i1.PrismaNullable<EquipmentRequestCreateWithoutRequested_byInput>
+  final _i2.PrismaNullable<EquipmentRequestCreateWithoutRequested_byInput>
       create;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestCreateOrConnectWithoutRequested_byInput> connectOrCreate;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestUpsertWithWhereUniqueWithoutRequested_byInput> upsert;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> set$;
+  final _i2.PrismaNullable<EquipmentRequestCreateManyRequested_byInputEnvelope>
+      createMany;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> disconnect;
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> set$;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> delete;
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> disconnect;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> delete;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
+
+  final _i2.PrismaNullable<
       EquipmentRequestUpdateWithWhereUniqueWithoutRequested_byInput> update;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestUpdateManyWithWhereWithoutRequested_byInput> updateMany;
 
-  final _i1.PrismaNullable<EquipmentRequestScalarWhereInput> deleteMany;
+  final _i2.PrismaNullable<EquipmentRequestScalarWhereInput> deleteMany;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3100,6 +3830,7 @@ class EquipmentRequestUncheckedUpdateManyWithoutRequested_byNestedInput
       'create': create,
       'connectOrCreate': connectOrCreate,
       'upsert': upsert,
+      'createMany': createMany,
       'set': set$,
       'disconnect': disconnect,
       'delete': delete,
@@ -3112,11 +3843,12 @@ class EquipmentRequestUncheckedUpdateManyWithoutRequested_byNestedInput
 }
 
 class SessionUncheckedUpdateManyWithoutUserNestedInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const SessionUncheckedUpdateManyWithoutUserNestedInput({
     this.create,
     this.connectOrCreate,
     this.upsert,
+    this.createMany,
     this.set$,
     this.disconnect,
     this.delete,
@@ -3126,27 +3858,29 @@ class SessionUncheckedUpdateManyWithoutUserNestedInput
     this.deleteMany,
   });
 
-  final _i1.PrismaNullable<SessionCreateWithoutUserInput> create;
+  final _i2.PrismaNullable<SessionCreateWithoutUserInput> create;
 
-  final _i1.PrismaNullable<SessionCreateOrConnectWithoutUserInput>
+  final _i2.PrismaNullable<SessionCreateOrConnectWithoutUserInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<SessionUpsertWithWhereUniqueWithoutUserInput> upsert;
+  final _i2.PrismaNullable<SessionUpsertWithWhereUniqueWithoutUserInput> upsert;
 
-  final _i1.PrismaNullable<SessionWhereUniqueInput> set$;
+  final _i2.PrismaNullable<SessionCreateManyUserInputEnvelope> createMany;
 
-  final _i1.PrismaNullable<SessionWhereUniqueInput> disconnect;
+  final _i2.PrismaNullable<SessionWhereUniqueInput> set$;
 
-  final _i1.PrismaNullable<SessionWhereUniqueInput> delete;
+  final _i2.PrismaNullable<SessionWhereUniqueInput> disconnect;
 
-  final _i1.PrismaNullable<SessionWhereUniqueInput> connect;
+  final _i2.PrismaNullable<SessionWhereUniqueInput> delete;
 
-  final _i1.PrismaNullable<SessionUpdateWithWhereUniqueWithoutUserInput> update;
+  final _i2.PrismaNullable<SessionWhereUniqueInput> connect;
 
-  final _i1.PrismaNullable<SessionUpdateManyWithWhereWithoutUserInput>
+  final _i2.PrismaNullable<SessionUpdateWithWhereUniqueWithoutUserInput> update;
+
+  final _i2.PrismaNullable<SessionUpdateManyWithWhereWithoutUserInput>
       updateMany;
 
-  final _i1.PrismaNullable<SessionScalarWhereInput> deleteMany;
+  final _i2.PrismaNullable<SessionScalarWhereInput> deleteMany;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3154,6 +3888,7 @@ class SessionUncheckedUpdateManyWithoutUserNestedInput
       'create': create,
       'connectOrCreate': connectOrCreate,
       'upsert': upsert,
+      'createMany': createMany,
       'set': set$,
       'disconnect': disconnect,
       'delete': delete,
@@ -3165,19 +3900,19 @@ class SessionUncheckedUpdateManyWithoutUserNestedInput
   }
 }
 
-class UserCreateNestedOneWithoutRequestsInput implements _i1.JsonSerializable {
+class UserCreateNestedOneWithoutRequestsInput implements _i2.JsonSerializable {
   const UserCreateNestedOneWithoutRequestsInput({
     this.create,
     this.connectOrCreate,
     this.connect,
   });
 
-  final _i1.PrismaNullable<UserCreateWithoutRequestsInput> create;
+  final _i2.PrismaNullable<UserCreateWithoutRequestsInput> create;
 
-  final _i1.PrismaNullable<UserCreateOrConnectWithoutRequestsInput>
+  final _i2.PrismaNullable<UserCreateOrConnectWithoutRequestsInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<UserWhereUniqueInput> connect;
+  final _i2.PrismaNullable<UserWhereUniqueInput> connect;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3190,57 +3925,125 @@ class UserCreateNestedOneWithoutRequestsInput implements _i1.JsonSerializable {
 }
 
 class RequestItemCreateNestedManyWithoutRequestInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const RequestItemCreateNestedManyWithoutRequestInput({
     this.create,
     this.connectOrCreate,
+    this.createMany,
     this.connect,
   });
 
-  final _i1.PrismaNullable<RequestItemCreateWithoutRequestInput> create;
+  final _i2.PrismaNullable<RequestItemCreateWithoutRequestInput> create;
 
-  final _i1.PrismaNullable<RequestItemCreateOrConnectWithoutRequestInput>
+  final _i2.PrismaNullable<RequestItemCreateOrConnectWithoutRequestInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<RequestItemWhereUniqueInput> connect;
+  final _i2.PrismaNullable<RequestItemCreateManyRequestInputEnvelope>
+      createMany;
+
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> connect;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'create': create,
       'connectOrCreate': connectOrCreate,
+      'createMany': createMany,
+      'connect': connect,
+    };
+  }
+}
+
+class AssetCreateNestedManyWithoutDeployed_toInput
+    implements _i2.JsonSerializable {
+  const AssetCreateNestedManyWithoutDeployed_toInput({
+    this.create,
+    this.connectOrCreate,
+    this.createMany,
+    this.connect,
+  });
+
+  final _i2.PrismaNullable<AssetCreateWithoutDeployed_toInput> create;
+
+  final _i2.PrismaNullable<AssetCreateOrConnectWithoutDeployed_toInput>
+      connectOrCreate;
+
+  final _i2.PrismaNullable<AssetCreateManyDeployed_toInputEnvelope> createMany;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> connect;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'create': create,
+      'connectOrCreate': connectOrCreate,
+      'createMany': createMany,
       'connect': connect,
     };
   }
 }
 
 class RequestItemUncheckedCreateNestedManyWithoutRequestInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const RequestItemUncheckedCreateNestedManyWithoutRequestInput({
     this.create,
     this.connectOrCreate,
+    this.createMany,
     this.connect,
   });
 
-  final _i1.PrismaNullable<RequestItemCreateWithoutRequestInput> create;
+  final _i2.PrismaNullable<RequestItemCreateWithoutRequestInput> create;
 
-  final _i1.PrismaNullable<RequestItemCreateOrConnectWithoutRequestInput>
+  final _i2.PrismaNullable<RequestItemCreateOrConnectWithoutRequestInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<RequestItemWhereUniqueInput> connect;
+  final _i2.PrismaNullable<RequestItemCreateManyRequestInputEnvelope>
+      createMany;
+
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> connect;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'create': create,
       'connectOrCreate': connectOrCreate,
+      'createMany': createMany,
+      'connect': connect,
+    };
+  }
+}
+
+class AssetUncheckedCreateNestedManyWithoutDeployed_toInput
+    implements _i2.JsonSerializable {
+  const AssetUncheckedCreateNestedManyWithoutDeployed_toInput({
+    this.create,
+    this.connectOrCreate,
+    this.createMany,
+    this.connect,
+  });
+
+  final _i2.PrismaNullable<AssetCreateWithoutDeployed_toInput> create;
+
+  final _i2.PrismaNullable<AssetCreateOrConnectWithoutDeployed_toInput>
+      connectOrCreate;
+
+  final _i2.PrismaNullable<AssetCreateManyDeployed_toInputEnvelope> createMany;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> connect;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'create': create,
+      'connectOrCreate': connectOrCreate,
+      'createMany': createMany,
       'connect': connect,
     };
   }
 }
 
 class UserUpdateOneRequiredWithoutRequestsNestedInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const UserUpdateOneRequiredWithoutRequestsNestedInput({
     this.create,
     this.connectOrCreate,
@@ -3249,16 +4052,16 @@ class UserUpdateOneRequiredWithoutRequestsNestedInput
     this.update,
   });
 
-  final _i1.PrismaNullable<UserCreateWithoutRequestsInput> create;
+  final _i2.PrismaNullable<UserCreateWithoutRequestsInput> create;
 
-  final _i1.PrismaNullable<UserCreateOrConnectWithoutRequestsInput>
+  final _i2.PrismaNullable<UserCreateOrConnectWithoutRequestsInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<UserUpsertWithoutRequestsInput> upsert;
+  final _i2.PrismaNullable<UserUpsertWithoutRequestsInput> upsert;
 
-  final _i1.PrismaNullable<UserWhereUniqueInput> connect;
+  final _i2.PrismaNullable<UserWhereUniqueInput> connect;
 
-  final _i1.PrismaNullable<UserUpdateWithoutRequestsInput> update;
+  final _i2.PrismaNullable<UserUpdateWithoutRequestsInput> update;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3273,11 +4076,12 @@ class UserUpdateOneRequiredWithoutRequestsNestedInput
 }
 
 class RequestItemUpdateManyWithoutRequestNestedInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const RequestItemUpdateManyWithoutRequestNestedInput({
     this.create,
     this.connectOrCreate,
     this.upsert,
+    this.createMany,
     this.set$,
     this.disconnect,
     this.delete,
@@ -3287,29 +4091,32 @@ class RequestItemUpdateManyWithoutRequestNestedInput
     this.deleteMany,
   });
 
-  final _i1.PrismaNullable<RequestItemCreateWithoutRequestInput> create;
+  final _i2.PrismaNullable<RequestItemCreateWithoutRequestInput> create;
 
-  final _i1.PrismaNullable<RequestItemCreateOrConnectWithoutRequestInput>
+  final _i2.PrismaNullable<RequestItemCreateOrConnectWithoutRequestInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<RequestItemUpsertWithWhereUniqueWithoutRequestInput>
+  final _i2.PrismaNullable<RequestItemUpsertWithWhereUniqueWithoutRequestInput>
       upsert;
 
-  final _i1.PrismaNullable<RequestItemWhereUniqueInput> set$;
+  final _i2.PrismaNullable<RequestItemCreateManyRequestInputEnvelope>
+      createMany;
 
-  final _i1.PrismaNullable<RequestItemWhereUniqueInput> disconnect;
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> set$;
 
-  final _i1.PrismaNullable<RequestItemWhereUniqueInput> delete;
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> disconnect;
 
-  final _i1.PrismaNullable<RequestItemWhereUniqueInput> connect;
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> delete;
 
-  final _i1.PrismaNullable<RequestItemUpdateWithWhereUniqueWithoutRequestInput>
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> connect;
+
+  final _i2.PrismaNullable<RequestItemUpdateWithWhereUniqueWithoutRequestInput>
       update;
 
-  final _i1.PrismaNullable<RequestItemUpdateManyWithWhereWithoutRequestInput>
+  final _i2.PrismaNullable<RequestItemUpdateManyWithWhereWithoutRequestInput>
       updateMany;
 
-  final _i1.PrismaNullable<RequestItemScalarWhereInput> deleteMany;
+  final _i2.PrismaNullable<RequestItemScalarWhereInput> deleteMany;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3317,6 +4124,7 @@ class RequestItemUpdateManyWithoutRequestNestedInput
       'create': create,
       'connectOrCreate': connectOrCreate,
       'upsert': upsert,
+      'createMany': createMany,
       'set': set$,
       'disconnect': disconnect,
       'delete': delete,
@@ -3328,7 +4136,80 @@ class RequestItemUpdateManyWithoutRequestNestedInput
   }
 }
 
-class IntFieldUpdateOperationsInput implements _i1.JsonSerializable {
+class DateTimeFieldUpdateOperationsInput implements _i2.JsonSerializable {
+  const DateTimeFieldUpdateOperationsInput({this.set$});
+
+  final _i2.PrismaNullable<DateTime> set$;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'set': set$,
+    };
+  }
+}
+
+class AssetUpdateManyWithoutDeployed_toNestedInput
+    implements _i2.JsonSerializable {
+  const AssetUpdateManyWithoutDeployed_toNestedInput({
+    this.create,
+    this.connectOrCreate,
+    this.upsert,
+    this.createMany,
+    this.set$,
+    this.disconnect,
+    this.delete,
+    this.connect,
+    this.update,
+    this.updateMany,
+    this.deleteMany,
+  });
+
+  final _i2.PrismaNullable<AssetCreateWithoutDeployed_toInput> create;
+
+  final _i2.PrismaNullable<AssetCreateOrConnectWithoutDeployed_toInput>
+      connectOrCreate;
+
+  final _i2.PrismaNullable<AssetUpsertWithWhereUniqueWithoutDeployed_toInput>
+      upsert;
+
+  final _i2.PrismaNullable<AssetCreateManyDeployed_toInputEnvelope> createMany;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> set$;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> disconnect;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> delete;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> connect;
+
+  final _i2.PrismaNullable<AssetUpdateWithWhereUniqueWithoutDeployed_toInput>
+      update;
+
+  final _i2.PrismaNullable<AssetUpdateManyWithWhereWithoutDeployed_toInput>
+      updateMany;
+
+  final _i2.PrismaNullable<AssetScalarWhereInput> deleteMany;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'create': create,
+      'connectOrCreate': connectOrCreate,
+      'upsert': upsert,
+      'createMany': createMany,
+      'set': set$,
+      'disconnect': disconnect,
+      'delete': delete,
+      'connect': connect,
+      'update': update,
+      'updateMany': updateMany,
+      'deleteMany': deleteMany,
+    };
+  }
+}
+
+class IntFieldUpdateOperationsInput implements _i2.JsonSerializable {
   const IntFieldUpdateOperationsInput({
     this.set$,
     this.increment,
@@ -3337,15 +4218,15 @@ class IntFieldUpdateOperationsInput implements _i1.JsonSerializable {
     this.divide,
   });
 
-  final _i1.PrismaNullable<int> set$;
+  final _i2.PrismaNullable<int> set$;
 
-  final _i1.PrismaNullable<int> increment;
+  final _i2.PrismaNullable<int> increment;
 
-  final _i1.PrismaNullable<int> decrement;
+  final _i2.PrismaNullable<int> decrement;
 
-  final _i1.PrismaNullable<int> multiply;
+  final _i2.PrismaNullable<int> multiply;
 
-  final _i1.PrismaNullable<int> divide;
+  final _i2.PrismaNullable<int> divide;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3360,11 +4241,12 @@ class IntFieldUpdateOperationsInput implements _i1.JsonSerializable {
 }
 
 class RequestItemUncheckedUpdateManyWithoutRequestNestedInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const RequestItemUncheckedUpdateManyWithoutRequestNestedInput({
     this.create,
     this.connectOrCreate,
     this.upsert,
+    this.createMany,
     this.set$,
     this.disconnect,
     this.delete,
@@ -3374,29 +4256,32 @@ class RequestItemUncheckedUpdateManyWithoutRequestNestedInput
     this.deleteMany,
   });
 
-  final _i1.PrismaNullable<RequestItemCreateWithoutRequestInput> create;
+  final _i2.PrismaNullable<RequestItemCreateWithoutRequestInput> create;
 
-  final _i1.PrismaNullable<RequestItemCreateOrConnectWithoutRequestInput>
+  final _i2.PrismaNullable<RequestItemCreateOrConnectWithoutRequestInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<RequestItemUpsertWithWhereUniqueWithoutRequestInput>
+  final _i2.PrismaNullable<RequestItemUpsertWithWhereUniqueWithoutRequestInput>
       upsert;
 
-  final _i1.PrismaNullable<RequestItemWhereUniqueInput> set$;
+  final _i2.PrismaNullable<RequestItemCreateManyRequestInputEnvelope>
+      createMany;
 
-  final _i1.PrismaNullable<RequestItemWhereUniqueInput> disconnect;
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> set$;
 
-  final _i1.PrismaNullable<RequestItemWhereUniqueInput> delete;
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> disconnect;
 
-  final _i1.PrismaNullable<RequestItemWhereUniqueInput> connect;
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> delete;
 
-  final _i1.PrismaNullable<RequestItemUpdateWithWhereUniqueWithoutRequestInput>
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> connect;
+
+  final _i2.PrismaNullable<RequestItemUpdateWithWhereUniqueWithoutRequestInput>
       update;
 
-  final _i1.PrismaNullable<RequestItemUpdateManyWithWhereWithoutRequestInput>
+  final _i2.PrismaNullable<RequestItemUpdateManyWithWhereWithoutRequestInput>
       updateMany;
 
-  final _i1.PrismaNullable<RequestItemScalarWhereInput> deleteMany;
+  final _i2.PrismaNullable<RequestItemScalarWhereInput> deleteMany;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3404,6 +4289,67 @@ class RequestItemUncheckedUpdateManyWithoutRequestNestedInput
       'create': create,
       'connectOrCreate': connectOrCreate,
       'upsert': upsert,
+      'createMany': createMany,
+      'set': set$,
+      'disconnect': disconnect,
+      'delete': delete,
+      'connect': connect,
+      'update': update,
+      'updateMany': updateMany,
+      'deleteMany': deleteMany,
+    };
+  }
+}
+
+class AssetUncheckedUpdateManyWithoutDeployed_toNestedInput
+    implements _i2.JsonSerializable {
+  const AssetUncheckedUpdateManyWithoutDeployed_toNestedInput({
+    this.create,
+    this.connectOrCreate,
+    this.upsert,
+    this.createMany,
+    this.set$,
+    this.disconnect,
+    this.delete,
+    this.connect,
+    this.update,
+    this.updateMany,
+    this.deleteMany,
+  });
+
+  final _i2.PrismaNullable<AssetCreateWithoutDeployed_toInput> create;
+
+  final _i2.PrismaNullable<AssetCreateOrConnectWithoutDeployed_toInput>
+      connectOrCreate;
+
+  final _i2.PrismaNullable<AssetUpsertWithWhereUniqueWithoutDeployed_toInput>
+      upsert;
+
+  final _i2.PrismaNullable<AssetCreateManyDeployed_toInputEnvelope> createMany;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> set$;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> disconnect;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> delete;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> connect;
+
+  final _i2.PrismaNullable<AssetUpdateWithWhereUniqueWithoutDeployed_toInput>
+      update;
+
+  final _i2.PrismaNullable<AssetUpdateManyWithWhereWithoutDeployed_toInput>
+      updateMany;
+
+  final _i2.PrismaNullable<AssetScalarWhereInput> deleteMany;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'create': create,
+      'connectOrCreate': connectOrCreate,
+      'upsert': upsert,
+      'createMany': createMany,
       'set': set$,
       'disconnect': disconnect,
       'delete': delete,
@@ -3416,19 +4362,44 @@ class RequestItemUncheckedUpdateManyWithoutRequestNestedInput
 }
 
 class EquipmentRequestCreateNestedOneWithoutItemsInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestCreateNestedOneWithoutItemsInput({
     this.create,
     this.connectOrCreate,
     this.connect,
   });
 
-  final _i1.PrismaNullable<EquipmentRequestCreateWithoutItemsInput> create;
+  final _i2.PrismaNullable<EquipmentRequestCreateWithoutItemsInput> create;
 
-  final _i1.PrismaNullable<EquipmentRequestCreateOrConnectWithoutItemsInput>
+  final _i2.PrismaNullable<EquipmentRequestCreateOrConnectWithoutItemsInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'create': create,
+      'connectOrCreate': connectOrCreate,
+      'connect': connect,
+    };
+  }
+}
+
+class AssetTypeCreateNestedOneWithoutRequestItemInput
+    implements _i2.JsonSerializable {
+  const AssetTypeCreateNestedOneWithoutRequestItemInput({
+    this.create,
+    this.connectOrCreate,
+    this.connect,
+  });
+
+  final _i2.PrismaNullable<AssetTypeCreateWithoutRequestItemInput> create;
+
+  final _i2.PrismaNullable<AssetTypeCreateOrConnectWithoutRequestItemInput>
+      connectOrCreate;
+
+  final _i2.PrismaNullable<AssetTypeWhereUniqueInput> connect;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3441,7 +4412,7 @@ class EquipmentRequestCreateNestedOneWithoutItemsInput
 }
 
 class EquipmentRequestUpdateOneRequiredWithoutItemsNestedInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestUpdateOneRequiredWithoutItemsNestedInput({
     this.create,
     this.connectOrCreate,
@@ -3450,16 +4421,16 @@ class EquipmentRequestUpdateOneRequiredWithoutItemsNestedInput
     this.update,
   });
 
-  final _i1.PrismaNullable<EquipmentRequestCreateWithoutItemsInput> create;
+  final _i2.PrismaNullable<EquipmentRequestCreateWithoutItemsInput> create;
 
-  final _i1.PrismaNullable<EquipmentRequestCreateOrConnectWithoutItemsInput>
+  final _i2.PrismaNullable<EquipmentRequestCreateOrConnectWithoutItemsInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<EquipmentRequestUpsertWithoutItemsInput> upsert;
+  final _i2.PrismaNullable<EquipmentRequestUpsertWithoutItemsInput> upsert;
 
-  final _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
 
-  final _i1.PrismaNullable<EquipmentRequestUpdateWithoutItemsInput> update;
+  final _i2.PrismaNullable<EquipmentRequestUpdateWithoutItemsInput> update;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3473,60 +4444,162 @@ class EquipmentRequestUpdateOneRequiredWithoutItemsNestedInput
   }
 }
 
-class AssetCreateNestedManyWithoutTypeInput implements _i1.JsonSerializable {
-  const AssetCreateNestedManyWithoutTypeInput({
+class AssetTypeUpdateOneRequiredWithoutRequestItemNestedInput
+    implements _i2.JsonSerializable {
+  const AssetTypeUpdateOneRequiredWithoutRequestItemNestedInput({
     this.create,
     this.connectOrCreate,
+    this.upsert,
     this.connect,
+    this.update,
   });
 
-  final _i1.PrismaNullable<AssetCreateWithoutTypeInput> create;
+  final _i2.PrismaNullable<AssetTypeCreateWithoutRequestItemInput> create;
 
-  final _i1.PrismaNullable<AssetCreateOrConnectWithoutTypeInput>
+  final _i2.PrismaNullable<AssetTypeCreateOrConnectWithoutRequestItemInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<AssetWhereUniqueInput> connect;
+  final _i2.PrismaNullable<AssetTypeUpsertWithoutRequestItemInput> upsert;
+
+  final _i2.PrismaNullable<AssetTypeWhereUniqueInput> connect;
+
+  final _i2.PrismaNullable<AssetTypeUpdateWithoutRequestItemInput> update;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'create': create,
       'connectOrCreate': connectOrCreate,
+      'upsert': upsert,
+      'connect': connect,
+      'update': update,
+    };
+  }
+}
+
+class AssetCreateNestedManyWithoutTypeInput implements _i2.JsonSerializable {
+  const AssetCreateNestedManyWithoutTypeInput({
+    this.create,
+    this.connectOrCreate,
+    this.createMany,
+    this.connect,
+  });
+
+  final _i2.PrismaNullable<AssetCreateWithoutTypeInput> create;
+
+  final _i2.PrismaNullable<AssetCreateOrConnectWithoutTypeInput>
+      connectOrCreate;
+
+  final _i2.PrismaNullable<AssetCreateManyTypeInputEnvelope> createMany;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> connect;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'create': create,
+      'connectOrCreate': connectOrCreate,
+      'createMany': createMany,
+      'connect': connect,
+    };
+  }
+}
+
+class RequestItemCreateNestedManyWithoutAsset_typeInput
+    implements _i2.JsonSerializable {
+  const RequestItemCreateNestedManyWithoutAsset_typeInput({
+    this.create,
+    this.connectOrCreate,
+    this.createMany,
+    this.connect,
+  });
+
+  final _i2.PrismaNullable<RequestItemCreateWithoutAsset_typeInput> create;
+
+  final _i2.PrismaNullable<RequestItemCreateOrConnectWithoutAsset_typeInput>
+      connectOrCreate;
+
+  final _i2.PrismaNullable<RequestItemCreateManyAsset_typeInputEnvelope>
+      createMany;
+
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> connect;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'create': create,
+      'connectOrCreate': connectOrCreate,
+      'createMany': createMany,
       'connect': connect,
     };
   }
 }
 
 class AssetUncheckedCreateNestedManyWithoutTypeInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const AssetUncheckedCreateNestedManyWithoutTypeInput({
     this.create,
     this.connectOrCreate,
+    this.createMany,
     this.connect,
   });
 
-  final _i1.PrismaNullable<AssetCreateWithoutTypeInput> create;
+  final _i2.PrismaNullable<AssetCreateWithoutTypeInput> create;
 
-  final _i1.PrismaNullable<AssetCreateOrConnectWithoutTypeInput>
+  final _i2.PrismaNullable<AssetCreateOrConnectWithoutTypeInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<AssetWhereUniqueInput> connect;
+  final _i2.PrismaNullable<AssetCreateManyTypeInputEnvelope> createMany;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> connect;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'create': create,
       'connectOrCreate': connectOrCreate,
+      'createMany': createMany,
       'connect': connect,
     };
   }
 }
 
-class AssetUpdateManyWithoutTypeNestedInput implements _i1.JsonSerializable {
+class RequestItemUncheckedCreateNestedManyWithoutAsset_typeInput
+    implements _i2.JsonSerializable {
+  const RequestItemUncheckedCreateNestedManyWithoutAsset_typeInput({
+    this.create,
+    this.connectOrCreate,
+    this.createMany,
+    this.connect,
+  });
+
+  final _i2.PrismaNullable<RequestItemCreateWithoutAsset_typeInput> create;
+
+  final _i2.PrismaNullable<RequestItemCreateOrConnectWithoutAsset_typeInput>
+      connectOrCreate;
+
+  final _i2.PrismaNullable<RequestItemCreateManyAsset_typeInputEnvelope>
+      createMany;
+
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> connect;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'create': create,
+      'connectOrCreate': connectOrCreate,
+      'createMany': createMany,
+      'connect': connect,
+    };
+  }
+}
+
+class AssetUpdateManyWithoutTypeNestedInput implements _i2.JsonSerializable {
   const AssetUpdateManyWithoutTypeNestedInput({
     this.create,
     this.connectOrCreate,
     this.upsert,
+    this.createMany,
     this.set$,
     this.disconnect,
     this.delete,
@@ -3536,26 +4609,28 @@ class AssetUpdateManyWithoutTypeNestedInput implements _i1.JsonSerializable {
     this.deleteMany,
   });
 
-  final _i1.PrismaNullable<AssetCreateWithoutTypeInput> create;
+  final _i2.PrismaNullable<AssetCreateWithoutTypeInput> create;
 
-  final _i1.PrismaNullable<AssetCreateOrConnectWithoutTypeInput>
+  final _i2.PrismaNullable<AssetCreateOrConnectWithoutTypeInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<AssetUpsertWithWhereUniqueWithoutTypeInput> upsert;
+  final _i2.PrismaNullable<AssetUpsertWithWhereUniqueWithoutTypeInput> upsert;
 
-  final _i1.PrismaNullable<AssetWhereUniqueInput> set$;
+  final _i2.PrismaNullable<AssetCreateManyTypeInputEnvelope> createMany;
 
-  final _i1.PrismaNullable<AssetWhereUniqueInput> disconnect;
+  final _i2.PrismaNullable<AssetWhereUniqueInput> set$;
 
-  final _i1.PrismaNullable<AssetWhereUniqueInput> delete;
+  final _i2.PrismaNullable<AssetWhereUniqueInput> disconnect;
 
-  final _i1.PrismaNullable<AssetWhereUniqueInput> connect;
+  final _i2.PrismaNullable<AssetWhereUniqueInput> delete;
 
-  final _i1.PrismaNullable<AssetUpdateWithWhereUniqueWithoutTypeInput> update;
+  final _i2.PrismaNullable<AssetWhereUniqueInput> connect;
 
-  final _i1.PrismaNullable<AssetUpdateManyWithWhereWithoutTypeInput> updateMany;
+  final _i2.PrismaNullable<AssetUpdateWithWhereUniqueWithoutTypeInput> update;
 
-  final _i1.PrismaNullable<AssetScalarWhereInput> deleteMany;
+  final _i2.PrismaNullable<AssetUpdateManyWithWhereWithoutTypeInput> updateMany;
+
+  final _i2.PrismaNullable<AssetScalarWhereInput> deleteMany;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3563,6 +4638,7 @@ class AssetUpdateManyWithoutTypeNestedInput implements _i1.JsonSerializable {
       'create': create,
       'connectOrCreate': connectOrCreate,
       'upsert': upsert,
+      'createMany': createMany,
       'set': set$,
       'disconnect': disconnect,
       'delete': delete,
@@ -3574,10 +4650,10 @@ class AssetUpdateManyWithoutTypeNestedInput implements _i1.JsonSerializable {
   }
 }
 
-class BoolFieldUpdateOperationsInput implements _i1.JsonSerializable {
+class BoolFieldUpdateOperationsInput implements _i2.JsonSerializable {
   const BoolFieldUpdateOperationsInput({this.set$});
 
-  final _i1.PrismaNullable<bool> set$;
+  final _i2.PrismaNullable<bool> set$;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3587,7 +4663,7 @@ class BoolFieldUpdateOperationsInput implements _i1.JsonSerializable {
   }
 }
 
-class NullableIntFieldUpdateOperationsInput implements _i1.JsonSerializable {
+class NullableIntFieldUpdateOperationsInput implements _i2.JsonSerializable {
   const NullableIntFieldUpdateOperationsInput({
     this.set$,
     this.increment,
@@ -3596,15 +4672,15 @@ class NullableIntFieldUpdateOperationsInput implements _i1.JsonSerializable {
     this.divide,
   });
 
-  final _i1.PrismaNullable<_i1.PrismaUnion<int, _i1.PrismaNull>> set$;
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> set$;
 
-  final _i1.PrismaNullable<int> increment;
+  final _i2.PrismaNullable<int> increment;
 
-  final _i1.PrismaNullable<int> decrement;
+  final _i2.PrismaNullable<int> decrement;
 
-  final _i1.PrismaNullable<int> multiply;
+  final _i2.PrismaNullable<int> multiply;
 
-  final _i1.PrismaNullable<int> divide;
+  final _i2.PrismaNullable<int> divide;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3618,12 +4694,13 @@ class NullableIntFieldUpdateOperationsInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetUncheckedUpdateManyWithoutTypeNestedInput
-    implements _i1.JsonSerializable {
-  const AssetUncheckedUpdateManyWithoutTypeNestedInput({
+class RequestItemUpdateManyWithoutAsset_typeNestedInput
+    implements _i2.JsonSerializable {
+  const RequestItemUpdateManyWithoutAsset_typeNestedInput({
     this.create,
     this.connectOrCreate,
     this.upsert,
+    this.createMany,
     this.set$,
     this.disconnect,
     this.delete,
@@ -3633,26 +4710,32 @@ class AssetUncheckedUpdateManyWithoutTypeNestedInput
     this.deleteMany,
   });
 
-  final _i1.PrismaNullable<AssetCreateWithoutTypeInput> create;
+  final _i2.PrismaNullable<RequestItemCreateWithoutAsset_typeInput> create;
 
-  final _i1.PrismaNullable<AssetCreateOrConnectWithoutTypeInput>
+  final _i2.PrismaNullable<RequestItemCreateOrConnectWithoutAsset_typeInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<AssetUpsertWithWhereUniqueWithoutTypeInput> upsert;
+  final _i2.PrismaNullable<
+      RequestItemUpsertWithWhereUniqueWithoutAsset_typeInput> upsert;
 
-  final _i1.PrismaNullable<AssetWhereUniqueInput> set$;
+  final _i2.PrismaNullable<RequestItemCreateManyAsset_typeInputEnvelope>
+      createMany;
 
-  final _i1.PrismaNullable<AssetWhereUniqueInput> disconnect;
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> set$;
 
-  final _i1.PrismaNullable<AssetWhereUniqueInput> delete;
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> disconnect;
 
-  final _i1.PrismaNullable<AssetWhereUniqueInput> connect;
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> delete;
 
-  final _i1.PrismaNullable<AssetUpdateWithWhereUniqueWithoutTypeInput> update;
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> connect;
 
-  final _i1.PrismaNullable<AssetUpdateManyWithWhereWithoutTypeInput> updateMany;
+  final _i2.PrismaNullable<
+      RequestItemUpdateWithWhereUniqueWithoutAsset_typeInput> update;
 
-  final _i1.PrismaNullable<AssetScalarWhereInput> deleteMany;
+  final _i2.PrismaNullable<RequestItemUpdateManyWithWhereWithoutAsset_typeInput>
+      updateMany;
+
+  final _i2.PrismaNullable<RequestItemScalarWhereInput> deleteMany;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3660,6 +4743,125 @@ class AssetUncheckedUpdateManyWithoutTypeNestedInput
       'create': create,
       'connectOrCreate': connectOrCreate,
       'upsert': upsert,
+      'createMany': createMany,
+      'set': set$,
+      'disconnect': disconnect,
+      'delete': delete,
+      'connect': connect,
+      'update': update,
+      'updateMany': updateMany,
+      'deleteMany': deleteMany,
+    };
+  }
+}
+
+class AssetUncheckedUpdateManyWithoutTypeNestedInput
+    implements _i2.JsonSerializable {
+  const AssetUncheckedUpdateManyWithoutTypeNestedInput({
+    this.create,
+    this.connectOrCreate,
+    this.upsert,
+    this.createMany,
+    this.set$,
+    this.disconnect,
+    this.delete,
+    this.connect,
+    this.update,
+    this.updateMany,
+    this.deleteMany,
+  });
+
+  final _i2.PrismaNullable<AssetCreateWithoutTypeInput> create;
+
+  final _i2.PrismaNullable<AssetCreateOrConnectWithoutTypeInput>
+      connectOrCreate;
+
+  final _i2.PrismaNullable<AssetUpsertWithWhereUniqueWithoutTypeInput> upsert;
+
+  final _i2.PrismaNullable<AssetCreateManyTypeInputEnvelope> createMany;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> set$;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> disconnect;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> delete;
+
+  final _i2.PrismaNullable<AssetWhereUniqueInput> connect;
+
+  final _i2.PrismaNullable<AssetUpdateWithWhereUniqueWithoutTypeInput> update;
+
+  final _i2.PrismaNullable<AssetUpdateManyWithWhereWithoutTypeInput> updateMany;
+
+  final _i2.PrismaNullable<AssetScalarWhereInput> deleteMany;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'create': create,
+      'connectOrCreate': connectOrCreate,
+      'upsert': upsert,
+      'createMany': createMany,
+      'set': set$,
+      'disconnect': disconnect,
+      'delete': delete,
+      'connect': connect,
+      'update': update,
+      'updateMany': updateMany,
+      'deleteMany': deleteMany,
+    };
+  }
+}
+
+class RequestItemUncheckedUpdateManyWithoutAsset_typeNestedInput
+    implements _i2.JsonSerializable {
+  const RequestItemUncheckedUpdateManyWithoutAsset_typeNestedInput({
+    this.create,
+    this.connectOrCreate,
+    this.upsert,
+    this.createMany,
+    this.set$,
+    this.disconnect,
+    this.delete,
+    this.connect,
+    this.update,
+    this.updateMany,
+    this.deleteMany,
+  });
+
+  final _i2.PrismaNullable<RequestItemCreateWithoutAsset_typeInput> create;
+
+  final _i2.PrismaNullable<RequestItemCreateOrConnectWithoutAsset_typeInput>
+      connectOrCreate;
+
+  final _i2.PrismaNullable<
+      RequestItemUpsertWithWhereUniqueWithoutAsset_typeInput> upsert;
+
+  final _i2.PrismaNullable<RequestItemCreateManyAsset_typeInputEnvelope>
+      createMany;
+
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> set$;
+
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> disconnect;
+
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> delete;
+
+  final _i2.PrismaNullable<RequestItemWhereUniqueInput> connect;
+
+  final _i2.PrismaNullable<
+      RequestItemUpdateWithWhereUniqueWithoutAsset_typeInput> update;
+
+  final _i2.PrismaNullable<RequestItemUpdateManyWithWhereWithoutAsset_typeInput>
+      updateMany;
+
+  final _i2.PrismaNullable<RequestItemScalarWhereInput> deleteMany;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'create': create,
+      'connectOrCreate': connectOrCreate,
+      'upsert': upsert,
+      'createMany': createMany,
       'set': set$,
       'disconnect': disconnect,
       'delete': delete,
@@ -3672,19 +4874,44 @@ class AssetUncheckedUpdateManyWithoutTypeNestedInput
 }
 
 class AssetTypeCreateNestedOneWithoutAssetsInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const AssetTypeCreateNestedOneWithoutAssetsInput({
     this.create,
     this.connectOrCreate,
     this.connect,
   });
 
-  final _i1.PrismaNullable<AssetTypeCreateWithoutAssetsInput> create;
+  final _i2.PrismaNullable<AssetTypeCreateWithoutAssetsInput> create;
 
-  final _i1.PrismaNullable<AssetTypeCreateOrConnectWithoutAssetsInput>
+  final _i2.PrismaNullable<AssetTypeCreateOrConnectWithoutAssetsInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<AssetTypeWhereUniqueInput> connect;
+  final _i2.PrismaNullable<AssetTypeWhereUniqueInput> connect;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'create': create,
+      'connectOrCreate': connectOrCreate,
+      'connect': connect,
+    };
+  }
+}
+
+class EquipmentRequestCreateNestedOneWithoutAssetInput
+    implements _i2.JsonSerializable {
+  const EquipmentRequestCreateNestedOneWithoutAssetInput({
+    this.create,
+    this.connectOrCreate,
+    this.connect,
+  });
+
+  final _i2.PrismaNullable<EquipmentRequestCreateWithoutAssetInput> create;
+
+  final _i2.PrismaNullable<EquipmentRequestCreateOrConnectWithoutAssetInput>
+      connectOrCreate;
+
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3697,7 +4924,7 @@ class AssetTypeCreateNestedOneWithoutAssetsInput
 }
 
 class AssetTypeUpdateOneRequiredWithoutAssetsNestedInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const AssetTypeUpdateOneRequiredWithoutAssetsNestedInput({
     this.create,
     this.connectOrCreate,
@@ -3706,16 +4933,16 @@ class AssetTypeUpdateOneRequiredWithoutAssetsNestedInput
     this.update,
   });
 
-  final _i1.PrismaNullable<AssetTypeCreateWithoutAssetsInput> create;
+  final _i2.PrismaNullable<AssetTypeCreateWithoutAssetsInput> create;
 
-  final _i1.PrismaNullable<AssetTypeCreateOrConnectWithoutAssetsInput>
+  final _i2.PrismaNullable<AssetTypeCreateOrConnectWithoutAssetsInput>
       connectOrCreate;
 
-  final _i1.PrismaNullable<AssetTypeUpsertWithoutAssetsInput> upsert;
+  final _i2.PrismaNullable<AssetTypeUpsertWithoutAssetsInput> upsert;
 
-  final _i1.PrismaNullable<AssetTypeWhereUniqueInput> connect;
+  final _i2.PrismaNullable<AssetTypeWhereUniqueInput> connect;
 
-  final _i1.PrismaNullable<AssetTypeUpdateWithoutAssetsInput> update;
+  final _i2.PrismaNullable<AssetTypeUpdateWithoutAssetsInput> update;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3729,7 +4956,48 @@ class AssetTypeUpdateOneRequiredWithoutAssetsNestedInput
   }
 }
 
-class NestedStringFilter implements _i1.JsonSerializable {
+class EquipmentRequestUpdateOneWithoutAssetNestedInput
+    implements _i2.JsonSerializable {
+  const EquipmentRequestUpdateOneWithoutAssetNestedInput({
+    this.create,
+    this.connectOrCreate,
+    this.upsert,
+    this.disconnect,
+    this.delete,
+    this.connect,
+    this.update,
+  });
+
+  final _i2.PrismaNullable<EquipmentRequestCreateWithoutAssetInput> create;
+
+  final _i2.PrismaNullable<EquipmentRequestCreateOrConnectWithoutAssetInput>
+      connectOrCreate;
+
+  final _i2.PrismaNullable<EquipmentRequestUpsertWithoutAssetInput> upsert;
+
+  final _i2.PrismaNullable<bool> disconnect;
+
+  final _i2.PrismaNullable<bool> delete;
+
+  final _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> connect;
+
+  final _i2.PrismaNullable<EquipmentRequestUpdateWithoutAssetInput> update;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'create': create,
+      'connectOrCreate': connectOrCreate,
+      'upsert': upsert,
+      'disconnect': disconnect,
+      'delete': delete,
+      'connect': connect,
+      'update': update,
+    };
+  }
+}
+
+class NestedStringFilter implements _i2.JsonSerializable {
   const NestedStringFilter({
     this.equals,
     this.in$,
@@ -3744,27 +5012,27 @@ class NestedStringFilter implements _i1.JsonSerializable {
     this.not,
   });
 
-  final _i1.PrismaNullable<String> equals;
+  final _i2.PrismaNullable<String> equals;
 
-  final _i1.PrismaNullable<List<String>> in$;
+  final _i2.PrismaNullable<List<String>> in$;
 
-  final _i1.PrismaNullable<List<String>> notIn;
+  final _i2.PrismaNullable<List<String>> notIn;
 
-  final _i1.PrismaNullable<String> lt;
+  final _i2.PrismaNullable<String> lt;
 
-  final _i1.PrismaNullable<String> lte;
+  final _i2.PrismaNullable<String> lte;
 
-  final _i1.PrismaNullable<String> gt;
+  final _i2.PrismaNullable<String> gt;
 
-  final _i1.PrismaNullable<String> gte;
+  final _i2.PrismaNullable<String> gte;
 
-  final _i1.PrismaNullable<String> contains;
+  final _i2.PrismaNullable<String> contains;
 
-  final _i1.PrismaNullable<String> startsWith;
+  final _i2.PrismaNullable<String> startsWith;
 
-  final _i1.PrismaNullable<String> endsWith;
+  final _i2.PrismaNullable<String> endsWith;
 
-  final _i1.PrismaNullable<NestedStringFilter> not;
+  final _i2.PrismaNullable<NestedStringFilter> not;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3784,7 +5052,7 @@ class NestedStringFilter implements _i1.JsonSerializable {
   }
 }
 
-class NestedStringWithAggregatesFilter implements _i1.JsonSerializable {
+class NestedStringWithAggregatesFilter implements _i2.JsonSerializable {
   const NestedStringWithAggregatesFilter({
     this.equals,
     this.in$,
@@ -3802,33 +5070,33 @@ class NestedStringWithAggregatesFilter implements _i1.JsonSerializable {
     this.$max,
   });
 
-  final _i1.PrismaNullable<String> equals;
+  final _i2.PrismaNullable<String> equals;
 
-  final _i1.PrismaNullable<List<String>> in$;
+  final _i2.PrismaNullable<List<String>> in$;
 
-  final _i1.PrismaNullable<List<String>> notIn;
+  final _i2.PrismaNullable<List<String>> notIn;
 
-  final _i1.PrismaNullable<String> lt;
+  final _i2.PrismaNullable<String> lt;
 
-  final _i1.PrismaNullable<String> lte;
+  final _i2.PrismaNullable<String> lte;
 
-  final _i1.PrismaNullable<String> gt;
+  final _i2.PrismaNullable<String> gt;
 
-  final _i1.PrismaNullable<String> gte;
+  final _i2.PrismaNullable<String> gte;
 
-  final _i1.PrismaNullable<String> contains;
+  final _i2.PrismaNullable<String> contains;
 
-  final _i1.PrismaNullable<String> startsWith;
+  final _i2.PrismaNullable<String> startsWith;
 
-  final _i1.PrismaNullable<String> endsWith;
+  final _i2.PrismaNullable<String> endsWith;
 
-  final _i1.PrismaNullable<NestedStringWithAggregatesFilter> not;
+  final _i2.PrismaNullable<NestedStringWithAggregatesFilter> not;
 
-  final _i1.PrismaNullable<NestedIntFilter> $count;
+  final _i2.PrismaNullable<NestedIntFilter> $count;
 
-  final _i1.PrismaNullable<NestedStringFilter> $min;
+  final _i2.PrismaNullable<NestedStringFilter> $min;
 
-  final _i1.PrismaNullable<NestedStringFilter> $max;
+  final _i2.PrismaNullable<NestedStringFilter> $max;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3851,7 +5119,7 @@ class NestedStringWithAggregatesFilter implements _i1.JsonSerializable {
   }
 }
 
-class NestedIntFilter implements _i1.JsonSerializable {
+class NestedIntFilter implements _i2.JsonSerializable {
   const NestedIntFilter({
     this.equals,
     this.in$,
@@ -3863,21 +5131,21 @@ class NestedIntFilter implements _i1.JsonSerializable {
     this.not,
   });
 
-  final _i1.PrismaNullable<int> equals;
+  final _i2.PrismaNullable<int> equals;
 
-  final _i1.PrismaNullable<List<int>> in$;
+  final _i2.PrismaNullable<List<int>> in$;
 
-  final _i1.PrismaNullable<List<int>> notIn;
+  final _i2.PrismaNullable<List<int>> notIn;
 
-  final _i1.PrismaNullable<int> lt;
+  final _i2.PrismaNullable<int> lt;
 
-  final _i1.PrismaNullable<int> lte;
+  final _i2.PrismaNullable<int> lte;
 
-  final _i1.PrismaNullable<int> gt;
+  final _i2.PrismaNullable<int> gt;
 
-  final _i1.PrismaNullable<int> gte;
+  final _i2.PrismaNullable<int> gte;
 
-  final _i1.PrismaNullable<NestedIntFilter> not;
+  final _i2.PrismaNullable<NestedIntFilter> not;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3894,7 +5162,50 @@ class NestedIntFilter implements _i1.JsonSerializable {
   }
 }
 
-class NestedIntWithAggregatesFilter implements _i1.JsonSerializable {
+class NestedDateTimeFilter implements _i2.JsonSerializable {
+  const NestedDateTimeFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.not,
+  });
+
+  final _i2.PrismaNullable<DateTime> equals;
+
+  final _i2.PrismaNullable<List<DateTime>> in$;
+
+  final _i2.PrismaNullable<List<DateTime>> notIn;
+
+  final _i2.PrismaNullable<DateTime> lt;
+
+  final _i2.PrismaNullable<DateTime> lte;
+
+  final _i2.PrismaNullable<DateTime> gt;
+
+  final _i2.PrismaNullable<DateTime> gte;
+
+  final _i2.PrismaNullable<NestedDateTimeFilter> not;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'not': not,
+    };
+  }
+}
+
+class NestedIntWithAggregatesFilter implements _i2.JsonSerializable {
   const NestedIntWithAggregatesFilter({
     this.equals,
     this.in$,
@@ -3911,31 +5222,31 @@ class NestedIntWithAggregatesFilter implements _i1.JsonSerializable {
     this.$max,
   });
 
-  final _i1.PrismaNullable<int> equals;
+  final _i2.PrismaNullable<int> equals;
 
-  final _i1.PrismaNullable<List<int>> in$;
+  final _i2.PrismaNullable<List<int>> in$;
 
-  final _i1.PrismaNullable<List<int>> notIn;
+  final _i2.PrismaNullable<List<int>> notIn;
 
-  final _i1.PrismaNullable<int> lt;
+  final _i2.PrismaNullable<int> lt;
 
-  final _i1.PrismaNullable<int> lte;
+  final _i2.PrismaNullable<int> lte;
 
-  final _i1.PrismaNullable<int> gt;
+  final _i2.PrismaNullable<int> gt;
 
-  final _i1.PrismaNullable<int> gte;
+  final _i2.PrismaNullable<int> gte;
 
-  final _i1.PrismaNullable<NestedIntWithAggregatesFilter> not;
+  final _i2.PrismaNullable<NestedIntWithAggregatesFilter> not;
 
-  final _i1.PrismaNullable<NestedIntFilter> $count;
+  final _i2.PrismaNullable<NestedIntFilter> $count;
 
-  final _i1.PrismaNullable<NestedFloatFilter> $avg;
+  final _i2.PrismaNullable<NestedFloatFilter> $avg;
 
-  final _i1.PrismaNullable<NestedIntFilter> $sum;
+  final _i2.PrismaNullable<NestedIntFilter> $sum;
 
-  final _i1.PrismaNullable<NestedIntFilter> $min;
+  final _i2.PrismaNullable<NestedIntFilter> $min;
 
-  final _i1.PrismaNullable<NestedIntFilter> $max;
+  final _i2.PrismaNullable<NestedIntFilter> $max;
 
   @override
   Map<String, dynamic> toJson() {
@@ -3957,7 +5268,7 @@ class NestedIntWithAggregatesFilter implements _i1.JsonSerializable {
   }
 }
 
-class NestedFloatFilter implements _i1.JsonSerializable {
+class NestedFloatFilter implements _i2.JsonSerializable {
   const NestedFloatFilter({
     this.equals,
     this.in$,
@@ -3969,21 +5280,21 @@ class NestedFloatFilter implements _i1.JsonSerializable {
     this.not,
   });
 
-  final _i1.PrismaNullable<double> equals;
+  final _i2.PrismaNullable<double> equals;
 
-  final _i1.PrismaNullable<List<double>> in$;
+  final _i2.PrismaNullable<List<double>> in$;
 
-  final _i1.PrismaNullable<List<double>> notIn;
+  final _i2.PrismaNullable<List<double>> notIn;
 
-  final _i1.PrismaNullable<double> lt;
+  final _i2.PrismaNullable<double> lt;
 
-  final _i1.PrismaNullable<double> lte;
+  final _i2.PrismaNullable<double> lte;
 
-  final _i1.PrismaNullable<double> gt;
+  final _i2.PrismaNullable<double> gt;
 
-  final _i1.PrismaNullable<double> gte;
+  final _i2.PrismaNullable<double> gte;
 
-  final _i1.PrismaNullable<NestedFloatFilter> not;
+  final _i2.PrismaNullable<NestedFloatFilter> not;
 
   @override
   Map<String, dynamic> toJson() {
@@ -4000,15 +5311,70 @@ class NestedFloatFilter implements _i1.JsonSerializable {
   }
 }
 
-class NestedBoolFilter implements _i1.JsonSerializable {
+class NestedDateTimeWithAggregatesFilter implements _i2.JsonSerializable {
+  const NestedDateTimeWithAggregatesFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.not,
+    this.$count,
+    this.$min,
+    this.$max,
+  });
+
+  final _i2.PrismaNullable<DateTime> equals;
+
+  final _i2.PrismaNullable<List<DateTime>> in$;
+
+  final _i2.PrismaNullable<List<DateTime>> notIn;
+
+  final _i2.PrismaNullable<DateTime> lt;
+
+  final _i2.PrismaNullable<DateTime> lte;
+
+  final _i2.PrismaNullable<DateTime> gt;
+
+  final _i2.PrismaNullable<DateTime> gte;
+
+  final _i2.PrismaNullable<NestedDateTimeWithAggregatesFilter> not;
+
+  final _i2.PrismaNullable<NestedIntFilter> $count;
+
+  final _i2.PrismaNullable<NestedDateTimeFilter> $min;
+
+  final _i2.PrismaNullable<NestedDateTimeFilter> $max;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'not': not,
+      '_count': $count,
+      '_min': $min,
+      '_max': $max,
+    };
+  }
+}
+
+class NestedBoolFilter implements _i2.JsonSerializable {
   const NestedBoolFilter({
     this.equals,
     this.not,
   });
 
-  final _i1.PrismaNullable<bool> equals;
+  final _i2.PrismaNullable<bool> equals;
 
-  final _i1.PrismaNullable<NestedBoolFilter> not;
+  final _i2.PrismaNullable<NestedBoolFilter> not;
 
   @override
   Map<String, dynamic> toJson() {
@@ -4019,7 +5385,7 @@ class NestedBoolFilter implements _i1.JsonSerializable {
   }
 }
 
-class NestedIntNullableFilter implements _i1.JsonSerializable {
+class NestedIntNullableFilter implements _i2.JsonSerializable {
   const NestedIntNullableFilter({
     this.equals,
     this.in$,
@@ -4031,21 +5397,21 @@ class NestedIntNullableFilter implements _i1.JsonSerializable {
     this.not,
   });
 
-  final _i1.PrismaNullable<_i1.PrismaUnion<int, _i1.PrismaNull>> equals;
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> equals;
 
-  final _i1.PrismaNullable<List<int>> in$;
+  final _i2.PrismaNullable<List<int>> in$;
 
-  final _i1.PrismaNullable<List<int>> notIn;
+  final _i2.PrismaNullable<List<int>> notIn;
 
-  final _i1.PrismaNullable<int> lt;
+  final _i2.PrismaNullable<int> lt;
 
-  final _i1.PrismaNullable<int> lte;
+  final _i2.PrismaNullable<int> lte;
 
-  final _i1.PrismaNullable<int> gt;
+  final _i2.PrismaNullable<int> gt;
 
-  final _i1.PrismaNullable<int> gte;
+  final _i2.PrismaNullable<int> gte;
 
-  final _i1.PrismaNullable<NestedIntNullableFilter> not;
+  final _i2.PrismaNullable<NestedIntNullableFilter> not;
 
   @override
   Map<String, dynamic> toJson() {
@@ -4062,7 +5428,7 @@ class NestedIntNullableFilter implements _i1.JsonSerializable {
   }
 }
 
-class NestedBoolWithAggregatesFilter implements _i1.JsonSerializable {
+class NestedBoolWithAggregatesFilter implements _i2.JsonSerializable {
   const NestedBoolWithAggregatesFilter({
     this.equals,
     this.not,
@@ -4071,15 +5437,15 @@ class NestedBoolWithAggregatesFilter implements _i1.JsonSerializable {
     this.$max,
   });
 
-  final _i1.PrismaNullable<bool> equals;
+  final _i2.PrismaNullable<bool> equals;
 
-  final _i1.PrismaNullable<NestedBoolWithAggregatesFilter> not;
+  final _i2.PrismaNullable<NestedBoolWithAggregatesFilter> not;
 
-  final _i1.PrismaNullable<NestedIntFilter> $count;
+  final _i2.PrismaNullable<NestedIntFilter> $count;
 
-  final _i1.PrismaNullable<NestedBoolFilter> $min;
+  final _i2.PrismaNullable<NestedBoolFilter> $min;
 
-  final _i1.PrismaNullable<NestedBoolFilter> $max;
+  final _i2.PrismaNullable<NestedBoolFilter> $max;
 
   @override
   Map<String, dynamic> toJson() {
@@ -4093,7 +5459,7 @@ class NestedBoolWithAggregatesFilter implements _i1.JsonSerializable {
   }
 }
 
-class NestedIntNullableWithAggregatesFilter implements _i1.JsonSerializable {
+class NestedIntNullableWithAggregatesFilter implements _i2.JsonSerializable {
   const NestedIntNullableWithAggregatesFilter({
     this.equals,
     this.in$,
@@ -4110,31 +5476,31 @@ class NestedIntNullableWithAggregatesFilter implements _i1.JsonSerializable {
     this.$max,
   });
 
-  final _i1.PrismaNullable<_i1.PrismaUnion<int, _i1.PrismaNull>> equals;
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> equals;
 
-  final _i1.PrismaNullable<List<int>> in$;
+  final _i2.PrismaNullable<List<int>> in$;
 
-  final _i1.PrismaNullable<List<int>> notIn;
+  final _i2.PrismaNullable<List<int>> notIn;
 
-  final _i1.PrismaNullable<int> lt;
+  final _i2.PrismaNullable<int> lt;
 
-  final _i1.PrismaNullable<int> lte;
+  final _i2.PrismaNullable<int> lte;
 
-  final _i1.PrismaNullable<int> gt;
+  final _i2.PrismaNullable<int> gt;
 
-  final _i1.PrismaNullable<int> gte;
+  final _i2.PrismaNullable<int> gte;
 
-  final _i1.PrismaNullable<NestedIntNullableWithAggregatesFilter> not;
+  final _i2.PrismaNullable<NestedIntNullableWithAggregatesFilter> not;
 
-  final _i1.PrismaNullable<NestedIntNullableFilter> $count;
+  final _i2.PrismaNullable<NestedIntNullableFilter> $count;
 
-  final _i1.PrismaNullable<NestedFloatNullableFilter> $avg;
+  final _i2.PrismaNullable<NestedFloatNullableFilter> $avg;
 
-  final _i1.PrismaNullable<NestedIntNullableFilter> $sum;
+  final _i2.PrismaNullable<NestedIntNullableFilter> $sum;
 
-  final _i1.PrismaNullable<NestedIntNullableFilter> $min;
+  final _i2.PrismaNullable<NestedIntNullableFilter> $min;
 
-  final _i1.PrismaNullable<NestedIntNullableFilter> $max;
+  final _i2.PrismaNullable<NestedIntNullableFilter> $max;
 
   @override
   Map<String, dynamic> toJson() {
@@ -4156,7 +5522,7 @@ class NestedIntNullableWithAggregatesFilter implements _i1.JsonSerializable {
   }
 }
 
-class NestedFloatNullableFilter implements _i1.JsonSerializable {
+class NestedFloatNullableFilter implements _i2.JsonSerializable {
   const NestedFloatNullableFilter({
     this.equals,
     this.in$,
@@ -4168,21 +5534,21 @@ class NestedFloatNullableFilter implements _i1.JsonSerializable {
     this.not,
   });
 
-  final _i1.PrismaNullable<_i1.PrismaUnion<double, _i1.PrismaNull>> equals;
+  final _i2.PrismaNullable<_i2.PrismaUnion<double, _i2.PrismaNull>> equals;
 
-  final _i1.PrismaNullable<List<double>> in$;
+  final _i2.PrismaNullable<List<double>> in$;
 
-  final _i1.PrismaNullable<List<double>> notIn;
+  final _i2.PrismaNullable<List<double>> notIn;
 
-  final _i1.PrismaNullable<double> lt;
+  final _i2.PrismaNullable<double> lt;
 
-  final _i1.PrismaNullable<double> lte;
+  final _i2.PrismaNullable<double> lte;
 
-  final _i1.PrismaNullable<double> gt;
+  final _i2.PrismaNullable<double> gt;
 
-  final _i1.PrismaNullable<double> gte;
+  final _i2.PrismaNullable<double> gte;
 
-  final _i1.PrismaNullable<NestedFloatNullableFilter> not;
+  final _i2.PrismaNullable<NestedFloatNullableFilter> not;
 
   @override
   Map<String, dynamic> toJson() {
@@ -4199,7 +5565,7 @@ class NestedFloatNullableFilter implements _i1.JsonSerializable {
   }
 }
 
-class UserCreateWithoutSessionsInput implements _i1.JsonSerializable {
+class UserCreateWithoutSessionsInput implements _i2.JsonSerializable {
   const UserCreateWithoutSessionsInput({
     required this.id,
     required this.email,
@@ -4213,7 +5579,7 @@ class UserCreateWithoutSessionsInput implements _i1.JsonSerializable {
 
   final String name;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestCreateNestedManyWithoutRequested_byInput> requests;
 
   @override
@@ -4227,7 +5593,7 @@ class UserCreateWithoutSessionsInput implements _i1.JsonSerializable {
   }
 }
 
-class UserUncheckedCreateWithoutSessionsInput implements _i1.JsonSerializable {
+class UserUncheckedCreateWithoutSessionsInput implements _i2.JsonSerializable {
   const UserUncheckedCreateWithoutSessionsInput({
     required this.id,
     required this.email,
@@ -4241,7 +5607,7 @@ class UserUncheckedCreateWithoutSessionsInput implements _i1.JsonSerializable {
 
   final String name;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
           EquipmentRequestUncheckedCreateNestedManyWithoutRequested_byInput>
       requests;
 
@@ -4256,7 +5622,7 @@ class UserUncheckedCreateWithoutSessionsInput implements _i1.JsonSerializable {
   }
 }
 
-class UserCreateOrConnectWithoutSessionsInput implements _i1.JsonSerializable {
+class UserCreateOrConnectWithoutSessionsInput implements _i2.JsonSerializable {
   const UserCreateOrConnectWithoutSessionsInput({
     required this.where,
     required this.create,
@@ -4275,7 +5641,7 @@ class UserCreateOrConnectWithoutSessionsInput implements _i1.JsonSerializable {
   }
 }
 
-class UserUpsertWithoutSessionsInput implements _i1.JsonSerializable {
+class UserUpsertWithoutSessionsInput implements _i2.JsonSerializable {
   const UserUpsertWithoutSessionsInput({
     required this.update,
     required this.create,
@@ -4294,7 +5660,7 @@ class UserUpsertWithoutSessionsInput implements _i1.JsonSerializable {
   }
 }
 
-class UserUpdateWithoutSessionsInput implements _i1.JsonSerializable {
+class UserUpdateWithoutSessionsInput implements _i2.JsonSerializable {
   const UserUpdateWithoutSessionsInput({
     this.id,
     this.email,
@@ -4302,13 +5668,13 @@ class UserUpdateWithoutSessionsInput implements _i1.JsonSerializable {
     this.requests,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> email;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> email;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> name;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> name;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       EquipmentRequestUpdateManyWithoutRequested_byNestedInput> requests;
 
   @override
@@ -4322,7 +5688,7 @@ class UserUpdateWithoutSessionsInput implements _i1.JsonSerializable {
   }
 }
 
-class UserUncheckedUpdateWithoutSessionsInput implements _i1.JsonSerializable {
+class UserUncheckedUpdateWithoutSessionsInput implements _i2.JsonSerializable {
   const UserUncheckedUpdateWithoutSessionsInput({
     this.id,
     this.email,
@@ -4330,13 +5696,13 @@ class UserUncheckedUpdateWithoutSessionsInput implements _i1.JsonSerializable {
     this.requests,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> email;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> email;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> name;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> name;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
           EquipmentRequestUncheckedUpdateManyWithoutRequested_byNestedInput>
       requests;
 
@@ -4352,43 +5718,79 @@ class UserUncheckedUpdateWithoutSessionsInput implements _i1.JsonSerializable {
 }
 
 class EquipmentRequestCreateWithoutRequested_byInput
-    implements _i1.JsonSerializable {
-  const EquipmentRequestCreateWithoutRequested_byInput({this.items});
+    implements _i2.JsonSerializable {
+  const EquipmentRequestCreateWithoutRequested_byInput({
+    this.items,
+    this.notes,
+    required this.time_start,
+    required this.time_end,
+    this.asset,
+  });
 
-  final _i1.PrismaNullable<RequestItemCreateNestedManyWithoutRequestInput>
+  final _i2.PrismaNullable<RequestItemCreateNestedManyWithoutRequestInput>
       items;
+
+  final _i2.PrismaNullable<String> notes;
+
+  final DateTime time_start;
+
+  final DateTime time_end;
+
+  final _i2.PrismaNullable<AssetCreateNestedManyWithoutDeployed_toInput> asset;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
     };
   }
 }
 
 class EquipmentRequestUncheckedCreateWithoutRequested_byInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestUncheckedCreateWithoutRequested_byInput({
     this.id,
     this.items,
+    this.notes,
+    required this.time_start,
+    required this.time_end,
+    this.asset,
   });
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
 
-  final _i1.PrismaNullable<
+  final _i2.PrismaNullable<
       RequestItemUncheckedCreateNestedManyWithoutRequestInput> items;
+
+  final _i2.PrismaNullable<String> notes;
+
+  final DateTime time_start;
+
+  final DateTime time_end;
+
+  final _i2
+          .PrismaNullable<AssetUncheckedCreateNestedManyWithoutDeployed_toInput>
+      asset;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
     };
   }
 }
 
 class EquipmentRequestCreateOrConnectWithoutRequested_byInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestCreateOrConnectWithoutRequested_byInput({
     required this.where,
     required this.create,
@@ -4407,7 +5809,27 @@ class EquipmentRequestCreateOrConnectWithoutRequested_byInput
   }
 }
 
-class SessionCreateWithoutUserInput implements _i1.JsonSerializable {
+class EquipmentRequestCreateManyRequested_byInputEnvelope
+    implements _i2.JsonSerializable {
+  const EquipmentRequestCreateManyRequested_byInputEnvelope({
+    required this.data,
+    this.skipDuplicates,
+  });
+
+  final List<EquipmentRequestCreateManyRequested_byInput> data;
+
+  final _i2.PrismaNullable<bool> skipDuplicates;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'data': data,
+      'skipDuplicates': skipDuplicates,
+    };
+  }
+}
+
+class SessionCreateWithoutUserInput implements _i2.JsonSerializable {
   const SessionCreateWithoutUserInput({required this.key});
 
   final String key;
@@ -4420,7 +5842,7 @@ class SessionCreateWithoutUserInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionUncheckedCreateWithoutUserInput implements _i1.JsonSerializable {
+class SessionUncheckedCreateWithoutUserInput implements _i2.JsonSerializable {
   const SessionUncheckedCreateWithoutUserInput({required this.key});
 
   final String key;
@@ -4433,7 +5855,7 @@ class SessionUncheckedCreateWithoutUserInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionCreateOrConnectWithoutUserInput implements _i1.JsonSerializable {
+class SessionCreateOrConnectWithoutUserInput implements _i2.JsonSerializable {
   const SessionCreateOrConnectWithoutUserInput({
     required this.where,
     required this.create,
@@ -4452,8 +5874,27 @@ class SessionCreateOrConnectWithoutUserInput implements _i1.JsonSerializable {
   }
 }
 
+class SessionCreateManyUserInputEnvelope implements _i2.JsonSerializable {
+  const SessionCreateManyUserInputEnvelope({
+    required this.data,
+    this.skipDuplicates,
+  });
+
+  final List<SessionCreateManyUserInput> data;
+
+  final _i2.PrismaNullable<bool> skipDuplicates;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'data': data,
+      'skipDuplicates': skipDuplicates,
+    };
+  }
+}
+
 class EquipmentRequestUpsertWithWhereUniqueWithoutRequested_byInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestUpsertWithWhereUniqueWithoutRequested_byInput({
     required this.where,
     required this.update,
@@ -4477,7 +5918,7 @@ class EquipmentRequestUpsertWithWhereUniqueWithoutRequested_byInput
 }
 
 class EquipmentRequestUpdateWithWhereUniqueWithoutRequested_byInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestUpdateWithWhereUniqueWithoutRequested_byInput({
     required this.where,
     required this.data,
@@ -4497,7 +5938,7 @@ class EquipmentRequestUpdateWithWhereUniqueWithoutRequested_byInput
 }
 
 class EquipmentRequestUpdateManyWithWhereWithoutRequested_byInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestUpdateManyWithWhereWithoutRequested_byInput({
     required this.where,
     required this.data,
@@ -4516,24 +5957,33 @@ class EquipmentRequestUpdateManyWithWhereWithoutRequested_byInput
   }
 }
 
-class EquipmentRequestScalarWhereInput implements _i1.JsonSerializable {
+class EquipmentRequestScalarWhereInput implements _i2.JsonSerializable {
   const EquipmentRequestScalarWhereInput({
     this.AND,
     this.OR,
     this.NOT,
     this.id,
     this.requester_id,
+    this.notes,
+    this.time_start,
+    this.time_end,
   });
 
-  final _i1.PrismaNullable<EquipmentRequestScalarWhereInput> AND;
+  final _i2.PrismaNullable<EquipmentRequestScalarWhereInput> AND;
 
-  final _i1.PrismaNullable<List<EquipmentRequestScalarWhereInput>> OR;
+  final _i2.PrismaNullable<List<EquipmentRequestScalarWhereInput>> OR;
 
-  final _i1.PrismaNullable<EquipmentRequestScalarWhereInput> NOT;
+  final _i2.PrismaNullable<EquipmentRequestScalarWhereInput> NOT;
 
-  final _i1.PrismaNullable<IntFilter> id;
+  final _i2.PrismaNullable<IntFilter> id;
 
-  final _i1.PrismaNullable<StringFilter> requester_id;
+  final _i2.PrismaNullable<StringFilter> requester_id;
+
+  final _i2.PrismaNullable<StringFilter> notes;
+
+  final _i2.PrismaNullable<DateTimeFilter> time_start;
+
+  final _i2.PrismaNullable<DateTimeFilter> time_end;
 
   @override
   Map<String, dynamic> toJson() {
@@ -4543,12 +5993,15 @@ class EquipmentRequestScalarWhereInput implements _i1.JsonSerializable {
       'NOT': NOT,
       'id': id,
       'requester_id': requester_id,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
     };
   }
 }
 
 class SessionUpsertWithWhereUniqueWithoutUserInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const SessionUpsertWithWhereUniqueWithoutUserInput({
     required this.where,
     required this.update,
@@ -4572,7 +6025,7 @@ class SessionUpsertWithWhereUniqueWithoutUserInput
 }
 
 class SessionUpdateWithWhereUniqueWithoutUserInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const SessionUpdateWithWhereUniqueWithoutUserInput({
     required this.where,
     required this.data,
@@ -4592,7 +6045,7 @@ class SessionUpdateWithWhereUniqueWithoutUserInput
 }
 
 class SessionUpdateManyWithWhereWithoutUserInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const SessionUpdateManyWithWhereWithoutUserInput({
     required this.where,
     required this.data,
@@ -4611,7 +6064,7 @@ class SessionUpdateManyWithWhereWithoutUserInput
   }
 }
 
-class SessionScalarWhereInput implements _i1.JsonSerializable {
+class SessionScalarWhereInput implements _i2.JsonSerializable {
   const SessionScalarWhereInput({
     this.AND,
     this.OR,
@@ -4620,15 +6073,15 @@ class SessionScalarWhereInput implements _i1.JsonSerializable {
     this.user_id,
   });
 
-  final _i1.PrismaNullable<SessionScalarWhereInput> AND;
+  final _i2.PrismaNullable<SessionScalarWhereInput> AND;
 
-  final _i1.PrismaNullable<List<SessionScalarWhereInput>> OR;
+  final _i2.PrismaNullable<List<SessionScalarWhereInput>> OR;
 
-  final _i1.PrismaNullable<SessionScalarWhereInput> NOT;
+  final _i2.PrismaNullable<SessionScalarWhereInput> NOT;
 
-  final _i1.PrismaNullable<StringFilter> key;
+  final _i2.PrismaNullable<StringFilter> key;
 
-  final _i1.PrismaNullable<StringFilter> user_id;
+  final _i2.PrismaNullable<StringFilter> user_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -4642,7 +6095,7 @@ class SessionScalarWhereInput implements _i1.JsonSerializable {
   }
 }
 
-class UserCreateWithoutRequestsInput implements _i1.JsonSerializable {
+class UserCreateWithoutRequestsInput implements _i2.JsonSerializable {
   const UserCreateWithoutRequestsInput({
     required this.id,
     required this.email,
@@ -4656,7 +6109,7 @@ class UserCreateWithoutRequestsInput implements _i1.JsonSerializable {
 
   final String name;
 
-  final _i1.PrismaNullable<SessionCreateNestedManyWithoutUserInput> sessions;
+  final _i2.PrismaNullable<SessionCreateNestedManyWithoutUserInput> sessions;
 
   @override
   Map<String, dynamic> toJson() {
@@ -4669,7 +6122,7 @@ class UserCreateWithoutRequestsInput implements _i1.JsonSerializable {
   }
 }
 
-class UserUncheckedCreateWithoutRequestsInput implements _i1.JsonSerializable {
+class UserUncheckedCreateWithoutRequestsInput implements _i2.JsonSerializable {
   const UserUncheckedCreateWithoutRequestsInput({
     required this.id,
     required this.email,
@@ -4683,7 +6136,7 @@ class UserUncheckedCreateWithoutRequestsInput implements _i1.JsonSerializable {
 
   final String name;
 
-  final _i1.PrismaNullable<SessionUncheckedCreateNestedManyWithoutUserInput>
+  final _i2.PrismaNullable<SessionUncheckedCreateNestedManyWithoutUserInput>
       sessions;
 
   @override
@@ -4697,7 +6150,7 @@ class UserUncheckedCreateWithoutRequestsInput implements _i1.JsonSerializable {
   }
 }
 
-class UserCreateOrConnectWithoutRequestsInput implements _i1.JsonSerializable {
+class UserCreateOrConnectWithoutRequestsInput implements _i2.JsonSerializable {
   const UserCreateOrConnectWithoutRequestsInput({
     required this.where,
     required this.create,
@@ -4716,31 +6169,51 @@ class UserCreateOrConnectWithoutRequestsInput implements _i1.JsonSerializable {
   }
 }
 
-class RequestItemCreateWithoutRequestInput implements _i1.JsonSerializable {
-  const RequestItemCreateWithoutRequestInput();
+class RequestItemCreateWithoutRequestInput implements _i2.JsonSerializable {
+  const RequestItemCreateWithoutRequestInput({
+    required this.quantity,
+    required this.asset_type,
+  });
+
+  final int quantity;
+
+  final AssetTypeCreateNestedOneWithoutRequestItemInput asset_type;
 
   @override
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{};
+    return <String, dynamic>{
+      'quantity': quantity,
+      'asset_type': asset_type,
+    };
   }
 }
 
 class RequestItemUncheckedCreateWithoutRequestInput
-    implements _i1.JsonSerializable {
-  const RequestItemUncheckedCreateWithoutRequestInput({this.id});
+    implements _i2.JsonSerializable {
+  const RequestItemUncheckedCreateWithoutRequestInput({
+    this.id,
+    required this.quantity,
+    required this.asset_type_id,
+  });
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
+
+  final int quantity;
+
+  final String asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
 class RequestItemCreateOrConnectWithoutRequestInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const RequestItemCreateOrConnectWithoutRequestInput({
     required this.where,
     required this.create,
@@ -4759,7 +6232,105 @@ class RequestItemCreateOrConnectWithoutRequestInput
   }
 }
 
-class UserUpsertWithoutRequestsInput implements _i1.JsonSerializable {
+class RequestItemCreateManyRequestInputEnvelope
+    implements _i2.JsonSerializable {
+  const RequestItemCreateManyRequestInputEnvelope({
+    required this.data,
+    this.skipDuplicates,
+  });
+
+  final List<RequestItemCreateManyRequestInput> data;
+
+  final _i2.PrismaNullable<bool> skipDuplicates;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'data': data,
+      'skipDuplicates': skipDuplicates,
+    };
+  }
+}
+
+class AssetCreateWithoutDeployed_toInput implements _i2.JsonSerializable {
+  const AssetCreateWithoutDeployed_toInput({
+    required this.id,
+    required this.type,
+  });
+
+  final String id;
+
+  final AssetTypeCreateNestedOneWithoutAssetsInput type;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'type': type,
+    };
+  }
+}
+
+class AssetUncheckedCreateWithoutDeployed_toInput
+    implements _i2.JsonSerializable {
+  const AssetUncheckedCreateWithoutDeployed_toInput({
+    required this.id,
+    required this.type_id,
+  });
+
+  final String id;
+
+  final String type_id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'type_id': type_id,
+    };
+  }
+}
+
+class AssetCreateOrConnectWithoutDeployed_toInput
+    implements _i2.JsonSerializable {
+  const AssetCreateOrConnectWithoutDeployed_toInput({
+    required this.where,
+    required this.create,
+  });
+
+  final AssetWhereUniqueInput where;
+
+  final AssetCreateWithoutDeployed_toInput create;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'where': where,
+      'create': create,
+    };
+  }
+}
+
+class AssetCreateManyDeployed_toInputEnvelope implements _i2.JsonSerializable {
+  const AssetCreateManyDeployed_toInputEnvelope({
+    required this.data,
+    this.skipDuplicates,
+  });
+
+  final List<AssetCreateManyDeployed_toInput> data;
+
+  final _i2.PrismaNullable<bool> skipDuplicates;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'data': data,
+      'skipDuplicates': skipDuplicates,
+    };
+  }
+}
+
+class UserUpsertWithoutRequestsInput implements _i2.JsonSerializable {
   const UserUpsertWithoutRequestsInput({
     required this.update,
     required this.create,
@@ -4778,7 +6349,7 @@ class UserUpsertWithoutRequestsInput implements _i1.JsonSerializable {
   }
 }
 
-class UserUpdateWithoutRequestsInput implements _i1.JsonSerializable {
+class UserUpdateWithoutRequestsInput implements _i2.JsonSerializable {
   const UserUpdateWithoutRequestsInput({
     this.id,
     this.email,
@@ -4786,13 +6357,13 @@ class UserUpdateWithoutRequestsInput implements _i1.JsonSerializable {
     this.sessions,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> email;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> email;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> name;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> name;
 
-  final _i1.PrismaNullable<SessionUpdateManyWithoutUserNestedInput> sessions;
+  final _i2.PrismaNullable<SessionUpdateManyWithoutUserNestedInput> sessions;
 
   @override
   Map<String, dynamic> toJson() {
@@ -4805,7 +6376,7 @@ class UserUpdateWithoutRequestsInput implements _i1.JsonSerializable {
   }
 }
 
-class UserUncheckedUpdateWithoutRequestsInput implements _i1.JsonSerializable {
+class UserUncheckedUpdateWithoutRequestsInput implements _i2.JsonSerializable {
   const UserUncheckedUpdateWithoutRequestsInput({
     this.id,
     this.email,
@@ -4813,13 +6384,13 @@ class UserUncheckedUpdateWithoutRequestsInput implements _i1.JsonSerializable {
     this.sessions,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> email;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> email;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> name;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> name;
 
-  final _i1.PrismaNullable<SessionUncheckedUpdateManyWithoutUserNestedInput>
+  final _i2.PrismaNullable<SessionUncheckedUpdateManyWithoutUserNestedInput>
       sessions;
 
   @override
@@ -4834,7 +6405,7 @@ class UserUncheckedUpdateWithoutRequestsInput implements _i1.JsonSerializable {
 }
 
 class RequestItemUpsertWithWhereUniqueWithoutRequestInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const RequestItemUpsertWithWhereUniqueWithoutRequestInput({
     required this.where,
     required this.update,
@@ -4858,7 +6429,7 @@ class RequestItemUpsertWithWhereUniqueWithoutRequestInput
 }
 
 class RequestItemUpdateWithWhereUniqueWithoutRequestInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const RequestItemUpdateWithWhereUniqueWithoutRequestInput({
     required this.where,
     required this.data,
@@ -4878,7 +6449,7 @@ class RequestItemUpdateWithWhereUniqueWithoutRequestInput
 }
 
 class RequestItemUpdateManyWithWhereWithoutRequestInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const RequestItemUpdateManyWithWhereWithoutRequestInput({
     required this.where,
     required this.data,
@@ -4897,24 +6468,30 @@ class RequestItemUpdateManyWithWhereWithoutRequestInput
   }
 }
 
-class RequestItemScalarWhereInput implements _i1.JsonSerializable {
+class RequestItemScalarWhereInput implements _i2.JsonSerializable {
   const RequestItemScalarWhereInput({
     this.AND,
     this.OR,
     this.NOT,
     this.id,
     this.request_id,
+    this.quantity,
+    this.asset_type_id,
   });
 
-  final _i1.PrismaNullable<RequestItemScalarWhereInput> AND;
+  final _i2.PrismaNullable<RequestItemScalarWhereInput> AND;
 
-  final _i1.PrismaNullable<List<RequestItemScalarWhereInput>> OR;
+  final _i2.PrismaNullable<List<RequestItemScalarWhereInput>> OR;
 
-  final _i1.PrismaNullable<RequestItemScalarWhereInput> NOT;
+  final _i2.PrismaNullable<RequestItemScalarWhereInput> NOT;
 
-  final _i1.PrismaNullable<IntFilter> id;
+  final _i2.PrismaNullable<IntFilter> id;
 
-  final _i1.PrismaNullable<IntFilter> request_id;
+  final _i2.PrismaNullable<IntFilter> request_id;
+
+  final _i2.PrismaNullable<IntFilter> quantity;
+
+  final _i2.PrismaNullable<StringFilter> asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
@@ -4924,45 +6501,182 @@ class RequestItemScalarWhereInput implements _i1.JsonSerializable {
       'NOT': NOT,
       'id': id,
       'request_id': request_id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
-class EquipmentRequestCreateWithoutItemsInput implements _i1.JsonSerializable {
-  const EquipmentRequestCreateWithoutItemsInput({required this.requested_by});
+class AssetUpsertWithWhereUniqueWithoutDeployed_toInput
+    implements _i2.JsonSerializable {
+  const AssetUpsertWithWhereUniqueWithoutDeployed_toInput({
+    required this.where,
+    required this.update,
+    required this.create,
+  });
+
+  final AssetWhereUniqueInput where;
+
+  final AssetUpdateWithoutDeployed_toInput update;
+
+  final AssetCreateWithoutDeployed_toInput create;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'where': where,
+      'update': update,
+      'create': create,
+    };
+  }
+}
+
+class AssetUpdateWithWhereUniqueWithoutDeployed_toInput
+    implements _i2.JsonSerializable {
+  const AssetUpdateWithWhereUniqueWithoutDeployed_toInput({
+    required this.where,
+    required this.data,
+  });
+
+  final AssetWhereUniqueInput where;
+
+  final AssetUpdateWithoutDeployed_toInput data;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'where': where,
+      'data': data,
+    };
+  }
+}
+
+class AssetUpdateManyWithWhereWithoutDeployed_toInput
+    implements _i2.JsonSerializable {
+  const AssetUpdateManyWithWhereWithoutDeployed_toInput({
+    required this.where,
+    required this.data,
+  });
+
+  final AssetScalarWhereInput where;
+
+  final AssetUpdateManyMutationInput data;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'where': where,
+      'data': data,
+    };
+  }
+}
+
+class AssetScalarWhereInput implements _i2.JsonSerializable {
+  const AssetScalarWhereInput({
+    this.AND,
+    this.OR,
+    this.NOT,
+    this.id,
+    this.type_id,
+    this.deployed_to_id,
+  });
+
+  final _i2.PrismaNullable<AssetScalarWhereInput> AND;
+
+  final _i2.PrismaNullable<List<AssetScalarWhereInput>> OR;
+
+  final _i2.PrismaNullable<AssetScalarWhereInput> NOT;
+
+  final _i2.PrismaNullable<StringFilter> id;
+
+  final _i2.PrismaNullable<StringFilter> type_id;
+
+  final _i2.PrismaNullable<IntNullableFilter> deployed_to_id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'AND': AND,
+      'OR': OR,
+      'NOT': NOT,
+      'id': id,
+      'type_id': type_id,
+      'deployed_to_id': deployed_to_id,
+    };
+  }
+}
+
+class EquipmentRequestCreateWithoutItemsInput implements _i2.JsonSerializable {
+  const EquipmentRequestCreateWithoutItemsInput({
+    required this.requested_by,
+    this.notes,
+    required this.time_start,
+    required this.time_end,
+    this.asset,
+  });
 
   final UserCreateNestedOneWithoutRequestsInput requested_by;
+
+  final _i2.PrismaNullable<String> notes;
+
+  final DateTime time_start;
+
+  final DateTime time_end;
+
+  final _i2.PrismaNullable<AssetCreateNestedManyWithoutDeployed_toInput> asset;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'requested_by': requested_by,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
     };
   }
 }
 
 class EquipmentRequestUncheckedCreateWithoutItemsInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestUncheckedCreateWithoutItemsInput({
     this.id,
     required this.requester_id,
+    this.notes,
+    required this.time_start,
+    required this.time_end,
+    this.asset,
   });
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
 
   final String requester_id;
+
+  final _i2.PrismaNullable<String> notes;
+
+  final DateTime time_start;
+
+  final DateTime time_end;
+
+  final _i2
+          .PrismaNullable<AssetUncheckedCreateNestedManyWithoutDeployed_toInput>
+      asset;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'requester_id': requester_id,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
     };
   }
 }
 
 class EquipmentRequestCreateOrConnectWithoutItemsInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestCreateOrConnectWithoutItemsInput({
     required this.where,
     required this.create,
@@ -4981,7 +6695,91 @@ class EquipmentRequestCreateOrConnectWithoutItemsInput
   }
 }
 
-class EquipmentRequestUpsertWithoutItemsInput implements _i1.JsonSerializable {
+class AssetTypeCreateWithoutRequestItemInput implements _i2.JsonSerializable {
+  const AssetTypeCreateWithoutRequestItemInput({
+    required this.id,
+    required this.title,
+    this.assets,
+    this.unique,
+    this.quantity,
+  });
+
+  final String id;
+
+  final String title;
+
+  final _i2.PrismaNullable<AssetCreateNestedManyWithoutTypeInput> assets;
+
+  final _i2.PrismaNullable<bool> unique;
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> quantity;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'title': title,
+      'assets': assets,
+      'unique': unique,
+      'quantity': quantity,
+    };
+  }
+}
+
+class AssetTypeUncheckedCreateWithoutRequestItemInput
+    implements _i2.JsonSerializable {
+  const AssetTypeUncheckedCreateWithoutRequestItemInput({
+    required this.id,
+    required this.title,
+    this.assets,
+    this.unique,
+    this.quantity,
+  });
+
+  final String id;
+
+  final String title;
+
+  final _i2.PrismaNullable<AssetUncheckedCreateNestedManyWithoutTypeInput>
+      assets;
+
+  final _i2.PrismaNullable<bool> unique;
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> quantity;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'title': title,
+      'assets': assets,
+      'unique': unique,
+      'quantity': quantity,
+    };
+  }
+}
+
+class AssetTypeCreateOrConnectWithoutRequestItemInput
+    implements _i2.JsonSerializable {
+  const AssetTypeCreateOrConnectWithoutRequestItemInput({
+    required this.where,
+    required this.create,
+  });
+
+  final AssetTypeWhereUniqueInput where;
+
+  final AssetTypeCreateWithoutRequestItemInput create;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'where': where,
+      'create': create,
+    };
+  }
+}
+
+class EquipmentRequestUpsertWithoutItemsInput implements _i2.JsonSerializable {
   const EquipmentRequestUpsertWithoutItemsInput({
     required this.update,
     required this.create,
@@ -5000,67 +6798,199 @@ class EquipmentRequestUpsertWithoutItemsInput implements _i1.JsonSerializable {
   }
 }
 
-class EquipmentRequestUpdateWithoutItemsInput implements _i1.JsonSerializable {
-  const EquipmentRequestUpdateWithoutItemsInput({this.requested_by});
+class EquipmentRequestUpdateWithoutItemsInput implements _i2.JsonSerializable {
+  const EquipmentRequestUpdateWithoutItemsInput({
+    this.requested_by,
+    this.notes,
+    this.time_start,
+    this.time_end,
+    this.asset,
+  });
 
-  final _i1.PrismaNullable<UserUpdateOneRequiredWithoutRequestsNestedInput>
+  final _i2.PrismaNullable<UserUpdateOneRequiredWithoutRequestsNestedInput>
       requested_by;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> notes;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_start;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
+
+  final _i2.PrismaNullable<AssetUpdateManyWithoutDeployed_toNestedInput> asset;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'requested_by': requested_by,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
     };
   }
 }
 
 class EquipmentRequestUncheckedUpdateWithoutItemsInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const EquipmentRequestUncheckedUpdateWithoutItemsInput({
     this.id,
     this.requester_id,
+    this.notes,
+    this.time_start,
+    this.time_end,
+    this.asset,
   });
 
-  final _i1.PrismaNullable<IntFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> requester_id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> requester_id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> notes;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_start;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
+
+  final _i2
+          .PrismaNullable<AssetUncheckedUpdateManyWithoutDeployed_toNestedInput>
+      asset;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
       'requester_id': requester_id,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
     };
   }
 }
 
-class AssetCreateWithoutTypeInput implements _i1.JsonSerializable {
-  const AssetCreateWithoutTypeInput({required this.id});
+class AssetTypeUpsertWithoutRequestItemInput implements _i2.JsonSerializable {
+  const AssetTypeUpsertWithoutRequestItemInput({
+    required this.update,
+    required this.create,
+  });
 
-  final String id;
+  final AssetTypeUpdateWithoutRequestItemInput update;
+
+  final AssetTypeCreateWithoutRequestItemInput create;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'update': update,
+      'create': create,
+    };
+  }
+}
+
+class AssetTypeUpdateWithoutRequestItemInput implements _i2.JsonSerializable {
+  const AssetTypeUpdateWithoutRequestItemInput({
+    this.id,
+    this.title,
+    this.assets,
+    this.unique,
+    this.quantity,
+  });
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> title;
+
+  final _i2.PrismaNullable<AssetUpdateManyWithoutTypeNestedInput> assets;
+
+  final _i2.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
+
+  final _i2.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
+      'title': title,
+      'assets': assets,
+      'unique': unique,
+      'quantity': quantity,
     };
   }
 }
 
-class AssetUncheckedCreateWithoutTypeInput implements _i1.JsonSerializable {
-  const AssetUncheckedCreateWithoutTypeInput({required this.id});
+class AssetTypeUncheckedUpdateWithoutRequestItemInput
+    implements _i2.JsonSerializable {
+  const AssetTypeUncheckedUpdateWithoutRequestItemInput({
+    this.id,
+    this.title,
+    this.assets,
+    this.unique,
+    this.quantity,
+  });
 
-  final String id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> title;
+
+  final _i2.PrismaNullable<AssetUncheckedUpdateManyWithoutTypeNestedInput>
+      assets;
+
+  final _i2.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
+
+  final _i2.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
+      'title': title,
+      'assets': assets,
+      'unique': unique,
+      'quantity': quantity,
     };
   }
 }
 
-class AssetCreateOrConnectWithoutTypeInput implements _i1.JsonSerializable {
+class AssetCreateWithoutTypeInput implements _i2.JsonSerializable {
+  const AssetCreateWithoutTypeInput({
+    required this.id,
+    this.deployed_to,
+  });
+
+  final String id;
+
+  final _i2.PrismaNullable<EquipmentRequestCreateNestedOneWithoutAssetInput>
+      deployed_to;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'deployed_to': deployed_to,
+    };
+  }
+}
+
+class AssetUncheckedCreateWithoutTypeInput implements _i2.JsonSerializable {
+  const AssetUncheckedCreateWithoutTypeInput({
+    required this.id,
+    this.deployed_to_id,
+  });
+
+  final String id;
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> deployed_to_id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'deployed_to_id': deployed_to_id,
+    };
+  }
+}
+
+class AssetCreateOrConnectWithoutTypeInput implements _i2.JsonSerializable {
   const AssetCreateOrConnectWithoutTypeInput({
     required this.where,
     required this.create,
@@ -5079,8 +7009,110 @@ class AssetCreateOrConnectWithoutTypeInput implements _i1.JsonSerializable {
   }
 }
 
+class AssetCreateManyTypeInputEnvelope implements _i2.JsonSerializable {
+  const AssetCreateManyTypeInputEnvelope({
+    required this.data,
+    this.skipDuplicates,
+  });
+
+  final List<AssetCreateManyTypeInput> data;
+
+  final _i2.PrismaNullable<bool> skipDuplicates;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'data': data,
+      'skipDuplicates': skipDuplicates,
+    };
+  }
+}
+
+class RequestItemCreateWithoutAsset_typeInput implements _i2.JsonSerializable {
+  const RequestItemCreateWithoutAsset_typeInput({
+    required this.request,
+    required this.quantity,
+  });
+
+  final EquipmentRequestCreateNestedOneWithoutItemsInput request;
+
+  final int quantity;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'request': request,
+      'quantity': quantity,
+    };
+  }
+}
+
+class RequestItemUncheckedCreateWithoutAsset_typeInput
+    implements _i2.JsonSerializable {
+  const RequestItemUncheckedCreateWithoutAsset_typeInput({
+    this.id,
+    required this.request_id,
+    required this.quantity,
+  });
+
+  final _i2.PrismaNullable<int> id;
+
+  final int request_id;
+
+  final int quantity;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'request_id': request_id,
+      'quantity': quantity,
+    };
+  }
+}
+
+class RequestItemCreateOrConnectWithoutAsset_typeInput
+    implements _i2.JsonSerializable {
+  const RequestItemCreateOrConnectWithoutAsset_typeInput({
+    required this.where,
+    required this.create,
+  });
+
+  final RequestItemWhereUniqueInput where;
+
+  final RequestItemCreateWithoutAsset_typeInput create;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'where': where,
+      'create': create,
+    };
+  }
+}
+
+class RequestItemCreateManyAsset_typeInputEnvelope
+    implements _i2.JsonSerializable {
+  const RequestItemCreateManyAsset_typeInputEnvelope({
+    required this.data,
+    this.skipDuplicates,
+  });
+
+  final List<RequestItemCreateManyAsset_typeInput> data;
+
+  final _i2.PrismaNullable<bool> skipDuplicates;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'data': data,
+      'skipDuplicates': skipDuplicates,
+    };
+  }
+}
+
 class AssetUpsertWithWhereUniqueWithoutTypeInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const AssetUpsertWithWhereUniqueWithoutTypeInput({
     required this.where,
     required this.update,
@@ -5104,7 +7136,7 @@ class AssetUpsertWithWhereUniqueWithoutTypeInput
 }
 
 class AssetUpdateWithWhereUniqueWithoutTypeInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const AssetUpdateWithWhereUniqueWithoutTypeInput({
     required this.where,
     required this.data,
@@ -5123,7 +7155,7 @@ class AssetUpdateWithWhereUniqueWithoutTypeInput
   }
 }
 
-class AssetUpdateManyWithWhereWithoutTypeInput implements _i1.JsonSerializable {
+class AssetUpdateManyWithWhereWithoutTypeInput implements _i2.JsonSerializable {
   const AssetUpdateManyWithWhereWithoutTypeInput({
     required this.where,
     required this.data,
@@ -5142,52 +7174,89 @@ class AssetUpdateManyWithWhereWithoutTypeInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetScalarWhereInput implements _i1.JsonSerializable {
-  const AssetScalarWhereInput({
-    this.AND,
-    this.OR,
-    this.NOT,
-    this.id,
-    this.type_id,
+class RequestItemUpsertWithWhereUniqueWithoutAsset_typeInput
+    implements _i2.JsonSerializable {
+  const RequestItemUpsertWithWhereUniqueWithoutAsset_typeInput({
+    required this.where,
+    required this.update,
+    required this.create,
   });
 
-  final _i1.PrismaNullable<AssetScalarWhereInput> AND;
+  final RequestItemWhereUniqueInput where;
 
-  final _i1.PrismaNullable<List<AssetScalarWhereInput>> OR;
+  final RequestItemUpdateWithoutAsset_typeInput update;
 
-  final _i1.PrismaNullable<AssetScalarWhereInput> NOT;
-
-  final _i1.PrismaNullable<StringFilter> id;
-
-  final _i1.PrismaNullable<StringFilter> type_id;
+  final RequestItemCreateWithoutAsset_typeInput create;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'AND': AND,
-      'OR': OR,
-      'NOT': NOT,
-      'id': id,
-      'type_id': type_id,
+      'where': where,
+      'update': update,
+      'create': create,
     };
   }
 }
 
-class AssetTypeCreateWithoutAssetsInput implements _i1.JsonSerializable {
+class RequestItemUpdateWithWhereUniqueWithoutAsset_typeInput
+    implements _i2.JsonSerializable {
+  const RequestItemUpdateWithWhereUniqueWithoutAsset_typeInput({
+    required this.where,
+    required this.data,
+  });
+
+  final RequestItemWhereUniqueInput where;
+
+  final RequestItemUpdateWithoutAsset_typeInput data;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'where': where,
+      'data': data,
+    };
+  }
+}
+
+class RequestItemUpdateManyWithWhereWithoutAsset_typeInput
+    implements _i2.JsonSerializable {
+  const RequestItemUpdateManyWithWhereWithoutAsset_typeInput({
+    required this.where,
+    required this.data,
+  });
+
+  final RequestItemScalarWhereInput where;
+
+  final RequestItemUpdateManyMutationInput data;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'where': where,
+      'data': data,
+    };
+  }
+}
+
+class AssetTypeCreateWithoutAssetsInput implements _i2.JsonSerializable {
   const AssetTypeCreateWithoutAssetsInput({
     required this.id,
     required this.title,
     this.unique,
     this.quantity,
+    this.RequestItem,
   });
 
   final String id;
 
   final String title;
 
-  final _i1.PrismaNullable<bool> unique;
+  final _i2.PrismaNullable<bool> unique;
 
-  final _i1.PrismaNullable<_i1.PrismaUnion<int, _i1.PrismaNull>> quantity;
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> quantity;
+
+  final _i2.PrismaNullable<RequestItemCreateNestedManyWithoutAsset_typeInput>
+      RequestItem;
 
   @override
   Map<String, dynamic> toJson() {
@@ -5196,26 +7265,31 @@ class AssetTypeCreateWithoutAssetsInput implements _i1.JsonSerializable {
       'title': title,
       'unique': unique,
       'quantity': quantity,
+      'RequestItem': RequestItem,
     };
   }
 }
 
 class AssetTypeUncheckedCreateWithoutAssetsInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const AssetTypeUncheckedCreateWithoutAssetsInput({
     required this.id,
     required this.title,
     this.unique,
     this.quantity,
+    this.RequestItem,
   });
 
   final String id;
 
   final String title;
 
-  final _i1.PrismaNullable<bool> unique;
+  final _i2.PrismaNullable<bool> unique;
 
-  final _i1.PrismaNullable<_i1.PrismaUnion<int, _i1.PrismaNull>> quantity;
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> quantity;
+
+  final _i2.PrismaNullable<
+      RequestItemUncheckedCreateNestedManyWithoutAsset_typeInput> RequestItem;
 
   @override
   Map<String, dynamic> toJson() {
@@ -5224,12 +7298,13 @@ class AssetTypeUncheckedCreateWithoutAssetsInput
       'title': title,
       'unique': unique,
       'quantity': quantity,
+      'RequestItem': RequestItem,
     };
   }
 }
 
 class AssetTypeCreateOrConnectWithoutAssetsInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const AssetTypeCreateOrConnectWithoutAssetsInput({
     required this.where,
     required this.create,
@@ -5248,7 +7323,96 @@ class AssetTypeCreateOrConnectWithoutAssetsInput
   }
 }
 
-class AssetTypeUpsertWithoutAssetsInput implements _i1.JsonSerializable {
+class EquipmentRequestCreateWithoutAssetInput implements _i2.JsonSerializable {
+  const EquipmentRequestCreateWithoutAssetInput({
+    required this.requested_by,
+    this.items,
+    this.notes,
+    required this.time_start,
+    required this.time_end,
+  });
+
+  final UserCreateNestedOneWithoutRequestsInput requested_by;
+
+  final _i2.PrismaNullable<RequestItemCreateNestedManyWithoutRequestInput>
+      items;
+
+  final _i2.PrismaNullable<String> notes;
+
+  final DateTime time_start;
+
+  final DateTime time_end;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'requested_by': requested_by,
+      'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+    };
+  }
+}
+
+class EquipmentRequestUncheckedCreateWithoutAssetInput
+    implements _i2.JsonSerializable {
+  const EquipmentRequestUncheckedCreateWithoutAssetInput({
+    this.id,
+    required this.requester_id,
+    this.items,
+    this.notes,
+    required this.time_start,
+    required this.time_end,
+  });
+
+  final _i2.PrismaNullable<int> id;
+
+  final String requester_id;
+
+  final _i2.PrismaNullable<
+      RequestItemUncheckedCreateNestedManyWithoutRequestInput> items;
+
+  final _i2.PrismaNullable<String> notes;
+
+  final DateTime time_start;
+
+  final DateTime time_end;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'requester_id': requester_id,
+      'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+    };
+  }
+}
+
+class EquipmentRequestCreateOrConnectWithoutAssetInput
+    implements _i2.JsonSerializable {
+  const EquipmentRequestCreateOrConnectWithoutAssetInput({
+    required this.where,
+    required this.create,
+  });
+
+  final EquipmentRequestWhereUniqueInput where;
+
+  final EquipmentRequestCreateWithoutAssetInput create;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'where': where,
+      'create': create,
+    };
+  }
+}
+
+class AssetTypeUpsertWithoutAssetsInput implements _i2.JsonSerializable {
   const AssetTypeUpsertWithoutAssetsInput({
     required this.update,
     required this.create,
@@ -5267,21 +7431,25 @@ class AssetTypeUpsertWithoutAssetsInput implements _i1.JsonSerializable {
   }
 }
 
-class AssetTypeUpdateWithoutAssetsInput implements _i1.JsonSerializable {
+class AssetTypeUpdateWithoutAssetsInput implements _i2.JsonSerializable {
   const AssetTypeUpdateWithoutAssetsInput({
     this.id,
     this.title,
     this.unique,
     this.quantity,
+    this.RequestItem,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> title;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> title;
 
-  final _i1.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
+  final _i2.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
 
-  final _i1.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
+  final _i2.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
+
+  final _i2.PrismaNullable<RequestItemUpdateManyWithoutAsset_typeNestedInput>
+      RequestItem;
 
   @override
   Map<String, dynamic> toJson() {
@@ -5290,26 +7458,31 @@ class AssetTypeUpdateWithoutAssetsInput implements _i1.JsonSerializable {
       'title': title,
       'unique': unique,
       'quantity': quantity,
+      'RequestItem': RequestItem,
     };
   }
 }
 
 class AssetTypeUncheckedUpdateWithoutAssetsInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const AssetTypeUncheckedUpdateWithoutAssetsInput({
     this.id,
     this.title,
     this.unique,
     this.quantity,
+    this.RequestItem,
   });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> title;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> title;
 
-  final _i1.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
+  final _i2.PrismaNullable<BoolFieldUpdateOperationsInput> unique;
 
-  final _i1.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
+  final _i2.PrismaNullable<NullableIntFieldUpdateOperationsInput> quantity;
+
+  final _i2.PrismaNullable<
+      RequestItemUncheckedUpdateManyWithoutAsset_typeNestedInput> RequestItem;
 
   @override
   Map<String, dynamic> toJson() {
@@ -5318,64 +7491,132 @@ class AssetTypeUncheckedUpdateWithoutAssetsInput
       'title': title,
       'unique': unique,
       'quantity': quantity,
+      'RequestItem': RequestItem,
     };
   }
 }
 
-class EquipmentRequestUpdateWithoutRequested_byInput
-    implements _i1.JsonSerializable {
-  const EquipmentRequestUpdateWithoutRequested_byInput({this.items});
-
-  final _i1.PrismaNullable<RequestItemUpdateManyWithoutRequestNestedInput>
-      items;
-
-  @override
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'items': items,
-    };
-  }
-}
-
-class EquipmentRequestUncheckedUpdateWithoutRequested_byInput
-    implements _i1.JsonSerializable {
-  const EquipmentRequestUncheckedUpdateWithoutRequested_byInput({
-    this.id,
-    this.items,
+class EquipmentRequestUpsertWithoutAssetInput implements _i2.JsonSerializable {
+  const EquipmentRequestUpsertWithoutAssetInput({
+    required this.update,
+    required this.create,
   });
 
-  final _i1.PrismaNullable<IntFieldUpdateOperationsInput> id;
+  final EquipmentRequestUpdateWithoutAssetInput update;
 
-  final _i1.PrismaNullable<
+  final EquipmentRequestCreateWithoutAssetInput create;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'update': update,
+      'create': create,
+    };
+  }
+}
+
+class EquipmentRequestUpdateWithoutAssetInput implements _i2.JsonSerializable {
+  const EquipmentRequestUpdateWithoutAssetInput({
+    this.requested_by,
+    this.items,
+    this.notes,
+    this.time_start,
+    this.time_end,
+  });
+
+  final _i2.PrismaNullable<UserUpdateOneRequiredWithoutRequestsNestedInput>
+      requested_by;
+
+  final _i2.PrismaNullable<RequestItemUpdateManyWithoutRequestNestedInput>
+      items;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> notes;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_start;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'requested_by': requested_by,
+      'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+    };
+  }
+}
+
+class EquipmentRequestUncheckedUpdateWithoutAssetInput
+    implements _i2.JsonSerializable {
+  const EquipmentRequestUncheckedUpdateWithoutAssetInput({
+    this.id,
+    this.requester_id,
+    this.items,
+    this.notes,
+    this.time_start,
+    this.time_end,
+  });
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> requester_id;
+
+  final _i2.PrismaNullable<
       RequestItemUncheckedUpdateManyWithoutRequestNestedInput> items;
 
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> notes;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_start;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
+      'requester_id': requester_id,
       'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
     };
   }
 }
 
-class EquipmentRequestUncheckedUpdateManyWithoutRequestsInput
-    implements _i1.JsonSerializable {
-  const EquipmentRequestUncheckedUpdateManyWithoutRequestsInput({this.id});
+class EquipmentRequestCreateManyRequested_byInput
+    implements _i2.JsonSerializable {
+  const EquipmentRequestCreateManyRequested_byInput({
+    this.id,
+    this.notes,
+    required this.time_start,
+    required this.time_end,
+  });
 
-  final _i1.PrismaNullable<IntFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<int> id;
+
+  final _i2.PrismaNullable<String> notes;
+
+  final DateTime time_start;
+
+  final DateTime time_end;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
     };
   }
 }
 
-class SessionUpdateWithoutUserInput implements _i1.JsonSerializable {
-  const SessionUpdateWithoutUserInput({this.key});
+class SessionCreateManyUserInput implements _i2.JsonSerializable {
+  const SessionCreateManyUserInput({required this.key});
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> key;
+  final String key;
 
   @override
   Map<String, dynamic> toJson() {
@@ -5385,10 +7626,123 @@ class SessionUpdateWithoutUserInput implements _i1.JsonSerializable {
   }
 }
 
-class SessionUncheckedUpdateWithoutUserInput implements _i1.JsonSerializable {
+class EquipmentRequestUpdateWithoutRequested_byInput
+    implements _i2.JsonSerializable {
+  const EquipmentRequestUpdateWithoutRequested_byInput({
+    this.items,
+    this.notes,
+    this.time_start,
+    this.time_end,
+    this.asset,
+  });
+
+  final _i2.PrismaNullable<RequestItemUpdateManyWithoutRequestNestedInput>
+      items;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> notes;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_start;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
+
+  final _i2.PrismaNullable<AssetUpdateManyWithoutDeployed_toNestedInput> asset;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
+    };
+  }
+}
+
+class EquipmentRequestUncheckedUpdateWithoutRequested_byInput
+    implements _i2.JsonSerializable {
+  const EquipmentRequestUncheckedUpdateWithoutRequested_byInput({
+    this.id,
+    this.items,
+    this.notes,
+    this.time_start,
+    this.time_end,
+    this.asset,
+  });
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<
+      RequestItemUncheckedUpdateManyWithoutRequestNestedInput> items;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> notes;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_start;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
+
+  final _i2
+          .PrismaNullable<AssetUncheckedUpdateManyWithoutDeployed_toNestedInput>
+      asset;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'items': items,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+      'asset': asset,
+    };
+  }
+}
+
+class EquipmentRequestUncheckedUpdateManyWithoutRequestsInput
+    implements _i2.JsonSerializable {
+  const EquipmentRequestUncheckedUpdateManyWithoutRequestsInput({
+    this.id,
+    this.notes,
+    this.time_start,
+    this.time_end,
+  });
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> notes;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_start;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'notes': notes,
+      'time_start': time_start,
+      'time_end': time_end,
+    };
+  }
+}
+
+class SessionUpdateWithoutUserInput implements _i2.JsonSerializable {
+  const SessionUpdateWithoutUserInput({this.key});
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+    };
+  }
+}
+
+class SessionUncheckedUpdateWithoutUserInput implements _i2.JsonSerializable {
   const SessionUncheckedUpdateWithoutUserInput({this.key});
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> key;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> key;
 
   @override
   Map<String, dynamic> toJson() {
@@ -5399,10 +7753,10 @@ class SessionUncheckedUpdateWithoutUserInput implements _i1.JsonSerializable {
 }
 
 class SessionUncheckedUpdateManyWithoutSessionsInput
-    implements _i1.JsonSerializable {
+    implements _i2.JsonSerializable {
   const SessionUncheckedUpdateManyWithoutSessionsInput({this.key});
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> key;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> key;
 
   @override
   Map<String, dynamic> toJson() {
@@ -5412,89 +7766,353 @@ class SessionUncheckedUpdateManyWithoutSessionsInput
   }
 }
 
-class RequestItemUpdateWithoutRequestInput implements _i1.JsonSerializable {
-  const RequestItemUpdateWithoutRequestInput();
+class RequestItemCreateManyRequestInput implements _i2.JsonSerializable {
+  const RequestItemCreateManyRequestInput({
+    this.id,
+    required this.quantity,
+    required this.asset_type_id,
+  });
 
-  @override
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{};
-  }
-}
+  final _i2.PrismaNullable<int> id;
 
-class RequestItemUncheckedUpdateWithoutRequestInput
-    implements _i1.JsonSerializable {
-  const RequestItemUncheckedUpdateWithoutRequestInput({this.id});
+  final int quantity;
 
-  final _i1.PrismaNullable<IntFieldUpdateOperationsInput> id;
+  final String asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
+    };
+  }
+}
+
+class AssetCreateManyDeployed_toInput implements _i2.JsonSerializable {
+  const AssetCreateManyDeployed_toInput({
+    required this.id,
+    required this.type_id,
+  });
+
+  final String id;
+
+  final String type_id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'type_id': type_id,
+    };
+  }
+}
+
+class RequestItemUpdateWithoutRequestInput implements _i2.JsonSerializable {
+  const RequestItemUpdateWithoutRequestInput({
+    this.quantity,
+    this.asset_type,
+  });
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> quantity;
+
+  final _i2.PrismaNullable<
+      AssetTypeUpdateOneRequiredWithoutRequestItemNestedInput> asset_type;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'quantity': quantity,
+      'asset_type': asset_type,
+    };
+  }
+}
+
+class RequestItemUncheckedUpdateWithoutRequestInput
+    implements _i2.JsonSerializable {
+  const RequestItemUncheckedUpdateWithoutRequestInput({
+    this.id,
+    this.quantity,
+    this.asset_type_id,
+  });
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> quantity;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> asset_type_id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
 class RequestItemUncheckedUpdateManyWithoutItemsInput
-    implements _i1.JsonSerializable {
-  const RequestItemUncheckedUpdateManyWithoutItemsInput({this.id});
+    implements _i2.JsonSerializable {
+  const RequestItemUncheckedUpdateManyWithoutItemsInput({
+    this.id,
+    this.quantity,
+    this.asset_type_id,
+  });
 
-  final _i1.PrismaNullable<IntFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> quantity;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> asset_type_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
+      'quantity': quantity,
+      'asset_type_id': asset_type_id,
     };
   }
 }
 
-class AssetUpdateWithoutTypeInput implements _i1.JsonSerializable {
-  const AssetUpdateWithoutTypeInput({this.id});
+class AssetUpdateWithoutDeployed_toInput implements _i2.JsonSerializable {
+  const AssetUpdateWithoutDeployed_toInput({
+    this.id,
+    this.type,
+  });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<AssetTypeUpdateOneRequiredWithoutAssetsNestedInput>
+      type;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
+      'type': type,
     };
   }
 }
 
-class AssetUncheckedUpdateWithoutTypeInput implements _i1.JsonSerializable {
-  const AssetUncheckedUpdateWithoutTypeInput({this.id});
+class AssetUncheckedUpdateWithoutDeployed_toInput
+    implements _i2.JsonSerializable {
+  const AssetUncheckedUpdateWithoutDeployed_toInput({
+    this.id,
+    this.type_id,
+  });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> type_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
+      'type_id': type_id,
+    };
+  }
+}
+
+class AssetUncheckedUpdateManyWithoutAssetInput
+    implements _i2.JsonSerializable {
+  const AssetUncheckedUpdateManyWithoutAssetInput({
+    this.id,
+    this.type_id,
+  });
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> type_id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'type_id': type_id,
+    };
+  }
+}
+
+class AssetCreateManyTypeInput implements _i2.JsonSerializable {
+  const AssetCreateManyTypeInput({
+    required this.id,
+    this.deployed_to_id,
+  });
+
+  final String id;
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<int, _i2.PrismaNull>> deployed_to_id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'deployed_to_id': deployed_to_id,
+    };
+  }
+}
+
+class RequestItemCreateManyAsset_typeInput implements _i2.JsonSerializable {
+  const RequestItemCreateManyAsset_typeInput({
+    this.id,
+    required this.request_id,
+    required this.quantity,
+  });
+
+  final _i2.PrismaNullable<int> id;
+
+  final int request_id;
+
+  final int quantity;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'request_id': request_id,
+      'quantity': quantity,
+    };
+  }
+}
+
+class AssetUpdateWithoutTypeInput implements _i2.JsonSerializable {
+  const AssetUpdateWithoutTypeInput({
+    this.id,
+    this.deployed_to,
+  });
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<EquipmentRequestUpdateOneWithoutAssetNestedInput>
+      deployed_to;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'deployed_to': deployed_to,
+    };
+  }
+}
+
+class AssetUncheckedUpdateWithoutTypeInput implements _i2.JsonSerializable {
+  const AssetUncheckedUpdateWithoutTypeInput({
+    this.id,
+    this.deployed_to_id,
+  });
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<NullableIntFieldUpdateOperationsInput>
+      deployed_to_id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'deployed_to_id': deployed_to_id,
     };
   }
 }
 
 class AssetUncheckedUpdateManyWithoutAssetsInput
-    implements _i1.JsonSerializable {
-  const AssetUncheckedUpdateManyWithoutAssetsInput({this.id});
+    implements _i2.JsonSerializable {
+  const AssetUncheckedUpdateManyWithoutAssetsInput({
+    this.id,
+    this.deployed_to_id,
+  });
 
-  final _i1.PrismaNullable<StringFieldUpdateOperationsInput> id;
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<NullableIntFieldUpdateOperationsInput>
+      deployed_to_id;
 
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': id,
+      'deployed_to_id': deployed_to_id,
     };
   }
 }
 
-@_i2.JsonSerializable(
+class RequestItemUpdateWithoutAsset_typeInput implements _i2.JsonSerializable {
+  const RequestItemUpdateWithoutAsset_typeInput({
+    this.request,
+    this.quantity,
+  });
+
+  final _i2.PrismaNullable<
+      EquipmentRequestUpdateOneRequiredWithoutItemsNestedInput> request;
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> quantity;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'request': request,
+      'quantity': quantity,
+    };
+  }
+}
+
+class RequestItemUncheckedUpdateWithoutAsset_typeInput
+    implements _i2.JsonSerializable {
+  const RequestItemUncheckedUpdateWithoutAsset_typeInput({
+    this.id,
+    this.request_id,
+    this.quantity,
+  });
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> request_id;
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> quantity;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'request_id': request_id,
+      'quantity': quantity,
+    };
+  }
+}
+
+class RequestItemUncheckedUpdateManyWithoutRequestItemInput
+    implements _i2.JsonSerializable {
+  const RequestItemUncheckedUpdateManyWithoutRequestItemInput({
+    this.id,
+    this.request_id,
+    this.quantity,
+  });
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> request_id;
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> quantity;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'request_id': request_id,
+      'quantity': quantity,
+    };
+  }
+}
+
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AggregateSession implements _i1.JsonSerializable {
+class AggregateSession implements _i2.JsonSerializable {
   const AggregateSession({
     this.$count,
     this.$min,
@@ -5504,25 +8122,25 @@ class AggregateSession implements _i1.JsonSerializable {
   factory AggregateSession.fromJson(Map<String, dynamic> json) =>
       _$AggregateSessionFromJson(json);
 
-  @_i2.JsonKey(name: '_count')
-  final _i1.PrismaNullable<SessionCountAggregateOutputType> $count;
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<SessionCountAggregateOutputType> $count;
 
-  @_i2.JsonKey(name: '_min')
-  final _i1.PrismaNullable<SessionMinAggregateOutputType> $min;
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<SessionMinAggregateOutputType> $min;
 
-  @_i2.JsonKey(name: '_max')
-  final _i1.PrismaNullable<SessionMaxAggregateOutputType> $max;
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<SessionMaxAggregateOutputType> $max;
 
   @override
   Map<String, dynamic> toJson() => _$AggregateSessionToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class SessionGroupByOutputType implements _i1.JsonSerializable {
+class SessionGroupByOutputType implements _i2.JsonSerializable {
   const SessionGroupByOutputType({
     required this.key,
     required this.user_id,
@@ -5538,25 +8156,25 @@ class SessionGroupByOutputType implements _i1.JsonSerializable {
 
   final String user_id;
 
-  @_i2.JsonKey(name: '_count')
-  final _i1.PrismaNullable<SessionCountAggregateOutputType> $count;
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<SessionCountAggregateOutputType> $count;
 
-  @_i2.JsonKey(name: '_min')
-  final _i1.PrismaNullable<SessionMinAggregateOutputType> $min;
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<SessionMinAggregateOutputType> $min;
 
-  @_i2.JsonKey(name: '_max')
-  final _i1.PrismaNullable<SessionMaxAggregateOutputType> $max;
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<SessionMaxAggregateOutputType> $max;
 
   @override
   Map<String, dynamic> toJson() => _$SessionGroupByOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AggregateUser implements _i1.JsonSerializable {
+class AggregateUser implements _i2.JsonSerializable {
   const AggregateUser({
     this.$count,
     this.$min,
@@ -5566,25 +8184,25 @@ class AggregateUser implements _i1.JsonSerializable {
   factory AggregateUser.fromJson(Map<String, dynamic> json) =>
       _$AggregateUserFromJson(json);
 
-  @_i2.JsonKey(name: '_count')
-  final _i1.PrismaNullable<UserCountAggregateOutputType> $count;
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<UserCountAggregateOutputType> $count;
 
-  @_i2.JsonKey(name: '_min')
-  final _i1.PrismaNullable<UserMinAggregateOutputType> $min;
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<UserMinAggregateOutputType> $min;
 
-  @_i2.JsonKey(name: '_max')
-  final _i1.PrismaNullable<UserMaxAggregateOutputType> $max;
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<UserMaxAggregateOutputType> $max;
 
   @override
   Map<String, dynamic> toJson() => _$AggregateUserToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class UserGroupByOutputType implements _i1.JsonSerializable {
+class UserGroupByOutputType implements _i2.JsonSerializable {
   const UserGroupByOutputType({
     required this.id,
     required this.email,
@@ -5603,25 +8221,25 @@ class UserGroupByOutputType implements _i1.JsonSerializable {
 
   final String name;
 
-  @_i2.JsonKey(name: '_count')
-  final _i1.PrismaNullable<UserCountAggregateOutputType> $count;
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<UserCountAggregateOutputType> $count;
 
-  @_i2.JsonKey(name: '_min')
-  final _i1.PrismaNullable<UserMinAggregateOutputType> $min;
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<UserMinAggregateOutputType> $min;
 
-  @_i2.JsonKey(name: '_max')
-  final _i1.PrismaNullable<UserMaxAggregateOutputType> $max;
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<UserMaxAggregateOutputType> $max;
 
   @override
   Map<String, dynamic> toJson() => _$UserGroupByOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AggregateEquipmentRequest implements _i1.JsonSerializable {
+class AggregateEquipmentRequest implements _i2.JsonSerializable {
   const AggregateEquipmentRequest({
     this.$count,
     this.$avg,
@@ -5633,34 +8251,37 @@ class AggregateEquipmentRequest implements _i1.JsonSerializable {
   factory AggregateEquipmentRequest.fromJson(Map<String, dynamic> json) =>
       _$AggregateEquipmentRequestFromJson(json);
 
-  @_i2.JsonKey(name: '_count')
-  final _i1.PrismaNullable<EquipmentRequestCountAggregateOutputType> $count;
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<EquipmentRequestCountAggregateOutputType> $count;
 
-  @_i2.JsonKey(name: '_avg')
-  final _i1.PrismaNullable<EquipmentRequestAvgAggregateOutputType> $avg;
+  @_i1.JsonKey(name: '_avg')
+  final _i2.PrismaNullable<EquipmentRequestAvgAggregateOutputType> $avg;
 
-  @_i2.JsonKey(name: '_sum')
-  final _i1.PrismaNullable<EquipmentRequestSumAggregateOutputType> $sum;
+  @_i1.JsonKey(name: '_sum')
+  final _i2.PrismaNullable<EquipmentRequestSumAggregateOutputType> $sum;
 
-  @_i2.JsonKey(name: '_min')
-  final _i1.PrismaNullable<EquipmentRequestMinAggregateOutputType> $min;
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<EquipmentRequestMinAggregateOutputType> $min;
 
-  @_i2.JsonKey(name: '_max')
-  final _i1.PrismaNullable<EquipmentRequestMaxAggregateOutputType> $max;
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<EquipmentRequestMaxAggregateOutputType> $max;
 
   @override
   Map<String, dynamic> toJson() => _$AggregateEquipmentRequestToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class EquipmentRequestGroupByOutputType implements _i1.JsonSerializable {
+class EquipmentRequestGroupByOutputType implements _i2.JsonSerializable {
   const EquipmentRequestGroupByOutputType({
     required this.id,
     required this.requester_id,
+    required this.notes,
+    required this.time_start,
+    required this.time_end,
     this.$count,
     this.$avg,
     this.$sum,
@@ -5676,32 +8297,38 @@ class EquipmentRequestGroupByOutputType implements _i1.JsonSerializable {
 
   final String requester_id;
 
-  @_i2.JsonKey(name: '_count')
-  final _i1.PrismaNullable<EquipmentRequestCountAggregateOutputType> $count;
+  final String notes;
 
-  @_i2.JsonKey(name: '_avg')
-  final _i1.PrismaNullable<EquipmentRequestAvgAggregateOutputType> $avg;
+  final DateTime time_start;
 
-  @_i2.JsonKey(name: '_sum')
-  final _i1.PrismaNullable<EquipmentRequestSumAggregateOutputType> $sum;
+  final DateTime time_end;
 
-  @_i2.JsonKey(name: '_min')
-  final _i1.PrismaNullable<EquipmentRequestMinAggregateOutputType> $min;
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<EquipmentRequestCountAggregateOutputType> $count;
 
-  @_i2.JsonKey(name: '_max')
-  final _i1.PrismaNullable<EquipmentRequestMaxAggregateOutputType> $max;
+  @_i1.JsonKey(name: '_avg')
+  final _i2.PrismaNullable<EquipmentRequestAvgAggregateOutputType> $avg;
+
+  @_i1.JsonKey(name: '_sum')
+  final _i2.PrismaNullable<EquipmentRequestSumAggregateOutputType> $sum;
+
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<EquipmentRequestMinAggregateOutputType> $min;
+
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<EquipmentRequestMaxAggregateOutputType> $max;
 
   @override
   Map<String, dynamic> toJson() =>
       _$EquipmentRequestGroupByOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AggregateRequestItem implements _i1.JsonSerializable {
+class AggregateRequestItem implements _i2.JsonSerializable {
   const AggregateRequestItem({
     this.$count,
     this.$avg,
@@ -5713,34 +8340,36 @@ class AggregateRequestItem implements _i1.JsonSerializable {
   factory AggregateRequestItem.fromJson(Map<String, dynamic> json) =>
       _$AggregateRequestItemFromJson(json);
 
-  @_i2.JsonKey(name: '_count')
-  final _i1.PrismaNullable<RequestItemCountAggregateOutputType> $count;
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<RequestItemCountAggregateOutputType> $count;
 
-  @_i2.JsonKey(name: '_avg')
-  final _i1.PrismaNullable<RequestItemAvgAggregateOutputType> $avg;
+  @_i1.JsonKey(name: '_avg')
+  final _i2.PrismaNullable<RequestItemAvgAggregateOutputType> $avg;
 
-  @_i2.JsonKey(name: '_sum')
-  final _i1.PrismaNullable<RequestItemSumAggregateOutputType> $sum;
+  @_i1.JsonKey(name: '_sum')
+  final _i2.PrismaNullable<RequestItemSumAggregateOutputType> $sum;
 
-  @_i2.JsonKey(name: '_min')
-  final _i1.PrismaNullable<RequestItemMinAggregateOutputType> $min;
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<RequestItemMinAggregateOutputType> $min;
 
-  @_i2.JsonKey(name: '_max')
-  final _i1.PrismaNullable<RequestItemMaxAggregateOutputType> $max;
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<RequestItemMaxAggregateOutputType> $max;
 
   @override
   Map<String, dynamic> toJson() => _$AggregateRequestItemToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class RequestItemGroupByOutputType implements _i1.JsonSerializable {
+class RequestItemGroupByOutputType implements _i2.JsonSerializable {
   const RequestItemGroupByOutputType({
     required this.id,
     required this.request_id,
+    required this.quantity,
+    required this.asset_type_id,
     this.$count,
     this.$avg,
     this.$sum,
@@ -5755,31 +8384,35 @@ class RequestItemGroupByOutputType implements _i1.JsonSerializable {
 
   final int request_id;
 
-  @_i2.JsonKey(name: '_count')
-  final _i1.PrismaNullable<RequestItemCountAggregateOutputType> $count;
+  final int quantity;
 
-  @_i2.JsonKey(name: '_avg')
-  final _i1.PrismaNullable<RequestItemAvgAggregateOutputType> $avg;
+  final String asset_type_id;
 
-  @_i2.JsonKey(name: '_sum')
-  final _i1.PrismaNullable<RequestItemSumAggregateOutputType> $sum;
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<RequestItemCountAggregateOutputType> $count;
 
-  @_i2.JsonKey(name: '_min')
-  final _i1.PrismaNullable<RequestItemMinAggregateOutputType> $min;
+  @_i1.JsonKey(name: '_avg')
+  final _i2.PrismaNullable<RequestItemAvgAggregateOutputType> $avg;
 
-  @_i2.JsonKey(name: '_max')
-  final _i1.PrismaNullable<RequestItemMaxAggregateOutputType> $max;
+  @_i1.JsonKey(name: '_sum')
+  final _i2.PrismaNullable<RequestItemSumAggregateOutputType> $sum;
+
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<RequestItemMinAggregateOutputType> $min;
+
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<RequestItemMaxAggregateOutputType> $max;
 
   @override
   Map<String, dynamic> toJson() => _$RequestItemGroupByOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AggregateAssetType implements _i1.JsonSerializable {
+class AggregateAssetType implements _i2.JsonSerializable {
   const AggregateAssetType({
     this.$count,
     this.$avg,
@@ -5791,31 +8424,31 @@ class AggregateAssetType implements _i1.JsonSerializable {
   factory AggregateAssetType.fromJson(Map<String, dynamic> json) =>
       _$AggregateAssetTypeFromJson(json);
 
-  @_i2.JsonKey(name: '_count')
-  final _i1.PrismaNullable<AssetTypeCountAggregateOutputType> $count;
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<AssetTypeCountAggregateOutputType> $count;
 
-  @_i2.JsonKey(name: '_avg')
-  final _i1.PrismaNullable<AssetTypeAvgAggregateOutputType> $avg;
+  @_i1.JsonKey(name: '_avg')
+  final _i2.PrismaNullable<AssetTypeAvgAggregateOutputType> $avg;
 
-  @_i2.JsonKey(name: '_sum')
-  final _i1.PrismaNullable<AssetTypeSumAggregateOutputType> $sum;
+  @_i1.JsonKey(name: '_sum')
+  final _i2.PrismaNullable<AssetTypeSumAggregateOutputType> $sum;
 
-  @_i2.JsonKey(name: '_min')
-  final _i1.PrismaNullable<AssetTypeMinAggregateOutputType> $min;
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<AssetTypeMinAggregateOutputType> $min;
 
-  @_i2.JsonKey(name: '_max')
-  final _i1.PrismaNullable<AssetTypeMaxAggregateOutputType> $max;
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<AssetTypeMaxAggregateOutputType> $max;
 
   @override
   Map<String, dynamic> toJson() => _$AggregateAssetTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AssetTypeGroupByOutputType implements _i1.JsonSerializable {
+class AssetTypeGroupByOutputType implements _i2.JsonSerializable {
   const AssetTypeGroupByOutputType({
     required this.id,
     required this.title,
@@ -5837,35 +8470,37 @@ class AssetTypeGroupByOutputType implements _i1.JsonSerializable {
 
   final bool unique;
 
-  final _i1.PrismaNullable<int> quantity;
+  final _i2.PrismaNullable<int> quantity;
 
-  @_i2.JsonKey(name: '_count')
-  final _i1.PrismaNullable<AssetTypeCountAggregateOutputType> $count;
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<AssetTypeCountAggregateOutputType> $count;
 
-  @_i2.JsonKey(name: '_avg')
-  final _i1.PrismaNullable<AssetTypeAvgAggregateOutputType> $avg;
+  @_i1.JsonKey(name: '_avg')
+  final _i2.PrismaNullable<AssetTypeAvgAggregateOutputType> $avg;
 
-  @_i2.JsonKey(name: '_sum')
-  final _i1.PrismaNullable<AssetTypeSumAggregateOutputType> $sum;
+  @_i1.JsonKey(name: '_sum')
+  final _i2.PrismaNullable<AssetTypeSumAggregateOutputType> $sum;
 
-  @_i2.JsonKey(name: '_min')
-  final _i1.PrismaNullable<AssetTypeMinAggregateOutputType> $min;
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<AssetTypeMinAggregateOutputType> $min;
 
-  @_i2.JsonKey(name: '_max')
-  final _i1.PrismaNullable<AssetTypeMaxAggregateOutputType> $max;
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<AssetTypeMaxAggregateOutputType> $max;
 
   @override
   Map<String, dynamic> toJson() => _$AssetTypeGroupByOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AggregateAsset implements _i1.JsonSerializable {
+class AggregateAsset implements _i2.JsonSerializable {
   const AggregateAsset({
     this.$count,
+    this.$avg,
+    this.$sum,
     this.$min,
     this.$max,
   });
@@ -5873,29 +8508,38 @@ class AggregateAsset implements _i1.JsonSerializable {
   factory AggregateAsset.fromJson(Map<String, dynamic> json) =>
       _$AggregateAssetFromJson(json);
 
-  @_i2.JsonKey(name: '_count')
-  final _i1.PrismaNullable<AssetCountAggregateOutputType> $count;
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<AssetCountAggregateOutputType> $count;
 
-  @_i2.JsonKey(name: '_min')
-  final _i1.PrismaNullable<AssetMinAggregateOutputType> $min;
+  @_i1.JsonKey(name: '_avg')
+  final _i2.PrismaNullable<AssetAvgAggregateOutputType> $avg;
 
-  @_i2.JsonKey(name: '_max')
-  final _i1.PrismaNullable<AssetMaxAggregateOutputType> $max;
+  @_i1.JsonKey(name: '_sum')
+  final _i2.PrismaNullable<AssetSumAggregateOutputType> $sum;
+
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<AssetMinAggregateOutputType> $min;
+
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<AssetMaxAggregateOutputType> $max;
 
   @override
   Map<String, dynamic> toJson() => _$AggregateAssetToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AssetGroupByOutputType implements _i1.JsonSerializable {
+class AssetGroupByOutputType implements _i2.JsonSerializable {
   const AssetGroupByOutputType({
     required this.id,
     required this.type_id,
+    this.deployed_to_id,
     this.$count,
+    this.$avg,
+    this.$sum,
     this.$min,
     this.$max,
   });
@@ -5907,25 +8551,33 @@ class AssetGroupByOutputType implements _i1.JsonSerializable {
 
   final String type_id;
 
-  @_i2.JsonKey(name: '_count')
-  final _i1.PrismaNullable<AssetCountAggregateOutputType> $count;
+  final _i2.PrismaNullable<int> deployed_to_id;
 
-  @_i2.JsonKey(name: '_min')
-  final _i1.PrismaNullable<AssetMinAggregateOutputType> $min;
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<AssetCountAggregateOutputType> $count;
 
-  @_i2.JsonKey(name: '_max')
-  final _i1.PrismaNullable<AssetMaxAggregateOutputType> $max;
+  @_i1.JsonKey(name: '_avg')
+  final _i2.PrismaNullable<AssetAvgAggregateOutputType> $avg;
+
+  @_i1.JsonKey(name: '_sum')
+  final _i2.PrismaNullable<AssetSumAggregateOutputType> $sum;
+
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<AssetMinAggregateOutputType> $min;
+
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<AssetMaxAggregateOutputType> $max;
 
   @override
   Map<String, dynamic> toJson() => _$AssetGroupByOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AffectedRowsOutput implements _i1.JsonSerializable {
+class AffectedRowsOutput implements _i2.JsonSerializable {
   const AffectedRowsOutput({required this.count});
 
   factory AffectedRowsOutput.fromJson(Map<String, dynamic> json) =>
@@ -5937,12 +8589,12 @@ class AffectedRowsOutput implements _i1.JsonSerializable {
   Map<String, dynamic> toJson() => _$AffectedRowsOutputToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class SessionCountAggregateOutputType implements _i1.JsonSerializable {
+class SessionCountAggregateOutputType implements _i2.JsonSerializable {
   const SessionCountAggregateOutputType({
     required this.key,
     required this.user_id,
@@ -5956,7 +8608,7 @@ class SessionCountAggregateOutputType implements _i1.JsonSerializable {
 
   final int user_id;
 
-  @_i2.JsonKey(name: '_all')
+  @_i1.JsonKey(name: '_all')
   final int $all;
 
   @override
@@ -5964,12 +8616,12 @@ class SessionCountAggregateOutputType implements _i1.JsonSerializable {
       _$SessionCountAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class SessionMinAggregateOutputType implements _i1.JsonSerializable {
+class SessionMinAggregateOutputType implements _i2.JsonSerializable {
   const SessionMinAggregateOutputType({
     this.key,
     this.user_id,
@@ -5978,20 +8630,20 @@ class SessionMinAggregateOutputType implements _i1.JsonSerializable {
   factory SessionMinAggregateOutputType.fromJson(Map<String, dynamic> json) =>
       _$SessionMinAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<String> key;
+  final _i2.PrismaNullable<String> key;
 
-  final _i1.PrismaNullable<String> user_id;
+  final _i2.PrismaNullable<String> user_id;
 
   @override
   Map<String, dynamic> toJson() => _$SessionMinAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class SessionMaxAggregateOutputType implements _i1.JsonSerializable {
+class SessionMaxAggregateOutputType implements _i2.JsonSerializable {
   const SessionMaxAggregateOutputType({
     this.key,
     this.user_id,
@@ -6000,20 +8652,20 @@ class SessionMaxAggregateOutputType implements _i1.JsonSerializable {
   factory SessionMaxAggregateOutputType.fromJson(Map<String, dynamic> json) =>
       _$SessionMaxAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<String> key;
+  final _i2.PrismaNullable<String> key;
 
-  final _i1.PrismaNullable<String> user_id;
+  final _i2.PrismaNullable<String> user_id;
 
   @override
   Map<String, dynamic> toJson() => _$SessionMaxAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class UserCountOutputType implements _i1.JsonSerializable {
+class UserCountOutputType implements _i2.JsonSerializable {
   const UserCountOutputType({
     required this.requests,
     required this.sessions,
@@ -6030,12 +8682,12 @@ class UserCountOutputType implements _i1.JsonSerializable {
   Map<String, dynamic> toJson() => _$UserCountOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class UserCountAggregateOutputType implements _i1.JsonSerializable {
+class UserCountAggregateOutputType implements _i2.JsonSerializable {
   const UserCountAggregateOutputType({
     required this.id,
     required this.email,
@@ -6052,19 +8704,19 @@ class UserCountAggregateOutputType implements _i1.JsonSerializable {
 
   final int name;
 
-  @_i2.JsonKey(name: '_all')
+  @_i1.JsonKey(name: '_all')
   final int $all;
 
   @override
   Map<String, dynamic> toJson() => _$UserCountAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class UserMinAggregateOutputType implements _i1.JsonSerializable {
+class UserMinAggregateOutputType implements _i2.JsonSerializable {
   const UserMinAggregateOutputType({
     this.id,
     this.email,
@@ -6074,22 +8726,22 @@ class UserMinAggregateOutputType implements _i1.JsonSerializable {
   factory UserMinAggregateOutputType.fromJson(Map<String, dynamic> json) =>
       _$UserMinAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<String> id;
+  final _i2.PrismaNullable<String> id;
 
-  final _i1.PrismaNullable<String> email;
+  final _i2.PrismaNullable<String> email;
 
-  final _i1.PrismaNullable<String> name;
+  final _i2.PrismaNullable<String> name;
 
   @override
   Map<String, dynamic> toJson() => _$UserMinAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class UserMaxAggregateOutputType implements _i1.JsonSerializable {
+class UserMaxAggregateOutputType implements _i2.JsonSerializable {
   const UserMaxAggregateOutputType({
     this.id,
     this.email,
@@ -6099,43 +8751,51 @@ class UserMaxAggregateOutputType implements _i1.JsonSerializable {
   factory UserMaxAggregateOutputType.fromJson(Map<String, dynamic> json) =>
       _$UserMaxAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<String> id;
+  final _i2.PrismaNullable<String> id;
 
-  final _i1.PrismaNullable<String> email;
+  final _i2.PrismaNullable<String> email;
 
-  final _i1.PrismaNullable<String> name;
+  final _i2.PrismaNullable<String> name;
 
   @override
   Map<String, dynamic> toJson() => _$UserMaxAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class EquipmentRequestCountOutputType implements _i1.JsonSerializable {
-  const EquipmentRequestCountOutputType({required this.items});
+class EquipmentRequestCountOutputType implements _i2.JsonSerializable {
+  const EquipmentRequestCountOutputType({
+    required this.items,
+    required this.asset,
+  });
 
   factory EquipmentRequestCountOutputType.fromJson(Map<String, dynamic> json) =>
       _$EquipmentRequestCountOutputTypeFromJson(json);
 
   final int items;
 
+  final int asset;
+
   @override
   Map<String, dynamic> toJson() =>
       _$EquipmentRequestCountOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class EquipmentRequestCountAggregateOutputType implements _i1.JsonSerializable {
+class EquipmentRequestCountAggregateOutputType implements _i2.JsonSerializable {
   const EquipmentRequestCountAggregateOutputType({
     required this.id,
     required this.requester_id,
+    required this.notes,
+    required this.time_start,
+    required this.time_end,
     required this.$all,
   });
 
@@ -6147,7 +8807,13 @@ class EquipmentRequestCountAggregateOutputType implements _i1.JsonSerializable {
 
   final int requester_id;
 
-  @_i2.JsonKey(name: '_all')
+  final int notes;
+
+  final int time_start;
+
+  final int time_end;
+
+  @_i1.JsonKey(name: '_all')
   final int $all;
 
   @override
@@ -6155,101 +8821,121 @@ class EquipmentRequestCountAggregateOutputType implements _i1.JsonSerializable {
       _$EquipmentRequestCountAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class EquipmentRequestAvgAggregateOutputType implements _i1.JsonSerializable {
+class EquipmentRequestAvgAggregateOutputType implements _i2.JsonSerializable {
   const EquipmentRequestAvgAggregateOutputType({this.id});
 
   factory EquipmentRequestAvgAggregateOutputType.fromJson(
           Map<String, dynamic> json) =>
       _$EquipmentRequestAvgAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<double> id;
+  final _i2.PrismaNullable<double> id;
 
   @override
   Map<String, dynamic> toJson() =>
       _$EquipmentRequestAvgAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class EquipmentRequestSumAggregateOutputType implements _i1.JsonSerializable {
+class EquipmentRequestSumAggregateOutputType implements _i2.JsonSerializable {
   const EquipmentRequestSumAggregateOutputType({this.id});
 
   factory EquipmentRequestSumAggregateOutputType.fromJson(
           Map<String, dynamic> json) =>
       _$EquipmentRequestSumAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
 
   @override
   Map<String, dynamic> toJson() =>
       _$EquipmentRequestSumAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class EquipmentRequestMinAggregateOutputType implements _i1.JsonSerializable {
+class EquipmentRequestMinAggregateOutputType implements _i2.JsonSerializable {
   const EquipmentRequestMinAggregateOutputType({
     this.id,
     this.requester_id,
+    this.notes,
+    this.time_start,
+    this.time_end,
   });
 
   factory EquipmentRequestMinAggregateOutputType.fromJson(
           Map<String, dynamic> json) =>
       _$EquipmentRequestMinAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
 
-  final _i1.PrismaNullable<String> requester_id;
+  final _i2.PrismaNullable<String> requester_id;
+
+  final _i2.PrismaNullable<String> notes;
+
+  final _i2.PrismaNullable<DateTime> time_start;
+
+  final _i2.PrismaNullable<DateTime> time_end;
 
   @override
   Map<String, dynamic> toJson() =>
       _$EquipmentRequestMinAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class EquipmentRequestMaxAggregateOutputType implements _i1.JsonSerializable {
+class EquipmentRequestMaxAggregateOutputType implements _i2.JsonSerializable {
   const EquipmentRequestMaxAggregateOutputType({
     this.id,
     this.requester_id,
+    this.notes,
+    this.time_start,
+    this.time_end,
   });
 
   factory EquipmentRequestMaxAggregateOutputType.fromJson(
           Map<String, dynamic> json) =>
       _$EquipmentRequestMaxAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
 
-  final _i1.PrismaNullable<String> requester_id;
+  final _i2.PrismaNullable<String> requester_id;
+
+  final _i2.PrismaNullable<String> notes;
+
+  final _i2.PrismaNullable<DateTime> time_start;
+
+  final _i2.PrismaNullable<DateTime> time_end;
 
   @override
   Map<String, dynamic> toJson() =>
       _$EquipmentRequestMaxAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class RequestItemCountAggregateOutputType implements _i1.JsonSerializable {
+class RequestItemCountAggregateOutputType implements _i2.JsonSerializable {
   const RequestItemCountAggregateOutputType({
     required this.id,
     required this.request_id,
+    required this.quantity,
+    required this.asset_type_id,
     required this.$all,
   });
 
@@ -6261,7 +8947,11 @@ class RequestItemCountAggregateOutputType implements _i1.JsonSerializable {
 
   final int request_id;
 
-  @_i2.JsonKey(name: '_all')
+  final int quantity;
+
+  final int asset_type_id;
+
+  @_i1.JsonKey(name: '_all')
   final int $all;
 
   @override
@@ -6269,125 +8959,148 @@ class RequestItemCountAggregateOutputType implements _i1.JsonSerializable {
       _$RequestItemCountAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class RequestItemAvgAggregateOutputType implements _i1.JsonSerializable {
+class RequestItemAvgAggregateOutputType implements _i2.JsonSerializable {
   const RequestItemAvgAggregateOutputType({
     this.id,
     this.request_id,
+    this.quantity,
   });
 
   factory RequestItemAvgAggregateOutputType.fromJson(
           Map<String, dynamic> json) =>
       _$RequestItemAvgAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<double> id;
+  final _i2.PrismaNullable<double> id;
 
-  final _i1.PrismaNullable<double> request_id;
+  final _i2.PrismaNullable<double> request_id;
+
+  final _i2.PrismaNullable<double> quantity;
 
   @override
   Map<String, dynamic> toJson() =>
       _$RequestItemAvgAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class RequestItemSumAggregateOutputType implements _i1.JsonSerializable {
+class RequestItemSumAggregateOutputType implements _i2.JsonSerializable {
   const RequestItemSumAggregateOutputType({
     this.id,
     this.request_id,
+    this.quantity,
   });
 
   factory RequestItemSumAggregateOutputType.fromJson(
           Map<String, dynamic> json) =>
       _$RequestItemSumAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
 
-  final _i1.PrismaNullable<int> request_id;
+  final _i2.PrismaNullable<int> request_id;
+
+  final _i2.PrismaNullable<int> quantity;
 
   @override
   Map<String, dynamic> toJson() =>
       _$RequestItemSumAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class RequestItemMinAggregateOutputType implements _i1.JsonSerializable {
+class RequestItemMinAggregateOutputType implements _i2.JsonSerializable {
   const RequestItemMinAggregateOutputType({
     this.id,
     this.request_id,
+    this.quantity,
+    this.asset_type_id,
   });
 
   factory RequestItemMinAggregateOutputType.fromJson(
           Map<String, dynamic> json) =>
       _$RequestItemMinAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
 
-  final _i1.PrismaNullable<int> request_id;
+  final _i2.PrismaNullable<int> request_id;
+
+  final _i2.PrismaNullable<int> quantity;
+
+  final _i2.PrismaNullable<String> asset_type_id;
 
   @override
   Map<String, dynamic> toJson() =>
       _$RequestItemMinAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class RequestItemMaxAggregateOutputType implements _i1.JsonSerializable {
+class RequestItemMaxAggregateOutputType implements _i2.JsonSerializable {
   const RequestItemMaxAggregateOutputType({
     this.id,
     this.request_id,
+    this.quantity,
+    this.asset_type_id,
   });
 
   factory RequestItemMaxAggregateOutputType.fromJson(
           Map<String, dynamic> json) =>
       _$RequestItemMaxAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<int> id;
+  final _i2.PrismaNullable<int> id;
 
-  final _i1.PrismaNullable<int> request_id;
+  final _i2.PrismaNullable<int> request_id;
+
+  final _i2.PrismaNullable<int> quantity;
+
+  final _i2.PrismaNullable<String> asset_type_id;
 
   @override
   Map<String, dynamic> toJson() =>
       _$RequestItemMaxAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AssetTypeCountOutputType implements _i1.JsonSerializable {
-  const AssetTypeCountOutputType({required this.assets});
+class AssetTypeCountOutputType implements _i2.JsonSerializable {
+  const AssetTypeCountOutputType({
+    required this.assets,
+    required this.RequestItem,
+  });
 
   factory AssetTypeCountOutputType.fromJson(Map<String, dynamic> json) =>
       _$AssetTypeCountOutputTypeFromJson(json);
 
   final int assets;
 
+  final int RequestItem;
+
   @override
   Map<String, dynamic> toJson() => _$AssetTypeCountOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AssetTypeCountAggregateOutputType implements _i1.JsonSerializable {
+class AssetTypeCountAggregateOutputType implements _i2.JsonSerializable {
   const AssetTypeCountAggregateOutputType({
     required this.id,
     required this.title,
@@ -6408,7 +9121,7 @@ class AssetTypeCountAggregateOutputType implements _i1.JsonSerializable {
 
   final int quantity;
 
-  @_i2.JsonKey(name: '_all')
+  @_i1.JsonKey(name: '_all')
   final int $all;
 
   @override
@@ -6416,48 +9129,48 @@ class AssetTypeCountAggregateOutputType implements _i1.JsonSerializable {
       _$AssetTypeCountAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AssetTypeAvgAggregateOutputType implements _i1.JsonSerializable {
+class AssetTypeAvgAggregateOutputType implements _i2.JsonSerializable {
   const AssetTypeAvgAggregateOutputType({this.quantity});
 
   factory AssetTypeAvgAggregateOutputType.fromJson(Map<String, dynamic> json) =>
       _$AssetTypeAvgAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<double> quantity;
+  final _i2.PrismaNullable<double> quantity;
 
   @override
   Map<String, dynamic> toJson() =>
       _$AssetTypeAvgAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AssetTypeSumAggregateOutputType implements _i1.JsonSerializable {
+class AssetTypeSumAggregateOutputType implements _i2.JsonSerializable {
   const AssetTypeSumAggregateOutputType({this.quantity});
 
   factory AssetTypeSumAggregateOutputType.fromJson(Map<String, dynamic> json) =>
       _$AssetTypeSumAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<int> quantity;
+  final _i2.PrismaNullable<int> quantity;
 
   @override
   Map<String, dynamic> toJson() =>
       _$AssetTypeSumAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AssetTypeMinAggregateOutputType implements _i1.JsonSerializable {
+class AssetTypeMinAggregateOutputType implements _i2.JsonSerializable {
   const AssetTypeMinAggregateOutputType({
     this.id,
     this.title,
@@ -6468,25 +9181,25 @@ class AssetTypeMinAggregateOutputType implements _i1.JsonSerializable {
   factory AssetTypeMinAggregateOutputType.fromJson(Map<String, dynamic> json) =>
       _$AssetTypeMinAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<String> id;
+  final _i2.PrismaNullable<String> id;
 
-  final _i1.PrismaNullable<String> title;
+  final _i2.PrismaNullable<String> title;
 
-  final _i1.PrismaNullable<bool> unique;
+  final _i2.PrismaNullable<bool> unique;
 
-  final _i1.PrismaNullable<int> quantity;
+  final _i2.PrismaNullable<int> quantity;
 
   @override
   Map<String, dynamic> toJson() =>
       _$AssetTypeMinAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AssetTypeMaxAggregateOutputType implements _i1.JsonSerializable {
+class AssetTypeMaxAggregateOutputType implements _i2.JsonSerializable {
   const AssetTypeMaxAggregateOutputType({
     this.id,
     this.title,
@@ -6497,28 +9210,29 @@ class AssetTypeMaxAggregateOutputType implements _i1.JsonSerializable {
   factory AssetTypeMaxAggregateOutputType.fromJson(Map<String, dynamic> json) =>
       _$AssetTypeMaxAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<String> id;
+  final _i2.PrismaNullable<String> id;
 
-  final _i1.PrismaNullable<String> title;
+  final _i2.PrismaNullable<String> title;
 
-  final _i1.PrismaNullable<bool> unique;
+  final _i2.PrismaNullable<bool> unique;
 
-  final _i1.PrismaNullable<int> quantity;
+  final _i2.PrismaNullable<int> quantity;
 
   @override
   Map<String, dynamic> toJson() =>
       _$AssetTypeMaxAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AssetCountAggregateOutputType implements _i1.JsonSerializable {
+class AssetCountAggregateOutputType implements _i2.JsonSerializable {
   const AssetCountAggregateOutputType({
     required this.id,
     required this.type_id,
+    required this.deployed_to_id,
     required this.$all,
   });
 
@@ -6529,63 +9243,105 @@ class AssetCountAggregateOutputType implements _i1.JsonSerializable {
 
   final int type_id;
 
-  @_i2.JsonKey(name: '_all')
+  final int deployed_to_id;
+
+  @_i1.JsonKey(name: '_all')
   final int $all;
 
   @override
   Map<String, dynamic> toJson() => _$AssetCountAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AssetMinAggregateOutputType implements _i1.JsonSerializable {
+class AssetAvgAggregateOutputType implements _i2.JsonSerializable {
+  const AssetAvgAggregateOutputType({this.deployed_to_id});
+
+  factory AssetAvgAggregateOutputType.fromJson(Map<String, dynamic> json) =>
+      _$AssetAvgAggregateOutputTypeFromJson(json);
+
+  final _i2.PrismaNullable<double> deployed_to_id;
+
+  @override
+  Map<String, dynamic> toJson() => _$AssetAvgAggregateOutputTypeToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class AssetSumAggregateOutputType implements _i2.JsonSerializable {
+  const AssetSumAggregateOutputType({this.deployed_to_id});
+
+  factory AssetSumAggregateOutputType.fromJson(Map<String, dynamic> json) =>
+      _$AssetSumAggregateOutputTypeFromJson(json);
+
+  final _i2.PrismaNullable<int> deployed_to_id;
+
+  @override
+  Map<String, dynamic> toJson() => _$AssetSumAggregateOutputTypeToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class AssetMinAggregateOutputType implements _i2.JsonSerializable {
   const AssetMinAggregateOutputType({
     this.id,
     this.type_id,
+    this.deployed_to_id,
   });
 
   factory AssetMinAggregateOutputType.fromJson(Map<String, dynamic> json) =>
       _$AssetMinAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<String> id;
+  final _i2.PrismaNullable<String> id;
 
-  final _i1.PrismaNullable<String> type_id;
+  final _i2.PrismaNullable<String> type_id;
+
+  final _i2.PrismaNullable<int> deployed_to_id;
 
   @override
   Map<String, dynamic> toJson() => _$AssetMinAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AssetMaxAggregateOutputType implements _i1.JsonSerializable {
+class AssetMaxAggregateOutputType implements _i2.JsonSerializable {
   const AssetMaxAggregateOutputType({
     this.id,
     this.type_id,
+    this.deployed_to_id,
   });
 
   factory AssetMaxAggregateOutputType.fromJson(Map<String, dynamic> json) =>
       _$AssetMaxAggregateOutputTypeFromJson(json);
 
-  final _i1.PrismaNullable<String> id;
+  final _i2.PrismaNullable<String> id;
 
-  final _i1.PrismaNullable<String> type_id;
+  final _i2.PrismaNullable<String> type_id;
+
+  final _i2.PrismaNullable<int> deployed_to_id;
 
   @override
   Map<String, dynamic> toJson() => _$AssetMaxAggregateOutputTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class Session implements _i1.JsonSerializable {
+class Session implements _i2.JsonSerializable {
   const Session({
     required this.key,
     required this.user_id,
@@ -6602,12 +9358,12 @@ class Session implements _i1.JsonSerializable {
   Map<String, dynamic> toJson() => _$SessionToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class User implements _i1.JsonSerializable {
+class User implements _i2.JsonSerializable {
   const User({
     required this.id,
     required this.email,
@@ -6626,15 +9382,18 @@ class User implements _i1.JsonSerializable {
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class EquipmentRequest implements _i1.JsonSerializable {
+class EquipmentRequest implements _i2.JsonSerializable {
   const EquipmentRequest({
     required this.id,
     required this.requester_id,
+    required this.notes,
+    required this.time_start,
+    required this.time_end,
   });
 
   factory EquipmentRequest.fromJson(Map<String, dynamic> json) =>
@@ -6644,19 +9403,27 @@ class EquipmentRequest implements _i1.JsonSerializable {
 
   final String requester_id;
 
+  final String notes;
+
+  final DateTime time_start;
+
+  final DateTime time_end;
+
   @override
   Map<String, dynamic> toJson() => _$EquipmentRequestToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class RequestItem implements _i1.JsonSerializable {
+class RequestItem implements _i2.JsonSerializable {
   const RequestItem({
     required this.id,
     required this.request_id,
+    required this.quantity,
+    required this.asset_type_id,
   });
 
   factory RequestItem.fromJson(Map<String, dynamic> json) =>
@@ -6666,16 +9433,20 @@ class RequestItem implements _i1.JsonSerializable {
 
   final int request_id;
 
+  final int quantity;
+
+  final String asset_type_id;
+
   @override
   Map<String, dynamic> toJson() => _$RequestItemToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class AssetType implements _i1.JsonSerializable {
+class AssetType implements _i2.JsonSerializable {
   const AssetType({
     required this.id,
     required this.title,
@@ -6692,21 +9463,22 @@ class AssetType implements _i1.JsonSerializable {
 
   final bool unique;
 
-  final _i1.PrismaNullable<int> quantity;
+  final _i2.PrismaNullable<int> quantity;
 
   @override
   Map<String, dynamic> toJson() => _$AssetTypeToJson(this);
 }
 
-@_i2.JsonSerializable(
+@_i1.JsonSerializable(
   createToJson: true,
   createFactory: true,
   explicitToJson: true,
 )
-class Asset implements _i1.JsonSerializable {
+class Asset implements _i2.JsonSerializable {
   const Asset({
     required this.id,
     required this.type_id,
+    this.deployed_to_id,
   });
 
   factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);
@@ -6714,6 +9486,8 @@ class Asset implements _i1.JsonSerializable {
   final String id;
 
   final String type_id;
+
+  final _i2.PrismaNullable<int> deployed_to_id;
 
   @override
   Map<String, dynamic> toJson() => _$AssetToJson(this);
@@ -6725,32 +9499,32 @@ class SessionDelegate {
     this._headers,
   ]);
 
-  final _i1.Engine _engine;
+  final _i2.Engine _engine;
 
-  final _i1.PrismaNullable<_i1.QueryEngineRequestHeaders> _headers;
+  final _i2.PrismaNullable<_i2.QueryEngineRequestHeaders> _headers;
 
-  Future<_i1.PrismaNullable<Session>> findUnique(
+  Future<_i2.PrismaNullable<Session>> findUnique(
       {required SessionWhereUniqueInput where}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findUniqueSession',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(SessionScalarFieldEnum.values
+          fields: _i2.GraphQLFields(SessionScalarFieldEnum.values
               .map((SessionScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -6759,59 +9533,59 @@ class SessionDelegate {
         : Session.fromJson((result.data['findUniqueSession'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<Session>> findFirst({
-    _i1.PrismaNullable<SessionWhereInput> where,
-    _i1.PrismaNullable<List<SessionOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<SessionWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
-    _i1.PrismaNullable<List<SessionScalarFieldEnum>> distinct,
+  Future<_i2.PrismaNullable<Session>> findFirst({
+    _i2.PrismaNullable<SessionWhereInput> where,
+    _i2.PrismaNullable<List<SessionOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<SessionWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<SessionScalarFieldEnum>> distinct,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findFirstSession',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'distinct',
               distinct,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(SessionScalarFieldEnum.values
+          fields: _i2.GraphQLFields(SessionScalarFieldEnum.values
               .map((SessionScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -6821,58 +9595,58 @@ class SessionDelegate {
   }
 
   Future<List<Session>> findMany({
-    _i1.PrismaNullable<SessionWhereInput> where,
-    _i1.PrismaNullable<List<SessionOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<SessionWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
-    _i1.PrismaNullable<List<SessionScalarFieldEnum>> distinct,
+    _i2.PrismaNullable<SessionWhereInput> where,
+    _i2.PrismaNullable<List<SessionOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<SessionWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<SessionScalarFieldEnum>> distinct,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findManySession',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'distinct',
               distinct,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(SessionScalarFieldEnum.values
+          fields: _i2.GraphQLFields(SessionScalarFieldEnum.values
               .map((SessionScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -6883,61 +9657,97 @@ class SessionDelegate {
   }
 
   Future<Session> create({required SessionCreateInput data}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'createOneSession',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(SessionScalarFieldEnum.values
+          fields: _i2.GraphQLFields(SessionScalarFieldEnum.values
               .map((SessionScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
     return Session.fromJson((result.data['createOneSession'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<Session>> update({
-    required SessionUpdateInput data,
-    required SessionWhereUniqueInput where,
+  Future<AffectedRowsOutput> createMany({
+    required List<SessionCreateManyInput> data,
+    _i2.PrismaNullable<bool> skipDuplicates,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
-          'updateOneSession',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'createManySession',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
+              'skipDuplicates',
+              skipDuplicates,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(SessionScalarFieldEnum.values
+              .map((SessionScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AffectedRowsOutput.fromJson(
+        (result.data['createManySession'] as Map).cast());
+  }
+
+  Future<_i2.PrismaNullable<Session>> update({
+    required SessionUpdateInput data,
+    required SessionWhereUniqueInput where,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'updateOneSession',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             ),
           ]),
-          fields: _i1.GraphQLFields(SessionScalarFieldEnum.values
+          fields: _i2.GraphQLFields(SessionScalarFieldEnum.values
               .map((SessionScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -6948,33 +9758,33 @@ class SessionDelegate {
 
   Future<AffectedRowsOutput> updateMany({
     required SessionUpdateManyMutationInput data,
-    _i1.PrismaNullable<SessionWhereInput> where,
+    _i2.PrismaNullable<SessionWhereInput> where,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'updateManySession',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(SessionScalarFieldEnum.values
+          fields: _i2.GraphQLFields(SessionScalarFieldEnum.values
               .map((SessionScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -6987,64 +9797,64 @@ class SessionDelegate {
     required SessionCreateInput create,
     required SessionUpdateInput update,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'upsertOneSession',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'create',
               create,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'update',
               update,
               isRequired: true,
             ),
           ]),
-          fields: _i1.GraphQLFields(SessionScalarFieldEnum.values
+          fields: _i2.GraphQLFields(SessionScalarFieldEnum.values
               .map((SessionScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
     return Session.fromJson((result.data['upsertOneSession'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<Session>> delete(
+  Future<_i2.PrismaNullable<Session>> delete(
       {required SessionWhereUniqueInput where}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'deleteOneSession',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(SessionScalarFieldEnum.values
+          fields: _i2.GraphQLFields(SessionScalarFieldEnum.values
               .map((SessionScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7054,27 +9864,27 @@ class SessionDelegate {
   }
 
   Future<AffectedRowsOutput> deleteMany(
-      {_i1.PrismaNullable<SessionWhereInput> where}) async {
-    final String sdl = _i1.GraphQLField(
+      {_i2.PrismaNullable<SessionWhereInput> where}) async {
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'deleteManySession',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             )
           ]),
-          fields: _i1.GraphQLFields(SessionScalarFieldEnum.values
+          fields: _i2.GraphQLFields(SessionScalarFieldEnum.values
               .map((SessionScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7083,52 +9893,52 @@ class SessionDelegate {
   }
 
   Future<AggregateSession> aggregate({
-    _i1.PrismaNullable<SessionWhereInput> where,
-    _i1.PrismaNullable<List<SessionOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<SessionWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
+    _i2.PrismaNullable<SessionWhereInput> where,
+    _i2.PrismaNullable<List<SessionOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<SessionWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'aggregateSession',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(SessionScalarFieldEnum.values
+          fields: _i2.GraphQLFields(SessionScalarFieldEnum.values
               .map((SessionScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7137,58 +9947,58 @@ class SessionDelegate {
   }
 
   Future<List<SessionGroupByOutputType>> groupBy({
-    _i1.PrismaNullable<SessionWhereInput> where,
-    _i1.PrismaNullable<List<SessionOrderByWithAggregationInput>> orderBy,
+    _i2.PrismaNullable<SessionWhereInput> where,
+    _i2.PrismaNullable<List<SessionOrderByWithAggregationInput>> orderBy,
     required List<SessionScalarFieldEnum> by,
-    _i1.PrismaNullable<SessionScalarWhereWithAggregatesInput> having,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
+    _i2.PrismaNullable<SessionScalarWhereWithAggregatesInput> having,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'groupBySession',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'by',
               by,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'having',
               having,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(SessionScalarFieldEnum.values
+          fields: _i2.GraphQLFields(SessionScalarFieldEnum.values
               .map((SessionScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7205,32 +10015,32 @@ class UserDelegate {
     this._headers,
   ]);
 
-  final _i1.Engine _engine;
+  final _i2.Engine _engine;
 
-  final _i1.PrismaNullable<_i1.QueryEngineRequestHeaders> _headers;
+  final _i2.PrismaNullable<_i2.QueryEngineRequestHeaders> _headers;
 
-  Future<_i1.PrismaNullable<User>> findUnique(
+  Future<_i2.PrismaNullable<User>> findUnique(
       {required UserWhereUniqueInput where}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findUniqueUser',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(UserScalarFieldEnum.values
+          fields: _i2.GraphQLFields(UserScalarFieldEnum.values
               .map((UserScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7239,59 +10049,59 @@ class UserDelegate {
         : User.fromJson((result.data['findUniqueUser'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<User>> findFirst({
-    _i1.PrismaNullable<UserWhereInput> where,
-    _i1.PrismaNullable<List<UserOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<UserWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
-    _i1.PrismaNullable<List<UserScalarFieldEnum>> distinct,
+  Future<_i2.PrismaNullable<User>> findFirst({
+    _i2.PrismaNullable<UserWhereInput> where,
+    _i2.PrismaNullable<List<UserOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<UserWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<UserScalarFieldEnum>> distinct,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findFirstUser',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'distinct',
               distinct,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(UserScalarFieldEnum.values
+          fields: _i2.GraphQLFields(UserScalarFieldEnum.values
               .map((UserScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7301,58 +10111,58 @@ class UserDelegate {
   }
 
   Future<List<User>> findMany({
-    _i1.PrismaNullable<UserWhereInput> where,
-    _i1.PrismaNullable<List<UserOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<UserWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
-    _i1.PrismaNullable<List<UserScalarFieldEnum>> distinct,
+    _i2.PrismaNullable<UserWhereInput> where,
+    _i2.PrismaNullable<List<UserOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<UserWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<UserScalarFieldEnum>> distinct,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findManyUser',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'distinct',
               distinct,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(UserScalarFieldEnum.values
+          fields: _i2.GraphQLFields(UserScalarFieldEnum.values
               .map((UserScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7363,61 +10173,97 @@ class UserDelegate {
   }
 
   Future<User> create({required UserCreateInput data}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'createOneUser',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(UserScalarFieldEnum.values
+          fields: _i2.GraphQLFields(UserScalarFieldEnum.values
               .map((UserScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
     return User.fromJson((result.data['createOneUser'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<User>> update({
-    required UserUpdateInput data,
-    required UserWhereUniqueInput where,
+  Future<AffectedRowsOutput> createMany({
+    required List<UserCreateManyInput> data,
+    _i2.PrismaNullable<bool> skipDuplicates,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
-          'updateOneUser',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'createManyUser',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
+              'skipDuplicates',
+              skipDuplicates,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(UserScalarFieldEnum.values
+              .map((UserScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AffectedRowsOutput.fromJson(
+        (result.data['createManyUser'] as Map).cast());
+  }
+
+  Future<_i2.PrismaNullable<User>> update({
+    required UserUpdateInput data,
+    required UserWhereUniqueInput where,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'updateOneUser',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             ),
           ]),
-          fields: _i1.GraphQLFields(UserScalarFieldEnum.values
+          fields: _i2.GraphQLFields(UserScalarFieldEnum.values
               .map((UserScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7428,33 +10274,33 @@ class UserDelegate {
 
   Future<AffectedRowsOutput> updateMany({
     required UserUpdateManyMutationInput data,
-    _i1.PrismaNullable<UserWhereInput> where,
+    _i2.PrismaNullable<UserWhereInput> where,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'updateManyUser',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(UserScalarFieldEnum.values
+          fields: _i2.GraphQLFields(UserScalarFieldEnum.values
               .map((UserScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7467,64 +10313,64 @@ class UserDelegate {
     required UserCreateInput create,
     required UserUpdateInput update,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'upsertOneUser',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'create',
               create,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'update',
               update,
               isRequired: true,
             ),
           ]),
-          fields: _i1.GraphQLFields(UserScalarFieldEnum.values
+          fields: _i2.GraphQLFields(UserScalarFieldEnum.values
               .map((UserScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
     return User.fromJson((result.data['upsertOneUser'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<User>> delete(
+  Future<_i2.PrismaNullable<User>> delete(
       {required UserWhereUniqueInput where}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'deleteOneUser',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(UserScalarFieldEnum.values
+          fields: _i2.GraphQLFields(UserScalarFieldEnum.values
               .map((UserScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7534,27 +10380,27 @@ class UserDelegate {
   }
 
   Future<AffectedRowsOutput> deleteMany(
-      {_i1.PrismaNullable<UserWhereInput> where}) async {
-    final String sdl = _i1.GraphQLField(
+      {_i2.PrismaNullable<UserWhereInput> where}) async {
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'deleteManyUser',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             )
           ]),
-          fields: _i1.GraphQLFields(UserScalarFieldEnum.values
+          fields: _i2.GraphQLFields(UserScalarFieldEnum.values
               .map((UserScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7563,52 +10409,52 @@ class UserDelegate {
   }
 
   Future<AggregateUser> aggregate({
-    _i1.PrismaNullable<UserWhereInput> where,
-    _i1.PrismaNullable<List<UserOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<UserWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
+    _i2.PrismaNullable<UserWhereInput> where,
+    _i2.PrismaNullable<List<UserOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<UserWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'aggregateUser',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(UserScalarFieldEnum.values
+          fields: _i2.GraphQLFields(UserScalarFieldEnum.values
               .map((UserScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7616,58 +10462,58 @@ class UserDelegate {
   }
 
   Future<List<UserGroupByOutputType>> groupBy({
-    _i1.PrismaNullable<UserWhereInput> where,
-    _i1.PrismaNullable<List<UserOrderByWithAggregationInput>> orderBy,
+    _i2.PrismaNullable<UserWhereInput> where,
+    _i2.PrismaNullable<List<UserOrderByWithAggregationInput>> orderBy,
     required List<UserScalarFieldEnum> by,
-    _i1.PrismaNullable<UserScalarWhereWithAggregatesInput> having,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
+    _i2.PrismaNullable<UserScalarWhereWithAggregatesInput> having,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'groupByUser',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'by',
               by,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'having',
               having,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(UserScalarFieldEnum.values
+          fields: _i2.GraphQLFields(UserScalarFieldEnum.values
               .map((UserScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7684,32 +10530,32 @@ class EquipmentRequestDelegate {
     this._headers,
   ]);
 
-  final _i1.Engine _engine;
+  final _i2.Engine _engine;
 
-  final _i1.PrismaNullable<_i1.QueryEngineRequestHeaders> _headers;
+  final _i2.PrismaNullable<_i2.QueryEngineRequestHeaders> _headers;
 
-  Future<_i1.PrismaNullable<EquipmentRequest>> findUnique(
+  Future<_i2.PrismaNullable<EquipmentRequest>> findUnique(
       {required EquipmentRequestWhereUniqueInput where}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findUniqueEquipmentRequest',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(EquipmentRequestScalarFieldEnum.values
+          fields: _i2.GraphQLFields(EquipmentRequestScalarFieldEnum.values
               .map((EquipmentRequestScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7719,59 +10565,59 @@ class EquipmentRequestDelegate {
             (result.data['findUniqueEquipmentRequest'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<EquipmentRequest>> findFirst({
-    _i1.PrismaNullable<EquipmentRequestWhereInput> where,
-    _i1.PrismaNullable<List<EquipmentRequestOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
-    _i1.PrismaNullable<List<EquipmentRequestScalarFieldEnum>> distinct,
+  Future<_i2.PrismaNullable<EquipmentRequest>> findFirst({
+    _i2.PrismaNullable<EquipmentRequestWhereInput> where,
+    _i2.PrismaNullable<List<EquipmentRequestOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<EquipmentRequestScalarFieldEnum>> distinct,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findFirstEquipmentRequest',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'distinct',
               distinct,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(EquipmentRequestScalarFieldEnum.values
+          fields: _i2.GraphQLFields(EquipmentRequestScalarFieldEnum.values
               .map((EquipmentRequestScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7782,58 +10628,58 @@ class EquipmentRequestDelegate {
   }
 
   Future<List<EquipmentRequest>> findMany({
-    _i1.PrismaNullable<EquipmentRequestWhereInput> where,
-    _i1.PrismaNullable<List<EquipmentRequestOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
-    _i1.PrismaNullable<List<EquipmentRequestScalarFieldEnum>> distinct,
+    _i2.PrismaNullable<EquipmentRequestWhereInput> where,
+    _i2.PrismaNullable<List<EquipmentRequestOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<EquipmentRequestScalarFieldEnum>> distinct,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findManyEquipmentRequest',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'distinct',
               distinct,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(EquipmentRequestScalarFieldEnum.values
+          fields: _i2.GraphQLFields(EquipmentRequestScalarFieldEnum.values
               .map((EquipmentRequestScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7845,26 +10691,26 @@ class EquipmentRequestDelegate {
 
   Future<EquipmentRequest> create(
       {required EquipmentRequestCreateInput data}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'createOneEquipmentRequest',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(EquipmentRequestScalarFieldEnum.values
+          fields: _i2.GraphQLFields(EquipmentRequestScalarFieldEnum.values
               .map((EquipmentRequestScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7872,35 +10718,71 @@ class EquipmentRequestDelegate {
         (result.data['createOneEquipmentRequest'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<EquipmentRequest>> update({
-    required EquipmentRequestUpdateInput data,
-    required EquipmentRequestWhereUniqueInput where,
+  Future<AffectedRowsOutput> createMany({
+    required List<EquipmentRequestCreateManyInput> data,
+    _i2.PrismaNullable<bool> skipDuplicates,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
-          'updateOneEquipmentRequest',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'createManyEquipmentRequest',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
+              'skipDuplicates',
+              skipDuplicates,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(EquipmentRequestScalarFieldEnum.values
+              .map((EquipmentRequestScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AffectedRowsOutput.fromJson(
+        (result.data['createManyEquipmentRequest'] as Map).cast());
+  }
+
+  Future<_i2.PrismaNullable<EquipmentRequest>> update({
+    required EquipmentRequestUpdateInput data,
+    required EquipmentRequestWhereUniqueInput where,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'updateOneEquipmentRequest',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             ),
           ]),
-          fields: _i1.GraphQLFields(EquipmentRequestScalarFieldEnum.values
+          fields: _i2.GraphQLFields(EquipmentRequestScalarFieldEnum.values
               .map((EquipmentRequestScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7912,33 +10794,33 @@ class EquipmentRequestDelegate {
 
   Future<AffectedRowsOutput> updateMany({
     required EquipmentRequestUpdateManyMutationInput data,
-    _i1.PrismaNullable<EquipmentRequestWhereInput> where,
+    _i2.PrismaNullable<EquipmentRequestWhereInput> where,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'updateManyEquipmentRequest',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(EquipmentRequestScalarFieldEnum.values
+          fields: _i2.GraphQLFields(EquipmentRequestScalarFieldEnum.values
               .map((EquipmentRequestScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7951,36 +10833,36 @@ class EquipmentRequestDelegate {
     required EquipmentRequestCreateInput create,
     required EquipmentRequestUpdateInput update,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'upsertOneEquipmentRequest',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'create',
               create,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'update',
               update,
               isRequired: true,
             ),
           ]),
-          fields: _i1.GraphQLFields(EquipmentRequestScalarFieldEnum.values
+          fields: _i2.GraphQLFields(EquipmentRequestScalarFieldEnum.values
               .map((EquipmentRequestScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -7988,28 +10870,28 @@ class EquipmentRequestDelegate {
         (result.data['upsertOneEquipmentRequest'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<EquipmentRequest>> delete(
+  Future<_i2.PrismaNullable<EquipmentRequest>> delete(
       {required EquipmentRequestWhereUniqueInput where}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'deleteOneEquipmentRequest',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(EquipmentRequestScalarFieldEnum.values
+          fields: _i2.GraphQLFields(EquipmentRequestScalarFieldEnum.values
               .map((EquipmentRequestScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8020,27 +10902,27 @@ class EquipmentRequestDelegate {
   }
 
   Future<AffectedRowsOutput> deleteMany(
-      {_i1.PrismaNullable<EquipmentRequestWhereInput> where}) async {
-    final String sdl = _i1.GraphQLField(
+      {_i2.PrismaNullable<EquipmentRequestWhereInput> where}) async {
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'deleteManyEquipmentRequest',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             )
           ]),
-          fields: _i1.GraphQLFields(EquipmentRequestScalarFieldEnum.values
+          fields: _i2.GraphQLFields(EquipmentRequestScalarFieldEnum.values
               .map((EquipmentRequestScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8049,52 +10931,52 @@ class EquipmentRequestDelegate {
   }
 
   Future<AggregateEquipmentRequest> aggregate({
-    _i1.PrismaNullable<EquipmentRequestWhereInput> where,
-    _i1.PrismaNullable<List<EquipmentRequestOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<EquipmentRequestWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
+    _i2.PrismaNullable<EquipmentRequestWhereInput> where,
+    _i2.PrismaNullable<List<EquipmentRequestOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<EquipmentRequestWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'aggregateEquipmentRequest',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(EquipmentRequestScalarFieldEnum.values
+          fields: _i2.GraphQLFields(EquipmentRequestScalarFieldEnum.values
               .map((EquipmentRequestScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8103,59 +10985,59 @@ class EquipmentRequestDelegate {
   }
 
   Future<List<EquipmentRequestGroupByOutputType>> groupBy({
-    _i1.PrismaNullable<EquipmentRequestWhereInput> where,
-    _i1.PrismaNullable<List<EquipmentRequestOrderByWithAggregationInput>>
+    _i2.PrismaNullable<EquipmentRequestWhereInput> where,
+    _i2.PrismaNullable<List<EquipmentRequestOrderByWithAggregationInput>>
         orderBy,
     required List<EquipmentRequestScalarFieldEnum> by,
-    _i1.PrismaNullable<EquipmentRequestScalarWhereWithAggregatesInput> having,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
+    _i2.PrismaNullable<EquipmentRequestScalarWhereWithAggregatesInput> having,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'groupByEquipmentRequest',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'by',
               by,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'having',
               having,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(EquipmentRequestScalarFieldEnum.values
+          fields: _i2.GraphQLFields(EquipmentRequestScalarFieldEnum.values
               .map((EquipmentRequestScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8172,32 +11054,32 @@ class RequestItemDelegate {
     this._headers,
   ]);
 
-  final _i1.Engine _engine;
+  final _i2.Engine _engine;
 
-  final _i1.PrismaNullable<_i1.QueryEngineRequestHeaders> _headers;
+  final _i2.PrismaNullable<_i2.QueryEngineRequestHeaders> _headers;
 
-  Future<_i1.PrismaNullable<RequestItem>> findUnique(
+  Future<_i2.PrismaNullable<RequestItem>> findUnique(
       {required RequestItemWhereUniqueInput where}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findUniqueRequestItem',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(RequestItemScalarFieldEnum.values
+          fields: _i2.GraphQLFields(RequestItemScalarFieldEnum.values
               .map((RequestItemScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8207,59 +11089,59 @@ class RequestItemDelegate {
             (result.data['findUniqueRequestItem'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<RequestItem>> findFirst({
-    _i1.PrismaNullable<RequestItemWhereInput> where,
-    _i1.PrismaNullable<List<RequestItemOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<RequestItemWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
-    _i1.PrismaNullable<List<RequestItemScalarFieldEnum>> distinct,
+  Future<_i2.PrismaNullable<RequestItem>> findFirst({
+    _i2.PrismaNullable<RequestItemWhereInput> where,
+    _i2.PrismaNullable<List<RequestItemOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<RequestItemWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<RequestItemScalarFieldEnum>> distinct,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findFirstRequestItem',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'distinct',
               distinct,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(RequestItemScalarFieldEnum.values
+          fields: _i2.GraphQLFields(RequestItemScalarFieldEnum.values
               .map((RequestItemScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8270,58 +11152,58 @@ class RequestItemDelegate {
   }
 
   Future<List<RequestItem>> findMany({
-    _i1.PrismaNullable<RequestItemWhereInput> where,
-    _i1.PrismaNullable<List<RequestItemOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<RequestItemWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
-    _i1.PrismaNullable<List<RequestItemScalarFieldEnum>> distinct,
+    _i2.PrismaNullable<RequestItemWhereInput> where,
+    _i2.PrismaNullable<List<RequestItemOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<RequestItemWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<RequestItemScalarFieldEnum>> distinct,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findManyRequestItem',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'distinct',
               distinct,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(RequestItemScalarFieldEnum.values
+          fields: _i2.GraphQLFields(RequestItemScalarFieldEnum.values
               .map((RequestItemScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8332,26 +11214,26 @@ class RequestItemDelegate {
   }
 
   Future<RequestItem> create({required RequestItemCreateInput data}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'createOneRequestItem',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(RequestItemScalarFieldEnum.values
+          fields: _i2.GraphQLFields(RequestItemScalarFieldEnum.values
               .map((RequestItemScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8359,35 +11241,71 @@ class RequestItemDelegate {
         (result.data['createOneRequestItem'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<RequestItem>> update({
-    required RequestItemUpdateInput data,
-    required RequestItemWhereUniqueInput where,
+  Future<AffectedRowsOutput> createMany({
+    required List<RequestItemCreateManyInput> data,
+    _i2.PrismaNullable<bool> skipDuplicates,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
-          'updateOneRequestItem',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'createManyRequestItem',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
+              'skipDuplicates',
+              skipDuplicates,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(RequestItemScalarFieldEnum.values
+              .map((RequestItemScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AffectedRowsOutput.fromJson(
+        (result.data['createManyRequestItem'] as Map).cast());
+  }
+
+  Future<_i2.PrismaNullable<RequestItem>> update({
+    required RequestItemUpdateInput data,
+    required RequestItemWhereUniqueInput where,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'updateOneRequestItem',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             ),
           ]),
-          fields: _i1.GraphQLFields(RequestItemScalarFieldEnum.values
+          fields: _i2.GraphQLFields(RequestItemScalarFieldEnum.values
               .map((RequestItemScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8399,33 +11317,33 @@ class RequestItemDelegate {
 
   Future<AffectedRowsOutput> updateMany({
     required RequestItemUpdateManyMutationInput data,
-    _i1.PrismaNullable<RequestItemWhereInput> where,
+    _i2.PrismaNullable<RequestItemWhereInput> where,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'updateManyRequestItem',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(RequestItemScalarFieldEnum.values
+          fields: _i2.GraphQLFields(RequestItemScalarFieldEnum.values
               .map((RequestItemScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8438,36 +11356,36 @@ class RequestItemDelegate {
     required RequestItemCreateInput create,
     required RequestItemUpdateInput update,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'upsertOneRequestItem',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'create',
               create,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'update',
               update,
               isRequired: true,
             ),
           ]),
-          fields: _i1.GraphQLFields(RequestItemScalarFieldEnum.values
+          fields: _i2.GraphQLFields(RequestItemScalarFieldEnum.values
               .map((RequestItemScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8475,28 +11393,28 @@ class RequestItemDelegate {
         (result.data['upsertOneRequestItem'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<RequestItem>> delete(
+  Future<_i2.PrismaNullable<RequestItem>> delete(
       {required RequestItemWhereUniqueInput where}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'deleteOneRequestItem',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(RequestItemScalarFieldEnum.values
+          fields: _i2.GraphQLFields(RequestItemScalarFieldEnum.values
               .map((RequestItemScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8507,27 +11425,27 @@ class RequestItemDelegate {
   }
 
   Future<AffectedRowsOutput> deleteMany(
-      {_i1.PrismaNullable<RequestItemWhereInput> where}) async {
-    final String sdl = _i1.GraphQLField(
+      {_i2.PrismaNullable<RequestItemWhereInput> where}) async {
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'deleteManyRequestItem',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             )
           ]),
-          fields: _i1.GraphQLFields(RequestItemScalarFieldEnum.values
+          fields: _i2.GraphQLFields(RequestItemScalarFieldEnum.values
               .map((RequestItemScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8536,52 +11454,52 @@ class RequestItemDelegate {
   }
 
   Future<AggregateRequestItem> aggregate({
-    _i1.PrismaNullable<RequestItemWhereInput> where,
-    _i1.PrismaNullable<List<RequestItemOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<RequestItemWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
+    _i2.PrismaNullable<RequestItemWhereInput> where,
+    _i2.PrismaNullable<List<RequestItemOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<RequestItemWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'aggregateRequestItem',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(RequestItemScalarFieldEnum.values
+          fields: _i2.GraphQLFields(RequestItemScalarFieldEnum.values
               .map((RequestItemScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8590,58 +11508,58 @@ class RequestItemDelegate {
   }
 
   Future<List<RequestItemGroupByOutputType>> groupBy({
-    _i1.PrismaNullable<RequestItemWhereInput> where,
-    _i1.PrismaNullable<List<RequestItemOrderByWithAggregationInput>> orderBy,
+    _i2.PrismaNullable<RequestItemWhereInput> where,
+    _i2.PrismaNullable<List<RequestItemOrderByWithAggregationInput>> orderBy,
     required List<RequestItemScalarFieldEnum> by,
-    _i1.PrismaNullable<RequestItemScalarWhereWithAggregatesInput> having,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
+    _i2.PrismaNullable<RequestItemScalarWhereWithAggregatesInput> having,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'groupByRequestItem',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'by',
               by,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'having',
               having,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(RequestItemScalarFieldEnum.values
+          fields: _i2.GraphQLFields(RequestItemScalarFieldEnum.values
               .map((RequestItemScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8658,32 +11576,32 @@ class AssetTypeDelegate {
     this._headers,
   ]);
 
-  final _i1.Engine _engine;
+  final _i2.Engine _engine;
 
-  final _i1.PrismaNullable<_i1.QueryEngineRequestHeaders> _headers;
+  final _i2.PrismaNullable<_i2.QueryEngineRequestHeaders> _headers;
 
-  Future<_i1.PrismaNullable<AssetType>> findUnique(
+  Future<_i2.PrismaNullable<AssetType>> findUnique(
       {required AssetTypeWhereUniqueInput where}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findUniqueAssetType',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(AssetTypeScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetTypeScalarFieldEnum.values
               .map((AssetTypeScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8693,59 +11611,59 @@ class AssetTypeDelegate {
             (result.data['findUniqueAssetType'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<AssetType>> findFirst({
-    _i1.PrismaNullable<AssetTypeWhereInput> where,
-    _i1.PrismaNullable<List<AssetTypeOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<AssetTypeWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
-    _i1.PrismaNullable<List<AssetTypeScalarFieldEnum>> distinct,
+  Future<_i2.PrismaNullable<AssetType>> findFirst({
+    _i2.PrismaNullable<AssetTypeWhereInput> where,
+    _i2.PrismaNullable<List<AssetTypeOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<AssetTypeWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<AssetTypeScalarFieldEnum>> distinct,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findFirstAssetType',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'distinct',
               distinct,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetTypeScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetTypeScalarFieldEnum.values
               .map((AssetTypeScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8755,58 +11673,58 @@ class AssetTypeDelegate {
   }
 
   Future<List<AssetType>> findMany({
-    _i1.PrismaNullable<AssetTypeWhereInput> where,
-    _i1.PrismaNullable<List<AssetTypeOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<AssetTypeWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
-    _i1.PrismaNullable<List<AssetTypeScalarFieldEnum>> distinct,
+    _i2.PrismaNullable<AssetTypeWhereInput> where,
+    _i2.PrismaNullable<List<AssetTypeOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<AssetTypeWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<AssetTypeScalarFieldEnum>> distinct,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findManyAssetType',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'distinct',
               distinct,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetTypeScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetTypeScalarFieldEnum.values
               .map((AssetTypeScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8817,26 +11735,26 @@ class AssetTypeDelegate {
   }
 
   Future<AssetType> create({required AssetTypeCreateInput data}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'createOneAssetType',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(AssetTypeScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetTypeScalarFieldEnum.values
               .map((AssetTypeScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8844,35 +11762,71 @@ class AssetTypeDelegate {
         (result.data['createOneAssetType'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<AssetType>> update({
-    required AssetTypeUpdateInput data,
-    required AssetTypeWhereUniqueInput where,
+  Future<AffectedRowsOutput> createMany({
+    required List<AssetTypeCreateManyInput> data,
+    _i2.PrismaNullable<bool> skipDuplicates,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
-          'updateOneAssetType',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'createManyAssetType',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
+              'skipDuplicates',
+              skipDuplicates,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(AssetTypeScalarFieldEnum.values
+              .map((AssetTypeScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AffectedRowsOutput.fromJson(
+        (result.data['createManyAssetType'] as Map).cast());
+  }
+
+  Future<_i2.PrismaNullable<AssetType>> update({
+    required AssetTypeUpdateInput data,
+    required AssetTypeWhereUniqueInput where,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'updateOneAssetType',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetTypeScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetTypeScalarFieldEnum.values
               .map((AssetTypeScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8883,33 +11837,33 @@ class AssetTypeDelegate {
 
   Future<AffectedRowsOutput> updateMany({
     required AssetTypeUpdateManyMutationInput data,
-    _i1.PrismaNullable<AssetTypeWhereInput> where,
+    _i2.PrismaNullable<AssetTypeWhereInput> where,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'updateManyAssetType',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetTypeScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetTypeScalarFieldEnum.values
               .map((AssetTypeScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8922,36 +11876,36 @@ class AssetTypeDelegate {
     required AssetTypeCreateInput create,
     required AssetTypeUpdateInput update,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'upsertOneAssetType',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'create',
               create,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'update',
               update,
               isRequired: true,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetTypeScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetTypeScalarFieldEnum.values
               .map((AssetTypeScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8959,28 +11913,28 @@ class AssetTypeDelegate {
         (result.data['upsertOneAssetType'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<AssetType>> delete(
+  Future<_i2.PrismaNullable<AssetType>> delete(
       {required AssetTypeWhereUniqueInput where}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'deleteOneAssetType',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(AssetTypeScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetTypeScalarFieldEnum.values
               .map((AssetTypeScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -8990,27 +11944,27 @@ class AssetTypeDelegate {
   }
 
   Future<AffectedRowsOutput> deleteMany(
-      {_i1.PrismaNullable<AssetTypeWhereInput> where}) async {
-    final String sdl = _i1.GraphQLField(
+      {_i2.PrismaNullable<AssetTypeWhereInput> where}) async {
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'deleteManyAssetType',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             )
           ]),
-          fields: _i1.GraphQLFields(AssetTypeScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetTypeScalarFieldEnum.values
               .map((AssetTypeScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -9019,52 +11973,52 @@ class AssetTypeDelegate {
   }
 
   Future<AggregateAssetType> aggregate({
-    _i1.PrismaNullable<AssetTypeWhereInput> where,
-    _i1.PrismaNullable<List<AssetTypeOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<AssetTypeWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
+    _i2.PrismaNullable<AssetTypeWhereInput> where,
+    _i2.PrismaNullable<List<AssetTypeOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<AssetTypeWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'aggregateAssetType',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetTypeScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetTypeScalarFieldEnum.values
               .map((AssetTypeScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -9073,58 +12027,58 @@ class AssetTypeDelegate {
   }
 
   Future<List<AssetTypeGroupByOutputType>> groupBy({
-    _i1.PrismaNullable<AssetTypeWhereInput> where,
-    _i1.PrismaNullable<List<AssetTypeOrderByWithAggregationInput>> orderBy,
+    _i2.PrismaNullable<AssetTypeWhereInput> where,
+    _i2.PrismaNullable<List<AssetTypeOrderByWithAggregationInput>> orderBy,
     required List<AssetTypeScalarFieldEnum> by,
-    _i1.PrismaNullable<AssetTypeScalarWhereWithAggregatesInput> having,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
+    _i2.PrismaNullable<AssetTypeScalarWhereWithAggregatesInput> having,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'groupByAssetType',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'by',
               by,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'having',
               having,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetTypeScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetTypeScalarFieldEnum.values
               .map((AssetTypeScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -9141,32 +12095,32 @@ class AssetDelegate {
     this._headers,
   ]);
 
-  final _i1.Engine _engine;
+  final _i2.Engine _engine;
 
-  final _i1.PrismaNullable<_i1.QueryEngineRequestHeaders> _headers;
+  final _i2.PrismaNullable<_i2.QueryEngineRequestHeaders> _headers;
 
-  Future<_i1.PrismaNullable<Asset>> findUnique(
+  Future<_i2.PrismaNullable<Asset>> findUnique(
       {required AssetWhereUniqueInput where}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findUniqueAsset',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(AssetScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetScalarFieldEnum.values
               .map((AssetScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -9175,59 +12129,59 @@ class AssetDelegate {
         : Asset.fromJson((result.data['findUniqueAsset'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<Asset>> findFirst({
-    _i1.PrismaNullable<AssetWhereInput> where,
-    _i1.PrismaNullable<List<AssetOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<AssetWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
-    _i1.PrismaNullable<List<AssetScalarFieldEnum>> distinct,
+  Future<_i2.PrismaNullable<Asset>> findFirst({
+    _i2.PrismaNullable<AssetWhereInput> where,
+    _i2.PrismaNullable<List<AssetOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<AssetWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<AssetScalarFieldEnum>> distinct,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findFirstAsset',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'distinct',
               distinct,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetScalarFieldEnum.values
               .map((AssetScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -9237,58 +12191,58 @@ class AssetDelegate {
   }
 
   Future<List<Asset>> findMany({
-    _i1.PrismaNullable<AssetWhereInput> where,
-    _i1.PrismaNullable<List<AssetOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<AssetWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
-    _i1.PrismaNullable<List<AssetScalarFieldEnum>> distinct,
+    _i2.PrismaNullable<AssetWhereInput> where,
+    _i2.PrismaNullable<List<AssetOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<AssetWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<AssetScalarFieldEnum>> distinct,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'findManyAsset',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'distinct',
               distinct,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetScalarFieldEnum.values
               .map((AssetScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -9299,61 +12253,97 @@ class AssetDelegate {
   }
 
   Future<Asset> create({required AssetCreateInput data}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'createOneAsset',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(AssetScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetScalarFieldEnum.values
               .map((AssetScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
     return Asset.fromJson((result.data['createOneAsset'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<Asset>> update({
-    required AssetUpdateInput data,
-    required AssetWhereUniqueInput where,
+  Future<AffectedRowsOutput> createMany({
+    required List<AssetCreateManyInput> data,
+    _i2.PrismaNullable<bool> skipDuplicates,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
-          'updateOneAsset',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'createManyAsset',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
+              'skipDuplicates',
+              skipDuplicates,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(AssetScalarFieldEnum.values
+              .map((AssetScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AffectedRowsOutput.fromJson(
+        (result.data['createManyAsset'] as Map).cast());
+  }
+
+  Future<_i2.PrismaNullable<Asset>> update({
+    required AssetUpdateInput data,
+    required AssetWhereUniqueInput where,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'updateOneAsset',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetScalarFieldEnum.values
               .map((AssetScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -9364,33 +12354,33 @@ class AssetDelegate {
 
   Future<AffectedRowsOutput> updateMany({
     required AssetUpdateManyMutationInput data,
-    _i1.PrismaNullable<AssetWhereInput> where,
+    _i2.PrismaNullable<AssetWhereInput> where,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'updateManyAsset',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'data',
               data,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetScalarFieldEnum.values
               .map((AssetScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -9403,64 +12393,64 @@ class AssetDelegate {
     required AssetCreateInput create,
     required AssetUpdateInput update,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'upsertOneAsset',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'create',
               create,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'update',
               update,
               isRequired: true,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetScalarFieldEnum.values
               .map((AssetScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
     return Asset.fromJson((result.data['upsertOneAsset'] as Map).cast());
   }
 
-  Future<_i1.PrismaNullable<Asset>> delete(
+  Future<_i2.PrismaNullable<Asset>> delete(
       {required AssetWhereUniqueInput where}) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'deleteOneAsset',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: true,
             )
           ]),
-          fields: _i1.GraphQLFields(AssetScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetScalarFieldEnum.values
               .map((AssetScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -9470,27 +12460,27 @@ class AssetDelegate {
   }
 
   Future<AffectedRowsOutput> deleteMany(
-      {_i1.PrismaNullable<AssetWhereInput> where}) async {
-    final String sdl = _i1.GraphQLField(
+      {_i2.PrismaNullable<AssetWhereInput> where}) async {
+    final String sdl = _i2.GraphQLField(
       'mutation',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'deleteManyAsset',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             )
           ]),
-          fields: _i1.GraphQLFields(AssetScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetScalarFieldEnum.values
               .map((AssetScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -9499,52 +12489,52 @@ class AssetDelegate {
   }
 
   Future<AggregateAsset> aggregate({
-    _i1.PrismaNullable<AssetWhereInput> where,
-    _i1.PrismaNullable<List<AssetOrderByWithRelationInput>> orderBy,
-    _i1.PrismaNullable<AssetWhereUniqueInput> cursor,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
+    _i2.PrismaNullable<AssetWhereInput> where,
+    _i2.PrismaNullable<List<AssetOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<AssetWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'aggregateAsset',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'cursor',
               cursor,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetScalarFieldEnum.values
               .map((AssetScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -9553,58 +12543,58 @@ class AssetDelegate {
   }
 
   Future<List<AssetGroupByOutputType>> groupBy({
-    _i1.PrismaNullable<AssetWhereInput> where,
-    _i1.PrismaNullable<List<AssetOrderByWithAggregationInput>> orderBy,
+    _i2.PrismaNullable<AssetWhereInput> where,
+    _i2.PrismaNullable<List<AssetOrderByWithAggregationInput>> orderBy,
     required List<AssetScalarFieldEnum> by,
-    _i1.PrismaNullable<AssetScalarWhereWithAggregatesInput> having,
-    _i1.PrismaNullable<int> take,
-    _i1.PrismaNullable<int> skip,
+    _i2.PrismaNullable<AssetScalarWhereWithAggregatesInput> having,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
   }) async {
-    final String sdl = _i1.GraphQLField(
+    final String sdl = _i2.GraphQLField(
       'query',
-      fields: _i1.GraphQLFields([
-        _i1.GraphQLField(
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
           'groupByAsset',
-          args: _i1.GraphQLArgs([
-            _i1.GraphQLArg(
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
               'where',
               where,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'orderBy',
               orderBy,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'by',
               by,
               isRequired: true,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'having',
               having,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'take',
               take,
               isRequired: false,
             ),
-            _i1.GraphQLArg(
+            _i2.GraphQLArg(
               'skip',
               skip,
               isRequired: false,
             ),
           ]),
-          fields: _i1.GraphQLFields(AssetScalarFieldEnum.values
+          fields: _i2.GraphQLFields(AssetScalarFieldEnum.values
               .map((AssetScalarFieldEnum e) =>
-                  _i1.GraphQLField(_i1.languageKeywordDecode(e.name)))
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
               .toList()),
         )
       ]),
     ).toSdl();
-    final _i1.QueryEngineResult result = await _engine.request(
+    final _i2.QueryEngineResult result = await _engine.request(
       query: sdl,
       headers: _headers,
     );
@@ -10200,6 +13190,142 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'isUpdatedAt': false,
             },
           },
+          {
+            'name': 'notes',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': true,
+            'type': 'String',
+            'default': '',
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'notes',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': true,
+              'type': 'String',
+              'default': '',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+          {
+            'name': 'time_start',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': false,
+            'type': 'DateTime',
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'time_start',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'DateTime',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+          {
+            'name': 'time_end',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': false,
+            'type': 'DateTime',
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'time_end',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'DateTime',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+          {
+            'name': 'asset',
+            'kind': 'object',
+            'isList': true,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': false,
+            'type': 'Asset',
+            'relationName': 'AssetToEquipmentRequest',
+            'relationFromFields': [],
+            'relationToFields': [],
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationOnDelete': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'asset',
+              'kind': 'object',
+              'isList': true,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'Asset',
+              'relationName': 'AssetToEquipmentRequest',
+              'relationFromFields': [],
+              'relationToFields': [],
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
         ],
         'primaryKey': null,
         'uniqueFields': [],
@@ -10268,6 +13394,62 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'hasDefaultValue': false,
               'type': 'RequestItem',
               'relationName': 'EquipmentRequestToRequestItem',
+              'relationFromFields': [],
+              'relationToFields': [],
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'notes',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': true,
+              'type': 'String',
+              'default': '',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'time_start',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'DateTime',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'time_end',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'DateTime',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'asset',
+              'kind': 'object',
+              'isList': true,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'Asset',
+              'relationName': 'AssetToEquipmentRequest',
               'relationFromFields': [],
               'relationToFields': [],
               'isGenerated': false,
@@ -10393,6 +13575,108 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'isUpdatedAt': false,
             },
           },
+          {
+            'name': 'quantity',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': false,
+            'type': 'Int',
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'quantity',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'Int',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+          {
+            'name': 'asset_type',
+            'kind': 'object',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': false,
+            'type': 'AssetType',
+            'relationName': 'AssetTypeToRequestItem',
+            'relationFromFields': ['asset_type_id'],
+            'relationToFields': ['id'],
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationOnDelete': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'asset_type',
+              'kind': 'object',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'AssetType',
+              'relationName': 'AssetTypeToRequestItem',
+              'relationFromFields': ['asset_type_id'],
+              'relationToFields': ['id'],
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+          {
+            'name': 'asset_type_id',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': true,
+            'hasDefaultValue': false,
+            'type': 'String',
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'asset_type_id',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': true,
+              'hasDefaultValue': false,
+              'type': 'String',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
         ],
         'primaryKey': null,
         'uniqueFields': [],
@@ -10447,6 +13731,48 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'isReadOnly': true,
               'hasDefaultValue': false,
               'type': 'Int',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'quantity',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'Int',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'asset_type',
+              'kind': 'object',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'AssetType',
+              'relationName': 'AssetTypeToRequestItem',
+              'relationFromFields': ['asset_type_id'],
+              'relationToFields': ['id'],
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'asset_type_id',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': true,
+              'hasDefaultValue': false,
+              'type': 'String',
               'isGenerated': false,
               'isUpdatedAt': false,
             },
@@ -10630,6 +13956,42 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'isUpdatedAt': false,
             },
           },
+          {
+            'name': 'RequestItem',
+            'kind': 'object',
+            'isList': true,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': false,
+            'type': 'RequestItem',
+            'relationName': 'AssetTypeToRequestItem',
+            'relationFromFields': [],
+            'relationToFields': [],
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationOnDelete': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'RequestItem',
+              'kind': 'object',
+              'isList': true,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'RequestItem',
+              'relationName': 'AssetTypeToRequestItem',
+              'relationFromFields': [],
+              'relationToFields': [],
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
         ],
         'primaryKey': null,
         'uniqueFields': [],
@@ -10707,6 +14069,22 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'isReadOnly': false,
               'hasDefaultValue': false,
               'type': 'Int',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'RequestItem',
+              'kind': 'object',
+              'isList': true,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'RequestItem',
+              'relationName': 'AssetTypeToRequestItem',
+              'relationFromFields': [],
+              'relationToFields': [],
               'isGenerated': false,
               'isUpdatedAt': false,
             },
@@ -10823,6 +14201,75 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'isUpdatedAt': false,
             },
           },
+          {
+            'name': 'deployed_to',
+            'kind': 'object',
+            'isList': false,
+            'isRequired': false,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': false,
+            'type': 'EquipmentRequest',
+            'relationName': 'AssetToEquipmentRequest',
+            'relationFromFields': ['deployed_to_id'],
+            'relationToFields': ['id'],
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationOnDelete': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'deployed_to',
+              'kind': 'object',
+              'isList': false,
+              'isRequired': false,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'EquipmentRequest',
+              'relationName': 'AssetToEquipmentRequest',
+              'relationFromFields': ['deployed_to_id'],
+              'relationToFields': ['id'],
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+          {
+            'name': 'deployed_to_id',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': false,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': true,
+            'hasDefaultValue': false,
+            'type': 'Int',
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'deployed_to_id',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': false,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': true,
+              'hasDefaultValue': false,
+              'type': 'Int',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
         ],
         'primaryKey': null,
         'uniqueFields': [],
@@ -10873,6 +14320,35 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'isReadOnly': true,
               'hasDefaultValue': false,
               'type': 'String',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'deployed_to',
+              'kind': 'object',
+              'isList': false,
+              'isRequired': false,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'EquipmentRequest',
+              'relationName': 'AssetToEquipmentRequest',
+              'relationFromFields': ['deployed_to_id'],
+              'relationToFields': ['id'],
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'deployed_to_id',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': false,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': true,
+              'hasDefaultValue': false,
+              'type': 'Int',
               'isGenerated': false,
               'isUpdatedAt': false,
             },
@@ -11954,6 +15430,84 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetListRelationFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -12024,6 +15578,66 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetOrderByRelationAggregateInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -12076,6 +15690,51 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'requester_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -12273,6 +15932,69 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -12403,6 +16125,69 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'IntFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeRelationFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetTypeWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -12445,6 +16230,51 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'request_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeOrderByWithRelationInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -12510,6 +16340,36 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'request_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -12707,6 +16567,48 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'IntWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -12879,6 +16781,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'RequestItem',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemListRelationFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -12959,6 +16876,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'isList': false,
                   'type': 'SortOrder',
                   'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'RequestItem',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemOrderByRelationAggregateInput',
+                  'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 }
               ],
@@ -13421,6 +17353,60 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'deployed_to',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestRelationFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'IntNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -13463,6 +17449,36 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deployed_to',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestOrderByWithRelationInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deployed_to_id',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -13542,6 +17558,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
             },
             {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
               'name': '_count',
               'comment': null,
               'isNullable': false,
@@ -13550,6 +17581,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': false,
                   'type': 'AssetCountOrderByAggregateInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_avg',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetAvgOrderByAggregateInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 }
@@ -13580,6 +17626,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': false,
                   'type': 'AssetMinOrderByAggregateInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_sum',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetSumOrderByAggregateInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 }
@@ -13689,6 +17750,33 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': false,
                   'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'IntNullableWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
                   'location': 'scalar',
                   'namespace': null,
                 },
@@ -13870,6 +17958,46 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SessionCreateManyInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
               ],
               'deprecation': null,
             },
@@ -14340,6 +18468,61 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'UserCreateManyInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'name',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'UserUpdateManyMutationInput',
           'constraints': {
             'maxNumFields': null,
@@ -14522,6 +18705,66 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateNestedManyWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -14578,6 +18821,67 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'AssetUncheckedCreateNestedManyWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -14612,6 +18916,84 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': false,
                   'type': 'RequestItemUpdateManyWithoutRequestNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpdateManyWithoutDeployed_toNestedInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 }
@@ -14686,6 +19068,170 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'AssetUncheckedUpdateManyWithoutDeployed_toNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'EquipmentRequestCreateManyInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'requester_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -14695,7 +19241,71 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             'maxNumFields': null,
             'minNumFields': null,
           },
-          'fields': [],
+          'fields': [
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
           'fieldMap': null,
         },
         {
@@ -14747,6 +19357,69 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -14771,7 +19444,37 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 }
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeCreateNestedOneWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -14812,6 +19515,36 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -14837,7 +19570,44 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 }
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'AssetTypeUpdateOneRequiredWithoutRequestItemNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -14890,6 +19660,118 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemCreateManyInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'request_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -14899,7 +19781,29 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             'maxNumFields': null,
             'minNumFields': null,
           },
-          'fields': [],
+          'fields': [
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            }
+          ],
           'fieldMap': null,
         },
         {
@@ -14945,6 +19849,48 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': false,
                   'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
@@ -15042,6 +19988,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'RequestItem',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateNestedManyWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -15130,6 +20091,22 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'scalar',
                   'namespace': null,
                 },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'RequestItem',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUncheckedCreateNestedManyWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
               ],
               'deprecation': null,
             },
@@ -15248,6 +20225,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'RequestItem',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemUpdateManyWithoutAsset_typeNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -15353,6 +20345,98 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'type': 'NullableIntFieldUpdateOperationsInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'RequestItem',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUncheckedUpdateManyWithoutAsset_typeNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetTypeCreateManyInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'title',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'unique',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
                 },
                 {
                   'isList': false,
@@ -15603,6 +20687,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'deployed_to',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateNestedOneWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -15640,6 +20739,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'scalar',
                   'namespace': null,
                 }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
               ],
               'deprecation': null,
             },
@@ -15683,6 +20803,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': false,
                   'type': 'AssetTypeUpdateOneRequiredWithoutAssetsNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deployed_to',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestUpdateOneWithoutAssetNestedInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 }
@@ -15737,6 +20872,94 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'type': 'StringFieldUpdateOperationsInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableIntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetCreateManyInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
                 },
               ],
               'deprecation': null,
@@ -15820,6 +21043,33 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'type': 'StringFieldUpdateOperationsInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableIntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
                 },
               ],
               'deprecation': null,
@@ -15980,6 +21230,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'type': 'String',
                   'location': 'scalar',
                   'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'mode',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'QueryMode',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
                 }
               ],
               'deprecation': null,
@@ -16321,6 +21586,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'type': 'String',
                   'location': 'scalar',
                   'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'mode',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'QueryMode',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
                 }
               ],
               'deprecation': null,
@@ -16911,7 +22191,223 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'DateTimeFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'equals',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'in',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notIn',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'not',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetListRelationFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'every',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'some',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'none',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'RequestItemOrderByRelationAggregateInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': '_count',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetOrderByRelationAggregateInput',
           'constraints': {
             'maxNumFields': 1,
             'minNumFields': 1,
@@ -16959,6 +22455,51 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'requester_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -17037,6 +22578,51 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -17064,6 +22650,51 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'requester_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -17317,6 +22948,187 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'DateTimeWithAggregatesFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'equals',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'in',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notIn',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'not',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_count',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedIntFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_min',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_max',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'EquipmentRequestRelationFilter',
           'constraints': {
             'maxNumFields': null,
@@ -17357,6 +23169,46 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'AssetTypeRelationFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'is',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'isNot',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'RequestItemCountOrderByAggregateInput',
           'constraints': {
             'maxNumFields': 1,
@@ -17380,6 +23232,36 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'request_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -17433,6 +23315,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -17460,6 +23357,36 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'request_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -17513,6 +23440,36 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -17553,56 +23510,16 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
-          ],
-          'fieldMap': null,
-        },
-        {
-          'name': 'AssetListRelationFilter',
-          'constraints': {
-            'maxNumFields': null,
-            'minNumFields': null,
-          },
-          'fields': [
             {
-              'name': 'every',
+              'name': 'quantity',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
               'inputTypes': [
                 {
                   'isList': false,
-                  'type': 'AssetWhereInput',
-                  'location': 'inputObjectTypes',
-                  'namespace': 'prisma',
-                }
-              ],
-              'deprecation': null,
-            },
-            {
-              'name': 'some',
-              'comment': null,
-              'isNullable': false,
-              'isRequired': false,
-              'inputTypes': [
-                {
-                  'isList': false,
-                  'type': 'AssetWhereInput',
-                  'location': 'inputObjectTypes',
-                  'namespace': 'prisma',
-                }
-              ],
-              'deprecation': null,
-            },
-            {
-              'name': 'none',
-              'comment': null,
-              'isNullable': false,
-              'isRequired': false,
-              'inputTypes': [
-                {
-                  'isList': false,
-                  'type': 'AssetWhereInput',
-                  'location': 'inputObjectTypes',
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
                   'namespace': 'prisma',
                 }
               ],
@@ -17814,31 +23731,6 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
-          ],
-          'fieldMap': null,
-        },
-        {
-          'name': 'AssetOrderByRelationAggregateInput',
-          'constraints': {
-            'maxNumFields': 1,
-            'minNumFields': 1,
-          },
-          'fields': [
-            {
-              'name': '_count',
-              'comment': null,
-              'isNullable': false,
-              'isRequired': false,
-              'inputTypes': [
-                {
-                  'isList': false,
-                  'type': 'SortOrder',
-                  'location': 'enumTypes',
-                  'namespace': 'prisma',
-                }
-              ],
-              'deprecation': null,
-            }
           ],
           'fieldMap': null,
         },
@@ -18429,46 +24321,6 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
-          'name': 'AssetTypeRelationFilter',
-          'constraints': {
-            'maxNumFields': null,
-            'minNumFields': null,
-          },
-          'fields': [
-            {
-              'name': 'is',
-              'comment': null,
-              'isNullable': false,
-              'isRequired': false,
-              'inputTypes': [
-                {
-                  'isList': false,
-                  'type': 'AssetTypeWhereInput',
-                  'location': 'inputObjectTypes',
-                  'namespace': 'prisma',
-                }
-              ],
-              'deprecation': null,
-            },
-            {
-              'name': 'isNot',
-              'comment': null,
-              'isNullable': false,
-              'isRequired': false,
-              'inputTypes': [
-                {
-                  'isList': false,
-                  'type': 'AssetTypeWhereInput',
-                  'location': 'inputObjectTypes',
-                  'namespace': 'prisma',
-                }
-              ],
-              'deprecation': null,
-            },
-          ],
-          'fieldMap': null,
-        },
-        {
           'name': 'AssetCountOrderByAggregateInput',
           'constraints': {
             'maxNumFields': 1,
@@ -18505,6 +24357,46 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetAvgOrderByAggregateInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            }
           ],
           'fieldMap': null,
         },
@@ -18532,6 +24424,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deployed_to_id',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -18585,6 +24492,46 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetSumOrderByAggregateInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            }
           ],
           'fieldMap': null,
         },
@@ -18837,6 +24784,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
             },
             {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateManyRequested_byInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
               'name': 'connect',
               'comment': null,
               'isNullable': false,
@@ -18918,6 +24880,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SessionCreateManyUserInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
               ],
               'deprecation': null,
             },
@@ -19012,6 +24989,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
             },
             {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateManyRequested_byInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
               'name': 'connect',
               'comment': null,
               'isNullable': false,
@@ -19093,6 +25085,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SessionCreateManyUserInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
               ],
               'deprecation': null,
             },
@@ -19205,6 +25212,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateManyRequested_byInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
               ],
               'deprecation': null,
             },
@@ -19441,6 +25463,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SessionCreateManyUserInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
               ],
               'deprecation': null,
             },
@@ -19684,6 +25721,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
             },
             {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateManyRequested_byInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
               'name': 'set',
               'comment': null,
               'isNullable': false,
@@ -19916,6 +25968,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SessionCreateManyUserInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
               ],
               'deprecation': null,
             },
@@ -20192,6 +26259,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
             },
             {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateManyRequestInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
               'name': 'connect',
               'comment': null,
               'isNullable': false,
@@ -20206,6 +26288,106 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': true,
                   'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetCreateNestedManyWithoutDeployed_toInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetUncheckedCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetUncheckedCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connectOrCreate',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateOrConnectWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetCreateOrConnectWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateManyDeployed_toInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetWhereUniqueInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
@@ -20277,6 +26459,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
             },
             {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateManyRequestInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
               'name': 'connect',
               'comment': null,
               'isNullable': false,
@@ -20291,6 +26488,106 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': true,
                   'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetUncheckedCreateNestedManyWithoutDeployed_toInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetUncheckedCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetUncheckedCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connectOrCreate',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateOrConnectWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetCreateOrConnectWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateManyDeployed_toInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetWhereUniqueInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
@@ -20480,6 +26777,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
             },
             {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateManyRequestInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
               'name': 'set',
               'comment': null,
               'isNullable': false,
@@ -20620,6 +26932,278 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': true,
                   'type': 'RequestItemScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'DateTimeFieldUpdateOperationsInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'set',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetUpdateManyWithoutDeployed_toNestedInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetUncheckedCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetUncheckedCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connectOrCreate',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateOrConnectWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetCreateOrConnectWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'upsert',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpsertWithWhereUniqueWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetUpsertWithWhereUniqueWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateManyDeployed_toInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'set',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'disconnect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'delete',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'update',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpdateWithWhereUniqueWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetUpdateWithWhereUniqueWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'updateMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpdateManyWithWhereWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetUpdateManyWithWhereWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deleteMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetScalarWhereInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
@@ -20797,6 +27381,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
             },
             {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateManyRequestInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
               'name': 'set',
               'comment': null,
               'isNullable': false,
@@ -20947,6 +27546,253 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'AssetUncheckedUpdateManyWithoutDeployed_toNestedInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetUncheckedCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetUncheckedCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connectOrCreate',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateOrConnectWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetCreateOrConnectWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'upsert',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpsertWithWhereUniqueWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetUpsertWithWhereUniqueWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateManyDeployed_toInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'set',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'disconnect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'delete',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'update',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpdateWithWhereUniqueWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetUpdateWithWhereUniqueWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'updateMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpdateManyWithWhereWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetUpdateManyWithWhereWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deleteMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'EquipmentRequestCreateNestedOneWithoutItemsInput',
           'constraints': {
             'maxNumFields': null,
@@ -20998,6 +27844,67 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': false,
                   'type': 'EquipmentRequestWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetTypeCreateNestedOneWithoutRequestItemInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeCreateWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetTypeUncheckedCreateWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connectOrCreate',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeCreateOrConnectWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeWhereUniqueInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 }
@@ -21105,6 +28012,103 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'AssetTypeUpdateOneRequiredWithoutRequestItemNestedInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeCreateWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetTypeUncheckedCreateWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connectOrCreate',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeCreateOrConnectWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'upsert',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeUpsertWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'update',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeUpdateWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetTypeUncheckedUpdateWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'AssetCreateNestedManyWithoutTypeInput',
           'constraints': {
             'maxNumFields': null,
@@ -21166,6 +28170,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
             },
             {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateManyTypeInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
               'name': 'connect',
               'comment': null,
               'isNullable': false,
@@ -21180,6 +28199,106 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': true,
                   'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemCreateNestedManyWithoutAsset_typeInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'RequestItemUncheckedCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemUncheckedCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connectOrCreate',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateOrConnectWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemCreateOrConnectWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateManyAsset_typeInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemWhereUniqueInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
@@ -21251,6 +28370,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
             },
             {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateManyTypeInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
               'name': 'connect',
               'comment': null,
               'isNullable': false,
@@ -21265,6 +28399,106 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': true,
                   'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemUncheckedCreateNestedManyWithoutAsset_typeInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'RequestItemUncheckedCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemUncheckedCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connectOrCreate',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateOrConnectWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemCreateOrConnectWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateManyAsset_typeInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemWhereUniqueInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
@@ -21353,6 +28587,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateManyTypeInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
               ],
               'deprecation': null,
             },
@@ -21623,6 +28872,259 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'RequestItemUpdateManyWithoutAsset_typeNestedInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'RequestItemUncheckedCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemUncheckedCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connectOrCreate',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateOrConnectWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemCreateOrConnectWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'upsert',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUpsertWithWhereUniqueWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type':
+                      'RequestItemUpsertWithWhereUniqueWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateManyAsset_typeInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'set',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'disconnect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'delete',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'update',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUpdateWithWhereUniqueWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type':
+                      'RequestItemUpdateWithWhereUniqueWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'updateMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUpdateManyWithWhereWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type':
+                      'RequestItemUpdateManyWithWhereWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deleteMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'AssetUncheckedUpdateManyWithoutTypeNestedInput',
           'constraints': {
             'maxNumFields': null,
@@ -21701,6 +29203,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateManyTypeInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
               ],
               'deprecation': null,
             },
@@ -21855,6 +29372,259 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'RequestItemUncheckedUpdateManyWithoutAsset_typeNestedInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'RequestItemUncheckedCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemUncheckedCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connectOrCreate',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateOrConnectWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemCreateOrConnectWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'upsert',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUpsertWithWhereUniqueWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type':
+                      'RequestItemUpsertWithWhereUniqueWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateManyAsset_typeInputEnvelope',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'set',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'disconnect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'delete',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'update',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUpdateWithWhereUniqueWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type':
+                      'RequestItemUpdateWithWhereUniqueWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'updateMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUpdateManyWithWhereWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type':
+                      'RequestItemUpdateManyWithWhereWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deleteMany',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'RequestItemScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'AssetTypeCreateNestedOneWithoutAssetsInput',
           'constraints': {
             'maxNumFields': null,
@@ -21906,6 +29676,67 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': false,
                   'type': 'AssetTypeWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'EquipmentRequestCreateNestedOneWithoutAssetInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestUncheckedCreateWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connectOrCreate',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateOrConnectWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestWhereUniqueInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 }
@@ -22003,6 +29834,133 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': false,
                   'type': 'AssetTypeUncheckedUpdateWithoutAssetsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'EquipmentRequestUpdateOneWithoutAssetNestedInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestUncheckedCreateWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connectOrCreate',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateOrConnectWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'upsert',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestUpsertWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'disconnect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'delete',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'connect',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'update',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestUpdateWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestUncheckedUpdateWithoutAssetInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
@@ -22556,6 +30514,142 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'NestedDateTimeFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'equals',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'in',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notIn',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'not',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'NestedIntWithAggregatesFilter',
           'constraints': {
             'maxNumFields': null,
@@ -22896,6 +30990,187 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'NestedDateTimeWithAggregatesFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'equals',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'in',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notIn',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'not',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_count',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedIntFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_min',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_max',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
               ],
               'deprecation': null,
             },
@@ -24033,7 +32308,67 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 }
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateNestedManyWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -24069,6 +32404,67 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'isList': false,
                   'type':
                       'RequestItemUncheckedCreateNestedManyWithoutRequestInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'AssetUncheckedCreateNestedManyWithoutDeployed_toInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 }
@@ -24119,6 +32515,46 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'EquipmentRequestCreateManyRequested_byInputEnvelope',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'data',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'EquipmentRequestCreateManyRequested_byInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'skipDuplicates',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
               ],
               'deprecation': null,
             },
@@ -24215,6 +32651,46 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SessionCreateManyUserInputEnvelope',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'data',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'SessionCreateManyUserInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'skipDuplicates',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
               ],
               'deprecation': null,
             },
@@ -24486,6 +32962,69 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': false,
                   'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
                   'location': 'scalar',
                   'namespace': null,
                 },
@@ -24955,7 +33494,38 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             'maxNumFields': null,
             'minNumFields': null,
           },
-          'fields': [],
+          'fields': [
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeCreateNestedOneWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
           'fieldMap': null,
         },
         {
@@ -24979,7 +33549,37 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 }
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -25023,6 +33623,212 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemCreateManyRequestInputEnvelope',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'data',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'RequestItemCreateManyRequestInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'skipDuplicates',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetCreateWithoutDeployed_toInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeCreateNestedOneWithoutAssetsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetUncheckedCreateWithoutDeployed_toInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetCreateOrConnectWithoutDeployed_toInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'where',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetUncheckedCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetCreateManyDeployed_toInputEnvelope',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'data',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'AssetCreateManyDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'skipDuplicates',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
               ],
               'deprecation': null,
             },
@@ -25522,6 +34328,343 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'IntFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetUpsertWithWhereUniqueWithoutDeployed_toInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'where',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'update',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpdateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetUncheckedUpdateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetUncheckedCreateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetUpdateWithWhereUniqueWithoutDeployed_toInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'where',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'data',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpdateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetUncheckedUpdateWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetUpdateManyWithWhereWithoutDeployed_toInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'where',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'data',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpdateManyMutationInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetUncheckedUpdateManyWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetScalarWhereInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'AND',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'OR',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'AssetScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'NOT',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'AssetScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'IntNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -25546,7 +34689,67 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 }
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateNestedManyWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -25583,6 +34786,67 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'type': 'String',
                   'location': 'scalar',
                   'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'AssetUncheckedCreateNestedManyWithoutDeployed_toInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
                 }
               ],
               'deprecation': null,
@@ -25627,6 +34891,234 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': false,
                   'type': 'EquipmentRequestUncheckedCreateWithoutItemsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetTypeCreateWithoutRequestItemInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'title',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'assets',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetCreateNestedManyWithoutTypeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'unique',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetTypeUncheckedCreateWithoutRequestItemInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'title',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'assets',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUncheckedCreateNestedManyWithoutTypeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'unique',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetTypeCreateOrConnectWithoutRequestItemInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'where',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeCreateWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetTypeUncheckedCreateWithoutRequestItemInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
@@ -25709,7 +35201,85 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 }
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpdateManyWithoutDeployed_toNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -25762,6 +35332,367 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'AssetUncheckedUpdateManyWithoutDeployed_toNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetTypeUpsertWithoutRequestItemInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'update',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeUpdateWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetTypeUncheckedUpdateWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeCreateWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'AssetTypeUncheckedCreateWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetTypeUpdateWithoutRequestItemInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'title',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'assets',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpdateManyWithoutTypeNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'unique',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'BoolFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableIntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetTypeUncheckedUpdateWithoutRequestItemInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'title',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'assets',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUncheckedUpdateManyWithoutTypeNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'unique',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'BoolFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableIntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -25786,7 +35717,22 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 }
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'deployed_to',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateNestedOneWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -25811,7 +35757,28 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 }
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -25855,6 +35822,227 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetCreateManyTypeInputEnvelope',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'data',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'AssetCreateManyTypeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'skipDuplicates',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemCreateWithoutAsset_typeInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'request',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateNestedOneWithoutItemsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemUncheckedCreateWithoutAsset_typeInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'request_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemCreateOrConnectWithoutAsset_typeInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'where',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'RequestItemUncheckedCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemCreateManyAsset_typeInputEnvelope',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'data',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'RequestItemCreateManyAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'skipDuplicates',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Boolean',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
               ],
               'deprecation': null,
             },
@@ -26021,42 +36209,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
-          'name': 'AssetScalarWhereInput',
+          'name': 'RequestItemUpsertWithWhereUniqueWithoutAsset_typeInput',
           'constraints': {
             'maxNumFields': null,
             'minNumFields': null,
           },
           'fields': [
             {
-              'name': 'AND',
+              'name': 'where',
               'comment': null,
               'isNullable': false,
-              'isRequired': false,
+              'isRequired': true,
               'inputTypes': [
                 {
                   'isList': false,
-                  'type': 'AssetScalarWhereInput',
-                  'location': 'inputObjectTypes',
-                  'namespace': 'prisma',
-                },
-                {
-                  'isList': true,
-                  'type': 'AssetScalarWhereInput',
-                  'location': 'inputObjectTypes',
-                  'namespace': 'prisma',
-                },
-              ],
-              'deprecation': null,
-            },
-            {
-              'name': 'OR',
-              'comment': null,
-              'isNullable': false,
-              'isRequired': false,
-              'inputTypes': [
-                {
-                  'isList': true,
-                  'type': 'AssetScalarWhereInput',
+                  'type': 'RequestItemWhereUniqueInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 }
@@ -26064,20 +36231,20 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
             },
             {
-              'name': 'NOT',
+              'name': 'update',
               'comment': null,
               'isNullable': false,
-              'isRequired': false,
+              'isRequired': true,
               'inputTypes': [
                 {
                   'isList': false,
-                  'type': 'AssetScalarWhereInput',
+                  'type': 'RequestItemUpdateWithoutAsset_typeInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
                 {
-                  'isList': true,
-                  'type': 'AssetScalarWhereInput',
+                  'isList': false,
+                  'type': 'RequestItemUncheckedUpdateWithoutAsset_typeInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
@@ -26085,43 +36252,115 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
             },
             {
-              'name': 'id',
+              'name': 'create',
               'comment': null,
               'isNullable': false,
-              'isRequired': false,
+              'isRequired': true,
               'inputTypes': [
                 {
                   'isList': false,
-                  'type': 'StringFilter',
+                  'type': 'RequestItemCreateWithoutAsset_typeInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
                 {
                   'isList': false,
-                  'type': 'String',
-                  'location': 'scalar',
-                  'namespace': null,
+                  'type': 'RequestItemUncheckedCreateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
                 },
               ],
               'deprecation': null,
             },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemUpdateWithWhereUniqueWithoutAsset_typeInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
             {
-              'name': 'type_id',
+              'name': 'where',
               'comment': null,
               'isNullable': false,
-              'isRequired': false,
+              'isRequired': true,
               'inputTypes': [
                 {
                   'isList': false,
-                  'type': 'StringFilter',
+                  'type': 'RequestItemWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'data',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemUpdateWithoutAsset_typeInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
                 {
                   'isList': false,
-                  'type': 'String',
-                  'location': 'scalar',
-                  'namespace': null,
+                  'type': 'RequestItemUncheckedUpdateWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemUpdateManyWithWhereWithoutAsset_typeInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'where',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemScalarWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'data',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemUpdateManyMutationInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUncheckedUpdateManyWithoutRequestItemInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
                 },
               ],
               'deprecation': null,
@@ -26202,6 +36441,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'RequestItem',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateNestedManyWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -26278,6 +36532,22 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'RequestItem',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUncheckedCreateNestedManyWithoutAsset_typeInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -26318,6 +36588,238 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 {
                   'isList': false,
                   'type': 'AssetTypeUncheckedCreateWithoutAssetsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'EquipmentRequestCreateWithoutAssetInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'requested_by',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'UserCreateNestedOneWithoutRequestsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'items',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemCreateNestedManyWithoutRequestInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'EquipmentRequestUncheckedCreateWithoutAssetInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'requester_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'items',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUncheckedCreateNestedManyWithoutRequestInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'EquipmentRequestCreateOrConnectWithoutAssetInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'where',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestWhereUniqueInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestUncheckedCreateWithoutAssetInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 },
@@ -26476,6 +36978,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'RequestItem',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemUpdateManyWithoutAsset_typeNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -26576,6 +37093,403 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'RequestItem',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUncheckedUpdateManyWithoutAsset_typeNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'EquipmentRequestUpsertWithoutAssetInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'update',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestUpdateWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestUncheckedUpdateWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'create',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestCreateWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestUncheckedCreateWithoutAssetInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'EquipmentRequestUpdateWithoutAssetInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'requested_by',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'UserUpdateOneRequiredWithoutRequestsNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'items',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'RequestItemUpdateManyWithoutRequestNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'EquipmentRequestUncheckedUpdateWithoutAssetInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'requester_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'items',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'RequestItemUncheckedUpdateManyWithoutRequestNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'EquipmentRequestCreateManyRequested_byInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SessionCreateManyUserInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            }
           ],
           'fieldMap': null,
         },
@@ -26600,7 +37514,85 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 }
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetUpdateManyWithoutDeployed_toNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -26648,6 +37640,85 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'AssetUncheckedUpdateManyWithoutDeployed_toNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -26678,7 +37749,70 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 },
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'notes',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_start',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -26776,12 +37910,145 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'RequestItemCreateManyRequestInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetCreateManyDeployed_toInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'RequestItemUpdateWithoutRequestInput',
           'constraints': {
             'maxNumFields': null,
             'minNumFields': null,
           },
-          'fields': [],
+          'fields': [
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'AssetTypeUpdateOneRequiredWithoutRequestItemNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
           'fieldMap': null,
         },
         {
@@ -26811,7 +38078,49 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 },
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -26842,7 +38151,300 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 },
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetUpdateWithoutDeployed_toInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'AssetTypeUpdateOneRequiredWithoutAssetsNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetUncheckedUpdateWithoutDeployed_toInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetUncheckedUpdateManyWithoutAssetInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetCreateManyTypeInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemCreateManyAsset_typeInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'request_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -26873,7 +38475,22 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 },
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'deployed_to',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'EquipmentRequestUpdateOneWithoutAssetNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -26904,7 +38521,34 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 },
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableIntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -26935,7 +38579,227 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 },
               ],
               'deprecation': null,
-            }
+            },
+            {
+              'name': 'deployed_to_id',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableIntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemUpdateWithoutAsset_typeInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'request',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type':
+                      'EquipmentRequestUpdateOneRequiredWithoutItemsNestedInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemUncheckedUpdateWithoutAsset_typeInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'request_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'RequestItemUncheckedUpdateManyWithoutRequestItemInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'request_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'quantity',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -27419,6 +39283,155 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'documentation': null,
             },
             {
+              'name': 'notes',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'time_start',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'time_end',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'asset',
+              'isNullable': true,
+              'outputType': {
+                'isList': true,
+                'type': 'Asset',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'AssetWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'orderBy',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'AssetOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'AssetOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'cursor',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'AssetWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'take',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skip',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'distinct',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'AssetScalarFieldEnum',
+                      'location': 'enumTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': '_count',
               'isNullable': false,
               'outputType': {
@@ -27469,6 +39482,45 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'outputType': {
                 'isList': false,
                 'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'quantity',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'asset_type',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AssetType',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
                 'location': 'scalar',
                 'namespace': null,
               },
@@ -27645,6 +39697,116 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'documentation': null,
             },
             {
+              'name': 'RequestItem',
+              'isNullable': true,
+              'outputType': {
+                'isList': true,
+                'type': 'RequestItem',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'RequestItemWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'orderBy',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'RequestItemOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'RequestItemOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'cursor',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'RequestItemWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'take',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skip',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'distinct',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'RequestItemScalarFieldEnum',
+                      'location': 'enumTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': '_count',
               'isNullable': false,
               'outputType': {
@@ -27695,6 +39857,32 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'outputType': {
                 'isList': false,
                 'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'deployed_to',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'EquipmentRequest',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'deployed_to_id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
                 'location': 'scalar',
                 'namespace': null,
               },
@@ -30583,6 +42771,50 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'documentation': null,
             },
             {
+              'name': 'createManySession',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AffectedRowsOutput',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'SessionCreateManyInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skipDuplicates',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Boolean',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': 'deleteOneSession',
               'isNullable': true,
               'outputType': {
@@ -30839,6 +43071,50 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                       'location': 'inputObjectTypes',
                       'namespace': 'prisma',
                     },
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'createManyUser',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AffectedRowsOutput',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'UserCreateManyInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skipDuplicates',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Boolean',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
                   ],
                   'deprecation': null,
                 },
@@ -31111,6 +43387,50 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'documentation': null,
             },
             {
+              'name': 'createManyEquipmentRequest',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AffectedRowsOutput',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'EquipmentRequestCreateManyInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skipDuplicates',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Boolean',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': 'deleteOneEquipmentRequest',
               'isNullable': true,
               'outputType': {
@@ -31367,6 +43687,50 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                       'location': 'inputObjectTypes',
                       'namespace': 'prisma',
                     },
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'createManyRequestItem',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AffectedRowsOutput',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'RequestItemCreateManyInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skipDuplicates',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Boolean',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
                   ],
                   'deprecation': null,
                 },
@@ -31639,6 +44003,50 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'documentation': null,
             },
             {
+              'name': 'createManyAssetType',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AffectedRowsOutput',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'AssetTypeCreateManyInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skipDuplicates',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Boolean',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': 'deleteOneAssetType',
               'isNullable': true,
               'outputType': {
@@ -31895,6 +44303,50 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                       'location': 'inputObjectTypes',
                       'namespace': 'prisma',
                     },
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'createManyAsset',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AffectedRowsOutput',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'AssetCreateManyInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skipDuplicates',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Boolean',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
                   ],
                   'deprecation': null,
                 },
@@ -32497,6 +44949,45 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'documentation': null,
             },
             {
+              'name': 'notes',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'time_start',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'time_end',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': '_count',
               'isNullable': true,
               'outputType': {
@@ -32657,6 +45148,32 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'outputType': {
                 'isList': false,
                 'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'quantity',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
                 'location': 'scalar',
                 'namespace': null,
               },
@@ -32943,6 +45460,32 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'documentation': null,
             },
             {
+              'name': '_avg',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'AssetAvgAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_sum',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'AssetSumAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': '_min',
               'isNullable': true,
               'outputType': {
@@ -33001,11 +45544,50 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'documentation': null,
             },
             {
+              'name': 'deployed_to_id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': '_count',
               'isNullable': true,
               'outputType': {
                 'isList': false,
                 'type': 'AssetCountAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_avg',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'AssetAvgAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_sum',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'AssetSumAggregateOutputType',
                 'location': 'outputObjectTypes',
                 'namespace': 'prisma',
               },
@@ -33365,7 +45947,20 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'args': [],
               'deprecation': null,
               'documentation': null,
-            }
+            },
+            {
+              'name': 'asset',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -33387,6 +45982,45 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'requester_id',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'notes',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'time_start',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'time_end',
               'isNullable': false,
               'outputType': {
                 'isList': false,
@@ -33481,6 +46115,45 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
               'documentation': null,
             },
+            {
+              'name': 'notes',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'time_start',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'time_end',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -33513,6 +46186,45 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
               'documentation': null,
             },
+            {
+              'name': 'notes',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'time_start',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'time_end',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -33534,6 +46246,32 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'request_id',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'quantity',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'asset_type_id',
               'isNullable': false,
               'outputType': {
                 'isList': false,
@@ -33590,6 +46328,19 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
               'documentation': null,
             },
+            {
+              'name': 'quantity',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Float',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -33611,6 +46362,19 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'request_id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'quantity',
               'isNullable': true,
               'outputType': {
                 'isList': false,
@@ -33654,6 +46418,32 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
               'documentation': null,
             },
+            {
+              'name': 'quantity',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -33686,6 +46476,32 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
               'documentation': null,
             },
+            {
+              'name': 'quantity',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'asset_type_id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -33704,7 +46520,20 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'args': [],
               'deprecation': null,
               'documentation': null,
-            }
+            },
+            {
+              'name': 'RequestItem',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -33963,6 +46792,19 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'documentation': null,
             },
             {
+              'name': 'deployed_to_id',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': '_all',
               'isNullable': false,
               'outputType': {
@@ -33975,6 +46817,44 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
               'documentation': null,
             },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetAvgAggregateOutputType',
+          'fields': [
+            {
+              'name': 'deployed_to_id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Float',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'AssetSumAggregateOutputType',
+          'fields': [
+            {
+              'name': 'deployed_to_id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            }
           ],
           'fieldMap': null,
         },
@@ -34000,6 +46880,19 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'outputType': {
                 'isList': false,
                 'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'deployed_to_id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
                 'location': 'scalar',
                 'namespace': null,
               },
@@ -34039,6 +46932,19 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
               'documentation': null,
             },
+            {
+              'name': 'deployed_to_id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -34052,6 +46958,7 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'values': [
             'id',
             'type_id',
+            'deployed_to_id',
           ],
         },
         {
@@ -34068,6 +46975,16 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'values': [
             'id',
             'requester_id',
+            'notes',
+            'time_start',
+            'time_end',
+          ],
+        },
+        {
+          'name': 'QueryMode',
+          'values': [
+            'default',
+            'insensitive',
           ],
         },
         {
@@ -34075,6 +46992,8 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'values': [
             'id',
             'request_id',
+            'quantity',
+            'asset_type_id',
           ],
         },
         {
@@ -34093,7 +47012,12 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
         },
         {
           'name': 'TransactionIsolationLevel',
-          'values': ['Serializable'],
+          'values': [
+            'ReadUncommitted',
+            'ReadCommitted',
+            'RepeatableRead',
+            'Serializable',
+          ],
         },
         {
           'name': 'UserScalarFieldEnum',
@@ -34114,7 +47038,7 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
         'findFirst': 'findFirstSession',
         'findMany': 'findManySession',
         'create': 'createOneSession',
-        'createMany': null,
+        'createMany': 'createManySession',
         'update': 'updateOneSession',
         'updateMany': 'updateManySession',
         'upsert': 'upsertOneSession',
@@ -34131,7 +47055,7 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
         'findFirst': 'findFirstUser',
         'findMany': 'findManyUser',
         'create': 'createOneUser',
-        'createMany': null,
+        'createMany': 'createManyUser',
         'update': 'updateOneUser',
         'updateMany': 'updateManyUser',
         'upsert': 'upsertOneUser',
@@ -34148,7 +47072,7 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
         'findFirst': 'findFirstEquipmentRequest',
         'findMany': 'findManyEquipmentRequest',
         'create': 'createOneEquipmentRequest',
-        'createMany': null,
+        'createMany': 'createManyEquipmentRequest',
         'update': 'updateOneEquipmentRequest',
         'updateMany': 'updateManyEquipmentRequest',
         'upsert': 'upsertOneEquipmentRequest',
@@ -34165,7 +47089,7 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
         'findFirst': 'findFirstRequestItem',
         'findMany': 'findManyRequestItem',
         'create': 'createOneRequestItem',
-        'createMany': null,
+        'createMany': 'createManyRequestItem',
         'update': 'updateOneRequestItem',
         'updateMany': 'updateManyRequestItem',
         'upsert': 'upsertOneRequestItem',
@@ -34182,7 +47106,7 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
         'findFirst': 'findFirstAssetType',
         'findMany': 'findManyAssetType',
         'create': 'createOneAssetType',
-        'createMany': null,
+        'createMany': 'createManyAssetType',
         'update': 'updateOneAssetType',
         'updateMany': 'updateManyAssetType',
         'upsert': 'upsertOneAssetType',
@@ -34199,7 +47123,7 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
         'findFirst': 'findFirstAsset',
         'findMany': 'findManyAsset',
         'create': 'createOneAsset',
-        'createMany': null,
+        'createMany': 'createManyAsset',
         'update': 'updateOneAsset',
         'updateMany': 'updateManyAsset',
         'upsert': 'upsertOneAsset',
@@ -34221,17 +47145,17 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
   },
 });
 final String schema = _i6.utf8.decode(_i6.base64.decode(
-    r'Ly8gVGhpcyBpcyB5b3VyIFByaXNtYSBzY2hlbWEgZmlsZSwKLy8gbGVhcm4gbW9yZSBhYm91dCBpdCBpbiB0aGUgZG9jczogaHR0cHM6Ly9wcmlzLmx5L2QvcHJpc21hLXNjaGVtYQoKZ2VuZXJhdG9yIGNsaWVudCB7CiAgICBwcm92aWRlciAgICAgICAgPSAicHJpc21hLWNsaWVudC1kYXJ0IgogICAgcHJldmlld0ZlYXR1cmVzID0gWyJpbnRlcmFjdGl2ZVRyYW5zYWN0aW9ucyJdCn0KCmRhdGFzb3VyY2UgZGIgewogICAgcHJvdmlkZXIgPSAic3FsaXRlIgogICAgdXJsICAgICAgPSAiZmlsZTouL3ByaXNtYS9wcmlzbWEuZGIiCn0KCm1vZGVsIFNlc3Npb24gewogICAga2V5ICAgICBTdHJpbmcgQGlkIEB1bmlxdWUKICAgIHVzZXIgICAgVXNlciAgIEByZWxhdGlvbihmaWVsZHM6IFt1c2VyX2lkXSwgcmVmZXJlbmNlczogW2lkXSkKICAgIHVzZXJfaWQgU3RyaW5nCn0KCm1vZGVsIFVzZXIgewogICAgaWQgICAgICAgU3RyaW5nICAgICAgICAgICAgIEBpZCBAdW5pcXVlCiAgICBlbWFpbCAgICBTdHJpbmcgICAgICAgICAgICAgQHVuaXF1ZQogICAgbmFtZSAgICAgU3RyaW5nCiAgICByZXF1ZXN0cyBFcXVpcG1lbnRSZXF1ZXN0W10KICAgIHNlc3Npb25zIFNlc3Npb25bXQp9Cgptb2RlbCBFcXVpcG1lbnRSZXF1ZXN0IHsKICAgIGlkICAgICAgICAgICBJbnQgICAgICAgICAgIEBpZCBAZGVmYXVsdChhdXRvaW5jcmVtZW50KCkpCiAgICByZXF1ZXN0ZWRfYnkgVXNlciAgICAgICAgICBAcmVsYXRpb24oZmllbGRzOiBbcmVxdWVzdGVyX2lkXSwgcmVmZXJlbmNlczogW2lkXSkKICAgIHJlcXVlc3Rlcl9pZCBTdHJpbmcKICAgIGl0ZW1zICAgICAgICBSZXF1ZXN0SXRlbVtdCn0KCm1vZGVsIFJlcXVlc3RJdGVtIHsKICAgIGlkICAgICAgICAgSW50ICAgICAgICAgICAgICBAaWQgQGRlZmF1bHQoYXV0b2luY3JlbWVudCgpKQogICAgcmVxdWVzdCAgICBFcXVpcG1lbnRSZXF1ZXN0IEByZWxhdGlvbihmaWVsZHM6IFtyZXF1ZXN0X2lkXSwgcmVmZXJlbmNlczogW2lkXSkKICAgIHJlcXVlc3RfaWQgSW50Cn0KCm1vZGVsIEFzc2V0VHlwZSB7CiAgICBpZCAgICAgICBTdHJpbmcgIEBpZCBAdW5pcXVlCiAgICB0aXRsZSAgICBTdHJpbmcKICAgIGFzc2V0cyAgIEFzc2V0W10KICAgIHVuaXF1ZSAgIEJvb2xlYW4gQGRlZmF1bHQodHJ1ZSkKICAgIHF1YW50aXR5IEludD8KfQoKbW9kZWwgQXNzZXQgewogICAgaWQgICAgICBTdHJpbmcgICAgQGlkIEB1bmlxdWUKICAgIHR5cGUgICAgQXNzZXRUeXBlIEByZWxhdGlvbihmaWVsZHM6IFt0eXBlX2lkXSwgcmVmZXJlbmNlczogW2lkXSkKICAgIHR5cGVfaWQgU3RyaW5nCn0K'));
+    r'Ly8gVGhpcyBpcyB5b3VyIFByaXNtYSBzY2hlbWEgZmlsZSwKLy8gbGVhcm4gbW9yZSBhYm91dCBpdCBpbiB0aGUgZG9jczogaHR0cHM6Ly9wcmlzLmx5L2QvcHJpc21hLXNjaGVtYQoKZ2VuZXJhdG9yIGNsaWVudCB7CiAgICBwcm92aWRlciAgICAgICAgPSAicHJpc21hLWNsaWVudC1kYXJ0IgogICAgcHJldmlld0ZlYXR1cmVzID0gWyJpbnRlcmFjdGl2ZVRyYW5zYWN0aW9ucyJdCn0KCi8vIGRhdGFzb3VyY2UgZGIgewovLyAgICAgcHJvdmlkZXIgPSAic3FsaXRlIgovLyAgICAgdXJsICAgICAgPSAiZmlsZTouL3ByaXNtYS9wcmlzbWEuZGIiCi8vIH0KCmRhdGFzb3VyY2UgZGIgewogIHByb3ZpZGVyID0gInBvc3RncmVzcWwiCiAgdXJsICAgICAgPSAicG9zdGdyZXNxbDovL3Jvb3Q6cm9vdEBsb2NhbGhvc3QvZXF1aXBtZW50X2Jvb2tpbmdfYXBwP3NjaGVtYT1wdWJsaWMiCn0KCm1vZGVsIFNlc3Npb24gewogICAga2V5ICAgICBTdHJpbmcgQGlkIEB1bmlxdWUKICAgIHVzZXIgICAgVXNlciAgIEByZWxhdGlvbihmaWVsZHM6IFt1c2VyX2lkXSwgcmVmZXJlbmNlczogW2lkXSkKICAgIHVzZXJfaWQgU3RyaW5nCn0KCm1vZGVsIFVzZXIgewogICAgaWQgICAgICAgU3RyaW5nICAgICAgICAgICAgIEBpZCBAdW5pcXVlCiAgICBlbWFpbCAgICBTdHJpbmcgICAgICAgICAgICAgQHVuaXF1ZQogICAgbmFtZSAgICAgU3RyaW5nCiAgICByZXF1ZXN0cyBFcXVpcG1lbnRSZXF1ZXN0W10KICAgIHNlc3Npb25zIFNlc3Npb25bXQp9Cgptb2RlbCBFcXVpcG1lbnRSZXF1ZXN0IHsKICAgIGlkICAgICAgICAgICBJbnQgICAgICAgICAgIEBpZCBAZGVmYXVsdChhdXRvaW5jcmVtZW50KCkpCiAgICByZXF1ZXN0ZWRfYnkgVXNlciAgICAgICAgICBAcmVsYXRpb24oZmllbGRzOiBbcmVxdWVzdGVyX2lkXSwgcmVmZXJlbmNlczogW2lkXSkKICAgIHJlcXVlc3Rlcl9pZCBTdHJpbmcKICAgIGl0ZW1zICAgICAgICBSZXF1ZXN0SXRlbVtdCiAgICBub3RlcyAgICAgICAgU3RyaW5nICAgICAgICBAZGVmYXVsdCgiIikKICAgIHRpbWVfc3RhcnQgICBEYXRlVGltZQogICAgdGltZV9lbmQgICAgIERhdGVUaW1lCiAgICBhc3NldCAgICAgICAgQXNzZXRbXQp9Cgptb2RlbCBSZXF1ZXN0SXRlbSB7CiAgICBpZCAgICAgICAgICAgIEludCAgICAgICAgICAgICAgQGlkIEBkZWZhdWx0KGF1dG9pbmNyZW1lbnQoKSkKICAgIHJlcXVlc3QgICAgICAgRXF1aXBtZW50UmVxdWVzdCBAcmVsYXRpb24oZmllbGRzOiBbcmVxdWVzdF9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pCiAgICByZXF1ZXN0X2lkICAgIEludAogICAgcXVhbnRpdHkgICAgICBJbnQKICAgIGFzc2V0X3R5cGUgICAgQXNzZXRUeXBlICAgICAgICBAcmVsYXRpb24oZmllbGRzOiBbYXNzZXRfdHlwZV9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pCiAgICBhc3NldF90eXBlX2lkIFN0cmluZwp9Cgptb2RlbCBBc3NldFR5cGUgewogICAgaWQgICAgICAgICAgU3RyaW5nICAgICAgICBAaWQgQHVuaXF1ZQogICAgdGl0bGUgICAgICAgU3RyaW5nCiAgICBhc3NldHMgICAgICBBc3NldFtdCiAgICB1bmlxdWUgICAgICBCb29sZWFuICAgICAgIEBkZWZhdWx0KHRydWUpCiAgICBxdWFudGl0eSAgICBJbnQ/CiAgICBSZXF1ZXN0SXRlbSBSZXF1ZXN0SXRlbVtdCn0KCm1vZGVsIEFzc2V0IHsKICAgIGlkICAgICAgICAgICAgIFN0cmluZyAgICAgICAgICAgIEBpZCBAdW5pcXVlCiAgICB0eXBlICAgICAgICAgICBBc3NldFR5cGUgICAgICAgICBAcmVsYXRpb24oZmllbGRzOiBbdHlwZV9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pCiAgICB0eXBlX2lkICAgICAgICBTdHJpbmcKICAgIGRlcGxveWVkX3RvICAgIEVxdWlwbWVudFJlcXVlc3Q/IEByZWxhdGlvbihmaWVsZHM6IFtkZXBsb3llZF90b19pZF0sIHJlZmVyZW5jZXM6IFtpZF0pCiAgICBkZXBsb3llZF90b19pZCBJbnQ/Cn0K'));
 const String _executable =
     r'C:\projects\equipment_booking_app\server\.dart_tool\prisma\query-engine';
 
 class Datasources {
   Datasources({this.db});
 
-  final _i1.PrismaNullable<_i1.Datasource> db;
+  final _i2.PrismaNullable<_i2.Datasource> db;
 
-  Map<String, _i1.Datasource> _toOverwrites() {
-    final $overwrites = <String, _i1.PrismaNullable<_i1.Datasource>>{'db': db}
+  Map<String, _i2.Datasource> _toOverwrites() {
+    final $overwrites = <String, _i2.PrismaNullable<_i2.Datasource>>{'db': db}
       ..removeWhere((
         _,
         v,
@@ -34247,13 +47171,13 @@ class PrismaClient {
     this._headers,
   ]);
 
-  factory PrismaClient({_i1.PrismaNullable<Datasources> datasources}) {
-    final _i1.Engine engine = _i1.BinaryEngine(
-      datasources: datasources?._toOverwrites() ?? <String, _i1.Datasource>{},
+  factory PrismaClient({_i2.PrismaNullable<Datasources> datasources}) {
+    final _i2.Engine engine = _i2.BinaryEngine(
+      datasources: datasources?._toOverwrites() ?? <String, _i2.Datasource>{},
       dmmf: dmmf,
       schema: schema,
       environment: environment,
-      logEmitter: _i1.PrismaLogEmitter(const <_i1.PrismaLogDefinition>[]),
+      logEmitter: _i2.PrismaLogEmitter(const <_i2.PrismaLogDefinition>[]),
       executable: _executable,
     );
     final PrismaClient client = PrismaClient._(
@@ -34263,9 +47187,9 @@ class PrismaClient {
     return client;
   }
 
-  final _i1.Engine _engine;
+  final _i2.Engine _engine;
 
-  final _i1.PrismaNullable<_i1.QueryEngineRequestHeaders> _headers;
+  final _i2.PrismaNullable<_i2.QueryEngineRequestHeaders> _headers;
 
   SessionDelegate get session => SessionDelegate._(
         _engine,
@@ -34316,18 +47240,18 @@ class PrismaClient {
   /// ```
   Future<T> $transaction<T>(
     Future<T> Function(PrismaClient) fn, [
-    _i1.TransactionOptions? options,
+    _i2.TransactionOptions? options,
   ]) async {
     if (_headers?.transactionId != null) return fn(this);
-    final _i1.TransactionHeaders headers = _i1.TransactionHeaders();
-    final _i1.TransactionInfo info = await _engine.startTransaction(
+    final _i2.TransactionHeaders headers = _i2.TransactionHeaders();
+    final _i2.TransactionInfo info = await _engine.startTransaction(
       headers: headers,
-      options: options ?? _i1.TransactionOptions(),
+      options: options ?? _i2.TransactionOptions(),
     );
     try {
       final T result = await fn(PrismaClient._(
         _engine,
-        _i1.QueryEngineRequestHeaders(transactionId: info.id),
+        _i2.QueryEngineRequestHeaders(transactionId: info.id),
       ));
       await _engine.commitTransaction(
         headers: headers,

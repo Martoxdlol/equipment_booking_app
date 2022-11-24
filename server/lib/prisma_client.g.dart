@@ -152,6 +152,9 @@ EquipmentRequestGroupByOutputType _$EquipmentRequestGroupByOutputTypeFromJson(
     EquipmentRequestGroupByOutputType(
       id: json['id'] as int,
       requester_id: json['requester_id'] as String,
+      notes: json['notes'] as String,
+      time_start: DateTime.parse(json['time_start'] as String),
+      time_end: DateTime.parse(json['time_end'] as String),
       $count: json['_count'] == null
           ? null
           : EquipmentRequestCountAggregateOutputType.fromJson(
@@ -179,6 +182,9 @@ Map<String, dynamic> _$EquipmentRequestGroupByOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'requester_id': instance.requester_id,
+      'notes': instance.notes,
+      'time_start': instance.time_start.toIso8601String(),
+      'time_end': instance.time_end.toIso8601String(),
       '_count': instance.$count?.toJson(),
       '_avg': instance.$avg?.toJson(),
       '_sum': instance.$sum?.toJson(),
@@ -226,6 +232,8 @@ RequestItemGroupByOutputType _$RequestItemGroupByOutputTypeFromJson(
     RequestItemGroupByOutputType(
       id: json['id'] as int,
       request_id: json['request_id'] as int,
+      quantity: json['quantity'] as int,
+      asset_type_id: json['asset_type_id'] as String,
       $count: json['_count'] == null
           ? null
           : RequestItemCountAggregateOutputType.fromJson(
@@ -253,6 +261,8 @@ Map<String, dynamic> _$RequestItemGroupByOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'request_id': instance.request_id,
+      'quantity': instance.quantity,
+      'asset_type_id': instance.asset_type_id,
       '_count': instance.$count?.toJson(),
       '_avg': instance.$avg?.toJson(),
       '_sum': instance.$sum?.toJson(),
@@ -342,6 +352,14 @@ AggregateAsset _$AggregateAssetFromJson(Map<String, dynamic> json) =>
           ? null
           : AssetCountAggregateOutputType.fromJson(
               json['_count'] as Map<String, dynamic>),
+      $avg: json['_avg'] == null
+          ? null
+          : AssetAvgAggregateOutputType.fromJson(
+              json['_avg'] as Map<String, dynamic>),
+      $sum: json['_sum'] == null
+          ? null
+          : AssetSumAggregateOutputType.fromJson(
+              json['_sum'] as Map<String, dynamic>),
       $min: json['_min'] == null
           ? null
           : AssetMinAggregateOutputType.fromJson(
@@ -355,6 +373,8 @@ AggregateAsset _$AggregateAssetFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$AggregateAssetToJson(AggregateAsset instance) =>
     <String, dynamic>{
       '_count': instance.$count?.toJson(),
+      '_avg': instance.$avg?.toJson(),
+      '_sum': instance.$sum?.toJson(),
       '_min': instance.$min?.toJson(),
       '_max': instance.$max?.toJson(),
     };
@@ -364,10 +384,19 @@ AssetGroupByOutputType _$AssetGroupByOutputTypeFromJson(
     AssetGroupByOutputType(
       id: json['id'] as String,
       type_id: json['type_id'] as String,
+      deployed_to_id: json['deployed_to_id'] as int?,
       $count: json['_count'] == null
           ? null
           : AssetCountAggregateOutputType.fromJson(
               json['_count'] as Map<String, dynamic>),
+      $avg: json['_avg'] == null
+          ? null
+          : AssetAvgAggregateOutputType.fromJson(
+              json['_avg'] as Map<String, dynamic>),
+      $sum: json['_sum'] == null
+          ? null
+          : AssetSumAggregateOutputType.fromJson(
+              json['_sum'] as Map<String, dynamic>),
       $min: json['_min'] == null
           ? null
           : AssetMinAggregateOutputType.fromJson(
@@ -383,7 +412,10 @@ Map<String, dynamic> _$AssetGroupByOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'type_id': instance.type_id,
+      'deployed_to_id': instance.deployed_to_id,
       '_count': instance.$count?.toJson(),
+      '_avg': instance.$avg?.toJson(),
+      '_sum': instance.$sum?.toJson(),
       '_min': instance.$min?.toJson(),
       '_max': instance.$max?.toJson(),
     };
@@ -509,12 +541,14 @@ EquipmentRequestCountOutputType _$EquipmentRequestCountOutputTypeFromJson(
         Map<String, dynamic> json) =>
     EquipmentRequestCountOutputType(
       items: json['items'] as int,
+      asset: json['asset'] as int,
     );
 
 Map<String, dynamic> _$EquipmentRequestCountOutputTypeToJson(
         EquipmentRequestCountOutputType instance) =>
     <String, dynamic>{
       'items': instance.items,
+      'asset': instance.asset,
     };
 
 EquipmentRequestCountAggregateOutputType
@@ -523,6 +557,9 @@ EquipmentRequestCountAggregateOutputType
         EquipmentRequestCountAggregateOutputType(
           id: json['id'] as int,
           requester_id: json['requester_id'] as int,
+          notes: json['notes'] as int,
+          time_start: json['time_start'] as int,
+          time_end: json['time_end'] as int,
           $all: json['_all'] as int,
         );
 
@@ -531,6 +568,9 @@ Map<String, dynamic> _$EquipmentRequestCountAggregateOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'requester_id': instance.requester_id,
+      'notes': instance.notes,
+      'time_start': instance.time_start,
+      'time_end': instance.time_end,
       '_all': instance.$all,
     };
 
@@ -566,6 +606,13 @@ EquipmentRequestMinAggregateOutputType
         EquipmentRequestMinAggregateOutputType(
           id: json['id'] as int?,
           requester_id: json['requester_id'] as String?,
+          notes: json['notes'] as String?,
+          time_start: json['time_start'] == null
+              ? null
+              : DateTime.parse(json['time_start'] as String),
+          time_end: json['time_end'] == null
+              ? null
+              : DateTime.parse(json['time_end'] as String),
         );
 
 Map<String, dynamic> _$EquipmentRequestMinAggregateOutputTypeToJson(
@@ -573,6 +620,9 @@ Map<String, dynamic> _$EquipmentRequestMinAggregateOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'requester_id': instance.requester_id,
+      'notes': instance.notes,
+      'time_start': instance.time_start?.toIso8601String(),
+      'time_end': instance.time_end?.toIso8601String(),
     };
 
 EquipmentRequestMaxAggregateOutputType
@@ -581,6 +631,13 @@ EquipmentRequestMaxAggregateOutputType
         EquipmentRequestMaxAggregateOutputType(
           id: json['id'] as int?,
           requester_id: json['requester_id'] as String?,
+          notes: json['notes'] as String?,
+          time_start: json['time_start'] == null
+              ? null
+              : DateTime.parse(json['time_start'] as String),
+          time_end: json['time_end'] == null
+              ? null
+              : DateTime.parse(json['time_end'] as String),
         );
 
 Map<String, dynamic> _$EquipmentRequestMaxAggregateOutputTypeToJson(
@@ -588,6 +645,9 @@ Map<String, dynamic> _$EquipmentRequestMaxAggregateOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'requester_id': instance.requester_id,
+      'notes': instance.notes,
+      'time_start': instance.time_start?.toIso8601String(),
+      'time_end': instance.time_end?.toIso8601String(),
     };
 
 RequestItemCountAggregateOutputType
@@ -595,6 +655,8 @@ RequestItemCountAggregateOutputType
         RequestItemCountAggregateOutputType(
           id: json['id'] as int,
           request_id: json['request_id'] as int,
+          quantity: json['quantity'] as int,
+          asset_type_id: json['asset_type_id'] as int,
           $all: json['_all'] as int,
         );
 
@@ -603,6 +665,8 @@ Map<String, dynamic> _$RequestItemCountAggregateOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'request_id': instance.request_id,
+      'quantity': instance.quantity,
+      'asset_type_id': instance.asset_type_id,
       '_all': instance.$all,
     };
 
@@ -611,6 +675,7 @@ RequestItemAvgAggregateOutputType _$RequestItemAvgAggregateOutputTypeFromJson(
     RequestItemAvgAggregateOutputType(
       id: (json['id'] as num?)?.toDouble(),
       request_id: (json['request_id'] as num?)?.toDouble(),
+      quantity: (json['quantity'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$RequestItemAvgAggregateOutputTypeToJson(
@@ -618,6 +683,7 @@ Map<String, dynamic> _$RequestItemAvgAggregateOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'request_id': instance.request_id,
+      'quantity': instance.quantity,
     };
 
 RequestItemSumAggregateOutputType _$RequestItemSumAggregateOutputTypeFromJson(
@@ -625,6 +691,7 @@ RequestItemSumAggregateOutputType _$RequestItemSumAggregateOutputTypeFromJson(
     RequestItemSumAggregateOutputType(
       id: json['id'] as int?,
       request_id: json['request_id'] as int?,
+      quantity: json['quantity'] as int?,
     );
 
 Map<String, dynamic> _$RequestItemSumAggregateOutputTypeToJson(
@@ -632,6 +699,7 @@ Map<String, dynamic> _$RequestItemSumAggregateOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'request_id': instance.request_id,
+      'quantity': instance.quantity,
     };
 
 RequestItemMinAggregateOutputType _$RequestItemMinAggregateOutputTypeFromJson(
@@ -639,6 +707,8 @@ RequestItemMinAggregateOutputType _$RequestItemMinAggregateOutputTypeFromJson(
     RequestItemMinAggregateOutputType(
       id: json['id'] as int?,
       request_id: json['request_id'] as int?,
+      quantity: json['quantity'] as int?,
+      asset_type_id: json['asset_type_id'] as String?,
     );
 
 Map<String, dynamic> _$RequestItemMinAggregateOutputTypeToJson(
@@ -646,6 +716,8 @@ Map<String, dynamic> _$RequestItemMinAggregateOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'request_id': instance.request_id,
+      'quantity': instance.quantity,
+      'asset_type_id': instance.asset_type_id,
     };
 
 RequestItemMaxAggregateOutputType _$RequestItemMaxAggregateOutputTypeFromJson(
@@ -653,6 +725,8 @@ RequestItemMaxAggregateOutputType _$RequestItemMaxAggregateOutputTypeFromJson(
     RequestItemMaxAggregateOutputType(
       id: json['id'] as int?,
       request_id: json['request_id'] as int?,
+      quantity: json['quantity'] as int?,
+      asset_type_id: json['asset_type_id'] as String?,
     );
 
 Map<String, dynamic> _$RequestItemMaxAggregateOutputTypeToJson(
@@ -660,18 +734,22 @@ Map<String, dynamic> _$RequestItemMaxAggregateOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'request_id': instance.request_id,
+      'quantity': instance.quantity,
+      'asset_type_id': instance.asset_type_id,
     };
 
 AssetTypeCountOutputType _$AssetTypeCountOutputTypeFromJson(
         Map<String, dynamic> json) =>
     AssetTypeCountOutputType(
       assets: json['assets'] as int,
+      RequestItem: json['RequestItem'] as int,
     );
 
 Map<String, dynamic> _$AssetTypeCountOutputTypeToJson(
         AssetTypeCountOutputType instance) =>
     <String, dynamic>{
       'assets': instance.assets,
+      'RequestItem': instance.RequestItem,
     };
 
 AssetTypeCountAggregateOutputType _$AssetTypeCountAggregateOutputTypeFromJson(
@@ -759,6 +837,7 @@ AssetCountAggregateOutputType _$AssetCountAggregateOutputTypeFromJson(
     AssetCountAggregateOutputType(
       id: json['id'] as int,
       type_id: json['type_id'] as int,
+      deployed_to_id: json['deployed_to_id'] as int,
       $all: json['_all'] as int,
     );
 
@@ -767,7 +846,32 @@ Map<String, dynamic> _$AssetCountAggregateOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'type_id': instance.type_id,
+      'deployed_to_id': instance.deployed_to_id,
       '_all': instance.$all,
+    };
+
+AssetAvgAggregateOutputType _$AssetAvgAggregateOutputTypeFromJson(
+        Map<String, dynamic> json) =>
+    AssetAvgAggregateOutputType(
+      deployed_to_id: (json['deployed_to_id'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$AssetAvgAggregateOutputTypeToJson(
+        AssetAvgAggregateOutputType instance) =>
+    <String, dynamic>{
+      'deployed_to_id': instance.deployed_to_id,
+    };
+
+AssetSumAggregateOutputType _$AssetSumAggregateOutputTypeFromJson(
+        Map<String, dynamic> json) =>
+    AssetSumAggregateOutputType(
+      deployed_to_id: json['deployed_to_id'] as int?,
+    );
+
+Map<String, dynamic> _$AssetSumAggregateOutputTypeToJson(
+        AssetSumAggregateOutputType instance) =>
+    <String, dynamic>{
+      'deployed_to_id': instance.deployed_to_id,
     };
 
 AssetMinAggregateOutputType _$AssetMinAggregateOutputTypeFromJson(
@@ -775,6 +879,7 @@ AssetMinAggregateOutputType _$AssetMinAggregateOutputTypeFromJson(
     AssetMinAggregateOutputType(
       id: json['id'] as String?,
       type_id: json['type_id'] as String?,
+      deployed_to_id: json['deployed_to_id'] as int?,
     );
 
 Map<String, dynamic> _$AssetMinAggregateOutputTypeToJson(
@@ -782,6 +887,7 @@ Map<String, dynamic> _$AssetMinAggregateOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'type_id': instance.type_id,
+      'deployed_to_id': instance.deployed_to_id,
     };
 
 AssetMaxAggregateOutputType _$AssetMaxAggregateOutputTypeFromJson(
@@ -789,6 +895,7 @@ AssetMaxAggregateOutputType _$AssetMaxAggregateOutputTypeFromJson(
     AssetMaxAggregateOutputType(
       id: json['id'] as String?,
       type_id: json['type_id'] as String?,
+      deployed_to_id: json['deployed_to_id'] as int?,
     );
 
 Map<String, dynamic> _$AssetMaxAggregateOutputTypeToJson(
@@ -796,6 +903,7 @@ Map<String, dynamic> _$AssetMaxAggregateOutputTypeToJson(
     <String, dynamic>{
       'id': instance.id,
       'type_id': instance.type_id,
+      'deployed_to_id': instance.deployed_to_id,
     };
 
 Session _$SessionFromJson(Map<String, dynamic> json) => Session(
@@ -824,23 +932,33 @@ EquipmentRequest _$EquipmentRequestFromJson(Map<String, dynamic> json) =>
     EquipmentRequest(
       id: json['id'] as int,
       requester_id: json['requester_id'] as String,
+      notes: json['notes'] as String,
+      time_start: DateTime.parse(json['time_start'] as String),
+      time_end: DateTime.parse(json['time_end'] as String),
     );
 
 Map<String, dynamic> _$EquipmentRequestToJson(EquipmentRequest instance) =>
     <String, dynamic>{
       'id': instance.id,
       'requester_id': instance.requester_id,
+      'notes': instance.notes,
+      'time_start': instance.time_start.toIso8601String(),
+      'time_end': instance.time_end.toIso8601String(),
     };
 
 RequestItem _$RequestItemFromJson(Map<String, dynamic> json) => RequestItem(
       id: json['id'] as int,
       request_id: json['request_id'] as int,
+      quantity: json['quantity'] as int,
+      asset_type_id: json['asset_type_id'] as String,
     );
 
 Map<String, dynamic> _$RequestItemToJson(RequestItem instance) =>
     <String, dynamic>{
       'id': instance.id,
       'request_id': instance.request_id,
+      'quantity': instance.quantity,
+      'asset_type_id': instance.asset_type_id,
     };
 
 AssetType _$AssetTypeFromJson(Map<String, dynamic> json) => AssetType(
@@ -860,9 +978,11 @@ Map<String, dynamic> _$AssetTypeToJson(AssetType instance) => <String, dynamic>{
 Asset _$AssetFromJson(Map<String, dynamic> json) => Asset(
       id: json['id'] as String,
       type_id: json['type_id'] as String,
+      deployed_to_id: json['deployed_to_id'] as int?,
     );
 
 Map<String, dynamic> _$AssetToJson(Asset instance) => <String, dynamic>{
       'id': instance.id,
       'type_id': instance.type_id,
+      'deployed_to_id': instance.deployed_to_id,
     };

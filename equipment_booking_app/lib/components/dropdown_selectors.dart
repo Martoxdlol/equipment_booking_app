@@ -1,5 +1,5 @@
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:shared/models.dart';
+import 'package:server/prisma_client.dart';
 import 'package:shared/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -13,7 +13,7 @@ class UserSelect extends HookWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownSearch<User>(
-      compareFn: (item1, item2) => item1.id.value == item1.id.value,
+      compareFn: (item1, item2) => item1.id == item1.id,
       popupProps: const PopupProps.menu(
         menuProps: MenuProps(animationDuration: Duration.zero),
         searchDelay: Duration.zero,
@@ -24,10 +24,10 @@ class UserSelect extends HookWidget {
         // disabledItemFn: (String s) => s.startsWith('I'),
       ),
       asyncItems: (String filter) async => <User>[
-        User()..setFromJson({'name': 'Tomás Cichero', 'id': 'tcichero'}),
-        User()..setFromJson({'name': 'Facundo Totaro', 'id': 'ftotaro'}),
+        // User()..setFromJson({'name': 'Tomás Cichero', 'id': 'tcichero'}),
+        // User()..setFromJson({'name': 'Facundo Totaro', 'id': 'ftotaro'}),
       ],
-      itemAsString: (User u) => u.name.value,
+      itemAsString: (User u) => u.name,
       onChanged: (User? data) => onChange(data),
       dropdownDecoratorProps: const DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(

@@ -1,5 +1,6 @@
 import 'package:server/auth/auth.dart';
 import 'package:server/openid_client.dart';
+import 'package:server/requests/requests.dart';
 import 'package:shelf_plus/shelf_plus.dart';
 import 'package:shelf_cors_headers/shelf_cors_headers.dart';
 
@@ -14,6 +15,8 @@ Handler init() {
   app.use(corsHeaders());
 
   auth(app);
+
+  requests(app);
 
   return app;
 }

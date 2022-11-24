@@ -6,9 +6,14 @@ generator client {
     previewFeatures = ["interactiveTransactions"]
 }
 
+// datasource db {
+//     provider = "sqlite"
+//     url      = "file:./prisma/prisma.db"
+// }
+
 datasource db {
-    provider = "sqlite"
-    url      = "file:./prisma/prisma.db"
+  provider = "postgresql"
+  url      = "postgresql://root:root@localhost/equipment_booking_app?schema=public"
 }
 
 model Session {
@@ -30,24 +35,34 @@ model EquipmentRequest {
     requested_by User          @relation(fields: [requester_id], references: [id])
     requester_id String
     items        RequestItem[]
+    notes        String        @default("")
+    time_start   DateTime
+    time_end     DateTime
+    asset        Asset[]
 }
 
 model RequestItem {
-    id         Int              @id @default(autoincrement())
-    request    EquipmentRequest @relation(fields: [request_id], references: [id])
-    request_id Int
+    id            Int              @id @default(autoincrement())
+    request       EquipmentRequest @relation(fields: [request_id], references: [id])
+    request_id    Int
+    quantity      Int
+    asset_type    AssetType        @relation(fields: [asset_type_id], references: [id])
+    asset_type_id String
 }
 
 model AssetType {
-    id       String  @id @unique
-    title    String
-    assets   Asset[]
-    unique   Boolean @default(true)
-    quantity Int?
+    id          String        @id @unique
+    title       String
+    assets      Asset[]
+    unique      Boolean       @default(true)
+    quantity    Int?
+    RequestItem RequestItem[]
 }
 
 model Asset {
-    id      String    @id @unique
-    type    AssetType @relation(fields: [type_id], references: [id])
-    type_id String
+    id             String            @id @unique
+    type           AssetType         @relation(fields: [type_id], references: [id])
+    type_id        String
+    deployed_to    EquipmentRequest? @relation(fields: [deployed_to_id], references: [id])
+    deployed_to_id Int?
 }
