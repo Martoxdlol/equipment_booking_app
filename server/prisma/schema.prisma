@@ -12,8 +12,8 @@ generator client {
 // }
 
 datasource db {
-  provider = "postgresql"
-  url      = "postgresql://root:root@localhost/equipment_booking_app?schema=public"
+    provider = "postgresql"
+    url      = "postgresql://root:root@10.0.20.3:15432/equipment_booking_app?schema=public"
 }
 
 model Session {

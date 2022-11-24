@@ -183,7 +183,7 @@ class FormPart1 extends HookWidget {
 
           print(await apiFetchPost('/request', {
             ...request.toJson(),
-            "equipment": equipment.toString(),
+            "equipment": equipment.value?.toJson(),
           }));
         } else {
           EquipmentPicker.show(context, equipment.value).then((value) => equipment.value = value);
