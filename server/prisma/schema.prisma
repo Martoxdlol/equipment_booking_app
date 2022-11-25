@@ -16,6 +16,10 @@ datasource db {
     url      = "postgresql://root:root@10.0.20.3:15432/equipment_booking_app?schema=public"
 }
 
+model SignInIntent {
+    key     String @id @unique
+}
+
 model Session {
     key     String @id @unique
     user    User   @relation(fields: [user_id], references: [id])

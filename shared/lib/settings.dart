@@ -31,7 +31,7 @@ class Settings extends ModelBuilder {
 
   static Settings instance = Settings()
     ..appName.set('App de pedidos')
-    ..serverUrl.set('http://10.0.31.28:4000')
+    ..serverUrl.set('http://10.0.60.6:4000')
     ..durationRangeOptionsInMinutes.setFromJson([
       const Duration(hours: 7, minutes: 30).inMinutes,
       const Duration(hours: 8, minutes: 30).inMinutes,

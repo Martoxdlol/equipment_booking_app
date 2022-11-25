@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:adaptative_modals/adaptative_modals.dart';
 import 'package:equipment_booking_app/auth/auth.dart';
@@ -13,7 +14,6 @@ import 'package:equipment_booking_app/components/row_or_column.dart';
 import 'package:equipment_booking_app/components/duration_picker.dart';
 import 'package:equipment_booking_app/components/week_recurrency_picker.dart';
 import 'package:equipment_booking_app/util/api.dart';
-import 'package:server/db.dart';
 import 'package:server/prisma_client.dart';
 import 'package:shared/internationalization.dart';
 import 'package:shared/models.dart' show EquipmentRequestEquipment;
@@ -181,10 +181,17 @@ class FormPart1 extends HookWidget {
             time_start: timeStart,
           );
 
-          print(await apiFetchPost('/request', {
+          final resultJson = await apiFetchPost('/request', {
             ...request.toJson(),
             "equipment": equipment.value?.toJson(),
-          }));
+          });
+
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              content: Text(jsonEncode(resultJson)),
+            ),
+          );
         } else {
           EquipmentPicker.show(context, equipment.value).then((value) => equipment.value = value);
         }

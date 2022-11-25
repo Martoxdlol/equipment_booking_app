@@ -6,6 +6,58 @@ part of prisma.client;
 // JsonSerializableGenerator
 // **************************************************************************
 
+AggregateSignInIntent _$AggregateSignInIntentFromJson(
+        Map<String, dynamic> json) =>
+    AggregateSignInIntent(
+      $count: json['_count'] == null
+          ? null
+          : SignInIntentCountAggregateOutputType.fromJson(
+              json['_count'] as Map<String, dynamic>),
+      $min: json['_min'] == null
+          ? null
+          : SignInIntentMinAggregateOutputType.fromJson(
+              json['_min'] as Map<String, dynamic>),
+      $max: json['_max'] == null
+          ? null
+          : SignInIntentMaxAggregateOutputType.fromJson(
+              json['_max'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$AggregateSignInIntentToJson(
+        AggregateSignInIntent instance) =>
+    <String, dynamic>{
+      '_count': instance.$count?.toJson(),
+      '_min': instance.$min?.toJson(),
+      '_max': instance.$max?.toJson(),
+    };
+
+SignInIntentGroupByOutputType _$SignInIntentGroupByOutputTypeFromJson(
+        Map<String, dynamic> json) =>
+    SignInIntentGroupByOutputType(
+      key: json['key'] as String,
+      $count: json['_count'] == null
+          ? null
+          : SignInIntentCountAggregateOutputType.fromJson(
+              json['_count'] as Map<String, dynamic>),
+      $min: json['_min'] == null
+          ? null
+          : SignInIntentMinAggregateOutputType.fromJson(
+              json['_min'] as Map<String, dynamic>),
+      $max: json['_max'] == null
+          ? null
+          : SignInIntentMaxAggregateOutputType.fromJson(
+              json['_max'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$SignInIntentGroupByOutputTypeToJson(
+        SignInIntentGroupByOutputType instance) =>
+    <String, dynamic>{
+      'key': instance.key,
+      '_count': instance.$count?.toJson(),
+      '_min': instance.$min?.toJson(),
+      '_max': instance.$max?.toJson(),
+    };
+
 AggregateSession _$AggregateSessionFromJson(Map<String, dynamic> json) =>
     AggregateSession(
       $count: json['_count'] == null
@@ -428,6 +480,44 @@ AffectedRowsOutput _$AffectedRowsOutputFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$AffectedRowsOutputToJson(AffectedRowsOutput instance) =>
     <String, dynamic>{
       'count': instance.count,
+    };
+
+SignInIntentCountAggregateOutputType
+    _$SignInIntentCountAggregateOutputTypeFromJson(Map<String, dynamic> json) =>
+        SignInIntentCountAggregateOutputType(
+          key: json['key'] as int,
+          $all: json['_all'] as int,
+        );
+
+Map<String, dynamic> _$SignInIntentCountAggregateOutputTypeToJson(
+        SignInIntentCountAggregateOutputType instance) =>
+    <String, dynamic>{
+      'key': instance.key,
+      '_all': instance.$all,
+    };
+
+SignInIntentMinAggregateOutputType _$SignInIntentMinAggregateOutputTypeFromJson(
+        Map<String, dynamic> json) =>
+    SignInIntentMinAggregateOutputType(
+      key: json['key'] as String?,
+    );
+
+Map<String, dynamic> _$SignInIntentMinAggregateOutputTypeToJson(
+        SignInIntentMinAggregateOutputType instance) =>
+    <String, dynamic>{
+      'key': instance.key,
+    };
+
+SignInIntentMaxAggregateOutputType _$SignInIntentMaxAggregateOutputTypeFromJson(
+        Map<String, dynamic> json) =>
+    SignInIntentMaxAggregateOutputType(
+      key: json['key'] as String?,
+    );
+
+Map<String, dynamic> _$SignInIntentMaxAggregateOutputTypeToJson(
+        SignInIntentMaxAggregateOutputType instance) =>
+    <String, dynamic>{
+      'key': instance.key,
     };
 
 SessionCountAggregateOutputType _$SessionCountAggregateOutputTypeFromJson(
@@ -904,6 +994,15 @@ Map<String, dynamic> _$AssetMaxAggregateOutputTypeToJson(
       'id': instance.id,
       'type_id': instance.type_id,
       'deployed_to_id': instance.deployed_to_id,
+    };
+
+SignInIntent _$SignInIntentFromJson(Map<String, dynamic> json) => SignInIntent(
+      key: json['key'] as String,
+    );
+
+Map<String, dynamic> _$SignInIntentToJson(SignInIntent instance) =>
+    <String, dynamic>{
+      'key': instance.key,
     };
 
 Session _$SessionFromJson(Map<String, dynamic> json) => Session(

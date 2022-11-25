@@ -45,7 +45,8 @@ abstract class AuthFlow {
 
     try {
       await start(loginHint);
-      return await _task.future;
+      final AuthResult r = await _task.future;
+      return r;
     } on Exception catch (e) {
       print("Authtentication failed");
       print(e);
@@ -179,6 +180,11 @@ class Auth {
     return saveSession();
   }
 
+  Future<void> deleteUserInfo() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('profile');
+  }
+
   Future<Session?> loadSession() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -190,7 +196,13 @@ class Auth {
         return null;
       }
 
-      session = Session.fromJson(jsonDecode(sstring));
+      final decoded = jsonDecode(sstring);
+
+      if (decoded == null) {
+        return null;
+      }
+
+      session = Session.fromJson(decoded);
     } catch (e) {
       print("Loading session failed");
       print(e);
@@ -225,6 +237,10 @@ class Auth {
     currentFlow = AuthFlow.detectPlatform(context);
     final authResult = await currentFlow!.authtenticate(username);
 
+    if (authResult.status != AuthStatus.ok) {
+      return authResult;
+    }
+
     if (authResult.session != null) {
       saveSession(authResult.session);
     }
@@ -239,6 +255,7 @@ class Auth {
   }
 
   Future<void> signOut() async {
+    await deleteUserInfo();
     await deleteSession();
   }
 

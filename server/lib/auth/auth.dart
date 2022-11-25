@@ -35,7 +35,9 @@ void auth(RouterPlus app) async {
       redirectType = RedirectType.web;
     }
 
-    final url = await getLoginUri(loginHint, redirectType);
+    final intent = await prisma.signInIntent.create(data: SignInIntentCreateInput(key: generateSecureQuey(64)));
+
+    final url = await getLoginUri(loginHint, redirectType, intent.key);
     return Response.found(url);
   }));
 
@@ -55,7 +57,20 @@ void auth(RouterPlus app) async {
       query['state'] = state;
     }
 
-    final credential = await getFlow(state).callback(query);
+    if (state == null) {
+      throw AuthtenticationError("missing state param on callback url");
+    }
+
+    final w = SignInIntentWhereUniqueInput(key: state);
+    final signinIntent = await prisma.signInIntent.findUnique(where: w);
+
+    if (signinIntent == null) {
+      throw AuthtenticationError("invalid state param");
+    }
+
+    await prisma.signInIntent.delete(where: w);
+
+    final credential = await getFlow(signinIntent.key).callback(query);
 
     final userinfo = await credential.getUserInfo();
 
@@ -110,10 +125,9 @@ void auth(RouterPlus app) async {
   }));
 }
 
-Flow getFlow([String? state]) {
+Flow getFlow(String state) {
   final flow = Flow.authorizationCode(
-    // state: state ?? generateSecureQuey(16),
-    state: state ?? 'abcd12345',
+    state: state,
     client,
     redirectUri: Uri.parse("http://localhost:4000/auth.html"),
     scopes: ['openid', 'profile', 'email'],
@@ -121,13 +135,21 @@ Flow getFlow([String? state]) {
   return flow;
 }
 
-Future<Uri> getLoginUri(String? loginHint, RedirectType redirectType) async {
-  return getFlow().authenticationUri;
+Future<Uri> getLoginUri(String? loginHint, RedirectType redirectType, String state) async {
+  final authUri = getFlow(state).authenticationUri;
+  return Uri(
+    host: authUri.host,
+    path: authUri.path,
+    port: authUri.port,
+    scheme: authUri.scheme,
+    userInfo: authUri.userInfo,
+    queryParameters: {...authUri.queryParameters, 'login_hint': loginHint},
+  );
 }
 
 String generateSecureQuey([int length = 32]) {
   final random = Random.secure();
 
-  final values = List<int>.generate(256, (i) => random.nextInt(length));
+  final values = List<int>.generate(length, (i) => random.nextInt(length));
   return base64Url.encode(values);
 }

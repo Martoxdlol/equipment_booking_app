@@ -43,9 +43,119 @@ enum RequestItemScalarFieldEnum { id, request_id, quantity, asset_type_id }
 
 enum SessionScalarFieldEnum { key, user_id }
 
+enum SignInIntentScalarFieldEnum { key }
+
 enum SortOrder { asc, desc }
 
 enum UserScalarFieldEnum { id, email, name }
+
+class SignInIntentWhereInput implements _i2.JsonSerializable {
+  const SignInIntentWhereInput({
+    this.AND,
+    this.OR,
+    this.NOT,
+    this.key,
+  });
+
+  final _i2.PrismaNullable<SignInIntentWhereInput> AND;
+
+  final _i2.PrismaNullable<List<SignInIntentWhereInput>> OR;
+
+  final _i2.PrismaNullable<SignInIntentWhereInput> NOT;
+
+  final _i2.PrismaNullable<StringFilter> key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'AND': AND,
+      'OR': OR,
+      'NOT': NOT,
+      'key': key,
+    };
+  }
+}
+
+class SignInIntentOrderByWithRelationInput implements _i2.JsonSerializable {
+  const SignInIntentOrderByWithRelationInput({this.key});
+
+  final _i2.PrismaNullable<SortOrder> key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+    };
+  }
+}
+
+class SignInIntentWhereUniqueInput implements _i2.JsonSerializable {
+  const SignInIntentWhereUniqueInput({this.key});
+
+  final _i2.PrismaNullable<String> key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+    };
+  }
+}
+
+class SignInIntentOrderByWithAggregationInput implements _i2.JsonSerializable {
+  const SignInIntentOrderByWithAggregationInput({
+    this.key,
+    this.$count,
+    this.$max,
+    this.$min,
+  });
+
+  final _i2.PrismaNullable<SortOrder> key;
+
+  final _i2.PrismaNullable<SignInIntentCountOrderByAggregateInput> $count;
+
+  final _i2.PrismaNullable<SignInIntentMaxOrderByAggregateInput> $max;
+
+  final _i2.PrismaNullable<SignInIntentMinOrderByAggregateInput> $min;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+      '_count': $count,
+      '_max': $max,
+      '_min': $min,
+    };
+  }
+}
+
+class SignInIntentScalarWhereWithAggregatesInput
+    implements _i2.JsonSerializable {
+  const SignInIntentScalarWhereWithAggregatesInput({
+    this.AND,
+    this.OR,
+    this.NOT,
+    this.key,
+  });
+
+  final _i2.PrismaNullable<SignInIntentScalarWhereWithAggregatesInput> AND;
+
+  final _i2.PrismaNullable<List<SignInIntentScalarWhereWithAggregatesInput>> OR;
+
+  final _i2.PrismaNullable<SignInIntentScalarWhereWithAggregatesInput> NOT;
+
+  final _i2.PrismaNullable<StringWithAggregatesFilter> key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'AND': AND,
+      'OR': OR,
+      'NOT': NOT,
+      'key': key,
+    };
+  }
+}
 
 class SessionWhereInput implements _i2.JsonSerializable {
   const SessionWhereInput({
@@ -1078,6 +1188,97 @@ class AssetScalarWhereWithAggregatesInput implements _i2.JsonSerializable {
       'id': id,
       'type_id': type_id,
       'deployed_to_id': deployed_to_id,
+    };
+  }
+}
+
+class SignInIntentCreateInput implements _i2.JsonSerializable {
+  const SignInIntentCreateInput({required this.key});
+
+  final String key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+    };
+  }
+}
+
+class SignInIntentUncheckedCreateInput implements _i2.JsonSerializable {
+  const SignInIntentUncheckedCreateInput({required this.key});
+
+  final String key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+    };
+  }
+}
+
+class SignInIntentUpdateInput implements _i2.JsonSerializable {
+  const SignInIntentUpdateInput({this.key});
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+    };
+  }
+}
+
+class SignInIntentUncheckedUpdateInput implements _i2.JsonSerializable {
+  const SignInIntentUncheckedUpdateInput({this.key});
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+    };
+  }
+}
+
+class SignInIntentCreateManyInput implements _i2.JsonSerializable {
+  const SignInIntentCreateManyInput({required this.key});
+
+  final String key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+    };
+  }
+}
+
+class SignInIntentUpdateManyMutationInput implements _i2.JsonSerializable {
+  const SignInIntentUpdateManyMutationInput({this.key});
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+    };
+  }
+}
+
+class SignInIntentUncheckedUpdateManyInput implements _i2.JsonSerializable {
+  const SignInIntentUncheckedUpdateManyInput({this.key});
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
     };
   }
 }
@@ -2264,6 +2465,116 @@ class StringFilter implements _i2.JsonSerializable {
   }
 }
 
+class SignInIntentCountOrderByAggregateInput implements _i2.JsonSerializable {
+  const SignInIntentCountOrderByAggregateInput({this.key});
+
+  final _i2.PrismaNullable<SortOrder> key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+    };
+  }
+}
+
+class SignInIntentMaxOrderByAggregateInput implements _i2.JsonSerializable {
+  const SignInIntentMaxOrderByAggregateInput({this.key});
+
+  final _i2.PrismaNullable<SortOrder> key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+    };
+  }
+}
+
+class SignInIntentMinOrderByAggregateInput implements _i2.JsonSerializable {
+  const SignInIntentMinOrderByAggregateInput({this.key});
+
+  final _i2.PrismaNullable<SortOrder> key;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'key': key,
+    };
+  }
+}
+
+class StringWithAggregatesFilter implements _i2.JsonSerializable {
+  const StringWithAggregatesFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.contains,
+    this.startsWith,
+    this.endsWith,
+    this.mode,
+    this.not,
+    this.$count,
+    this.$min,
+    this.$max,
+  });
+
+  final _i2.PrismaNullable<String> equals;
+
+  final _i2.PrismaNullable<List<String>> in$;
+
+  final _i2.PrismaNullable<List<String>> notIn;
+
+  final _i2.PrismaNullable<String> lt;
+
+  final _i2.PrismaNullable<String> lte;
+
+  final _i2.PrismaNullable<String> gt;
+
+  final _i2.PrismaNullable<String> gte;
+
+  final _i2.PrismaNullable<String> contains;
+
+  final _i2.PrismaNullable<String> startsWith;
+
+  final _i2.PrismaNullable<String> endsWith;
+
+  final _i2.PrismaNullable<QueryMode> mode;
+
+  final _i2.PrismaNullable<NestedStringWithAggregatesFilter> not;
+
+  final _i2.PrismaNullable<NestedIntFilter> $count;
+
+  final _i2.PrismaNullable<NestedStringFilter> $min;
+
+  final _i2.PrismaNullable<NestedStringFilter> $max;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'contains': contains,
+      'startsWith': startsWith,
+      'endsWith': endsWith,
+      'mode': mode,
+      'not': not,
+      '_count': $count,
+      '_min': $min,
+      '_max': $max,
+    };
+  }
+}
+
 class UserRelationFilter implements _i2.JsonSerializable {
   const UserRelationFilter({
     this.is$,
@@ -2336,77 +2647,6 @@ class SessionMinOrderByAggregateInput implements _i2.JsonSerializable {
     return <String, dynamic>{
       'key': key,
       'user_id': user_id,
-    };
-  }
-}
-
-class StringWithAggregatesFilter implements _i2.JsonSerializable {
-  const StringWithAggregatesFilter({
-    this.equals,
-    this.in$,
-    this.notIn,
-    this.lt,
-    this.lte,
-    this.gt,
-    this.gte,
-    this.contains,
-    this.startsWith,
-    this.endsWith,
-    this.mode,
-    this.not,
-    this.$count,
-    this.$min,
-    this.$max,
-  });
-
-  final _i2.PrismaNullable<String> equals;
-
-  final _i2.PrismaNullable<List<String>> in$;
-
-  final _i2.PrismaNullable<List<String>> notIn;
-
-  final _i2.PrismaNullable<String> lt;
-
-  final _i2.PrismaNullable<String> lte;
-
-  final _i2.PrismaNullable<String> gt;
-
-  final _i2.PrismaNullable<String> gte;
-
-  final _i2.PrismaNullable<String> contains;
-
-  final _i2.PrismaNullable<String> startsWith;
-
-  final _i2.PrismaNullable<String> endsWith;
-
-  final _i2.PrismaNullable<QueryMode> mode;
-
-  final _i2.PrismaNullable<NestedStringWithAggregatesFilter> not;
-
-  final _i2.PrismaNullable<NestedIntFilter> $count;
-
-  final _i2.PrismaNullable<NestedStringFilter> $min;
-
-  final _i2.PrismaNullable<NestedStringFilter> $max;
-
-  @override
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'equals': equals,
-      'in': in$,
-      'notIn': notIn,
-      'lt': lt,
-      'lte': lte,
-      'gt': gt,
-      'gte': gte,
-      'contains': contains,
-      'startsWith': startsWith,
-      'endsWith': endsWith,
-      'mode': mode,
-      'not': not,
-      '_count': $count,
-      '_min': $min,
-      '_max': $max,
     };
   }
 }
@@ -3472,6 +3712,19 @@ class AssetSumOrderByAggregateInput implements _i2.JsonSerializable {
   }
 }
 
+class StringFieldUpdateOperationsInput implements _i2.JsonSerializable {
+  const StringFieldUpdateOperationsInput({this.set$});
+
+  final _i2.PrismaNullable<String> set$;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'set': set$,
+    };
+  }
+}
+
 class UserCreateNestedOneWithoutSessionsInput implements _i2.JsonSerializable {
   const UserCreateNestedOneWithoutSessionsInput({
     this.create,
@@ -3492,19 +3745,6 @@ class UserCreateNestedOneWithoutSessionsInput implements _i2.JsonSerializable {
       'create': create,
       'connectOrCreate': connectOrCreate,
       'connect': connect,
-    };
-  }
-}
-
-class StringFieldUpdateOperationsInput implements _i2.JsonSerializable {
-  const StringFieldUpdateOperationsInput({this.set$});
-
-  final _i2.PrismaNullable<String> set$;
-
-  @override
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'set': set$,
     };
   }
 }
@@ -8112,6 +8352,65 @@ class RequestItemUncheckedUpdateManyWithoutRequestItemInput
   createFactory: true,
   explicitToJson: true,
 )
+class AggregateSignInIntent implements _i2.JsonSerializable {
+  const AggregateSignInIntent({
+    this.$count,
+    this.$min,
+    this.$max,
+  });
+
+  factory AggregateSignInIntent.fromJson(Map<String, dynamic> json) =>
+      _$AggregateSignInIntentFromJson(json);
+
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<SignInIntentCountAggregateOutputType> $count;
+
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<SignInIntentMinAggregateOutputType> $min;
+
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<SignInIntentMaxAggregateOutputType> $max;
+
+  @override
+  Map<String, dynamic> toJson() => _$AggregateSignInIntentToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class SignInIntentGroupByOutputType implements _i2.JsonSerializable {
+  const SignInIntentGroupByOutputType({
+    required this.key,
+    this.$count,
+    this.$min,
+    this.$max,
+  });
+
+  factory SignInIntentGroupByOutputType.fromJson(Map<String, dynamic> json) =>
+      _$SignInIntentGroupByOutputTypeFromJson(json);
+
+  final String key;
+
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<SignInIntentCountAggregateOutputType> $count;
+
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<SignInIntentMinAggregateOutputType> $min;
+
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<SignInIntentMaxAggregateOutputType> $max;
+
+  @override
+  Map<String, dynamic> toJson() => _$SignInIntentGroupByOutputTypeToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
 class AggregateSession implements _i2.JsonSerializable {
   const AggregateSession({
     this.$count,
@@ -8587,6 +8886,69 @@ class AffectedRowsOutput implements _i2.JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$AffectedRowsOutputToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class SignInIntentCountAggregateOutputType implements _i2.JsonSerializable {
+  const SignInIntentCountAggregateOutputType({
+    required this.key,
+    required this.$all,
+  });
+
+  factory SignInIntentCountAggregateOutputType.fromJson(
+          Map<String, dynamic> json) =>
+      _$SignInIntentCountAggregateOutputTypeFromJson(json);
+
+  final int key;
+
+  @_i1.JsonKey(name: '_all')
+  final int $all;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$SignInIntentCountAggregateOutputTypeToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class SignInIntentMinAggregateOutputType implements _i2.JsonSerializable {
+  const SignInIntentMinAggregateOutputType({this.key});
+
+  factory SignInIntentMinAggregateOutputType.fromJson(
+          Map<String, dynamic> json) =>
+      _$SignInIntentMinAggregateOutputTypeFromJson(json);
+
+  final _i2.PrismaNullable<String> key;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$SignInIntentMinAggregateOutputTypeToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class SignInIntentMaxAggregateOutputType implements _i2.JsonSerializable {
+  const SignInIntentMaxAggregateOutputType({this.key});
+
+  factory SignInIntentMaxAggregateOutputType.fromJson(
+          Map<String, dynamic> json) =>
+      _$SignInIntentMaxAggregateOutputTypeFromJson(json);
+
+  final _i2.PrismaNullable<String> key;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$SignInIntentMaxAggregateOutputTypeToJson(this);
 }
 
 @_i1.JsonSerializable(
@@ -9341,6 +9703,23 @@ class AssetMaxAggregateOutputType implements _i2.JsonSerializable {
   createFactory: true,
   explicitToJson: true,
 )
+class SignInIntent implements _i2.JsonSerializable {
+  const SignInIntent({required this.key});
+
+  factory SignInIntent.fromJson(Map<String, dynamic> json) =>
+      _$SignInIntentFromJson(json);
+
+  final String key;
+
+  @override
+  Map<String, dynamic> toJson() => _$SignInIntentToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
 class Session implements _i2.JsonSerializable {
   const Session({
     required this.key,
@@ -9491,6 +9870,528 @@ class Asset implements _i2.JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$AssetToJson(this);
+}
+
+class SignInIntentDelegate {
+  const SignInIntentDelegate._(
+    this._engine, [
+    this._headers,
+  ]);
+
+  final _i2.Engine _engine;
+
+  final _i2.PrismaNullable<_i2.QueryEngineRequestHeaders> _headers;
+
+  Future<_i2.PrismaNullable<SignInIntent>> findUnique(
+      {required SignInIntentWhereUniqueInput where}) async {
+    final String sdl = _i2.GraphQLField(
+      'query',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'findUniqueSignInIntent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: true,
+            )
+          ]),
+          fields: _i2.GraphQLFields(SignInIntentScalarFieldEnum.values
+              .map((SignInIntentScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return result.data['findUniqueSignInIntent'] == null
+        ? null
+        : SignInIntent.fromJson(
+            (result.data['findUniqueSignInIntent'] as Map).cast());
+  }
+
+  Future<_i2.PrismaNullable<SignInIntent>> findFirst({
+    _i2.PrismaNullable<SignInIntentWhereInput> where,
+    _i2.PrismaNullable<List<SignInIntentOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<SignInIntentWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<SignInIntentScalarFieldEnum>> distinct,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'query',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'findFirstSignInIntent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'orderBy',
+              orderBy,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'cursor',
+              cursor,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'take',
+              take,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'skip',
+              skip,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'distinct',
+              distinct,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(SignInIntentScalarFieldEnum.values
+              .map((SignInIntentScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return result.data['findFirstSignInIntent'] == null
+        ? null
+        : SignInIntent.fromJson(
+            (result.data['findFirstSignInIntent'] as Map).cast());
+  }
+
+  Future<List<SignInIntent>> findMany({
+    _i2.PrismaNullable<SignInIntentWhereInput> where,
+    _i2.PrismaNullable<List<SignInIntentOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<SignInIntentWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<SignInIntentScalarFieldEnum>> distinct,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'query',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'findManySignInIntent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'orderBy',
+              orderBy,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'cursor',
+              cursor,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'take',
+              take,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'skip',
+              skip,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'distinct',
+              distinct,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(SignInIntentScalarFieldEnum.values
+              .map((SignInIntentScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return (result.data['findManySignInIntent'] as List)
+        .whereType<Map>()
+        .map((Map e) => SignInIntent.fromJson(e.cast()))
+        .toList();
+  }
+
+  Future<SignInIntent> create({required SignInIntentCreateInput data}) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'createOneSignInIntent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            )
+          ]),
+          fields: _i2.GraphQLFields(SignInIntentScalarFieldEnum.values
+              .map((SignInIntentScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return SignInIntent.fromJson(
+        (result.data['createOneSignInIntent'] as Map).cast());
+  }
+
+  Future<AffectedRowsOutput> createMany({
+    required List<SignInIntentCreateManyInput> data,
+    _i2.PrismaNullable<bool> skipDuplicates,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'createManySignInIntent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
+              'skipDuplicates',
+              skipDuplicates,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(SignInIntentScalarFieldEnum.values
+              .map((SignInIntentScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AffectedRowsOutput.fromJson(
+        (result.data['createManySignInIntent'] as Map).cast());
+  }
+
+  Future<_i2.PrismaNullable<SignInIntent>> update({
+    required SignInIntentUpdateInput data,
+    required SignInIntentWhereUniqueInput where,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'updateOneSignInIntent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: true,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(SignInIntentScalarFieldEnum.values
+              .map((SignInIntentScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return result.data['updateOneSignInIntent'] == null
+        ? null
+        : SignInIntent.fromJson(
+            (result.data['updateOneSignInIntent'] as Map).cast());
+  }
+
+  Future<AffectedRowsOutput> updateMany({
+    required SignInIntentUpdateManyMutationInput data,
+    _i2.PrismaNullable<SignInIntentWhereInput> where,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'updateManySignInIntent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(SignInIntentScalarFieldEnum.values
+              .map((SignInIntentScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AffectedRowsOutput.fromJson(
+        (result.data['updateManySignInIntent'] as Map).cast());
+  }
+
+  Future<SignInIntent> upsert({
+    required SignInIntentWhereUniqueInput where,
+    required SignInIntentCreateInput create,
+    required SignInIntentUpdateInput update,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'upsertOneSignInIntent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
+              'create',
+              create,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
+              'update',
+              update,
+              isRequired: true,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(SignInIntentScalarFieldEnum.values
+              .map((SignInIntentScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return SignInIntent.fromJson(
+        (result.data['upsertOneSignInIntent'] as Map).cast());
+  }
+
+  Future<_i2.PrismaNullable<SignInIntent>> delete(
+      {required SignInIntentWhereUniqueInput where}) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'deleteOneSignInIntent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: true,
+            )
+          ]),
+          fields: _i2.GraphQLFields(SignInIntentScalarFieldEnum.values
+              .map((SignInIntentScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return result.data['deleteOneSignInIntent'] == null
+        ? null
+        : SignInIntent.fromJson(
+            (result.data['deleteOneSignInIntent'] as Map).cast());
+  }
+
+  Future<AffectedRowsOutput> deleteMany(
+      {_i2.PrismaNullable<SignInIntentWhereInput> where}) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'deleteManySignInIntent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: false,
+            )
+          ]),
+          fields: _i2.GraphQLFields(SignInIntentScalarFieldEnum.values
+              .map((SignInIntentScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AffectedRowsOutput.fromJson(
+        (result.data['deleteManySignInIntent'] as Map).cast());
+  }
+
+  Future<AggregateSignInIntent> aggregate({
+    _i2.PrismaNullable<SignInIntentWhereInput> where,
+    _i2.PrismaNullable<List<SignInIntentOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<SignInIntentWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'query',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'aggregateSignInIntent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'orderBy',
+              orderBy,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'cursor',
+              cursor,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'take',
+              take,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'skip',
+              skip,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(SignInIntentScalarFieldEnum.values
+              .map((SignInIntentScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AggregateSignInIntent.fromJson(
+        (result.data['aggregateSignInIntent'] as Map).cast());
+  }
+
+  Future<List<SignInIntentGroupByOutputType>> groupBy({
+    _i2.PrismaNullable<SignInIntentWhereInput> where,
+    _i2.PrismaNullable<List<SignInIntentOrderByWithAggregationInput>> orderBy,
+    required List<SignInIntentScalarFieldEnum> by,
+    _i2.PrismaNullable<SignInIntentScalarWhereWithAggregatesInput> having,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'query',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'groupBySignInIntent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'orderBy',
+              orderBy,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'by',
+              by,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
+              'having',
+              having,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'take',
+              take,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'skip',
+              skip,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(SignInIntentScalarFieldEnum.values
+              .map((SignInIntentScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return (result.data['groupBySignInIntent'] as List)
+        .whereType<Map>()
+        .map((Map e) => SignInIntentGroupByOutputType.fromJson(e.cast()))
+        .toList();
+  }
 }
 
 class SessionDelegate {
@@ -12612,6 +13513,74 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
   'datamodel': {
     'models': [
       {
+        'name': 'SignInIntent',
+        'dbName': null,
+        'fields': [
+          {
+            'name': 'key',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': true,
+            'isId': true,
+            'isReadOnly': false,
+            'hasDefaultValue': false,
+            'type': 'String',
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'key',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': true,
+              'isId': true,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'String',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          }
+        ],
+        'primaryKey': null,
+        'uniqueFields': [],
+        'uniqueIndexes': [],
+        'isGenerated': false,
+        'fieldsMap': null,
+        'documentation': null,
+        'extra': {
+          'name': 'SignInIntent',
+          'dbName': null,
+          'fields': [
+            {
+              'name': 'key',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': true,
+              'isId': true,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'String',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            }
+          ],
+          'primaryKey': null,
+          'uniqueFields': [],
+          'uniqueIndexes': [],
+          'isGenerated': false,
+        },
+      },
+      {
         'name': 'Session',
         'dbName': null,
         'fields': [
@@ -14369,6 +15338,302 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
     'inputObjectTypes': {
       'model': null,
       'prisma': [
+        {
+          'name': 'SignInIntentWhereInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'AND',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SignInIntentWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'SignInIntentWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'OR',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'SignInIntentWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'NOT',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SignInIntentWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'SignInIntentWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentOrderByWithRelationInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 0,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentWhereUniqueInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentOrderByWithAggregationInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 0,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_count',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SignInIntentCountOrderByAggregateInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_max',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SignInIntentMaxOrderByAggregateInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_min',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SignInIntentMinOrderByAggregateInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentScalarWhereWithAggregatesInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'AND',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SignInIntentScalarWhereWithAggregatesInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'SignInIntentScalarWhereWithAggregatesInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'OR',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'SignInIntentScalarWhereWithAggregatesInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'NOT',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SignInIntentScalarWhereWithAggregatesInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'SignInIntentScalarWhereWithAggregatesInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
         {
           'name': 'SessionWhereInput',
           'constraints': {
@@ -17783,6 +19048,205 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentCreateInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentUncheckedCreateInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentUpdateInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentUncheckedUpdateInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentCreateManyInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentUpdateManyMutationInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentUncheckedUpdateManyInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            }
           ],
           'fieldMap': null,
         },
@@ -21274,47 +22738,7 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
-          'name': 'UserRelationFilter',
-          'constraints': {
-            'maxNumFields': null,
-            'minNumFields': null,
-          },
-          'fields': [
-            {
-              'name': 'is',
-              'comment': null,
-              'isNullable': false,
-              'isRequired': false,
-              'inputTypes': [
-                {
-                  'isList': false,
-                  'type': 'UserWhereInput',
-                  'location': 'inputObjectTypes',
-                  'namespace': 'prisma',
-                }
-              ],
-              'deprecation': null,
-            },
-            {
-              'name': 'isNot',
-              'comment': null,
-              'isNullable': false,
-              'isRequired': false,
-              'inputTypes': [
-                {
-                  'isList': false,
-                  'type': 'UserWhereInput',
-                  'location': 'inputObjectTypes',
-                  'namespace': 'prisma',
-                }
-              ],
-              'deprecation': null,
-            },
-          ],
-          'fieldMap': null,
-        },
-        {
-          'name': 'SessionCountOrderByAggregateInput',
+          'name': 'SignInIntentCountOrderByAggregateInput',
           'constraints': {
             'maxNumFields': 1,
             'minNumFields': 1,
@@ -21334,27 +22758,12 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 }
               ],
               'deprecation': null,
-            },
-            {
-              'name': 'user_id',
-              'comment': null,
-              'isNullable': false,
-              'isRequired': false,
-              'inputTypes': [
-                {
-                  'isList': false,
-                  'type': 'SortOrder',
-                  'location': 'enumTypes',
-                  'namespace': 'prisma',
-                }
-              ],
-              'deprecation': null,
-            },
+            }
           ],
           'fieldMap': null,
         },
         {
-          'name': 'SessionMaxOrderByAggregateInput',
+          'name': 'SignInIntentMaxOrderByAggregateInput',
           'constraints': {
             'maxNumFields': 1,
             'minNumFields': 1,
@@ -21374,27 +22783,12 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 }
               ],
               'deprecation': null,
-            },
-            {
-              'name': 'user_id',
-              'comment': null,
-              'isNullable': false,
-              'isRequired': false,
-              'inputTypes': [
-                {
-                  'isList': false,
-                  'type': 'SortOrder',
-                  'location': 'enumTypes',
-                  'namespace': 'prisma',
-                }
-              ],
-              'deprecation': null,
-            },
+            }
           ],
           'fieldMap': null,
         },
         {
-          'name': 'SessionMinOrderByAggregateInput',
+          'name': 'SignInIntentMinOrderByAggregateInput',
           'constraints': {
             'maxNumFields': 1,
             'minNumFields': 1,
@@ -21414,22 +22808,7 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                 }
               ],
               'deprecation': null,
-            },
-            {
-              'name': 'user_id',
-              'comment': null,
-              'isNullable': false,
-              'isRequired': false,
-              'inputTypes': [
-                {
-                  'isList': false,
-                  'type': 'SortOrder',
-                  'location': 'enumTypes',
-                  'namespace': 'prisma',
-                }
-              ],
-              'deprecation': null,
-            },
+            }
           ],
           'fieldMap': null,
         },
@@ -21666,6 +23045,166 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'isList': false,
                   'type': 'NestedStringFilter',
                   'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'UserRelationFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'is',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'UserWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'isNot',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'UserWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SessionCountOrderByAggregateInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SessionMaxOrderByAggregateInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SessionMinOrderByAggregateInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'key',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
                   'namespace': 'prisma',
                 }
               ],
@@ -24536,6 +26075,31 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'StringFieldUpdateOperationsInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'set',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'UserCreateNestedOneWithoutSessionsInput',
           'constraints': {
             'maxNumFields': null,
@@ -24593,31 +26157,6 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
-          ],
-          'fieldMap': null,
-        },
-        {
-          'name': 'StringFieldUpdateOperationsInput',
-          'constraints': {
-            'maxNumFields': 1,
-            'minNumFields': 1,
-          },
-          'fields': [
-            {
-              'name': 'set',
-              'comment': null,
-              'isNullable': false,
-              'isRequired': false,
-              'inputTypes': [
-                {
-                  'isList': false,
-                  'type': 'String',
-                  'location': 'scalar',
-                  'namespace': null,
-                }
-              ],
-              'deprecation': null,
-            }
           ],
           'fieldMap': null,
         },
@@ -38808,6 +40347,25 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
     'outputObjectTypes': {
       'model': [
         {
+          'name': 'SignInIntent',
+          'fields': [
+            {
+              'name': 'key',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'Session',
           'fields': [
             {
@@ -39898,6 +41456,466 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
         {
           'name': 'Query',
           'fields': [
+            {
+              'name': 'findFirstSignInIntent',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'SignInIntent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'orderBy',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'SignInIntentOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'cursor',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'take',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skip',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'distinct',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'SignInIntentScalarFieldEnum',
+                      'location': 'enumTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'findManySignInIntent',
+              'isNullable': false,
+              'outputType': {
+                'isList': true,
+                'type': 'SignInIntent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'orderBy',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'SignInIntentOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'cursor',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'take',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skip',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'distinct',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'SignInIntentScalarFieldEnum',
+                      'location': 'enumTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'aggregateSignInIntent',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AggregateSignInIntent',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'orderBy',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'SignInIntentOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'cursor',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'take',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skip',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'groupBySignInIntent',
+              'isNullable': false,
+              'outputType': {
+                'isList': true,
+                'type': 'SignInIntentGroupByOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'orderBy',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'SignInIntentOrderByWithAggregationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentOrderByWithAggregationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'by',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'SignInIntentScalarFieldEnum',
+                      'location': 'enumTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentScalarFieldEnum',
+                      'location': 'enumTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'having',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentScalarWhereWithAggregatesInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'take',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skip',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'findUniqueSignInIntent',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'SignInIntent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                }
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
             {
               'name': 'findFirstSession',
               'isNullable': true,
@@ -42665,6 +44683,314 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'name': 'Mutation',
           'fields': [
             {
+              'name': 'createOneSignInIntent',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'SignInIntent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentCreateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentUncheckedCreateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                }
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'upsertOneSignInIntent',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'SignInIntent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'create',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentCreateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentUncheckedCreateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'update',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentUpdateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentUncheckedUpdateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'createManySignInIntent',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AffectedRowsOutput',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'SignInIntentCreateManyInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skipDuplicates',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Boolean',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'deleteOneSignInIntent',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'SignInIntent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                }
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'updateOneSignInIntent',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'SignInIntent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentUpdateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentUncheckedUpdateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'updateManySignInIntent',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AffectedRowsOutput',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentUpdateManyMutationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentUncheckedUpdateManyInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'deleteManySignInIntent',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AffectedRowsOutput',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'SignInIntentWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                }
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': 'createOneSession',
               'isNullable': false,
               'outputType': {
@@ -44604,6 +46930,109 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'AggregateSignInIntent',
+          'fields': [
+            {
+              'name': '_count',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'SignInIntentCountAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_min',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'SignInIntentMinAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_max',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'SignInIntentMaxAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentGroupByOutputType',
+          'fields': [
+            {
+              'name': 'key',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_count',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'SignInIntentCountAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_min',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'SignInIntentMinAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_max',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'SignInIntentMaxAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'AggregateSession',
           'fields': [
             {
@@ -45633,6 +48062,76 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'outputType': {
                 'isList': false,
                 'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentCountAggregateOutputType',
+          'fields': [
+            {
+              'name': 'key',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_all',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentMinAggregateOutputType',
+          'fields': [
+            {
+              'name': 'key',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'SignInIntentMaxAggregateOutputType',
+          'fields': [
+            {
+              'name': 'key',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
                 'location': 'scalar',
                 'namespace': null,
               },
@@ -47004,6 +49503,10 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           ],
         },
         {
+          'name': 'SignInIntentScalarFieldEnum',
+          'values': ['key'],
+        },
+        {
           'name': 'SortOrder',
           'values': [
             'asc',
@@ -47032,6 +49535,23 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
   },
   'mappings': {
     'modelOperations': [
+      {
+        'model': 'SignInIntent',
+        'findUnique': 'findUniqueSignInIntent',
+        'findFirst': 'findFirstSignInIntent',
+        'findMany': 'findManySignInIntent',
+        'create': 'createOneSignInIntent',
+        'createMany': 'createManySignInIntent',
+        'update': 'updateOneSignInIntent',
+        'updateMany': 'updateManySignInIntent',
+        'upsert': 'upsertOneSignInIntent',
+        'delete': 'deleteOneSignInIntent',
+        'deleteMany': 'deleteManySignInIntent',
+        'aggregate': 'aggregateSignInIntent',
+        'groupBy': 'groupBySignInIntent',
+        'findRaw': null,
+        'aggregateRaw': null,
+      },
       {
         'model': 'Session',
         'findUnique': 'findUniqueSession',
@@ -47145,9 +49665,9 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
   },
 });
 final String schema = _i6.utf8.decode(_i6.base64.decode(
-    r'Ly8gVGhpcyBpcyB5b3VyIFByaXNtYSBzY2hlbWEgZmlsZSwKLy8gbGVhcm4gbW9yZSBhYm91dCBpdCBpbiB0aGUgZG9jczogaHR0cHM6Ly9wcmlzLmx5L2QvcHJpc21hLXNjaGVtYQoKZ2VuZXJhdG9yIGNsaWVudCB7CiAgICBwcm92aWRlciAgICAgICAgPSAicHJpc21hLWNsaWVudC1kYXJ0IgogICAgcHJldmlld0ZlYXR1cmVzID0gWyJpbnRlcmFjdGl2ZVRyYW5zYWN0aW9ucyJdCn0KCi8vIGRhdGFzb3VyY2UgZGIgewovLyAgICAgcHJvdmlkZXIgPSAic3FsaXRlIgovLyAgICAgdXJsICAgICAgPSAiZmlsZTouL3ByaXNtYS9wcmlzbWEuZGIiCi8vIH0KCmRhdGFzb3VyY2UgZGIgewogICAgcHJvdmlkZXIgPSAicG9zdGdyZXNxbCIKICAgIHVybCAgICAgID0gInBvc3RncmVzcWw6Ly9yb290OnJvb3RAMTAuMC4yMC4zOjE1NDMyL2VxdWlwbWVudF9ib29raW5nX2FwcD9zY2hlbWE9cHVibGljIgp9Cgptb2RlbCBTZXNzaW9uIHsKICAgIGtleSAgICAgU3RyaW5nIEBpZCBAdW5pcXVlCiAgICB1c2VyICAgIFVzZXIgICBAcmVsYXRpb24oZmllbGRzOiBbdXNlcl9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pCiAgICB1c2VyX2lkIFN0cmluZwp9Cgptb2RlbCBVc2VyIHsKICAgIGlkICAgICAgIFN0cmluZyAgICAgICAgICAgICBAaWQgQHVuaXF1ZQogICAgZW1haWwgICAgU3RyaW5nICAgICAgICAgICAgIEB1bmlxdWUKICAgIG5hbWUgICAgIFN0cmluZwogICAgcmVxdWVzdHMgRXF1aXBtZW50UmVxdWVzdFtdCiAgICBzZXNzaW9ucyBTZXNzaW9uW10KfQoKbW9kZWwgRXF1aXBtZW50UmVxdWVzdCB7CiAgICBpZCAgICAgICAgICAgSW50ICAgICAgICAgICBAaWQgQGRlZmF1bHQoYXV0b2luY3JlbWVudCgpKQogICAgcmVxdWVzdGVkX2J5IFVzZXIgICAgICAgICAgQHJlbGF0aW9uKGZpZWxkczogW3JlcXVlc3Rlcl9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pCiAgICByZXF1ZXN0ZXJfaWQgU3RyaW5nCiAgICBpdGVtcyAgICAgICAgUmVxdWVzdEl0ZW1bXQogICAgbm90ZXMgICAgICAgIFN0cmluZyAgICAgICAgQGRlZmF1bHQoIiIpCiAgICB0aW1lX3N0YXJ0ICAgRGF0ZVRpbWUKICAgIHRpbWVfZW5kICAgICBEYXRlVGltZQogICAgYXNzZXQgICAgICAgIEFzc2V0W10KfQoKbW9kZWwgUmVxdWVzdEl0ZW0gewogICAgaWQgICAgICAgICAgICBJbnQgICAgICAgICAgICAgIEBpZCBAZGVmYXVsdChhdXRvaW5jcmVtZW50KCkpCiAgICByZXF1ZXN0ICAgICAgIEVxdWlwbWVudFJlcXVlc3QgQHJlbGF0aW9uKGZpZWxkczogW3JlcXVlc3RfaWRdLCByZWZlcmVuY2VzOiBbaWRdKQogICAgcmVxdWVzdF9pZCAgICBJbnQKICAgIHF1YW50aXR5ICAgICAgSW50CiAgICBhc3NldF90eXBlICAgIEFzc2V0VHlwZSAgICAgICAgQHJlbGF0aW9uKGZpZWxkczogW2Fzc2V0X3R5cGVfaWRdLCByZWZlcmVuY2VzOiBbaWRdKQogICAgYXNzZXRfdHlwZV9pZCBTdHJpbmcKfQoKbW9kZWwgQXNzZXRUeXBlIHsKICAgIGlkICAgICAgICAgIFN0cmluZyAgICAgICAgQGlkIEB1bmlxdWUKICAgIHRpdGxlICAgICAgIFN0cmluZwogICAgYXNzZXRzICAgICAgQXNzZXRbXQogICAgdW5pcXVlICAgICAgQm9vbGVhbiAgICAgICBAZGVmYXVsdCh0cnVlKQogICAgcXVhbnRpdHkgICAgSW50PwogICAgUmVxdWVzdEl0ZW0gUmVxdWVzdEl0ZW1bXQp9Cgptb2RlbCBBc3NldCB7CiAgICBpZCAgICAgICAgICAgICBTdHJpbmcgICAgICAgICAgICBAaWQgQHVuaXF1ZQogICAgdHlwZSAgICAgICAgICAgQXNzZXRUeXBlICAgICAgICAgQHJlbGF0aW9uKGZpZWxkczogW3R5cGVfaWRdLCByZWZlcmVuY2VzOiBbaWRdKQogICAgdHlwZV9pZCAgICAgICAgU3RyaW5nCiAgICBkZXBsb3llZF90byAgICBFcXVpcG1lbnRSZXF1ZXN0PyBAcmVsYXRpb24oZmllbGRzOiBbZGVwbG95ZWRfdG9faWRdLCByZWZlcmVuY2VzOiBbaWRdKQogICAgZGVwbG95ZWRfdG9faWQgSW50Pwp9Cg=='));
+    r'Ly8gVGhpcyBpcyB5b3VyIFByaXNtYSBzY2hlbWEgZmlsZSwNCi8vIGxlYXJuIG1vcmUgYWJvdXQgaXQgaW4gdGhlIGRvY3M6IGh0dHBzOi8vcHJpcy5seS9kL3ByaXNtYS1zY2hlbWENCg0KZ2VuZXJhdG9yIGNsaWVudCB7DQogICAgcHJvdmlkZXIgICAgICAgID0gInByaXNtYS1jbGllbnQtZGFydCINCiAgICBwcmV2aWV3RmVhdHVyZXMgPSBbImludGVyYWN0aXZlVHJhbnNhY3Rpb25zIl0NCn0NCg0KLy8gZGF0YXNvdXJjZSBkYiB7DQovLyAgICAgcHJvdmlkZXIgPSAic3FsaXRlIg0KLy8gICAgIHVybCAgICAgID0gImZpbGU6Li9wcmlzbWEvcHJpc21hLmRiIg0KLy8gfQ0KDQpkYXRhc291cmNlIGRiIHsNCiAgICBwcm92aWRlciA9ICJwb3N0Z3Jlc3FsIg0KICAgIHVybCAgICAgID0gInBvc3RncmVzcWw6Ly9yb290OnJvb3RAMTAuMC4yMC4zOjE1NDMyL2VxdWlwbWVudF9ib29raW5nX2FwcD9zY2hlbWE9cHVibGljIg0KfQ0KDQptb2RlbCBTaWduSW5JbnRlbnQgew0KICAgIGtleSAgICAgU3RyaW5nIEBpZCBAdW5pcXVlDQp9DQoNCm1vZGVsIFNlc3Npb24gew0KICAgIGtleSAgICAgU3RyaW5nIEBpZCBAdW5pcXVlDQogICAgdXNlciAgICBVc2VyICAgQHJlbGF0aW9uKGZpZWxkczogW3VzZXJfaWRdLCByZWZlcmVuY2VzOiBbaWRdKQ0KICAgIHVzZXJfaWQgU3RyaW5nDQp9DQoNCm1vZGVsIFVzZXIgew0KICAgIGlkICAgICAgIFN0cmluZyAgICAgICAgICAgICBAaWQgQHVuaXF1ZQ0KICAgIGVtYWlsICAgIFN0cmluZyAgICAgICAgICAgICBAdW5pcXVlDQogICAgbmFtZSAgICAgU3RyaW5nDQogICAgcmVxdWVzdHMgRXF1aXBtZW50UmVxdWVzdFtdDQogICAgc2Vzc2lvbnMgU2Vzc2lvbltdDQp9DQoNCm1vZGVsIEVxdWlwbWVudFJlcXVlc3Qgew0KICAgIGlkICAgICAgICAgICBJbnQgICAgICAgICAgIEBpZCBAZGVmYXVsdChhdXRvaW5jcmVtZW50KCkpDQogICAgcmVxdWVzdGVkX2J5IFVzZXIgICAgICAgICAgQHJlbGF0aW9uKGZpZWxkczogW3JlcXVlc3Rlcl9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pDQogICAgcmVxdWVzdGVyX2lkIFN0cmluZw0KICAgIGl0ZW1zICAgICAgICBSZXF1ZXN0SXRlbVtdDQogICAgbm90ZXMgICAgICAgIFN0cmluZyAgICAgICAgQGRlZmF1bHQoIiIpDQogICAgdGltZV9zdGFydCAgIERhdGVUaW1lDQogICAgdGltZV9lbmQgICAgIERhdGVUaW1lDQogICAgYXNzZXQgICAgICAgIEFzc2V0W10NCn0NCg0KbW9kZWwgUmVxdWVzdEl0ZW0gew0KICAgIGlkICAgICAgICAgICAgSW50ICAgICAgICAgICAgICBAaWQgQGRlZmF1bHQoYXV0b2luY3JlbWVudCgpKQ0KICAgIHJlcXVlc3QgICAgICAgRXF1aXBtZW50UmVxdWVzdCBAcmVsYXRpb24oZmllbGRzOiBbcmVxdWVzdF9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pDQogICAgcmVxdWVzdF9pZCAgICBJbnQNCiAgICBxdWFudGl0eSAgICAgIEludA0KICAgIGFzc2V0X3R5cGUgICAgQXNzZXRUeXBlICAgICAgICBAcmVsYXRpb24oZmllbGRzOiBbYXNzZXRfdHlwZV9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pDQogICAgYXNzZXRfdHlwZV9pZCBTdHJpbmcNCn0NCg0KbW9kZWwgQXNzZXRUeXBlIHsNCiAgICBpZCAgICAgICAgICBTdHJpbmcgICAgICAgIEBpZCBAdW5pcXVlDQogICAgdGl0bGUgICAgICAgU3RyaW5nDQogICAgYXNzZXRzICAgICAgQXNzZXRbXQ0KICAgIHVuaXF1ZSAgICAgIEJvb2xlYW4gICAgICAgQGRlZmF1bHQodHJ1ZSkNCiAgICBxdWFudGl0eSAgICBJbnQ/DQogICAgUmVxdWVzdEl0ZW0gUmVxdWVzdEl0ZW1bXQ0KfQ0KDQptb2RlbCBBc3NldCB7DQogICAgaWQgICAgICAgICAgICAgU3RyaW5nICAgICAgICAgICAgQGlkIEB1bmlxdWUNCiAgICB0eXBlICAgICAgICAgICBBc3NldFR5cGUgICAgICAgICBAcmVsYXRpb24oZmllbGRzOiBbdHlwZV9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pDQogICAgdHlwZV9pZCAgICAgICAgU3RyaW5nDQogICAgZGVwbG95ZWRfdG8gICAgRXF1aXBtZW50UmVxdWVzdD8gQHJlbGF0aW9uKGZpZWxkczogW2RlcGxveWVkX3RvX2lkXSwgcmVmZXJlbmNlczogW2lkXSkNCiAgICBkZXBsb3llZF90b19pZCBJbnQ/DQp9DQo='));
 const String _executable =
-    r'C:\projects\equipment_booking_app\server\.dart_tool\prisma\query-engine';
+    r'C:\Users\tomas\Documents\projects\equipment_booking_app\server\.dart_tool\prisma\query-engine';
 
 class Datasources {
   Datasources({this.db});
@@ -47191,6 +49711,10 @@ class PrismaClient {
 
   final _i2.PrismaNullable<_i2.QueryEngineRequestHeaders> _headers;
 
+  SignInIntentDelegate get signInIntent => SignInIntentDelegate._(
+        _engine,
+        _headers,
+      );
   SessionDelegate get session => SessionDelegate._(
         _engine,
         _headers,

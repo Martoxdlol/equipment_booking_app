@@ -24,7 +24,7 @@ class WeekRecurrencyPicker extends ElevatedClickPicker<List<DateTime>> {
 
     final lastDate = await showDatePicker(
       helpText: 'Hasta que fecha',
-      cancelText: 'BORRAR',
+      cancelText: 'CANCELAR',
       context: context,
       currentDate: initialDate,
       initialDate: value == null ? initialDate : value.last,

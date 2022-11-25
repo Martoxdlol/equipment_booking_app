@@ -3,6 +3,7 @@ import 'package:equipment_booking_app/screens/home/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Login extends HookWidget {
   const Login({super.key});
@@ -33,12 +34,14 @@ class Login extends HookWidget {
           launchHomeScreen(context);
         } else if (authResult.status == AuthStatus.error) {
           // ignore: use_build_context_synchronously
+          print("Auth status error: ${authResult.error}");
           showAuthErrorDialog(context, authResult.error);
           loadingState.value = false;
         } else {
           loadingState.value = false;
         }
       } on Exception catch (e) {
+        print("Exception trying to login");
         showAuthErrorDialog(context, e);
         loadingState.value = false;
       }
@@ -133,8 +136,9 @@ class Login extends HookWidget {
 
 void launchHomeScreen(BuildContext context) {
   Navigator.of(context).pushReplacement(
-    CupertinoPageRoute(
-      builder: (context) => HomeScreen(),
+    PageTransition(
+      type: PageTransitionType.fade,
+      child: HomeScreen(),
     ),
   );
 }

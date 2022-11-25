@@ -57,6 +57,7 @@ dependencies:
   flutter_inappwebview: ^5.7.1+2
   shelf: ^1.4.0
   shared_preferences: ^2.0.15
+  page_transition: ^2.0.9
 
 dev_dependencies:
   flutter_test:
