@@ -30,7 +30,18 @@ enum EquipmentRequestScalarFieldEnum {
   requester_id,
   notes,
   time_start,
-  time_end
+  time_end,
+  createdAt
+}
+
+enum FutureActionEventScalarFieldEnum {
+  id,
+  user_id,
+  user_email,
+  type,
+  details,
+  created_at,
+  completed_at
 }
 
 enum QueryMode {
@@ -467,6 +478,7 @@ class EquipmentRequestWhereInput implements _i2.JsonSerializable {
     this.time_start,
     this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<EquipmentRequestWhereInput> AND;
@@ -491,6 +503,8 @@ class EquipmentRequestWhereInput implements _i2.JsonSerializable {
 
   final _i2.PrismaNullable<AssetListRelationFilter> asset;
 
+  final _i2.PrismaNullable<DateTimeFilter> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -505,6 +519,7 @@ class EquipmentRequestWhereInput implements _i2.JsonSerializable {
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -519,6 +534,7 @@ class EquipmentRequestOrderByWithRelationInput implements _i2.JsonSerializable {
     this.time_start,
     this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<SortOrder> id;
@@ -537,6 +553,8 @@ class EquipmentRequestOrderByWithRelationInput implements _i2.JsonSerializable {
 
   final _i2.PrismaNullable<AssetOrderByRelationAggregateInput> asset;
 
+  final _i2.PrismaNullable<SortOrder> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -548,6 +566,7 @@ class EquipmentRequestOrderByWithRelationInput implements _i2.JsonSerializable {
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -573,6 +592,7 @@ class EquipmentRequestOrderByWithAggregationInput
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
     this.$count,
     this.$avg,
     this.$max,
@@ -589,6 +609,8 @@ class EquipmentRequestOrderByWithAggregationInput
   final _i2.PrismaNullable<SortOrder> time_start;
 
   final _i2.PrismaNullable<SortOrder> time_end;
+
+  final _i2.PrismaNullable<SortOrder> createdAt;
 
   final _i2.PrismaNullable<EquipmentRequestCountOrderByAggregateInput> $count;
 
@@ -608,6 +630,7 @@ class EquipmentRequestOrderByWithAggregationInput
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
       '_count': $count,
       '_avg': $avg,
       '_max': $max,
@@ -628,6 +651,7 @@ class EquipmentRequestScalarWhereWithAggregatesInput
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<EquipmentRequestScalarWhereWithAggregatesInput> AND;
@@ -647,6 +671,8 @@ class EquipmentRequestScalarWhereWithAggregatesInput
 
   final _i2.PrismaNullable<DateTimeWithAggregatesFilter> time_end;
 
+  final _i2.PrismaNullable<DateTimeWithAggregatesFilter> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -658,6 +684,7 @@ class EquipmentRequestScalarWhereWithAggregatesInput
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -1192,6 +1219,223 @@ class AssetScalarWhereWithAggregatesInput implements _i2.JsonSerializable {
   }
 }
 
+class FutureActionEventWhereInput implements _i2.JsonSerializable {
+  const FutureActionEventWhereInput({
+    this.AND,
+    this.OR,
+    this.NOT,
+    this.id,
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final _i2.PrismaNullable<FutureActionEventWhereInput> AND;
+
+  final _i2.PrismaNullable<List<FutureActionEventWhereInput>> OR;
+
+  final _i2.PrismaNullable<FutureActionEventWhereInput> NOT;
+
+  final _i2.PrismaNullable<IntFilter> id;
+
+  final _i2.PrismaNullable<StringFilter> user_id;
+
+  final _i2.PrismaNullable<StringFilter> user_email;
+
+  final _i2.PrismaNullable<StringFilter> type;
+
+  final _i2.PrismaNullable<StringNullableFilter> details;
+
+  final _i2.PrismaNullable<DateTimeFilter> created_at;
+
+  final _i2.PrismaNullable<DateTimeNullableFilter> completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'AND': AND,
+      'OR': OR,
+      'NOT': NOT,
+      'id': id,
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+    };
+  }
+}
+
+class FutureActionEventOrderByWithRelationInput
+    implements _i2.JsonSerializable {
+  const FutureActionEventOrderByWithRelationInput({
+    this.id,
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final _i2.PrismaNullable<SortOrder> id;
+
+  final _i2.PrismaNullable<SortOrder> user_id;
+
+  final _i2.PrismaNullable<SortOrder> user_email;
+
+  final _i2.PrismaNullable<SortOrder> type;
+
+  final _i2.PrismaNullable<SortOrder> details;
+
+  final _i2.PrismaNullable<SortOrder> created_at;
+
+  final _i2.PrismaNullable<SortOrder> completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+    };
+  }
+}
+
+class FutureActionEventWhereUniqueInput implements _i2.JsonSerializable {
+  const FutureActionEventWhereUniqueInput({this.id});
+
+  final _i2.PrismaNullable<int> id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+    };
+  }
+}
+
+class FutureActionEventOrderByWithAggregationInput
+    implements _i2.JsonSerializable {
+  const FutureActionEventOrderByWithAggregationInput({
+    this.id,
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+    this.$count,
+    this.$avg,
+    this.$max,
+    this.$min,
+    this.$sum,
+  });
+
+  final _i2.PrismaNullable<SortOrder> id;
+
+  final _i2.PrismaNullable<SortOrder> user_id;
+
+  final _i2.PrismaNullable<SortOrder> user_email;
+
+  final _i2.PrismaNullable<SortOrder> type;
+
+  final _i2.PrismaNullable<SortOrder> details;
+
+  final _i2.PrismaNullable<SortOrder> created_at;
+
+  final _i2.PrismaNullable<SortOrder> completed_at;
+
+  final _i2.PrismaNullable<FutureActionEventCountOrderByAggregateInput> $count;
+
+  final _i2.PrismaNullable<FutureActionEventAvgOrderByAggregateInput> $avg;
+
+  final _i2.PrismaNullable<FutureActionEventMaxOrderByAggregateInput> $max;
+
+  final _i2.PrismaNullable<FutureActionEventMinOrderByAggregateInput> $min;
+
+  final _i2.PrismaNullable<FutureActionEventSumOrderByAggregateInput> $sum;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+      '_count': $count,
+      '_avg': $avg,
+      '_max': $max,
+      '_min': $min,
+      '_sum': $sum,
+    };
+  }
+}
+
+class FutureActionEventScalarWhereWithAggregatesInput
+    implements _i2.JsonSerializable {
+  const FutureActionEventScalarWhereWithAggregatesInput({
+    this.AND,
+    this.OR,
+    this.NOT,
+    this.id,
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final _i2.PrismaNullable<FutureActionEventScalarWhereWithAggregatesInput> AND;
+
+  final _i2
+      .PrismaNullable<List<FutureActionEventScalarWhereWithAggregatesInput>> OR;
+
+  final _i2.PrismaNullable<FutureActionEventScalarWhereWithAggregatesInput> NOT;
+
+  final _i2.PrismaNullable<IntWithAggregatesFilter> id;
+
+  final _i2.PrismaNullable<StringWithAggregatesFilter> user_id;
+
+  final _i2.PrismaNullable<StringWithAggregatesFilter> user_email;
+
+  final _i2.PrismaNullable<StringWithAggregatesFilter> type;
+
+  final _i2.PrismaNullable<StringNullableWithAggregatesFilter> details;
+
+  final _i2.PrismaNullable<DateTimeWithAggregatesFilter> created_at;
+
+  final _i2.PrismaNullable<DateTimeNullableWithAggregatesFilter> completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'AND': AND,
+      'OR': OR,
+      'NOT': NOT,
+      'id': id,
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+    };
+  }
+}
+
 class SignInIntentCreateInput implements _i2.JsonSerializable {
   const SignInIntentCreateInput({required this.key});
 
@@ -1620,6 +1864,7 @@ class EquipmentRequestCreateInput implements _i2.JsonSerializable {
     required this.time_start,
     required this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final UserCreateNestedOneWithoutRequestsInput requested_by;
@@ -1635,6 +1880,8 @@ class EquipmentRequestCreateInput implements _i2.JsonSerializable {
 
   final _i2.PrismaNullable<AssetCreateNestedManyWithoutDeployed_toInput> asset;
 
+  final _i2.PrismaNullable<DateTime> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -1644,6 +1891,7 @@ class EquipmentRequestCreateInput implements _i2.JsonSerializable {
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -1657,6 +1905,7 @@ class EquipmentRequestUncheckedCreateInput implements _i2.JsonSerializable {
     required this.time_start,
     required this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<int> id;
@@ -1676,6 +1925,8 @@ class EquipmentRequestUncheckedCreateInput implements _i2.JsonSerializable {
           .PrismaNullable<AssetUncheckedCreateNestedManyWithoutDeployed_toInput>
       asset;
 
+  final _i2.PrismaNullable<DateTime> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -1686,6 +1937,7 @@ class EquipmentRequestUncheckedCreateInput implements _i2.JsonSerializable {
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -1698,6 +1950,7 @@ class EquipmentRequestUpdateInput implements _i2.JsonSerializable {
     this.time_start,
     this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<UserUpdateOneRequiredWithoutRequestsNestedInput>
@@ -1714,6 +1967,8 @@ class EquipmentRequestUpdateInput implements _i2.JsonSerializable {
 
   final _i2.PrismaNullable<AssetUpdateManyWithoutDeployed_toNestedInput> asset;
 
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -1723,6 +1978,7 @@ class EquipmentRequestUpdateInput implements _i2.JsonSerializable {
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -1736,6 +1992,7 @@ class EquipmentRequestUncheckedUpdateInput implements _i2.JsonSerializable {
     this.time_start,
     this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
@@ -1755,6 +2012,8 @@ class EquipmentRequestUncheckedUpdateInput implements _i2.JsonSerializable {
           .PrismaNullable<AssetUncheckedUpdateManyWithoutDeployed_toNestedInput>
       asset;
 
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -1765,6 +2024,7 @@ class EquipmentRequestUncheckedUpdateInput implements _i2.JsonSerializable {
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -1776,6 +2036,7 @@ class EquipmentRequestCreateManyInput implements _i2.JsonSerializable {
     this.notes,
     required this.time_start,
     required this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<int> id;
@@ -1788,6 +2049,8 @@ class EquipmentRequestCreateManyInput implements _i2.JsonSerializable {
 
   final DateTime time_end;
 
+  final _i2.PrismaNullable<DateTime> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -1796,6 +2059,7 @@ class EquipmentRequestCreateManyInput implements _i2.JsonSerializable {
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -1805,6 +2069,7 @@ class EquipmentRequestUpdateManyMutationInput implements _i2.JsonSerializable {
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<StringFieldUpdateOperationsInput> notes;
@@ -1813,12 +2078,15 @@ class EquipmentRequestUpdateManyMutationInput implements _i2.JsonSerializable {
 
   final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
 
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -1830,6 +2098,7 @@ class EquipmentRequestUncheckedUpdateManyInput implements _i2.JsonSerializable {
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
@@ -1842,6 +2111,8 @@ class EquipmentRequestUncheckedUpdateManyInput implements _i2.JsonSerializable {
 
   final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
 
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -1850,6 +2121,7 @@ class EquipmentRequestUncheckedUpdateManyInput implements _i2.JsonSerializable {
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -2402,6 +2674,275 @@ class AssetUncheckedUpdateManyInput implements _i2.JsonSerializable {
       'id': id,
       'type_id': type_id,
       'deployed_to_id': deployed_to_id,
+    };
+  }
+}
+
+class FutureActionEventCreateInput implements _i2.JsonSerializable {
+  const FutureActionEventCreateInput({
+    required this.user_id,
+    required this.user_email,
+    required this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final String user_id;
+
+  final String user_email;
+
+  final String type;
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<String, _i2.PrismaNull>> details;
+
+  final _i2.PrismaNullable<DateTime> created_at;
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<DateTime, _i2.PrismaNull>>
+      completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+    };
+  }
+}
+
+class FutureActionEventUncheckedCreateInput implements _i2.JsonSerializable {
+  const FutureActionEventUncheckedCreateInput({
+    this.id,
+    required this.user_id,
+    required this.user_email,
+    required this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final _i2.PrismaNullable<int> id;
+
+  final String user_id;
+
+  final String user_email;
+
+  final String type;
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<String, _i2.PrismaNull>> details;
+
+  final _i2.PrismaNullable<DateTime> created_at;
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<DateTime, _i2.PrismaNull>>
+      completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+    };
+  }
+}
+
+class FutureActionEventUpdateInput implements _i2.JsonSerializable {
+  const FutureActionEventUpdateInput({
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> user_id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> user_email;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> type;
+
+  final _i2.PrismaNullable<NullableStringFieldUpdateOperationsInput> details;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> created_at;
+
+  final _i2.PrismaNullable<NullableDateTimeFieldUpdateOperationsInput>
+      completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+    };
+  }
+}
+
+class FutureActionEventUncheckedUpdateInput implements _i2.JsonSerializable {
+  const FutureActionEventUncheckedUpdateInput({
+    this.id,
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> user_id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> user_email;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> type;
+
+  final _i2.PrismaNullable<NullableStringFieldUpdateOperationsInput> details;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> created_at;
+
+  final _i2.PrismaNullable<NullableDateTimeFieldUpdateOperationsInput>
+      completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+    };
+  }
+}
+
+class FutureActionEventCreateManyInput implements _i2.JsonSerializable {
+  const FutureActionEventCreateManyInput({
+    this.id,
+    required this.user_id,
+    required this.user_email,
+    required this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final _i2.PrismaNullable<int> id;
+
+  final String user_id;
+
+  final String user_email;
+
+  final String type;
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<String, _i2.PrismaNull>> details;
+
+  final _i2.PrismaNullable<DateTime> created_at;
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<DateTime, _i2.PrismaNull>>
+      completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+    };
+  }
+}
+
+class FutureActionEventUpdateManyMutationInput implements _i2.JsonSerializable {
+  const FutureActionEventUpdateManyMutationInput({
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> user_id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> user_email;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> type;
+
+  final _i2.PrismaNullable<NullableStringFieldUpdateOperationsInput> details;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> created_at;
+
+  final _i2.PrismaNullable<NullableDateTimeFieldUpdateOperationsInput>
+      completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+    };
+  }
+}
+
+class FutureActionEventUncheckedUpdateManyInput
+    implements _i2.JsonSerializable {
+  const FutureActionEventUncheckedUpdateManyInput({
+    this.id,
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> user_id;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> user_email;
+
+  final _i2.PrismaNullable<StringFieldUpdateOperationsInput> type;
+
+  final _i2.PrismaNullable<NullableStringFieldUpdateOperationsInput> details;
+
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> created_at;
+
+  final _i2.PrismaNullable<NullableDateTimeFieldUpdateOperationsInput>
+      completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
     };
   }
 }
@@ -2959,6 +3500,7 @@ class EquipmentRequestCountOrderByAggregateInput
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<SortOrder> id;
@@ -2971,6 +3513,8 @@ class EquipmentRequestCountOrderByAggregateInput
 
   final _i2.PrismaNullable<SortOrder> time_end;
 
+  final _i2.PrismaNullable<SortOrder> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -2979,6 +3523,7 @@ class EquipmentRequestCountOrderByAggregateInput
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -3003,6 +3548,7 @@ class EquipmentRequestMaxOrderByAggregateInput implements _i2.JsonSerializable {
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<SortOrder> id;
@@ -3015,6 +3561,8 @@ class EquipmentRequestMaxOrderByAggregateInput implements _i2.JsonSerializable {
 
   final _i2.PrismaNullable<SortOrder> time_end;
 
+  final _i2.PrismaNullable<SortOrder> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -3023,6 +3571,7 @@ class EquipmentRequestMaxOrderByAggregateInput implements _i2.JsonSerializable {
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -3034,6 +3583,7 @@ class EquipmentRequestMinOrderByAggregateInput implements _i2.JsonSerializable {
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<SortOrder> id;
@@ -3046,6 +3596,8 @@ class EquipmentRequestMinOrderByAggregateInput implements _i2.JsonSerializable {
 
   final _i2.PrismaNullable<SortOrder> time_end;
 
+  final _i2.PrismaNullable<SortOrder> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -3054,6 +3606,7 @@ class EquipmentRequestMinOrderByAggregateInput implements _i2.JsonSerializable {
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -3708,6 +4261,382 @@ class AssetSumOrderByAggregateInput implements _i2.JsonSerializable {
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'deployed_to_id': deployed_to_id,
+    };
+  }
+}
+
+class StringNullableFilter implements _i2.JsonSerializable {
+  const StringNullableFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.contains,
+    this.startsWith,
+    this.endsWith,
+    this.mode,
+    this.not,
+  });
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<String, _i2.PrismaNull>> equals;
+
+  final _i2.PrismaNullable<List<String>> in$;
+
+  final _i2.PrismaNullable<List<String>> notIn;
+
+  final _i2.PrismaNullable<String> lt;
+
+  final _i2.PrismaNullable<String> lte;
+
+  final _i2.PrismaNullable<String> gt;
+
+  final _i2.PrismaNullable<String> gte;
+
+  final _i2.PrismaNullable<String> contains;
+
+  final _i2.PrismaNullable<String> startsWith;
+
+  final _i2.PrismaNullable<String> endsWith;
+
+  final _i2.PrismaNullable<QueryMode> mode;
+
+  final _i2.PrismaNullable<NestedStringNullableFilter> not;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'contains': contains,
+      'startsWith': startsWith,
+      'endsWith': endsWith,
+      'mode': mode,
+      'not': not,
+    };
+  }
+}
+
+class DateTimeNullableFilter implements _i2.JsonSerializable {
+  const DateTimeNullableFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.not,
+  });
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<DateTime, _i2.PrismaNull>> equals;
+
+  final _i2.PrismaNullable<List<DateTime>> in$;
+
+  final _i2.PrismaNullable<List<DateTime>> notIn;
+
+  final _i2.PrismaNullable<DateTime> lt;
+
+  final _i2.PrismaNullable<DateTime> lte;
+
+  final _i2.PrismaNullable<DateTime> gt;
+
+  final _i2.PrismaNullable<DateTime> gte;
+
+  final _i2.PrismaNullable<NestedDateTimeNullableFilter> not;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'not': not,
+    };
+  }
+}
+
+class FutureActionEventCountOrderByAggregateInput
+    implements _i2.JsonSerializable {
+  const FutureActionEventCountOrderByAggregateInput({
+    this.id,
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final _i2.PrismaNullable<SortOrder> id;
+
+  final _i2.PrismaNullable<SortOrder> user_id;
+
+  final _i2.PrismaNullable<SortOrder> user_email;
+
+  final _i2.PrismaNullable<SortOrder> type;
+
+  final _i2.PrismaNullable<SortOrder> details;
+
+  final _i2.PrismaNullable<SortOrder> created_at;
+
+  final _i2.PrismaNullable<SortOrder> completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+    };
+  }
+}
+
+class FutureActionEventAvgOrderByAggregateInput
+    implements _i2.JsonSerializable {
+  const FutureActionEventAvgOrderByAggregateInput({this.id});
+
+  final _i2.PrismaNullable<SortOrder> id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+    };
+  }
+}
+
+class FutureActionEventMaxOrderByAggregateInput
+    implements _i2.JsonSerializable {
+  const FutureActionEventMaxOrderByAggregateInput({
+    this.id,
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final _i2.PrismaNullable<SortOrder> id;
+
+  final _i2.PrismaNullable<SortOrder> user_id;
+
+  final _i2.PrismaNullable<SortOrder> user_email;
+
+  final _i2.PrismaNullable<SortOrder> type;
+
+  final _i2.PrismaNullable<SortOrder> details;
+
+  final _i2.PrismaNullable<SortOrder> created_at;
+
+  final _i2.PrismaNullable<SortOrder> completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+    };
+  }
+}
+
+class FutureActionEventMinOrderByAggregateInput
+    implements _i2.JsonSerializable {
+  const FutureActionEventMinOrderByAggregateInput({
+    this.id,
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  final _i2.PrismaNullable<SortOrder> id;
+
+  final _i2.PrismaNullable<SortOrder> user_id;
+
+  final _i2.PrismaNullable<SortOrder> user_email;
+
+  final _i2.PrismaNullable<SortOrder> type;
+
+  final _i2.PrismaNullable<SortOrder> details;
+
+  final _i2.PrismaNullable<SortOrder> created_at;
+
+  final _i2.PrismaNullable<SortOrder> completed_at;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'user_id': user_id,
+      'user_email': user_email,
+      'type': type,
+      'details': details,
+      'created_at': created_at,
+      'completed_at': completed_at,
+    };
+  }
+}
+
+class FutureActionEventSumOrderByAggregateInput
+    implements _i2.JsonSerializable {
+  const FutureActionEventSumOrderByAggregateInput({this.id});
+
+  final _i2.PrismaNullable<SortOrder> id;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+    };
+  }
+}
+
+class StringNullableWithAggregatesFilter implements _i2.JsonSerializable {
+  const StringNullableWithAggregatesFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.contains,
+    this.startsWith,
+    this.endsWith,
+    this.mode,
+    this.not,
+    this.$count,
+    this.$min,
+    this.$max,
+  });
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<String, _i2.PrismaNull>> equals;
+
+  final _i2.PrismaNullable<List<String>> in$;
+
+  final _i2.PrismaNullable<List<String>> notIn;
+
+  final _i2.PrismaNullable<String> lt;
+
+  final _i2.PrismaNullable<String> lte;
+
+  final _i2.PrismaNullable<String> gt;
+
+  final _i2.PrismaNullable<String> gte;
+
+  final _i2.PrismaNullable<String> contains;
+
+  final _i2.PrismaNullable<String> startsWith;
+
+  final _i2.PrismaNullable<String> endsWith;
+
+  final _i2.PrismaNullable<QueryMode> mode;
+
+  final _i2.PrismaNullable<NestedStringNullableWithAggregatesFilter> not;
+
+  final _i2.PrismaNullable<NestedIntNullableFilter> $count;
+
+  final _i2.PrismaNullable<NestedStringNullableFilter> $min;
+
+  final _i2.PrismaNullable<NestedStringNullableFilter> $max;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'contains': contains,
+      'startsWith': startsWith,
+      'endsWith': endsWith,
+      'mode': mode,
+      'not': not,
+      '_count': $count,
+      '_min': $min,
+      '_max': $max,
+    };
+  }
+}
+
+class DateTimeNullableWithAggregatesFilter implements _i2.JsonSerializable {
+  const DateTimeNullableWithAggregatesFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.not,
+    this.$count,
+    this.$min,
+    this.$max,
+  });
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<DateTime, _i2.PrismaNull>> equals;
+
+  final _i2.PrismaNullable<List<DateTime>> in$;
+
+  final _i2.PrismaNullable<List<DateTime>> notIn;
+
+  final _i2.PrismaNullable<DateTime> lt;
+
+  final _i2.PrismaNullable<DateTime> lte;
+
+  final _i2.PrismaNullable<DateTime> gt;
+
+  final _i2.PrismaNullable<DateTime> gte;
+
+  final _i2.PrismaNullable<NestedDateTimeNullableWithAggregatesFilter> not;
+
+  final _i2.PrismaNullable<NestedIntNullableFilter> $count;
+
+  final _i2.PrismaNullable<NestedDateTimeNullableFilter> $min;
+
+  final _i2.PrismaNullable<NestedDateTimeNullableFilter> $max;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'not': not,
+      '_count': $count,
+      '_min': $min,
+      '_max': $max,
     };
   }
 }
@@ -5237,6 +6166,33 @@ class EquipmentRequestUpdateOneWithoutAssetNestedInput
   }
 }
 
+class NullableStringFieldUpdateOperationsInput implements _i2.JsonSerializable {
+  const NullableStringFieldUpdateOperationsInput({this.set$});
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<String, _i2.PrismaNull>> set$;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'set': set$,
+    };
+  }
+}
+
+class NullableDateTimeFieldUpdateOperationsInput
+    implements _i2.JsonSerializable {
+  const NullableDateTimeFieldUpdateOperationsInput({this.set$});
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<DateTime, _i2.PrismaNull>> set$;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'set': set$,
+    };
+  }
+}
+
 class NestedStringFilter implements _i2.JsonSerializable {
   const NestedStringFilter({
     this.equals,
@@ -5805,6 +6761,227 @@ class NestedFloatNullableFilter implements _i2.JsonSerializable {
   }
 }
 
+class NestedStringNullableFilter implements _i2.JsonSerializable {
+  const NestedStringNullableFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.contains,
+    this.startsWith,
+    this.endsWith,
+    this.not,
+  });
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<String, _i2.PrismaNull>> equals;
+
+  final _i2.PrismaNullable<List<String>> in$;
+
+  final _i2.PrismaNullable<List<String>> notIn;
+
+  final _i2.PrismaNullable<String> lt;
+
+  final _i2.PrismaNullable<String> lte;
+
+  final _i2.PrismaNullable<String> gt;
+
+  final _i2.PrismaNullable<String> gte;
+
+  final _i2.PrismaNullable<String> contains;
+
+  final _i2.PrismaNullable<String> startsWith;
+
+  final _i2.PrismaNullable<String> endsWith;
+
+  final _i2.PrismaNullable<NestedStringNullableFilter> not;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'contains': contains,
+      'startsWith': startsWith,
+      'endsWith': endsWith,
+      'not': not,
+    };
+  }
+}
+
+class NestedDateTimeNullableFilter implements _i2.JsonSerializable {
+  const NestedDateTimeNullableFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.not,
+  });
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<DateTime, _i2.PrismaNull>> equals;
+
+  final _i2.PrismaNullable<List<DateTime>> in$;
+
+  final _i2.PrismaNullable<List<DateTime>> notIn;
+
+  final _i2.PrismaNullable<DateTime> lt;
+
+  final _i2.PrismaNullable<DateTime> lte;
+
+  final _i2.PrismaNullable<DateTime> gt;
+
+  final _i2.PrismaNullable<DateTime> gte;
+
+  final _i2.PrismaNullable<NestedDateTimeNullableFilter> not;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'not': not,
+    };
+  }
+}
+
+class NestedStringNullableWithAggregatesFilter implements _i2.JsonSerializable {
+  const NestedStringNullableWithAggregatesFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.contains,
+    this.startsWith,
+    this.endsWith,
+    this.not,
+    this.$count,
+    this.$min,
+    this.$max,
+  });
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<String, _i2.PrismaNull>> equals;
+
+  final _i2.PrismaNullable<List<String>> in$;
+
+  final _i2.PrismaNullable<List<String>> notIn;
+
+  final _i2.PrismaNullable<String> lt;
+
+  final _i2.PrismaNullable<String> lte;
+
+  final _i2.PrismaNullable<String> gt;
+
+  final _i2.PrismaNullable<String> gte;
+
+  final _i2.PrismaNullable<String> contains;
+
+  final _i2.PrismaNullable<String> startsWith;
+
+  final _i2.PrismaNullable<String> endsWith;
+
+  final _i2.PrismaNullable<NestedStringNullableWithAggregatesFilter> not;
+
+  final _i2.PrismaNullable<NestedIntNullableFilter> $count;
+
+  final _i2.PrismaNullable<NestedStringNullableFilter> $min;
+
+  final _i2.PrismaNullable<NestedStringNullableFilter> $max;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'contains': contains,
+      'startsWith': startsWith,
+      'endsWith': endsWith,
+      'not': not,
+      '_count': $count,
+      '_min': $min,
+      '_max': $max,
+    };
+  }
+}
+
+class NestedDateTimeNullableWithAggregatesFilter
+    implements _i2.JsonSerializable {
+  const NestedDateTimeNullableWithAggregatesFilter({
+    this.equals,
+    this.in$,
+    this.notIn,
+    this.lt,
+    this.lte,
+    this.gt,
+    this.gte,
+    this.not,
+    this.$count,
+    this.$min,
+    this.$max,
+  });
+
+  final _i2.PrismaNullable<_i2.PrismaUnion<DateTime, _i2.PrismaNull>> equals;
+
+  final _i2.PrismaNullable<List<DateTime>> in$;
+
+  final _i2.PrismaNullable<List<DateTime>> notIn;
+
+  final _i2.PrismaNullable<DateTime> lt;
+
+  final _i2.PrismaNullable<DateTime> lte;
+
+  final _i2.PrismaNullable<DateTime> gt;
+
+  final _i2.PrismaNullable<DateTime> gte;
+
+  final _i2.PrismaNullable<NestedDateTimeNullableWithAggregatesFilter> not;
+
+  final _i2.PrismaNullable<NestedIntNullableFilter> $count;
+
+  final _i2.PrismaNullable<NestedDateTimeNullableFilter> $min;
+
+  final _i2.PrismaNullable<NestedDateTimeNullableFilter> $max;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'equals': equals,
+      'in': in$,
+      'notIn': notIn,
+      'lt': lt,
+      'lte': lte,
+      'gt': gt,
+      'gte': gte,
+      'not': not,
+      '_count': $count,
+      '_min': $min,
+      '_max': $max,
+    };
+  }
+}
+
 class UserCreateWithoutSessionsInput implements _i2.JsonSerializable {
   const UserCreateWithoutSessionsInput({
     required this.id,
@@ -5965,6 +7142,7 @@ class EquipmentRequestCreateWithoutRequested_byInput
     required this.time_start,
     required this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<RequestItemCreateNestedManyWithoutRequestInput>
@@ -5978,6 +7156,8 @@ class EquipmentRequestCreateWithoutRequested_byInput
 
   final _i2.PrismaNullable<AssetCreateNestedManyWithoutDeployed_toInput> asset;
 
+  final _i2.PrismaNullable<DateTime> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -5986,6 +7166,7 @@ class EquipmentRequestCreateWithoutRequested_byInput
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -5999,6 +7180,7 @@ class EquipmentRequestUncheckedCreateWithoutRequested_byInput
     required this.time_start,
     required this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<int> id;
@@ -6016,6 +7198,8 @@ class EquipmentRequestUncheckedCreateWithoutRequested_byInput
           .PrismaNullable<AssetUncheckedCreateNestedManyWithoutDeployed_toInput>
       asset;
 
+  final _i2.PrismaNullable<DateTime> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -6025,6 +7209,7 @@ class EquipmentRequestUncheckedCreateWithoutRequested_byInput
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -6207,6 +7392,7 @@ class EquipmentRequestScalarWhereInput implements _i2.JsonSerializable {
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<EquipmentRequestScalarWhereInput> AND;
@@ -6225,6 +7411,8 @@ class EquipmentRequestScalarWhereInput implements _i2.JsonSerializable {
 
   final _i2.PrismaNullable<DateTimeFilter> time_end;
 
+  final _i2.PrismaNullable<DateTimeFilter> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -6236,6 +7424,7 @@ class EquipmentRequestScalarWhereInput implements _i2.JsonSerializable {
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -6853,6 +8042,7 @@ class EquipmentRequestCreateWithoutItemsInput implements _i2.JsonSerializable {
     required this.time_start,
     required this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final UserCreateNestedOneWithoutRequestsInput requested_by;
@@ -6865,6 +8055,8 @@ class EquipmentRequestCreateWithoutItemsInput implements _i2.JsonSerializable {
 
   final _i2.PrismaNullable<AssetCreateNestedManyWithoutDeployed_toInput> asset;
 
+  final _i2.PrismaNullable<DateTime> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -6873,6 +8065,7 @@ class EquipmentRequestCreateWithoutItemsInput implements _i2.JsonSerializable {
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -6886,6 +8079,7 @@ class EquipmentRequestUncheckedCreateWithoutItemsInput
     required this.time_start,
     required this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<int> id;
@@ -6902,6 +8096,8 @@ class EquipmentRequestUncheckedCreateWithoutItemsInput
           .PrismaNullable<AssetUncheckedCreateNestedManyWithoutDeployed_toInput>
       asset;
 
+  final _i2.PrismaNullable<DateTime> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -6911,6 +8107,7 @@ class EquipmentRequestUncheckedCreateWithoutItemsInput
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -7045,6 +8242,7 @@ class EquipmentRequestUpdateWithoutItemsInput implements _i2.JsonSerializable {
     this.time_start,
     this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<UserUpdateOneRequiredWithoutRequestsNestedInput>
@@ -7058,6 +8256,8 @@ class EquipmentRequestUpdateWithoutItemsInput implements _i2.JsonSerializable {
 
   final _i2.PrismaNullable<AssetUpdateManyWithoutDeployed_toNestedInput> asset;
 
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -7066,6 +8266,7 @@ class EquipmentRequestUpdateWithoutItemsInput implements _i2.JsonSerializable {
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -7079,6 +8280,7 @@ class EquipmentRequestUncheckedUpdateWithoutItemsInput
     this.time_start,
     this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
@@ -7095,6 +8297,8 @@ class EquipmentRequestUncheckedUpdateWithoutItemsInput
           .PrismaNullable<AssetUncheckedUpdateManyWithoutDeployed_toNestedInput>
       asset;
 
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -7104,6 +8308,7 @@ class EquipmentRequestUncheckedUpdateWithoutItemsInput
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -7570,6 +8775,7 @@ class EquipmentRequestCreateWithoutAssetInput implements _i2.JsonSerializable {
     this.notes,
     required this.time_start,
     required this.time_end,
+    this.createdAt,
   });
 
   final UserCreateNestedOneWithoutRequestsInput requested_by;
@@ -7583,6 +8789,8 @@ class EquipmentRequestCreateWithoutAssetInput implements _i2.JsonSerializable {
 
   final DateTime time_end;
 
+  final _i2.PrismaNullable<DateTime> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -7591,6 +8799,7 @@ class EquipmentRequestCreateWithoutAssetInput implements _i2.JsonSerializable {
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -7604,6 +8813,7 @@ class EquipmentRequestUncheckedCreateWithoutAssetInput
     this.notes,
     required this.time_start,
     required this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<int> id;
@@ -7619,6 +8829,8 @@ class EquipmentRequestUncheckedCreateWithoutAssetInput
 
   final DateTime time_end;
 
+  final _i2.PrismaNullable<DateTime> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -7628,6 +8840,7 @@ class EquipmentRequestUncheckedCreateWithoutAssetInput
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -7762,6 +8975,7 @@ class EquipmentRequestUpdateWithoutAssetInput implements _i2.JsonSerializable {
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<UserUpdateOneRequiredWithoutRequestsNestedInput>
@@ -7776,6 +8990,8 @@ class EquipmentRequestUpdateWithoutAssetInput implements _i2.JsonSerializable {
 
   final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
 
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -7784,6 +9000,7 @@ class EquipmentRequestUpdateWithoutAssetInput implements _i2.JsonSerializable {
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -7797,6 +9014,7 @@ class EquipmentRequestUncheckedUpdateWithoutAssetInput
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
@@ -7812,6 +9030,8 @@ class EquipmentRequestUncheckedUpdateWithoutAssetInput
 
   final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
 
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -7821,6 +9041,7 @@ class EquipmentRequestUncheckedUpdateWithoutAssetInput
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -7832,6 +9053,7 @@ class EquipmentRequestCreateManyRequested_byInput
     this.notes,
     required this.time_start,
     required this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<int> id;
@@ -7842,6 +9064,8 @@ class EquipmentRequestCreateManyRequested_byInput
 
   final DateTime time_end;
 
+  final _i2.PrismaNullable<DateTime> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -7849,6 +9073,7 @@ class EquipmentRequestCreateManyRequested_byInput
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -7874,6 +9099,7 @@ class EquipmentRequestUpdateWithoutRequested_byInput
     this.time_start,
     this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<RequestItemUpdateManyWithoutRequestNestedInput>
@@ -7887,6 +9113,8 @@ class EquipmentRequestUpdateWithoutRequested_byInput
 
   final _i2.PrismaNullable<AssetUpdateManyWithoutDeployed_toNestedInput> asset;
 
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -7895,6 +9123,7 @@ class EquipmentRequestUpdateWithoutRequested_byInput
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -7908,6 +9137,7 @@ class EquipmentRequestUncheckedUpdateWithoutRequested_byInput
     this.time_start,
     this.time_end,
     this.asset,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
@@ -7925,6 +9155,8 @@ class EquipmentRequestUncheckedUpdateWithoutRequested_byInput
           .PrismaNullable<AssetUncheckedUpdateManyWithoutDeployed_toNestedInput>
       asset;
 
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -7934,6 +9166,7 @@ class EquipmentRequestUncheckedUpdateWithoutRequested_byInput
       'time_start': time_start,
       'time_end': time_end,
       'asset': asset,
+      'createdAt': createdAt,
     };
   }
 }
@@ -7945,6 +9178,7 @@ class EquipmentRequestUncheckedUpdateManyWithoutRequestsInput
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
   });
 
   final _i2.PrismaNullable<IntFieldUpdateOperationsInput> id;
@@ -7955,6 +9189,8 @@ class EquipmentRequestUncheckedUpdateManyWithoutRequestsInput
 
   final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> time_end;
 
+  final _i2.PrismaNullable<DateTimeFieldUpdateOperationsInput> createdAt;
+
   @override
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -7962,6 +9198,7 @@ class EquipmentRequestUncheckedUpdateManyWithoutRequestsInput
       'notes': notes,
       'time_start': time_start,
       'time_end': time_end,
+      'createdAt': createdAt,
     };
   }
 }
@@ -8581,6 +9818,7 @@ class EquipmentRequestGroupByOutputType implements _i2.JsonSerializable {
     required this.notes,
     required this.time_start,
     required this.time_end,
+    required this.createdAt,
     this.$count,
     this.$avg,
     this.$sum,
@@ -8601,6 +9839,8 @@ class EquipmentRequestGroupByOutputType implements _i2.JsonSerializable {
   final DateTime time_start;
 
   final DateTime time_end;
+
+  final DateTime createdAt;
 
   @_i1.JsonKey(name: '_count')
   final _i2.PrismaNullable<EquipmentRequestCountAggregateOutputType> $count;
@@ -8869,6 +10109,101 @@ class AssetGroupByOutputType implements _i2.JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$AssetGroupByOutputTypeToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class AggregateFutureActionEvent implements _i2.JsonSerializable {
+  const AggregateFutureActionEvent({
+    this.$count,
+    this.$avg,
+    this.$sum,
+    this.$min,
+    this.$max,
+  });
+
+  factory AggregateFutureActionEvent.fromJson(Map<String, dynamic> json) =>
+      _$AggregateFutureActionEventFromJson(json);
+
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<FutureActionEventCountAggregateOutputType> $count;
+
+  @_i1.JsonKey(name: '_avg')
+  final _i2.PrismaNullable<FutureActionEventAvgAggregateOutputType> $avg;
+
+  @_i1.JsonKey(name: '_sum')
+  final _i2.PrismaNullable<FutureActionEventSumAggregateOutputType> $sum;
+
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<FutureActionEventMinAggregateOutputType> $min;
+
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<FutureActionEventMaxAggregateOutputType> $max;
+
+  @override
+  Map<String, dynamic> toJson() => _$AggregateFutureActionEventToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class FutureActionEventGroupByOutputType implements _i2.JsonSerializable {
+  const FutureActionEventGroupByOutputType({
+    required this.id,
+    required this.user_id,
+    required this.user_email,
+    required this.type,
+    this.details,
+    required this.created_at,
+    this.completed_at,
+    this.$count,
+    this.$avg,
+    this.$sum,
+    this.$min,
+    this.$max,
+  });
+
+  factory FutureActionEventGroupByOutputType.fromJson(
+          Map<String, dynamic> json) =>
+      _$FutureActionEventGroupByOutputTypeFromJson(json);
+
+  final int id;
+
+  final String user_id;
+
+  final String user_email;
+
+  final String type;
+
+  final _i2.PrismaNullable<String> details;
+
+  final DateTime created_at;
+
+  final _i2.PrismaNullable<DateTime> completed_at;
+
+  @_i1.JsonKey(name: '_count')
+  final _i2.PrismaNullable<FutureActionEventCountAggregateOutputType> $count;
+
+  @_i1.JsonKey(name: '_avg')
+  final _i2.PrismaNullable<FutureActionEventAvgAggregateOutputType> $avg;
+
+  @_i1.JsonKey(name: '_sum')
+  final _i2.PrismaNullable<FutureActionEventSumAggregateOutputType> $sum;
+
+  @_i1.JsonKey(name: '_min')
+  final _i2.PrismaNullable<FutureActionEventMinAggregateOutputType> $min;
+
+  @_i1.JsonKey(name: '_max')
+  final _i2.PrismaNullable<FutureActionEventMaxAggregateOutputType> $max;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$FutureActionEventGroupByOutputTypeToJson(this);
 }
 
 @_i1.JsonSerializable(
@@ -9158,6 +10493,7 @@ class EquipmentRequestCountAggregateOutputType implements _i2.JsonSerializable {
     required this.notes,
     required this.time_start,
     required this.time_end,
+    required this.createdAt,
     required this.$all,
   });
 
@@ -9174,6 +10510,8 @@ class EquipmentRequestCountAggregateOutputType implements _i2.JsonSerializable {
   final int time_start;
 
   final int time_end;
+
+  final int createdAt;
 
   @_i1.JsonKey(name: '_all')
   final int $all;
@@ -9233,6 +10571,7 @@ class EquipmentRequestMinAggregateOutputType implements _i2.JsonSerializable {
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
   });
 
   factory EquipmentRequestMinAggregateOutputType.fromJson(
@@ -9248,6 +10587,8 @@ class EquipmentRequestMinAggregateOutputType implements _i2.JsonSerializable {
   final _i2.PrismaNullable<DateTime> time_start;
 
   final _i2.PrismaNullable<DateTime> time_end;
+
+  final _i2.PrismaNullable<DateTime> createdAt;
 
   @override
   Map<String, dynamic> toJson() =>
@@ -9266,6 +10607,7 @@ class EquipmentRequestMaxAggregateOutputType implements _i2.JsonSerializable {
     this.notes,
     this.time_start,
     this.time_end,
+    this.createdAt,
   });
 
   factory EquipmentRequestMaxAggregateOutputType.fromJson(
@@ -9281,6 +10623,8 @@ class EquipmentRequestMaxAggregateOutputType implements _i2.JsonSerializable {
   final _i2.PrismaNullable<DateTime> time_start;
 
   final _i2.PrismaNullable<DateTime> time_end;
+
+  final _i2.PrismaNullable<DateTime> createdAt;
 
   @override
   Map<String, dynamic> toJson() =>
@@ -9703,6 +11047,166 @@ class AssetMaxAggregateOutputType implements _i2.JsonSerializable {
   createFactory: true,
   explicitToJson: true,
 )
+class FutureActionEventCountAggregateOutputType
+    implements _i2.JsonSerializable {
+  const FutureActionEventCountAggregateOutputType({
+    required this.id,
+    required this.user_id,
+    required this.user_email,
+    required this.type,
+    required this.details,
+    required this.created_at,
+    required this.completed_at,
+    required this.$all,
+  });
+
+  factory FutureActionEventCountAggregateOutputType.fromJson(
+          Map<String, dynamic> json) =>
+      _$FutureActionEventCountAggregateOutputTypeFromJson(json);
+
+  final int id;
+
+  final int user_id;
+
+  final int user_email;
+
+  final int type;
+
+  final int details;
+
+  final int created_at;
+
+  final int completed_at;
+
+  @_i1.JsonKey(name: '_all')
+  final int $all;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$FutureActionEventCountAggregateOutputTypeToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class FutureActionEventAvgAggregateOutputType implements _i2.JsonSerializable {
+  const FutureActionEventAvgAggregateOutputType({this.id});
+
+  factory FutureActionEventAvgAggregateOutputType.fromJson(
+          Map<String, dynamic> json) =>
+      _$FutureActionEventAvgAggregateOutputTypeFromJson(json);
+
+  final _i2.PrismaNullable<double> id;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$FutureActionEventAvgAggregateOutputTypeToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class FutureActionEventSumAggregateOutputType implements _i2.JsonSerializable {
+  const FutureActionEventSumAggregateOutputType({this.id});
+
+  factory FutureActionEventSumAggregateOutputType.fromJson(
+          Map<String, dynamic> json) =>
+      _$FutureActionEventSumAggregateOutputTypeFromJson(json);
+
+  final _i2.PrismaNullable<int> id;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$FutureActionEventSumAggregateOutputTypeToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class FutureActionEventMinAggregateOutputType implements _i2.JsonSerializable {
+  const FutureActionEventMinAggregateOutputType({
+    this.id,
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  factory FutureActionEventMinAggregateOutputType.fromJson(
+          Map<String, dynamic> json) =>
+      _$FutureActionEventMinAggregateOutputTypeFromJson(json);
+
+  final _i2.PrismaNullable<int> id;
+
+  final _i2.PrismaNullable<String> user_id;
+
+  final _i2.PrismaNullable<String> user_email;
+
+  final _i2.PrismaNullable<String> type;
+
+  final _i2.PrismaNullable<String> details;
+
+  final _i2.PrismaNullable<DateTime> created_at;
+
+  final _i2.PrismaNullable<DateTime> completed_at;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$FutureActionEventMinAggregateOutputTypeToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class FutureActionEventMaxAggregateOutputType implements _i2.JsonSerializable {
+  const FutureActionEventMaxAggregateOutputType({
+    this.id,
+    this.user_id,
+    this.user_email,
+    this.type,
+    this.details,
+    this.created_at,
+    this.completed_at,
+  });
+
+  factory FutureActionEventMaxAggregateOutputType.fromJson(
+          Map<String, dynamic> json) =>
+      _$FutureActionEventMaxAggregateOutputTypeFromJson(json);
+
+  final _i2.PrismaNullable<int> id;
+
+  final _i2.PrismaNullable<String> user_id;
+
+  final _i2.PrismaNullable<String> user_email;
+
+  final _i2.PrismaNullable<String> type;
+
+  final _i2.PrismaNullable<String> details;
+
+  final _i2.PrismaNullable<DateTime> created_at;
+
+  final _i2.PrismaNullable<DateTime> completed_at;
+
+  @override
+  Map<String, dynamic> toJson() =>
+      _$FutureActionEventMaxAggregateOutputTypeToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
 class SignInIntent implements _i2.JsonSerializable {
   const SignInIntent({required this.key});
 
@@ -9773,6 +11277,7 @@ class EquipmentRequest implements _i2.JsonSerializable {
     required this.notes,
     required this.time_start,
     required this.time_end,
+    required this.createdAt,
   });
 
   factory EquipmentRequest.fromJson(Map<String, dynamic> json) =>
@@ -9787,6 +11292,8 @@ class EquipmentRequest implements _i2.JsonSerializable {
   final DateTime time_start;
 
   final DateTime time_end;
+
+  final DateTime createdAt;
 
   @override
   Map<String, dynamic> toJson() => _$EquipmentRequestToJson(this);
@@ -9870,6 +11377,43 @@ class Asset implements _i2.JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => _$AssetToJson(this);
+}
+
+@_i1.JsonSerializable(
+  createToJson: true,
+  createFactory: true,
+  explicitToJson: true,
+)
+class FutureActionEvent implements _i2.JsonSerializable {
+  const FutureActionEvent({
+    required this.id,
+    required this.user_id,
+    required this.user_email,
+    required this.type,
+    this.details,
+    required this.created_at,
+    this.completed_at,
+  });
+
+  factory FutureActionEvent.fromJson(Map<String, dynamic> json) =>
+      _$FutureActionEventFromJson(json);
+
+  final int id;
+
+  final String user_id;
+
+  final String user_email;
+
+  final String type;
+
+  final _i2.PrismaNullable<String> details;
+
+  final DateTime created_at;
+
+  final _i2.PrismaNullable<DateTime> completed_at;
+
+  @override
+  Map<String, dynamic> toJson() => _$FutureActionEventToJson(this);
 }
 
 class SignInIntentDelegate {
@@ -13506,6 +15050,530 @@ class AssetDelegate {
   }
 }
 
+class FutureActionEventDelegate {
+  const FutureActionEventDelegate._(
+    this._engine, [
+    this._headers,
+  ]);
+
+  final _i2.Engine _engine;
+
+  final _i2.PrismaNullable<_i2.QueryEngineRequestHeaders> _headers;
+
+  Future<_i2.PrismaNullable<FutureActionEvent>> findUnique(
+      {required FutureActionEventWhereUniqueInput where}) async {
+    final String sdl = _i2.GraphQLField(
+      'query',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'findUniqueFutureActionEvent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: true,
+            )
+          ]),
+          fields: _i2.GraphQLFields(FutureActionEventScalarFieldEnum.values
+              .map((FutureActionEventScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return result.data['findUniqueFutureActionEvent'] == null
+        ? null
+        : FutureActionEvent.fromJson(
+            (result.data['findUniqueFutureActionEvent'] as Map).cast());
+  }
+
+  Future<_i2.PrismaNullable<FutureActionEvent>> findFirst({
+    _i2.PrismaNullable<FutureActionEventWhereInput> where,
+    _i2.PrismaNullable<List<FutureActionEventOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<FutureActionEventWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<FutureActionEventScalarFieldEnum>> distinct,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'query',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'findFirstFutureActionEvent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'orderBy',
+              orderBy,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'cursor',
+              cursor,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'take',
+              take,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'skip',
+              skip,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'distinct',
+              distinct,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(FutureActionEventScalarFieldEnum.values
+              .map((FutureActionEventScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return result.data['findFirstFutureActionEvent'] == null
+        ? null
+        : FutureActionEvent.fromJson(
+            (result.data['findFirstFutureActionEvent'] as Map).cast());
+  }
+
+  Future<List<FutureActionEvent>> findMany({
+    _i2.PrismaNullable<FutureActionEventWhereInput> where,
+    _i2.PrismaNullable<List<FutureActionEventOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<FutureActionEventWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+    _i2.PrismaNullable<List<FutureActionEventScalarFieldEnum>> distinct,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'query',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'findManyFutureActionEvent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'orderBy',
+              orderBy,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'cursor',
+              cursor,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'take',
+              take,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'skip',
+              skip,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'distinct',
+              distinct,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(FutureActionEventScalarFieldEnum.values
+              .map((FutureActionEventScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return (result.data['findManyFutureActionEvent'] as List)
+        .whereType<Map>()
+        .map((Map e) => FutureActionEvent.fromJson(e.cast()))
+        .toList();
+  }
+
+  Future<FutureActionEvent> create(
+      {required FutureActionEventCreateInput data}) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'createOneFutureActionEvent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            )
+          ]),
+          fields: _i2.GraphQLFields(FutureActionEventScalarFieldEnum.values
+              .map((FutureActionEventScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return FutureActionEvent.fromJson(
+        (result.data['createOneFutureActionEvent'] as Map).cast());
+  }
+
+  Future<AffectedRowsOutput> createMany({
+    required List<FutureActionEventCreateManyInput> data,
+    _i2.PrismaNullable<bool> skipDuplicates,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'createManyFutureActionEvent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
+              'skipDuplicates',
+              skipDuplicates,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(FutureActionEventScalarFieldEnum.values
+              .map((FutureActionEventScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AffectedRowsOutput.fromJson(
+        (result.data['createManyFutureActionEvent'] as Map).cast());
+  }
+
+  Future<_i2.PrismaNullable<FutureActionEvent>> update({
+    required FutureActionEventUpdateInput data,
+    required FutureActionEventWhereUniqueInput where,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'updateOneFutureActionEvent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: true,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(FutureActionEventScalarFieldEnum.values
+              .map((FutureActionEventScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return result.data['updateOneFutureActionEvent'] == null
+        ? null
+        : FutureActionEvent.fromJson(
+            (result.data['updateOneFutureActionEvent'] as Map).cast());
+  }
+
+  Future<AffectedRowsOutput> updateMany({
+    required FutureActionEventUpdateManyMutationInput data,
+    _i2.PrismaNullable<FutureActionEventWhereInput> where,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'updateManyFutureActionEvent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'data',
+              data,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(FutureActionEventScalarFieldEnum.values
+              .map((FutureActionEventScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AffectedRowsOutput.fromJson(
+        (result.data['updateManyFutureActionEvent'] as Map).cast());
+  }
+
+  Future<FutureActionEvent> upsert({
+    required FutureActionEventWhereUniqueInput where,
+    required FutureActionEventCreateInput create,
+    required FutureActionEventUpdateInput update,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'upsertOneFutureActionEvent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
+              'create',
+              create,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
+              'update',
+              update,
+              isRequired: true,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(FutureActionEventScalarFieldEnum.values
+              .map((FutureActionEventScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return FutureActionEvent.fromJson(
+        (result.data['upsertOneFutureActionEvent'] as Map).cast());
+  }
+
+  Future<_i2.PrismaNullable<FutureActionEvent>> delete(
+      {required FutureActionEventWhereUniqueInput where}) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'deleteOneFutureActionEvent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: true,
+            )
+          ]),
+          fields: _i2.GraphQLFields(FutureActionEventScalarFieldEnum.values
+              .map((FutureActionEventScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return result.data['deleteOneFutureActionEvent'] == null
+        ? null
+        : FutureActionEvent.fromJson(
+            (result.data['deleteOneFutureActionEvent'] as Map).cast());
+  }
+
+  Future<AffectedRowsOutput> deleteMany(
+      {_i2.PrismaNullable<FutureActionEventWhereInput> where}) async {
+    final String sdl = _i2.GraphQLField(
+      'mutation',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'deleteManyFutureActionEvent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: false,
+            )
+          ]),
+          fields: _i2.GraphQLFields(FutureActionEventScalarFieldEnum.values
+              .map((FutureActionEventScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AffectedRowsOutput.fromJson(
+        (result.data['deleteManyFutureActionEvent'] as Map).cast());
+  }
+
+  Future<AggregateFutureActionEvent> aggregate({
+    _i2.PrismaNullable<FutureActionEventWhereInput> where,
+    _i2.PrismaNullable<List<FutureActionEventOrderByWithRelationInput>> orderBy,
+    _i2.PrismaNullable<FutureActionEventWhereUniqueInput> cursor,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'query',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'aggregateFutureActionEvent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'orderBy',
+              orderBy,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'cursor',
+              cursor,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'take',
+              take,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'skip',
+              skip,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(FutureActionEventScalarFieldEnum.values
+              .map((FutureActionEventScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return AggregateFutureActionEvent.fromJson(
+        (result.data['aggregateFutureActionEvent'] as Map).cast());
+  }
+
+  Future<List<FutureActionEventGroupByOutputType>> groupBy({
+    _i2.PrismaNullable<FutureActionEventWhereInput> where,
+    _i2.PrismaNullable<List<FutureActionEventOrderByWithAggregationInput>>
+        orderBy,
+    required List<FutureActionEventScalarFieldEnum> by,
+    _i2.PrismaNullable<FutureActionEventScalarWhereWithAggregatesInput> having,
+    _i2.PrismaNullable<int> take,
+    _i2.PrismaNullable<int> skip,
+  }) async {
+    final String sdl = _i2.GraphQLField(
+      'query',
+      fields: _i2.GraphQLFields([
+        _i2.GraphQLField(
+          'groupByFutureActionEvent',
+          args: _i2.GraphQLArgs([
+            _i2.GraphQLArg(
+              'where',
+              where,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'orderBy',
+              orderBy,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'by',
+              by,
+              isRequired: true,
+            ),
+            _i2.GraphQLArg(
+              'having',
+              having,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'take',
+              take,
+              isRequired: false,
+            ),
+            _i2.GraphQLArg(
+              'skip',
+              skip,
+              isRequired: false,
+            ),
+          ]),
+          fields: _i2.GraphQLFields(FutureActionEventScalarFieldEnum.values
+              .map((FutureActionEventScalarFieldEnum e) =>
+                  _i2.GraphQLField(_i2.languageKeywordDecode(e.name)))
+              .toList()),
+        )
+      ]),
+    ).toSdl();
+    final _i2.QueryEngineResult result = await _engine.request(
+      query: sdl,
+      headers: _headers,
+    );
+    return (result.data['groupByFutureActionEvent'] as List)
+        .whereType<Map>()
+        .map((Map e) => FutureActionEventGroupByOutputType.fromJson(e.cast()))
+        .toList();
+  }
+}
+
 final environment = Future<_i3.PrismaEnvironment>(() async =>
     _i3.PrismaEnvironment(includePlatformEnvironment: true)
         .call(_i4.configurePrisma));
@@ -14295,6 +16363,46 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'isUpdatedAt': false,
             },
           },
+          {
+            'name': 'createdAt',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': true,
+            'type': 'DateTime',
+            'default': {
+              'name': 'now',
+              'args': [],
+            },
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'createdAt',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': true,
+              'type': 'DateTime',
+              'default': {
+                'name': 'now',
+                'args': [],
+              },
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
         ],
         'primaryKey': null,
         'uniqueFields': [],
@@ -14421,6 +16529,23 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'relationName': 'AssetToEquipmentRequest',
               'relationFromFields': [],
               'relationToFields': [],
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'createdAt',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': true,
+              'type': 'DateTime',
+              'default': {
+                'name': 'now',
+                'args': [],
+              },
               'isGenerated': false,
               'isUpdatedAt': false,
             },
@@ -15318,6 +17443,383 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'isReadOnly': true,
               'hasDefaultValue': false,
               'type': 'Int',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          ],
+          'primaryKey': null,
+          'uniqueFields': [],
+          'uniqueIndexes': [],
+          'isGenerated': false,
+        },
+      },
+      {
+        'name': 'FutureActionEvent',
+        'dbName': null,
+        'fields': [
+          {
+            'name': 'id',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': true,
+            'isReadOnly': false,
+            'hasDefaultValue': true,
+            'type': 'Int',
+            'default': {
+              'name': 'autoincrement',
+              'args': [],
+            },
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'id',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': true,
+              'isReadOnly': false,
+              'hasDefaultValue': true,
+              'type': 'Int',
+              'default': {
+                'name': 'autoincrement',
+                'args': [],
+              },
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+          {
+            'name': 'user_id',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': false,
+            'type': 'String',
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'user_id',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'String',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+          {
+            'name': 'user_email',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': false,
+            'type': 'String',
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'user_email',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'String',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+          {
+            'name': 'type',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': false,
+            'type': 'String',
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'type',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'String',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+          {
+            'name': 'details',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': false,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': false,
+            'type': 'String',
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'default': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'details',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': false,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'String',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+          {
+            'name': 'created_at',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': true,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': true,
+            'type': 'DateTime',
+            'default': {
+              'name': 'now',
+              'args': [],
+            },
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'created_at',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': true,
+              'type': 'DateTime',
+              'default': {
+                'name': 'now',
+                'args': [],
+              },
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+          {
+            'name': 'completed_at',
+            'kind': 'scalar',
+            'isList': false,
+            'isRequired': false,
+            'isUnique': false,
+            'isId': false,
+            'isReadOnly': false,
+            'hasDefaultValue': true,
+            'type': 'DateTime',
+            'default': {
+              'name': 'now',
+              'args': [],
+            },
+            'isGenerated': false,
+            'isUpdatedAt': false,
+            'dbNames': null,
+            'relationFromFields': null,
+            'relationToFields': null,
+            'relationOnDelete': null,
+            'relationName': null,
+            'documentation': null,
+            'additionalProperties': {
+              'name': 'completed_at',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': false,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': true,
+              'type': 'DateTime',
+              'default': {
+                'name': 'now',
+                'args': [],
+              },
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+          },
+        ],
+        'primaryKey': null,
+        'uniqueFields': [],
+        'uniqueIndexes': [],
+        'isGenerated': false,
+        'fieldsMap': null,
+        'documentation': null,
+        'extra': {
+          'name': 'FutureActionEvent',
+          'dbName': null,
+          'fields': [
+            {
+              'name': 'id',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': true,
+              'isReadOnly': false,
+              'hasDefaultValue': true,
+              'type': 'Int',
+              'default': {
+                'name': 'autoincrement',
+                'args': [],
+              },
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'user_id',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'String',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'user_email',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'String',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'type',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'String',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'details',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': false,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': false,
+              'type': 'String',
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'created_at',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': true,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': true,
+              'type': 'DateTime',
+              'default': {
+                'name': 'now',
+                'args': [],
+              },
+              'isGenerated': false,
+              'isUpdatedAt': false,
+            },
+            {
+              'name': 'completed_at',
+              'kind': 'scalar',
+              'isList': false,
+              'isRequired': false,
+              'isUnique': false,
+              'isId': false,
+              'isReadOnly': false,
+              'hasDefaultValue': true,
+              'type': 'DateTime',
+              'default': {
+                'name': 'now',
+                'args': [],
+              },
               'isGenerated': false,
               'isUpdatedAt': false,
             },
@@ -16773,6 +19275,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -16903,6 +19426,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -17000,6 +19538,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -17241,6 +19794,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -19052,6 +21626,788 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'FutureActionEventWhereInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'AND',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'FutureActionEventWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'FutureActionEventWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'OR',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'FutureActionEventWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'NOT',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'FutureActionEventWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'FutureActionEventWhereInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'IntFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventOrderByWithRelationInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 0,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventWhereUniqueInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventOrderByWithAggregationInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 0,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_count',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'FutureActionEventCountOrderByAggregateInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_avg',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'FutureActionEventAvgOrderByAggregateInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_max',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'FutureActionEventMaxOrderByAggregateInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_min',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'FutureActionEventMinOrderByAggregateInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_sum',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'FutureActionEventSumOrderByAggregateInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventScalarWhereWithAggregatesInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'AND',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'FutureActionEventScalarWhereWithAggregatesInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'FutureActionEventScalarWhereWithAggregatesInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'OR',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'FutureActionEventScalarWhereWithAggregatesInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'NOT',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'FutureActionEventScalarWhereWithAggregatesInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': true,
+                  'type': 'FutureActionEventScalarWhereWithAggregatesInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'IntWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'StringNullableWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeNullableWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'SignInIntentCreateInput',
           'constraints': {
             'maxNumFields': null,
@@ -20229,6 +23585,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -20342,6 +23713,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                       'AssetUncheckedCreateNestedManyWithoutDeployed_toInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
                 }
               ],
               'deprecation': null,
@@ -20461,6 +23847,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
               ],
               'deprecation': null,
             },
@@ -20611,6 +24018,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -20696,6 +24124,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -20750,6 +24193,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -20865,6 +24329,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -22542,6 +26027,1006 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'FutureActionEventCreateInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventUncheckedCreateInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventUpdateInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableStringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableDateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventUncheckedUpdateInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableStringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableDateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventCreateManyInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventUpdateManyMutationInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableStringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableDateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventUncheckedUpdateManyInput',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'Int',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'IntFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'StringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableStringFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NullableDateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'StringFilter',
           'constraints': {
             'maxNumFields': null,
@@ -24052,6 +28537,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -24162,6 +28662,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -24234,6 +28749,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -26071,6 +30601,1251 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'StringNullableFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'equals',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'in',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notIn',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'contains',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'startsWith',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'endsWith',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'mode',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'QueryMode',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'not',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NestedStringNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'DateTimeNullableFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'equals',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'in',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notIn',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'not',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventCountOrderByAggregateInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventAvgOrderByAggregateInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventMaxOrderByAggregateInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventMinOrderByAggregateInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'user_email',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'type',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'details',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'created_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'completed_at',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventSumOrderByAggregateInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'id',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'SortOrder',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'StringNullableWithAggregatesFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'equals',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'in',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notIn',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'contains',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'startsWith',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'endsWith',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'mode',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'QueryMode',
+                  'location': 'enumTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'not',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NestedStringNullableWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_count',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedIntNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_min',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedStringNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_max',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedStringNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'DateTimeNullableWithAggregatesFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'equals',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'in',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notIn',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'not',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeNullableWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_count',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedIntNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_min',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_max',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -31510,6 +37285,68 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'NullableStringFieldUpdateOperationsInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'set',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'NullableDateTimeFieldUpdateOperationsInput',
+          'constraints': {
+            'maxNumFields': 1,
+            'minNumFields': 1,
+          },
+          'fields': [
+            {
+              'name': 'set',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'NestedStringFilter',
           'constraints': {
             'maxNumFields': null,
@@ -33409,6 +39246,826 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'NestedStringNullableFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'equals',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'in',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notIn',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'contains',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'startsWith',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'endsWith',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'not',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NestedStringNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'NestedDateTimeNullableFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'equals',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'in',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notIn',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'not',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'NestedStringNullableWithAggregatesFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'equals',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'in',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notIn',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'contains',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'startsWith',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'endsWith',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'not',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'String',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NestedStringNullableWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_count',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedIntNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_min',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedStringNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_max',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedStringNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'NestedDateTimeNullableWithAggregatesFilter',
+          'constraints': {
+            'maxNumFields': null,
+            'minNumFields': null,
+          },
+          'fields': [
+            {
+              'name': 'equals',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'in',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'notIn',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': true,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'lte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'gte',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'not',
+              'comment': null,
+              'isNullable': true,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeNullableWithAggregatesFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'Null',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_count',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedIntNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_min',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': '_max',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'NestedDateTimeNullableFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'UserCreateWithoutSessionsInput',
           'constraints': {
             'maxNumFields': null,
@@ -33908,6 +40565,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -34006,6 +40678,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                       'AssetUncheckedCreateNestedManyWithoutDeployed_toInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
                 }
               ],
               'deprecation': null,
@@ -34551,6 +41238,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTimeFilter',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -36289,6 +42997,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -36386,6 +43109,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                       'AssetUncheckedCreateNestedManyWithoutDeployed_toInput',
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
                 }
               ],
               'deprecation': null,
@@ -36819,6 +43557,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -36947,6 +43706,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
                   'location': 'inputObjectTypes',
                   'namespace': 'prisma',
                 }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
               ],
               'deprecation': null,
             },
@@ -38218,6 +44998,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -38309,6 +45104,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'comment': null,
               'isNullable': false,
               'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
               'inputTypes': [
                 {
                   'isList': false,
@@ -38803,6 +45613,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -38934,6 +45765,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -38994,6 +45846,21 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'comment': null,
               'isNullable': false,
               'isRequired': true,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                }
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
               'inputTypes': [
                 {
                   'isList': false,
@@ -39132,6 +45999,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -39258,6 +46146,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               ],
               'deprecation': null,
             },
+            {
+              'name': 'createdAt',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -39333,6 +46242,27 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'time_end',
+              'comment': null,
+              'isNullable': false,
+              'isRequired': false,
+              'inputTypes': [
+                {
+                  'isList': false,
+                  'type': 'DateTime',
+                  'location': 'scalar',
+                  'namespace': null,
+                },
+                {
+                  'isList': false,
+                  'type': 'DateTimeFieldUpdateOperationsInput',
+                  'location': 'inputObjectTypes',
+                  'namespace': 'prisma',
+                },
+              ],
+              'deprecation': null,
+            },
+            {
+              'name': 'createdAt',
               'comment': null,
               'isNullable': false,
               'isRequired': false,
@@ -40990,6 +47920,19 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'documentation': null,
             },
             {
+              'name': 'createdAt',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': '_count',
               'isNullable': false,
               'outputType': {
@@ -41441,6 +48384,103 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'outputType': {
                 'isList': false,
                 'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEvent',
+          'fields': [
+            {
+              'name': 'id',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'user_id',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'user_email',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'type',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'details',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'created_at',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'completed_at',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
                 'location': 'scalar',
                 'namespace': null,
               },
@@ -44676,6 +51716,466 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
               'documentation': null,
             },
+            {
+              'name': 'findFirstFutureActionEvent',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEvent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'orderBy',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'FutureActionEventOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'cursor',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'take',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skip',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'distinct',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'FutureActionEventScalarFieldEnum',
+                      'location': 'enumTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'findManyFutureActionEvent',
+              'isNullable': false,
+              'outputType': {
+                'isList': true,
+                'type': 'FutureActionEvent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'orderBy',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'FutureActionEventOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'cursor',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'take',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skip',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'distinct',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'FutureActionEventScalarFieldEnum',
+                      'location': 'enumTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'aggregateFutureActionEvent',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AggregateFutureActionEvent',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'orderBy',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'FutureActionEventOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventOrderByWithRelationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'cursor',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'take',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skip',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'groupByFutureActionEvent',
+              'isNullable': false,
+              'outputType': {
+                'isList': true,
+                'type': 'FutureActionEventGroupByOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'orderBy',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'FutureActionEventOrderByWithAggregationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventOrderByWithAggregationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'by',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'FutureActionEventScalarFieldEnum',
+                      'location': 'enumTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventScalarFieldEnum',
+                      'location': 'enumTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'having',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventScalarWhereWithAggregatesInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'take',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skip',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Int',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'findUniqueFutureActionEvent',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEvent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                }
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -46839,6 +54339,314 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'documentation': null,
             },
             {
+              'name': 'createOneFutureActionEvent',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEvent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventCreateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventUncheckedCreateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                }
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'upsertOneFutureActionEvent',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEvent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'create',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventCreateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventUncheckedCreateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'update',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventUpdateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventUncheckedUpdateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'createManyFutureActionEvent',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AffectedRowsOutput',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': true,
+                      'type': 'FutureActionEventCreateManyInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'skipDuplicates',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'Boolean',
+                      'location': 'scalar',
+                      'namespace': null,
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'deleteOneFutureActionEvent',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEvent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                }
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'updateOneFutureActionEvent',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEvent',
+                'location': 'outputObjectTypes',
+                'namespace': 'model',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventUpdateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventUncheckedUpdateInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereUniqueInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'updateManyFutureActionEvent',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AffectedRowsOutput',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'data',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': true,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventUpdateManyMutationInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventUncheckedUpdateManyInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    },
+                  ],
+                  'deprecation': null,
+                },
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                },
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'deleteManyFutureActionEvent',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'AffectedRowsOutput',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [
+                {
+                  'name': 'where',
+                  'comment': null,
+                  'isNullable': false,
+                  'isRequired': false,
+                  'inputTypes': [
+                    {
+                      'isList': false,
+                      'type': 'FutureActionEventWhereInput',
+                      'location': 'inputObjectTypes',
+                      'namespace': 'prisma',
+                    }
+                  ],
+                  'deprecation': null,
+                }
+              ],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': 'executeRaw',
               'isNullable': false,
               'outputType': {
@@ -47405,6 +55213,19 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'time_end',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'createdAt',
               'isNullable': false,
               'outputType': {
                 'isList': false,
@@ -48054,6 +55875,239 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           'fieldMap': null,
         },
         {
+          'name': 'AggregateFutureActionEvent',
+          'fields': [
+            {
+              'name': '_count',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEventCountAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_avg',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEventAvgAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_sum',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEventSumAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_min',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEventMinAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_max',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEventMaxAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventGroupByOutputType',
+          'fields': [
+            {
+              'name': 'id',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'user_id',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'user_email',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'type',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'details',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'created_at',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'completed_at',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_count',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEventCountAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_avg',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEventAvgAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_sum',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEventSumAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_min',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEventMinAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_max',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'FutureActionEventMaxAggregateOutputType',
+                'location': 'outputObjectTypes',
+                'namespace': 'prisma',
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
           'name': 'AffectedRowsOutput',
           'fields': [
             {
@@ -48532,6 +56586,19 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'documentation': null,
             },
             {
+              'name': 'createdAt',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
               'name': '_all',
               'isNullable': false,
               'outputType': {
@@ -48653,6 +56720,19 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
               'deprecation': null,
               'documentation': null,
             },
+            {
+              'name': 'createdAt',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
           ],
           'fieldMap': null,
         },
@@ -48713,6 +56793,19 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             },
             {
               'name': 'time_end',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'createdAt',
               'isNullable': true,
               'outputType': {
                 'isList': false,
@@ -49447,6 +57540,348 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
           ],
           'fieldMap': null,
         },
+        {
+          'name': 'FutureActionEventCountAggregateOutputType',
+          'fields': [
+            {
+              'name': 'id',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'user_id',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'user_email',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'type',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'details',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'created_at',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'completed_at',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': '_all',
+              'isNullable': false,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventAvgAggregateOutputType',
+          'fields': [
+            {
+              'name': 'id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Float',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventSumAggregateOutputType',
+          'fields': [
+            {
+              'name': 'id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            }
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventMinAggregateOutputType',
+          'fields': [
+            {
+              'name': 'id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'user_id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'user_email',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'type',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'details',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'created_at',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'completed_at',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
+        {
+          'name': 'FutureActionEventMaxAggregateOutputType',
+          'fields': [
+            {
+              'name': 'id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'Int',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'user_id',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'user_email',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'type',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'details',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'String',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'created_at',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+            {
+              'name': 'completed_at',
+              'isNullable': true,
+              'outputType': {
+                'isList': false,
+                'type': 'DateTime',
+                'location': 'scalar',
+                'namespace': null,
+              },
+              'args': [],
+              'deprecation': null,
+              'documentation': null,
+            },
+          ],
+          'fieldMap': null,
+        },
       ],
     },
     'enumTypes': {
@@ -49477,6 +57912,19 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
             'notes',
             'time_start',
             'time_end',
+            'createdAt',
+          ],
+        },
+        {
+          'name': 'FutureActionEventScalarFieldEnum',
+          'values': [
+            'id',
+            'user_id',
+            'user_email',
+            'type',
+            'details',
+            'created_at',
+            'completed_at',
           ],
         },
         {
@@ -49654,6 +58102,23 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
         'findRaw': null,
         'aggregateRaw': null,
       },
+      {
+        'model': 'FutureActionEvent',
+        'findUnique': 'findUniqueFutureActionEvent',
+        'findFirst': 'findFirstFutureActionEvent',
+        'findMany': 'findManyFutureActionEvent',
+        'create': 'createOneFutureActionEvent',
+        'createMany': 'createManyFutureActionEvent',
+        'update': 'updateOneFutureActionEvent',
+        'updateMany': 'updateManyFutureActionEvent',
+        'upsert': 'upsertOneFutureActionEvent',
+        'delete': 'deleteOneFutureActionEvent',
+        'deleteMany': 'deleteManyFutureActionEvent',
+        'aggregate': 'aggregateFutureActionEvent',
+        'groupBy': 'groupByFutureActionEvent',
+        'findRaw': null,
+        'aggregateRaw': null,
+      },
     ],
     'otherOperations': {
       'read': [],
@@ -49665,7 +58130,7 @@ final _i5.Document dmmf = _i5.Document.fromJson(<String, dynamic>{
   },
 });
 final String schema = _i6.utf8.decode(_i6.base64.decode(
-    r'Ly8gVGhpcyBpcyB5b3VyIFByaXNtYSBzY2hlbWEgZmlsZSwNCi8vIGxlYXJuIG1vcmUgYWJvdXQgaXQgaW4gdGhlIGRvY3M6IGh0dHBzOi8vcHJpcy5seS9kL3ByaXNtYS1zY2hlbWENCg0KZ2VuZXJhdG9yIGNsaWVudCB7DQogICAgcHJvdmlkZXIgICAgICAgID0gInByaXNtYS1jbGllbnQtZGFydCINCiAgICBwcmV2aWV3RmVhdHVyZXMgPSBbImludGVyYWN0aXZlVHJhbnNhY3Rpb25zIl0NCn0NCg0KLy8gZGF0YXNvdXJjZSBkYiB7DQovLyAgICAgcHJvdmlkZXIgPSAic3FsaXRlIg0KLy8gICAgIHVybCAgICAgID0gImZpbGU6Li9wcmlzbWEvcHJpc21hLmRiIg0KLy8gfQ0KDQpkYXRhc291cmNlIGRiIHsNCiAgICBwcm92aWRlciA9ICJwb3N0Z3Jlc3FsIg0KICAgIHVybCAgICAgID0gInBvc3RncmVzcWw6Ly9yb290OnJvb3RAMTAuMC4yMC4zOjE1NDMyL2VxdWlwbWVudF9ib29raW5nX2FwcD9zY2hlbWE9cHVibGljIg0KfQ0KDQptb2RlbCBTaWduSW5JbnRlbnQgew0KICAgIGtleSAgICAgU3RyaW5nIEBpZCBAdW5pcXVlDQp9DQoNCm1vZGVsIFNlc3Npb24gew0KICAgIGtleSAgICAgU3RyaW5nIEBpZCBAdW5pcXVlDQogICAgdXNlciAgICBVc2VyICAgQHJlbGF0aW9uKGZpZWxkczogW3VzZXJfaWRdLCByZWZlcmVuY2VzOiBbaWRdKQ0KICAgIHVzZXJfaWQgU3RyaW5nDQp9DQoNCm1vZGVsIFVzZXIgew0KICAgIGlkICAgICAgIFN0cmluZyAgICAgICAgICAgICBAaWQgQHVuaXF1ZQ0KICAgIGVtYWlsICAgIFN0cmluZyAgICAgICAgICAgICBAdW5pcXVlDQogICAgbmFtZSAgICAgU3RyaW5nDQogICAgcmVxdWVzdHMgRXF1aXBtZW50UmVxdWVzdFtdDQogICAgc2Vzc2lvbnMgU2Vzc2lvbltdDQp9DQoNCm1vZGVsIEVxdWlwbWVudFJlcXVlc3Qgew0KICAgIGlkICAgICAgICAgICBJbnQgICAgICAgICAgIEBpZCBAZGVmYXVsdChhdXRvaW5jcmVtZW50KCkpDQogICAgcmVxdWVzdGVkX2J5IFVzZXIgICAgICAgICAgQHJlbGF0aW9uKGZpZWxkczogW3JlcXVlc3Rlcl9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pDQogICAgcmVxdWVzdGVyX2lkIFN0cmluZw0KICAgIGl0ZW1zICAgICAgICBSZXF1ZXN0SXRlbVtdDQogICAgbm90ZXMgICAgICAgIFN0cmluZyAgICAgICAgQGRlZmF1bHQoIiIpDQogICAgdGltZV9zdGFydCAgIERhdGVUaW1lDQogICAgdGltZV9lbmQgICAgIERhdGVUaW1lDQogICAgYXNzZXQgICAgICAgIEFzc2V0W10NCn0NCg0KbW9kZWwgUmVxdWVzdEl0ZW0gew0KICAgIGlkICAgICAgICAgICAgSW50ICAgICAgICAgICAgICBAaWQgQGRlZmF1bHQoYXV0b2luY3JlbWVudCgpKQ0KICAgIHJlcXVlc3QgICAgICAgRXF1aXBtZW50UmVxdWVzdCBAcmVsYXRpb24oZmllbGRzOiBbcmVxdWVzdF9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pDQogICAgcmVxdWVzdF9pZCAgICBJbnQNCiAgICBxdWFudGl0eSAgICAgIEludA0KICAgIGFzc2V0X3R5cGUgICAgQXNzZXRUeXBlICAgICAgICBAcmVsYXRpb24oZmllbGRzOiBbYXNzZXRfdHlwZV9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pDQogICAgYXNzZXRfdHlwZV9pZCBTdHJpbmcNCn0NCg0KbW9kZWwgQXNzZXRUeXBlIHsNCiAgICBpZCAgICAgICAgICBTdHJpbmcgICAgICAgIEBpZCBAdW5pcXVlDQogICAgdGl0bGUgICAgICAgU3RyaW5nDQogICAgYXNzZXRzICAgICAgQXNzZXRbXQ0KICAgIHVuaXF1ZSAgICAgIEJvb2xlYW4gICAgICAgQGRlZmF1bHQodHJ1ZSkNCiAgICBxdWFudGl0eSAgICBJbnQ/DQogICAgUmVxdWVzdEl0ZW0gUmVxdWVzdEl0ZW1bXQ0KfQ0KDQptb2RlbCBBc3NldCB7DQogICAgaWQgICAgICAgICAgICAgU3RyaW5nICAgICAgICAgICAgQGlkIEB1bmlxdWUNCiAgICB0eXBlICAgICAgICAgICBBc3NldFR5cGUgICAgICAgICBAcmVsYXRpb24oZmllbGRzOiBbdHlwZV9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pDQogICAgdHlwZV9pZCAgICAgICAgU3RyaW5nDQogICAgZGVwbG95ZWRfdG8gICAgRXF1aXBtZW50UmVxdWVzdD8gQHJlbGF0aW9uKGZpZWxkczogW2RlcGxveWVkX3RvX2lkXSwgcmVmZXJlbmNlczogW2lkXSkNCiAgICBkZXBsb3llZF90b19pZCBJbnQ/DQp9DQo='));
+    r'Ly8gVGhpcyBpcyB5b3VyIFByaXNtYSBzY2hlbWEgZmlsZSwNCi8vIGxlYXJuIG1vcmUgYWJvdXQgaXQgaW4gdGhlIGRvY3M6IGh0dHBzOi8vcHJpcy5seS9kL3ByaXNtYS1zY2hlbWENCg0KZ2VuZXJhdG9yIGNsaWVudCB7DQogICAgcHJvdmlkZXIgICAgICAgID0gInByaXNtYS1jbGllbnQtZGFydCINCiAgICBwcmV2aWV3RmVhdHVyZXMgPSBbImludGVyYWN0aXZlVHJhbnNhY3Rpb25zIl0NCn0NCg0KLy8gZGF0YXNvdXJjZSBkYiB7DQovLyAgICAgcHJvdmlkZXIgPSAic3FsaXRlIg0KLy8gICAgIHVybCAgICAgID0gImZpbGU6Li9wcmlzbWEvcHJpc21hLmRiIg0KLy8gfQ0KDQpkYXRhc291cmNlIGRiIHsNCiAgICBwcm92aWRlciA9ICJwb3N0Z3Jlc3FsIg0KICAgIHVybCAgICAgID0gInBvc3RncmVzcWw6Ly9yb290OnJvb3RAMTAuMC4yMC4zOjE1NDMyL2VxdWlwbWVudF9ib29raW5nX2FwcD9zY2hlbWE9cHVibGljIg0KfQ0KDQptb2RlbCBTaWduSW5JbnRlbnQgew0KICAgIGtleSBTdHJpbmcgQGlkIEB1bmlxdWUNCn0NCg0KbW9kZWwgU2Vzc2lvbiB7DQogICAga2V5ICAgICBTdHJpbmcgQGlkIEB1bmlxdWUNCiAgICB1c2VyICAgIFVzZXIgICBAcmVsYXRpb24oZmllbGRzOiBbdXNlcl9pZF0sIHJlZmVyZW5jZXM6IFtpZF0pDQogICAgdXNlcl9pZCBTdHJpbmcNCn0NCg0KbW9kZWwgVXNlciB7DQogICAgaWQgICAgICAgU3RyaW5nICAgICAgICAgICAgIEBpZCBAdW5pcXVlDQogICAgZW1haWwgICAgU3RyaW5nICAgICAgICAgICAgIEB1bmlxdWUNCiAgICBuYW1lICAgICBTdHJpbmcNCiAgICByZXF1ZXN0cyBFcXVpcG1lbnRSZXF1ZXN0W10NCiAgICBzZXNzaW9ucyBTZXNzaW9uW10NCn0NCg0KbW9kZWwgRXF1aXBtZW50UmVxdWVzdCB7DQogICAgaWQgICAgICAgICAgIEludCAgICAgICAgICAgQGlkIEBkZWZhdWx0KGF1dG9pbmNyZW1lbnQoKSkNCiAgICByZXF1ZXN0ZWRfYnkgVXNlciAgICAgICAgICBAcmVsYXRpb24oZmllbGRzOiBbcmVxdWVzdGVyX2lkXSwgcmVmZXJlbmNlczogW2lkXSkNCiAgICByZXF1ZXN0ZXJfaWQgU3RyaW5nDQogICAgaXRlbXMgICAgICAgIFJlcXVlc3RJdGVtW10NCiAgICBub3RlcyAgICAgICAgU3RyaW5nICAgICAgICBAZGVmYXVsdCgiIikNCiAgICB0aW1lX3N0YXJ0ICAgRGF0ZVRpbWUNCiAgICB0aW1lX2VuZCAgICAgRGF0ZVRpbWUNCiAgICBhc3NldCAgICAgICAgQXNzZXRbXQ0KICAgIGNyZWF0ZWRBdCAgICBEYXRlVGltZSAgICAgIEBkZWZhdWx0KG5vdygpKQ0KfQ0KDQptb2RlbCBSZXF1ZXN0SXRlbSB7DQogICAgaWQgICAgICAgICAgICBJbnQgICAgICAgICAgICAgIEBpZCBAZGVmYXVsdChhdXRvaW5jcmVtZW50KCkpDQogICAgcmVxdWVzdCAgICAgICBFcXVpcG1lbnRSZXF1ZXN0IEByZWxhdGlvbihmaWVsZHM6IFtyZXF1ZXN0X2lkXSwgcmVmZXJlbmNlczogW2lkXSkNCiAgICByZXF1ZXN0X2lkICAgIEludA0KICAgIHF1YW50aXR5ICAgICAgSW50DQogICAgYXNzZXRfdHlwZSAgICBBc3NldFR5cGUgICAgICAgIEByZWxhdGlvbihmaWVsZHM6IFthc3NldF90eXBlX2lkXSwgcmVmZXJlbmNlczogW2lkXSkNCiAgICBhc3NldF90eXBlX2lkIFN0cmluZw0KfQ0KDQptb2RlbCBBc3NldFR5cGUgew0KICAgIGlkICAgICAgICAgIFN0cmluZyAgICAgICAgQGlkIEB1bmlxdWUNCiAgICB0aXRsZSAgICAgICBTdHJpbmcNCiAgICBhc3NldHMgICAgICBBc3NldFtdDQogICAgdW5pcXVlICAgICAgQm9vbGVhbiAgICAgICBAZGVmYXVsdCh0cnVlKQ0KICAgIHF1YW50aXR5ICAgIEludD8NCiAgICBSZXF1ZXN0SXRlbSBSZXF1ZXN0SXRlbVtdDQp9DQoNCm1vZGVsIEFzc2V0IHsNCiAgICBpZCAgICAgICAgICAgICBTdHJpbmcgICAgICAgICAgICBAaWQgQHVuaXF1ZQ0KICAgIHR5cGUgICAgICAgICAgIEFzc2V0VHlwZSAgICAgICAgIEByZWxhdGlvbihmaWVsZHM6IFt0eXBlX2lkXSwgcmVmZXJlbmNlczogW2lkXSkNCiAgICB0eXBlX2lkICAgICAgICBTdHJpbmcNCiAgICBkZXBsb3llZF90byAgICBFcXVpcG1lbnRSZXF1ZXN0PyBAcmVsYXRpb24oZmllbGRzOiBbZGVwbG95ZWRfdG9faWRdLCByZWZlcmVuY2VzOiBbaWRdKQ0KICAgIGRlcGxveWVkX3RvX2lkIEludD8NCn0NCg0KbW9kZWwgRnV0dXJlQWN0aW9uRXZlbnQgew0KICAgIGlkICAgICAgICAgICBJbnQgICAgICAgQGlkIEBkZWZhdWx0KGF1dG9pbmNyZW1lbnQoKSkNCiAgICB1c2VyX2lkICAgICAgU3RyaW5nDQogICAgdXNlcl9lbWFpbCAgIFN0cmluZw0KICAgIHR5cGUgICAgICAgICBTdHJpbmcNCiAgICBkZXRhaWxzICAgICAgU3RyaW5nPw0KICAgIGNyZWF0ZWRfYXQgICBEYXRlVGltZSAgQGRlZmF1bHQobm93KCkpDQogICAgY29tcGxldGVkX2F0IERhdGVUaW1lPyBAZGVmYXVsdChub3coKSkNCn0NCg=='));
 const String _executable =
     r'C:\Users\tomas\Documents\projects\equipment_booking_app\server\.dart_tool\prisma\query-engine';
 
@@ -49736,6 +58201,11 @@ class PrismaClient {
         _headers,
       );
   AssetDelegate get asset => AssetDelegate._(
+        _engine,
+        _headers,
+      );
+  FutureActionEventDelegate get futureActionEvent =>
+      FutureActionEventDelegate._(
         _engine,
         _headers,
       );

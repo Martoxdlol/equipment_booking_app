@@ -179,6 +179,7 @@ class FormPart1 extends HookWidget {
             requester_id: requestedBy.value!.id,
             time_end: timeEnd,
             time_start: timeStart,
+            createdAt: DateTime.now(),
           );
 
           final resultJson = await apiFetchPost('/request', {

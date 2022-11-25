@@ -17,7 +17,7 @@ datasource db {
 }
 
 model SignInIntent {
-    key     String @id @unique
+    key String @id @unique
 }
 
 model Session {
@@ -43,6 +43,7 @@ model EquipmentRequest {
     time_start   DateTime
     time_end     DateTime
     asset        Asset[]
+    createdAt    DateTime      @default(now())
 }
 
 model RequestItem {
@@ -69,4 +70,14 @@ model Asset {
     type_id        String
     deployed_to    EquipmentRequest? @relation(fields: [deployed_to_id], references: [id])
     deployed_to_id Int?
+}
+
+model FutureActionEvent {
+    id           Int       @id @default(autoincrement())
+    user_id      String
+    user_email   String
+    type         String
+    details      String?
+    created_at   DateTime  @default(now())
+    completed_at DateTime? @default(now())
 }

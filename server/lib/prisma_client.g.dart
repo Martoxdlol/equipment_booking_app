@@ -207,6 +207,7 @@ EquipmentRequestGroupByOutputType _$EquipmentRequestGroupByOutputTypeFromJson(
       notes: json['notes'] as String,
       time_start: DateTime.parse(json['time_start'] as String),
       time_end: DateTime.parse(json['time_end'] as String),
+      createdAt: DateTime.parse(json['createdAt'] as String),
       $count: json['_count'] == null
           ? null
           : EquipmentRequestCountAggregateOutputType.fromJson(
@@ -237,6 +238,7 @@ Map<String, dynamic> _$EquipmentRequestGroupByOutputTypeToJson(
       'notes': instance.notes,
       'time_start': instance.time_start.toIso8601String(),
       'time_end': instance.time_end.toIso8601String(),
+      'createdAt': instance.createdAt.toIso8601String(),
       '_count': instance.$count?.toJson(),
       '_avg': instance.$avg?.toJson(),
       '_sum': instance.$sum?.toJson(),
@@ -472,6 +474,92 @@ Map<String, dynamic> _$AssetGroupByOutputTypeToJson(
       '_max': instance.$max?.toJson(),
     };
 
+AggregateFutureActionEvent _$AggregateFutureActionEventFromJson(
+        Map<String, dynamic> json) =>
+    AggregateFutureActionEvent(
+      $count: json['_count'] == null
+          ? null
+          : FutureActionEventCountAggregateOutputType.fromJson(
+              json['_count'] as Map<String, dynamic>),
+      $avg: json['_avg'] == null
+          ? null
+          : FutureActionEventAvgAggregateOutputType.fromJson(
+              json['_avg'] as Map<String, dynamic>),
+      $sum: json['_sum'] == null
+          ? null
+          : FutureActionEventSumAggregateOutputType.fromJson(
+              json['_sum'] as Map<String, dynamic>),
+      $min: json['_min'] == null
+          ? null
+          : FutureActionEventMinAggregateOutputType.fromJson(
+              json['_min'] as Map<String, dynamic>),
+      $max: json['_max'] == null
+          ? null
+          : FutureActionEventMaxAggregateOutputType.fromJson(
+              json['_max'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$AggregateFutureActionEventToJson(
+        AggregateFutureActionEvent instance) =>
+    <String, dynamic>{
+      '_count': instance.$count?.toJson(),
+      '_avg': instance.$avg?.toJson(),
+      '_sum': instance.$sum?.toJson(),
+      '_min': instance.$min?.toJson(),
+      '_max': instance.$max?.toJson(),
+    };
+
+FutureActionEventGroupByOutputType _$FutureActionEventGroupByOutputTypeFromJson(
+        Map<String, dynamic> json) =>
+    FutureActionEventGroupByOutputType(
+      id: json['id'] as int,
+      user_id: json['user_id'] as String,
+      user_email: json['user_email'] as String,
+      type: json['type'] as String,
+      details: json['details'] as String?,
+      created_at: DateTime.parse(json['created_at'] as String),
+      completed_at: json['completed_at'] == null
+          ? null
+          : DateTime.parse(json['completed_at'] as String),
+      $count: json['_count'] == null
+          ? null
+          : FutureActionEventCountAggregateOutputType.fromJson(
+              json['_count'] as Map<String, dynamic>),
+      $avg: json['_avg'] == null
+          ? null
+          : FutureActionEventAvgAggregateOutputType.fromJson(
+              json['_avg'] as Map<String, dynamic>),
+      $sum: json['_sum'] == null
+          ? null
+          : FutureActionEventSumAggregateOutputType.fromJson(
+              json['_sum'] as Map<String, dynamic>),
+      $min: json['_min'] == null
+          ? null
+          : FutureActionEventMinAggregateOutputType.fromJson(
+              json['_min'] as Map<String, dynamic>),
+      $max: json['_max'] == null
+          ? null
+          : FutureActionEventMaxAggregateOutputType.fromJson(
+              json['_max'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$FutureActionEventGroupByOutputTypeToJson(
+        FutureActionEventGroupByOutputType instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'user_id': instance.user_id,
+      'user_email': instance.user_email,
+      'type': instance.type,
+      'details': instance.details,
+      'created_at': instance.created_at.toIso8601String(),
+      'completed_at': instance.completed_at?.toIso8601String(),
+      '_count': instance.$count?.toJson(),
+      '_avg': instance.$avg?.toJson(),
+      '_sum': instance.$sum?.toJson(),
+      '_min': instance.$min?.toJson(),
+      '_max': instance.$max?.toJson(),
+    };
+
 AffectedRowsOutput _$AffectedRowsOutputFromJson(Map<String, dynamic> json) =>
     AffectedRowsOutput(
       count: json['count'] as int,
@@ -650,6 +738,7 @@ EquipmentRequestCountAggregateOutputType
           notes: json['notes'] as int,
           time_start: json['time_start'] as int,
           time_end: json['time_end'] as int,
+          createdAt: json['createdAt'] as int,
           $all: json['_all'] as int,
         );
 
@@ -661,6 +750,7 @@ Map<String, dynamic> _$EquipmentRequestCountAggregateOutputTypeToJson(
       'notes': instance.notes,
       'time_start': instance.time_start,
       'time_end': instance.time_end,
+      'createdAt': instance.createdAt,
       '_all': instance.$all,
     };
 
@@ -703,6 +793,9 @@ EquipmentRequestMinAggregateOutputType
           time_end: json['time_end'] == null
               ? null
               : DateTime.parse(json['time_end'] as String),
+          createdAt: json['createdAt'] == null
+              ? null
+              : DateTime.parse(json['createdAt'] as String),
         );
 
 Map<String, dynamic> _$EquipmentRequestMinAggregateOutputTypeToJson(
@@ -713,6 +806,7 @@ Map<String, dynamic> _$EquipmentRequestMinAggregateOutputTypeToJson(
       'notes': instance.notes,
       'time_start': instance.time_start?.toIso8601String(),
       'time_end': instance.time_end?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
     };
 
 EquipmentRequestMaxAggregateOutputType
@@ -728,6 +822,9 @@ EquipmentRequestMaxAggregateOutputType
           time_end: json['time_end'] == null
               ? null
               : DateTime.parse(json['time_end'] as String),
+          createdAt: json['createdAt'] == null
+              ? null
+              : DateTime.parse(json['createdAt'] as String),
         );
 
 Map<String, dynamic> _$EquipmentRequestMaxAggregateOutputTypeToJson(
@@ -738,6 +835,7 @@ Map<String, dynamic> _$EquipmentRequestMaxAggregateOutputTypeToJson(
       'notes': instance.notes,
       'time_start': instance.time_start?.toIso8601String(),
       'time_end': instance.time_end?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
     };
 
 RequestItemCountAggregateOutputType
@@ -996,6 +1094,117 @@ Map<String, dynamic> _$AssetMaxAggregateOutputTypeToJson(
       'deployed_to_id': instance.deployed_to_id,
     };
 
+FutureActionEventCountAggregateOutputType
+    _$FutureActionEventCountAggregateOutputTypeFromJson(
+            Map<String, dynamic> json) =>
+        FutureActionEventCountAggregateOutputType(
+          id: json['id'] as int,
+          user_id: json['user_id'] as int,
+          user_email: json['user_email'] as int,
+          type: json['type'] as int,
+          details: json['details'] as int,
+          created_at: json['created_at'] as int,
+          completed_at: json['completed_at'] as int,
+          $all: json['_all'] as int,
+        );
+
+Map<String, dynamic> _$FutureActionEventCountAggregateOutputTypeToJson(
+        FutureActionEventCountAggregateOutputType instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'user_id': instance.user_id,
+      'user_email': instance.user_email,
+      'type': instance.type,
+      'details': instance.details,
+      'created_at': instance.created_at,
+      'completed_at': instance.completed_at,
+      '_all': instance.$all,
+    };
+
+FutureActionEventAvgAggregateOutputType
+    _$FutureActionEventAvgAggregateOutputTypeFromJson(
+            Map<String, dynamic> json) =>
+        FutureActionEventAvgAggregateOutputType(
+          id: (json['id'] as num?)?.toDouble(),
+        );
+
+Map<String, dynamic> _$FutureActionEventAvgAggregateOutputTypeToJson(
+        FutureActionEventAvgAggregateOutputType instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+FutureActionEventSumAggregateOutputType
+    _$FutureActionEventSumAggregateOutputTypeFromJson(
+            Map<String, dynamic> json) =>
+        FutureActionEventSumAggregateOutputType(
+          id: json['id'] as int?,
+        );
+
+Map<String, dynamic> _$FutureActionEventSumAggregateOutputTypeToJson(
+        FutureActionEventSumAggregateOutputType instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+    };
+
+FutureActionEventMinAggregateOutputType
+    _$FutureActionEventMinAggregateOutputTypeFromJson(
+            Map<String, dynamic> json) =>
+        FutureActionEventMinAggregateOutputType(
+          id: json['id'] as int?,
+          user_id: json['user_id'] as String?,
+          user_email: json['user_email'] as String?,
+          type: json['type'] as String?,
+          details: json['details'] as String?,
+          created_at: json['created_at'] == null
+              ? null
+              : DateTime.parse(json['created_at'] as String),
+          completed_at: json['completed_at'] == null
+              ? null
+              : DateTime.parse(json['completed_at'] as String),
+        );
+
+Map<String, dynamic> _$FutureActionEventMinAggregateOutputTypeToJson(
+        FutureActionEventMinAggregateOutputType instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'user_id': instance.user_id,
+      'user_email': instance.user_email,
+      'type': instance.type,
+      'details': instance.details,
+      'created_at': instance.created_at?.toIso8601String(),
+      'completed_at': instance.completed_at?.toIso8601String(),
+    };
+
+FutureActionEventMaxAggregateOutputType
+    _$FutureActionEventMaxAggregateOutputTypeFromJson(
+            Map<String, dynamic> json) =>
+        FutureActionEventMaxAggregateOutputType(
+          id: json['id'] as int?,
+          user_id: json['user_id'] as String?,
+          user_email: json['user_email'] as String?,
+          type: json['type'] as String?,
+          details: json['details'] as String?,
+          created_at: json['created_at'] == null
+              ? null
+              : DateTime.parse(json['created_at'] as String),
+          completed_at: json['completed_at'] == null
+              ? null
+              : DateTime.parse(json['completed_at'] as String),
+        );
+
+Map<String, dynamic> _$FutureActionEventMaxAggregateOutputTypeToJson(
+        FutureActionEventMaxAggregateOutputType instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'user_id': instance.user_id,
+      'user_email': instance.user_email,
+      'type': instance.type,
+      'details': instance.details,
+      'created_at': instance.created_at?.toIso8601String(),
+      'completed_at': instance.completed_at?.toIso8601String(),
+    };
+
 SignInIntent _$SignInIntentFromJson(Map<String, dynamic> json) => SignInIntent(
       key: json['key'] as String,
     );
@@ -1034,6 +1243,7 @@ EquipmentRequest _$EquipmentRequestFromJson(Map<String, dynamic> json) =>
       notes: json['notes'] as String,
       time_start: DateTime.parse(json['time_start'] as String),
       time_end: DateTime.parse(json['time_end'] as String),
+      createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$EquipmentRequestToJson(EquipmentRequest instance) =>
@@ -1043,6 +1253,7 @@ Map<String, dynamic> _$EquipmentRequestToJson(EquipmentRequest instance) =>
       'notes': instance.notes,
       'time_start': instance.time_start.toIso8601String(),
       'time_end': instance.time_end.toIso8601String(),
+      'createdAt': instance.createdAt.toIso8601String(),
     };
 
 RequestItem _$RequestItemFromJson(Map<String, dynamic> json) => RequestItem(
@@ -1084,4 +1295,28 @@ Map<String, dynamic> _$AssetToJson(Asset instance) => <String, dynamic>{
       'id': instance.id,
       'type_id': instance.type_id,
       'deployed_to_id': instance.deployed_to_id,
+    };
+
+FutureActionEvent _$FutureActionEventFromJson(Map<String, dynamic> json) =>
+    FutureActionEvent(
+      id: json['id'] as int,
+      user_id: json['user_id'] as String,
+      user_email: json['user_email'] as String,
+      type: json['type'] as String,
+      details: json['details'] as String?,
+      created_at: DateTime.parse(json['created_at'] as String),
+      completed_at: json['completed_at'] == null
+          ? null
+          : DateTime.parse(json['completed_at'] as String),
+    );
+
+Map<String, dynamic> _$FutureActionEventToJson(FutureActionEvent instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'user_id': instance.user_id,
+      'user_email': instance.user_email,
+      'type': instance.type,
+      'details': instance.details,
+      'created_at': instance.created_at.toIso8601String(),
+      'completed_at': instance.completed_at?.toIso8601String(),
     };
