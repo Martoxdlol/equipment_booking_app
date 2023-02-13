@@ -56,6 +56,11 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+
+    // Business logic
+    bookings        Booking[] @relation("requestedby")
+    createdBookings Booking[] @relation("createdby")
+    updatedBookings Booking[] @relation("updatedby")
 }
 
 model VerificationToken {
@@ -64,4 +69,211 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+// Business logic models
+model Booking {
+    id String @id @default(cuid())
+
+    // Each booking is requested by a user 
+    user   User   @relation("requestedby", fields: [userId], references: [id])
+    userId String
+
+    // Start time to end time
+    from   TimeStamp @relation("from", fields: [fromId], references: [id])
+    fromId String
+    to     TimeStamp @relation("to", fields: [toId], references: [id])
+    toId   String
+
+    equipment EquipmentPoolItem[]
+
+    // Optionally, each booking can be part of a pool.
+    // This means that if you change one request of the pool it changes all relatively
+    pool   RecurrentBookingPool? @relation("pool", fields: [poolId], references: [id])
+    poolId String?
+
+    // A booking can be created by a different user than the requester 
+    createdBy       User   @relation("createdby", fields: [createdByUserId], references: [id])
+    createdByUserId String
+
+    // A booking can be updated by a different user than the requester 
+    updatedBy       User   @relation("updatedby", fields: [createdByUserId], references: [id])
+    updatedByUserId String
+
+    // Standard to all models
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId String
+
+    @@index([namespaceId])
+}
+
+model EquipmentPoolItem {
+    id String @id @default(cuid())
+
+    booking     Booking?       @relation(fields: [bookingId], references: [id])
+    bookingId   String?
+
+    // Standard to all models
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId String
+
+    @@index([namespaceId])
+}
+
+model RecurrentBookingPool {
+    id String @id @default(cuid())
+
+    bookings Booking[] @relation("pool")
+
+    // Standard to all models
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId String
+
+    @@index([namespaceId])
+}
+
+/// Settings
+
+// This app can support multiple namespaces, each one grouped by settings object
+model GlobalSettings {
+    id   String @id @default(cuid())
+    slug String @unique
+    name String @unique
+
+    // It can be used to adjust the frontend
+    timezone Int @default(-3)
+
+    // Allow booking from one day to another
+    multiDayBooking Boolean @default(false)
+
+    // Users cannot choose whatever time range they want. It should be one of these
+    eligibleTimes ElegibleTime[]
+
+    // Standard to all models
+    createdAt         DateTime               @default(now())
+    updatedAt         DateTime               @updatedAt
+    Booking           Booking[]              @relation("settings")
+    pools             RecurrentBookingPool[] @relation("settings")
+    dates             Date[]                 @relation("settings")
+    timeStamps        TimeStamp[]            @relation("settings")
+    assetTypes        AssetType[]            @relation("settings")
+    assets            Asset[]                @relation("settings")
+    equipmentPoolItem EquipmentPoolItem[]    @relation("settings")
+
+    @@index([slug])
+}
+
+/// Dates and times
+
+// Unique time, shared between bookings
+model ElegibleTime {
+    id String @id @default(cuid())
+
+    hours   Int // Example: 7
+    minutes Int // Example 30
+
+    globalSettings   GlobalSettings @relation(fields: [globalSettingsId], references: [id])
+    globalSettingsId String
+
+    timeStamps TimeStamp[]
+
+    @@unique([globalSettingsId, hours, minutes])
+    @@index([globalSettingsId, hours, minutes])
+    @@index([globalSettingsId])
+}
+
+// Unique date, shared between bookings
+model Date {
+    id String @id @default(cuid())
+
+    year  Int
+    month Int
+    day   Int
+
+    timeStamps TimeStamp[]
+
+    // Standard to all models
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId String
+
+    @@unique([namespaceId, year, month, day])
+    @@index([namespaceId, year, month, day])
+    @@index([namespaceId])
+}
+
+// Each booking hash a TimeStamp range
+model TimeStamp {
+    id String @id @default(cuid())
+
+    date   Date   @relation(fields: [dateId], references: [id])
+    dateId String
+
+    time   ElegibleTime @relation(fields: [timeId], references: [id])
+    timeId String
+
+    // Relations
+    bookingsFrom Booking[] @relation("from")
+    bookingsTo   Booking[] @relation("to")
+
+    // Standard to all models
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId String
+
+    @@index([namespaceId])
+}
+
+/// Equipment
+
+model AssetType {
+    id   String @id @default(cuid())
+    slug String // @unique, Similar to tag but only for internal use
+
+    name     String // @unique, Friendly name
+    metadata String? // Any data
+    picture  String? // Picture URL
+
+    assets Asset[]
+
+    // Standard to all models
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId String
+
+    @@unique([namespaceId, slug])
+    @@unique([namespaceId, name])
+    @@index([namespaceId, slug])
+    @@index([namespaceId])
+}
+
+// Examples: NOTEBOOK-B17, S1254, 
+model Asset {
+    id String @id @default(cuid())
+
+    type        AssetType @relation(fields: [assetTypeId], references: [id])
+    assetTypeId String
+    tag         String // Required and unique identifier
+    name        String? // Friendly name
+    serial      String? // Serial number
+    metadata    String? // Any data
+    picture     String? // Picture URL
+
+    // Standard to all models
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @updatedAt
+    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId String
+
+    @@unique([namespaceId, tag, assetTypeId])
+    @@index([namespaceId])
 }
