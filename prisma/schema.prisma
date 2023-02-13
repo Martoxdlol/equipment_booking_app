@@ -14,6 +14,7 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+// TODO: DELETE THIS MODEL
 model Example {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
@@ -62,6 +63,8 @@ model User {
     createdBookings Booking[]    @relation("createdby")
     updatedBookings Booking[]    @relation("updatedby")
     permissions     Permission[]
+
+    globalAdmin Boolean @default(false)
 }
 
 model VerificationToken {
