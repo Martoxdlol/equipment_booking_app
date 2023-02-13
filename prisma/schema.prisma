@@ -58,9 +58,10 @@ model User {
     sessions      Session[]
 
     // Business logic
-    bookings        Booking[] @relation("requestedby")
-    createdBookings Booking[] @relation("createdby")
-    updatedBookings Booking[] @relation("updatedby")
+    bookings        Booking[]    @relation("requestedby")
+    createdBookings Booking[]    @relation("createdby")
+    updatedBookings Booking[]    @relation("updatedby")
+    permissions     Permission[]
 }
 
 model VerificationToken {
@@ -101,9 +102,9 @@ model Booking {
     updatedByUserId String
 
     // Standard to all models
-    createdAt   DateTime       @default(now())
-    updatedAt   DateTime       @updatedAt
-    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+    namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
     namespaceId String
 
     @@index([namespaceId])
@@ -112,15 +113,15 @@ model Booking {
 model EquipmentBookingItem {
     id String @id @default(cuid())
 
-    booking   Booking  @relation(fields: [bookingId], references: [id])
-    bookingId String
-    assetType AssetType @relation(fields: [assetTypeId], references: [id])
+    booking     Booking   @relation(fields: [bookingId], references: [id])
+    bookingId   String
+    assetType   AssetType @relation(fields: [assetTypeId], references: [id])
     assetTypeId String
 
     // Standard to all models
-    createdAt   DateTime       @default(now())
-    updatedAt   DateTime       @updatedAt
-    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+    namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
     namespaceId String
 
     @@index([namespaceId])
@@ -132,9 +133,9 @@ model RecurrentBookingPool {
     bookings Booking[] @relation("pool")
 
     // Standard to all models
-    createdAt   DateTime       @default(now())
-    updatedAt   DateTime       @updatedAt
-    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+    namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
     namespaceId String
 
     @@index([namespaceId])
@@ -143,7 +144,7 @@ model RecurrentBookingPool {
 /// Settings
 
 // This app can support multiple namespaces, each one grouped by settings object
-model GlobalSettings {
+model NamespaceSettings {
     id   String @id @default(cuid())
     slug String @unique
     name String @unique
@@ -158,17 +159,35 @@ model GlobalSettings {
     eligibleTimes ElegibleTime[]
 
     // Standard to all models
-    createdAt         DateTime               @default(now())
-    updatedAt         DateTime               @updatedAt
-    Booking           Booking[]              @relation("settings")
-    pools             RecurrentBookingPool[] @relation("settings")
-    dates             Date[]                 @relation("settings")
-    timeStamps        TimeStamp[]            @relation("settings")
-    assetTypes        AssetType[]            @relation("settings")
-    assets            Asset[]                @relation("settings")
-    equipmentBookingItem EquipmentBookingItem[]    @relation("settings")
+    createdAt            DateTime               @default(now())
+    updatedAt            DateTime               @updatedAt
+    Booking              Booking[]              @relation("settings")
+    pools                RecurrentBookingPool[] @relation("settings")
+    dates                Date[]                 @relation("settings")
+    timeStamps           TimeStamp[]            @relation("settings")
+    assetTypes           AssetType[]            @relation("settings")
+    assets               Asset[]                @relation("settings")
+    equipmentBookingItem EquipmentBookingItem[] @relation("settings")
+    permissions          Permission[]
 
     @@index([slug])
+}
+
+model Permission {
+    id String @id @default(cuid())
+
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
+
+    namespace   NamespaceSettings @relation(fields: [namespaceId], references: [id])
+    namespaceId String
+
+    userLevel     Boolean @default(true)
+    createAsOther Boolean @default(false)
+    readAll       Boolean @default(false)
+    admin         Boolean @default(false)
+
+    @@unique([namespaceId, userId])
 }
 
 /// Dates and times
@@ -180,14 +199,14 @@ model ElegibleTime {
     hours   Int // Example: 7
     minutes Int // Example 30
 
-    globalSettings   GlobalSettings @relation(fields: [globalSettingsId], references: [id])
-    globalSettingsId String
+    namespace   NamespaceSettings @relation(fields: [namespaceId], references: [id])
+    namespaceId String
 
     timeStamps TimeStamp[]
 
-    @@unique([globalSettingsId, hours, minutes])
-    @@index([globalSettingsId, hours, minutes])
-    @@index([globalSettingsId])
+    @@unique([namespaceId, hours, minutes])
+    @@index([namespaceId, hours, minutes])
+    @@index([namespaceId])
 }
 
 // Unique date, shared between bookings
@@ -201,9 +220,9 @@ model Date {
     timeStamps TimeStamp[]
 
     // Standard to all models
-    createdAt   DateTime       @default(now())
-    updatedAt   DateTime       @updatedAt
-    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+    namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
     namespaceId String
 
     @@unique([namespaceId, year, month, day])
@@ -226,9 +245,9 @@ model TimeStamp {
     bookingsTo   Booking[] @relation("to")
 
     // Standard to all models
-    createdAt   DateTime       @default(now())
-    updatedAt   DateTime       @updatedAt
-    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+    namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
     namespaceId String
 
     @@index([namespaceId])
@@ -247,10 +266,10 @@ model AssetType {
     assets Asset[]
 
     // Standard to all models
-    createdAt         DateTime            @default(now())
-    updatedAt         DateTime            @updatedAt
-    namespace         GlobalSettings      @relation("settings", fields: [namespaceId], references: [id])
-    namespaceId       String
+    createdAt             DateTime               @default(now())
+    updatedAt             DateTime               @updatedAt
+    namespace             NamespaceSettings      @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId           String
     equipmentBookingItems EquipmentBookingItem[]
 
     @@unique([namespaceId, slug])
@@ -272,9 +291,9 @@ model Asset {
     picture     String? // Picture URL
 
     // Standard to all models
-    createdAt   DateTime       @default(now())
-    updatedAt   DateTime       @updatedAt
-    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+    namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
     namespaceId String
 
     @@unique([namespaceId, tag, assetTypeId])

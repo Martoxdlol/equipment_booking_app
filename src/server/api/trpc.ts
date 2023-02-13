@@ -20,9 +20,11 @@ import { type Session } from "next-auth";
 
 import { getServerAuthSession } from "../auth";
 import { prisma } from "../db";
+import type { NamespaceSettings } from "@prisma/client";
 
 type CreateContextOptions = {
   session: Session | null;
+  namespace: NamespaceSettings | null
 };
 
 /**
@@ -38,6 +40,7 @@ type CreateContextOptions = {
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
+    namespace: opts.namespace,
     prisma,
   };
 };
@@ -50,12 +53,15 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
  */
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const { req, res } = opts;
+  const namespaceSlug = req.headers.namespace?.toString() || ''
 
   // Get the session from the server using the getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
+  const namespace = await prisma.namespaceSettings.findUnique({ where: { slug: namespaceSlug } })
 
   return createInnerTRPCContext({
     session,
+    namespace,
   });
 };
 
@@ -102,12 +108,73 @@ export const publicProcedure = t.procedure;
  * Reusable middleware that enforces users are logged in before running the
  * procedure.
  */
+
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
     ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+const enforceNamespace = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user || !ctx.namespace) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
+  let permission = await ctx.prisma.permission.findFirst({
+    where: {
+      namespaceId: ctx.namespace.id,
+      userId: ctx.session.user.id,
+    }
+  })
+
+  if (!permission) {
+    permission = await ctx.prisma.permission.create({
+      data: { userId: ctx.session.user.id, namespaceId: ctx.namespace.id }
+    })
+  }
+
+  return next({
+    ctx: {
+      permission,
+      namespace: ctx.namespace,
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+const enforceNamespaceAdmin = t.middleware(async ({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user || !ctx.namespace) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
+  let permission = await ctx.prisma.permission.findFirst({
+    where: {
+      namespaceId: ctx.namespace.id,
+      userId: ctx.session.user.id,
+    }
+  })
+
+  if (!permission) {
+    permission = await ctx.prisma.permission.create({
+      data: { userId: ctx.session.user.id, namespaceId: ctx.namespace.id }
+    })
+  }
+
+  if(!permission.admin) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
+  return next({
+    ctx: {
+      permission,
+      namespace: ctx.namespace,
       // infers the `session` as non-nullable
       session: { ...ctx.session, user: ctx.session.user },
     },
@@ -124,3 +191,5 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+export const namespaceProcedure = t.procedure.use(enforceNamespace);
+export const namespaceAdminProcedure = t.procedure.use(enforceNamespaceAdmin);

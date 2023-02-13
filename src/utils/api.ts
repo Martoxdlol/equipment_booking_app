@@ -42,6 +42,15 @@ export const api = createTRPCNext<AppRouter>({
         }),
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
+          // We send the first url segment to identify namespace
+          headers() {
+            const url = new URL(window.location.href)
+            const namespace = url.pathname.split('/').filter(s => s != '')[0]
+
+            return {
+              'namespace': namespace,
+            }
+          },
         }),
       ],
     };
