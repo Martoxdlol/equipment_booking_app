@@ -85,7 +85,7 @@ model Booking {
     to     TimeStamp @relation("to", fields: [toId], references: [id])
     toId   String
 
-    equipment EquipmentPoolItem[]
+    equipment EquipmentBookingItem[]
 
     // Optionally, each booking can be part of a pool.
     // This means that if you change one request of the pool it changes all relatively
@@ -109,11 +109,13 @@ model Booking {
     @@index([namespaceId])
 }
 
-model EquipmentPoolItem {
+model EquipmentBookingItem {
     id String @id @default(cuid())
 
-    booking     Booking?       @relation(fields: [bookingId], references: [id])
-    bookingId   String?
+    booking   Booking  @relation(fields: [bookingId], references: [id])
+    bookingId String
+    assetType AssetType @relation(fields: [assetTypeId], references: [id])
+    assetTypeId String
 
     // Standard to all models
     createdAt   DateTime       @default(now())
@@ -164,7 +166,7 @@ model GlobalSettings {
     timeStamps        TimeStamp[]            @relation("settings")
     assetTypes        AssetType[]            @relation("settings")
     assets            Asset[]                @relation("settings")
-    equipmentPoolItem EquipmentPoolItem[]    @relation("settings")
+    equipmentBookingItem EquipmentBookingItem[]    @relation("settings")
 
     @@index([slug])
 }
@@ -245,10 +247,11 @@ model AssetType {
     assets Asset[]
 
     // Standard to all models
-    createdAt   DateTime       @default(now())
-    updatedAt   DateTime       @updatedAt
-    namespace   GlobalSettings @relation("settings", fields: [namespaceId], references: [id])
-    namespaceId String
+    createdAt         DateTime            @default(now())
+    updatedAt         DateTime            @updatedAt
+    namespace         GlobalSettings      @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId       String
+    equipmentBookingItems EquipmentBookingItem[]
 
     @@unique([namespaceId, slug])
     @@unique([namespaceId, name])
