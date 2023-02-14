@@ -3,6 +3,16 @@ import Select from "./Select"
 
 export type Date = { year: number, month: number, day: number } | { year: number | null, month: number | null, day: number | null }
 
+const weekDays = [
+    'Lun',
+    'Mar',
+    'Mie',
+    'Jue',
+    'Vie',
+    'Sab',
+    'Dom',
+]
+
 export default function DatePicker({ value, onChange }: {
     value?: Date
     onChange: (value: Date) => void
@@ -20,11 +30,42 @@ export default function DatePicker({ value, onChange }: {
         }
     }, [])
 
+    let days: { inWeek: string | undefined, num: number }[] = []
+
+    if (value?.month && value.year) {
+        for (let i = 1; i <= getDays(value.year, value.month); i++) {
+
+            const date = new Date(value.year, value.month, i)
+
+            days.push({
+                inWeek: getDayName(date.toDateString(), 'es'),
+                num: i
+            })
+        }
+    } else {
+        for (let i = 1; i <= 31; i++) {
+            days.push({
+                inWeek: undefined,
+                num: i
+            })
+        }
+    }
+
+    function handleChange(v: Date) {
+        const value = { ...v }
+
+        if (value.day && value.year && value.month && getDays(value?.year, value?.month) < value.day) {
+            value.day = null
+        }
+
+        onChange(value)
+    }
+
     return <div className="grid grid-cols-3">
         <Select
             radiusLeft
             value={value?.year?.toString()}
-            onChange={v => onChange({
+            onChange={v => handleChange({
                 year: parseInt(v),
                 month: value?.month || null,
                 day: value?.day || null,
@@ -66,22 +107,26 @@ export default function DatePicker({ value, onChange }: {
                 year: value?.year || null,
                 month: value?.month || null,
             })}
-            options={[
-                { label: '1', value: '1' },
-                { label: '2', value: '2' },
-                { label: '3', value: '3' },
-                { label: '4', value: '4' },
-                { label: '5', value: '5' },
-                { label: '6', value: '6' },
-                { label: '7', value: '7' },
-                { label: '8', value: '8' },
-                { label: '9', value: '9' },
-                { label: '10', value: '10' },
-                { label: '11', value: '11' },
-                { label: '12', value: '12' },
-                { label: '13', value: '13' },
-            ]}
+            options={days.map(day => {
+
+                return {
+                    label: day.inWeek ? <div className="whitespace-nowrap">{day.num} - <b>{day.inWeek.substring(0,3)}</b></div> : day.num,
+                    value: day.num.toString(),
+                }
+
+            })}
+            lessPadding
             placeHolder="Dia"
         />
     </div>
+}
+
+const getDays = (year: number, month: number) => {
+    return new Date(year, month, 0).getDate();
+};
+
+function getDayName(dateStr: string, locale: string)
+{
+    var date = new Date(dateStr);
+    return date.toLocaleDateString(locale, { weekday: 'long' });        
 }

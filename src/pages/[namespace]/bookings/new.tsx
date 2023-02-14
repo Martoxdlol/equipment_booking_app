@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import AssetTypeQtyPicker from "../../../lib/components/AssetTypeQtyPicker";
 import ComboBox from "../../../lib/components/ComboBox";
 import DashboardLayout from "../../../lib/components/DashboardLayout";
 import DatePicker, { Date } from "../../../lib/components/DatePicker";
@@ -25,7 +26,7 @@ export default function DashboardNewBooking() {
         title="Nuevo pedido"
     >
         <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-2">
-            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-2">
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-2 mb-auto">
                 <div>
                     <ComboBox
                         options={[
@@ -55,6 +56,7 @@ export default function DashboardNewBooking() {
                     <ElegibleTimePicker
                         value={fromTime}
                         onChange={setFromTime}
+                        maxExcludeId={toTime?.id}
                     />
                 </div>
 
@@ -70,11 +72,21 @@ export default function DashboardNewBooking() {
                     <ElegibleTimePicker
                         value={toTime}
                         onChange={setToTime}
+                        minExcludeId={fromTime?.id}
                     />
                 </div>
             </div>
             <div>
-
+                <label className="block text-sm font-medium text-gray-700 hidden md:block">Elegir equipamiento</label>
+                <AssetTypeQtyPicker />
+                <AssetTypeQtyPicker />
+                <AssetTypeQtyPicker />
+                <AssetTypeQtyPicker />
+                <AssetTypeQtyPicker />
+                <AssetTypeQtyPicker />
+                <AssetTypeQtyPicker />
+                <AssetTypeQtyPicker />
+                <AssetTypeQtyPicker />
             </div>
         </div>
     </DashboardLayout>

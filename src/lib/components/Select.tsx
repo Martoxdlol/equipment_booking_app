@@ -9,10 +9,11 @@ function classNames(...classes: string[]) {
 interface Props {
     radiusLeft?: boolean
     radiusRight?: boolean
-    options: { label: string, value: string }[]
+    options: { label: React.ReactNode, value: string }[]
     onChange: (value: string) => void
     value?: string
-    placeHolder?: string | null
+    placeHolder?: string | null,
+    lessPadding?: boolean
 }
 
 export default function Select(props: Props) {
@@ -23,9 +24,10 @@ export default function Select(props: Props) {
             <div>
                 <Menu.Button
                     className={classNames(
-                        "mt-1 w-full cursor-default border border-gray-300 bg-white py-1 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm",
+                        "mt-1 w-full cursor-default border border-gray-300 bg-white py-1 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm",
                         props.radiusLeft ? "rounded-l-md" : '',
                         props.radiusRight ? "rounded-r-md" : '',
+                        props.lessPadding ? 'pl-2' : 'pl-3',
                     )}
                 >
                     <>
