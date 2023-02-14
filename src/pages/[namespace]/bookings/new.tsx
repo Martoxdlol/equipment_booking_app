@@ -1,12 +1,14 @@
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AssetTypeQtyPicker from "../../../lib/components/AssetTypeQtyPicker";
 import ComboBox from "../../../lib/components/ComboBox";
 import DashboardLayout from "../../../lib/components/DashboardLayout";
 import DatePicker, { Date } from "../../../lib/components/DatePicker";
 import ElegibleTimePicker, { ElegibleTime } from "../../../lib/components/ElegibleTimePicker";
-import Select from "../../../lib/components/Select";
-import TimePicker, { Time } from "../../../lib/components/TimePicker";
+import Input from "../../../lib/components/Input";
+import Label from "../../../lib/components/Label";
+import RecurrencyPicker from "../../../lib/components/RecurrencyPicker";
+import Switch from "../../../lib/components/Switch";
 import { useNamespace } from "../../../utils/hooks";
 
 export default function DashboardNewBooking() {
@@ -16,11 +18,31 @@ export default function DashboardNewBooking() {
 
     const [requestedBy, setRequestedBy] = useState(session?.user.id)
 
+    useEffect(() => {
+        if (!requestedBy && session?.user.id) {
+            setRequestedBy(session?.user.id)
+        }
+    }, [session, session?.user.id])
+
+
+    const [useType, setUseType] = useState('')
+
     const [fromDate, setFromDate] = useState<Date>()
     const [toDate, setToDate] = useState<Date>()
 
     const [fromTime, setFromTime] = useState<ElegibleTime>()
     const [toTime, setToTime] = useState<ElegibleTime>()
+
+    const [recurrencyEnabled, setRecurrencyEnabled] = useState(false)
+    const [recurrency, setRecurrency] = useState(0)
+
+    const [qty, setQty] = useState(0)
+
+    const toDateIsSameAsFrom = true
+
+    useEffect(() => {
+        setToDate(fromDate)
+    }, [fromDate])
 
     return <DashboardLayout
         title="Nuevo pedido"
@@ -38,10 +60,12 @@ export default function DashboardNewBooking() {
                     />
                 </div>
                 <div>
-                    <label htmlFor="useType" className="block text-sm font-medium text-gray-700">Donde/como se va a usar</label>
-                    <button className="relative w-full mt-1 cursor-default rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
-                        <input type="text" id="useType" name="name" className="block w-full flex-1 rounded-none rounded-r-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm placeholder:text-black focus:outline-none" value="" />
-                    </button>
+                    <Label>Donde/como se va a usar</Label>
+                    <Input
+                        placeholder="Ejemplo: Aula 5, matemática "
+                        onChange={e => setUseType(e.target.value)}
+                        type="text" id="useType" name="name"
+                        value={useType} />
                 </div>
 
                 <div>
@@ -63,6 +87,7 @@ export default function DashboardNewBooking() {
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Hasta</label>
                     <DatePicker
+                        disabled={toDateIsSameAsFrom}
                         value={toDate}
                         onChange={setToDate}
                     />
@@ -75,18 +100,34 @@ export default function DashboardNewBooking() {
                         minExcludeId={fromTime?.id}
                     />
                 </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Pedido recurrente</label>
+                    <Switch
+                        value={recurrencyEnabled}
+                        onChange={setRecurrencyEnabled}
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Repetir hasta (inclusive)</label>
+                    <RecurrencyPicker
+                        disabled={!recurrencyEnabled}
+                        initialDate={fromDate}
+                        vale={recurrency}
+                        onChange={setRecurrency}
+                    />
+                </div>
             </div>
             <div>
-                <label className="block text-sm font-medium text-gray-700 hidden md:block">Elegir equipamiento</label>
-                <AssetTypeQtyPicker />
-                <AssetTypeQtyPicker />
-                <AssetTypeQtyPicker />
-                <AssetTypeQtyPicker />
-                <AssetTypeQtyPicker />
-                <AssetTypeQtyPicker />
-                <AssetTypeQtyPicker />
-                <AssetTypeQtyPicker />
-                <AssetTypeQtyPicker />
+                <label className="block text-sm font-medium text-gray-700">Elegir equipamiento</label>
+                <AssetTypeQtyPicker
+                    name="Notebook"
+                    max={10}
+                    min={0}
+                    value={qty}
+                    onChange={setQty}
+                />
+
             </div>
         </div>
     </DashboardLayout>

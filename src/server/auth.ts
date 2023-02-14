@@ -4,7 +4,6 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import DiscordProvider from "next-auth/providers/";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "../env.mjs";
 import { prisma } from "./db";
@@ -57,7 +56,11 @@ export const authOptions: NextAuthOptions = {
       authorization: { params: { scope: "openid email profile" } },
       name: 'Open ID',
       type: 'oauth',
-      profile(profile) {
+      profile(profile: unknown) {
+        if (!isProfile(profile)) {
+          throw new Error("Invalid user information")
+        }
+
         return {
           id: profile.sub,
           name: profile.name,
@@ -91,3 +94,16 @@ export const getServerAuthSession = (ctx: {
 }) => {
   return getServerSession(ctx.req, ctx.res, authOptions);
 };
+
+type UserInfo = {
+  sub: string,
+  email: string,
+  picture: string | null | undefined,
+  name: string | null | undefined,
+}
+
+function isProfile(user: unknown): user is UserInfo {
+  if (<UserInfo>user && !(typeof (<UserInfo>user).sub === 'string') && (<UserInfo>user).sub) return true
+  if (<UserInfo>user && !(typeof (<UserInfo>user).email === 'string') && (<UserInfo>user).email) return true
+  return false
+}

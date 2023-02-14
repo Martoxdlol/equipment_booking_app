@@ -1,0 +1,1 @@
+export default function DashboardBookings() { return <div></div> }

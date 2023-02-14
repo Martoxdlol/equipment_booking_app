@@ -13,10 +13,11 @@ const weekDays = [
     'Dom',
 ]
 
-export default function DatePicker({ value, onChange }: {
+export default function DatePicker({ value, onChange, disabled }: {
     value?: Date
     onChange: (value: Date) => void
     label?: React.ReactNode
+    disabled?: boolean
 }) {
 
     useEffect(() => {
@@ -30,7 +31,7 @@ export default function DatePicker({ value, onChange }: {
         }
     }, [])
 
-    let days: { inWeek: string | undefined, num: number }[] = []
+    const days: { inWeek: string | undefined, num: number }[] = []
 
     if (value?.month && value.year) {
         for (let i = 1; i <= getDays(value.year, value.month); i++) {
@@ -63,6 +64,7 @@ export default function DatePicker({ value, onChange }: {
 
     return <div className="grid grid-cols-3">
         <Select
+            disabled={disabled}
             radiusLeft
             value={value?.year?.toString()}
             onChange={v => handleChange({
@@ -78,6 +80,7 @@ export default function DatePicker({ value, onChange }: {
             placeHolder="Año"
         />
         <Select
+            disabled={disabled}
             value={value?.month?.toString()}
             onChange={v => onChange({
                 month: parseInt(v),
@@ -100,6 +103,7 @@ export default function DatePicker({ value, onChange }: {
             placeHolder="Mes"
         />
         <Select
+            disabled={disabled}
             radiusRight
             value={value?.day?.toString()}
             onChange={v => onChange({
@@ -110,7 +114,7 @@ export default function DatePicker({ value, onChange }: {
             options={days.map(day => {
 
                 return {
-                    label: day.inWeek ? <div className="whitespace-nowrap">{day.num} - <b>{day.inWeek.substring(0,3)}</b></div> : day.num,
+                    label: day.inWeek ? <div className="whitespace-nowrap">{day.num} - <b>{day.inWeek.substring(0, 3)}</b></div> : day.num,
                     value: day.num.toString(),
                 }
 
@@ -125,8 +129,7 @@ const getDays = (year: number, month: number) => {
     return new Date(year, month, 0).getDate();
 };
 
-function getDayName(dateStr: string, locale: string)
-{
-    var date = new Date(dateStr);
-    return date.toLocaleDateString(locale, { weekday: 'long' });        
+function getDayName(dateStr: string, locale: string) {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString(locale, { weekday: 'long' });
 }

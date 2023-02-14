@@ -6,14 +6,14 @@ import { useNamespace } from "../../utils/hooks";
 export default function DashboardOverview() {
 
     const namespace = useNamespace()
-    const session = useSession()
+    // const session = useSession()
 
     return <DashboardLayout
 
         row={[
-            <RowLink href={`/${namespace}/`} current>Resumen</RowLink>,
-            <RowLink href={`/${namespace}/bookings`}>Pedidos</RowLink>,
-            <RowLink href={`/${namespace}/settings`}>Ajustes</RowLink>,
+            <RowLink key="1" href={`/${namespace}/`} current>Resumen</RowLink>,
+            <RowLink key="2" href={`/${namespace}/bookings`}>Pedidos</RowLink>,
+            <RowLink key="3" href={`/${namespace}/settings`}>Ajustes</RowLink>,
         ]}
     >
         <div className="mb-4 flex flex-row justify-between">

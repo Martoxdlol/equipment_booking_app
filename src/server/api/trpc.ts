@@ -24,7 +24,7 @@ import type { NamespaceSettings } from "@prisma/client";
 
 type CreateContextOptions = {
   session: Session | null;
-  namespace: NamespaceSettings | null
+  namespaceSlug: string | null
 };
 
 /**
@@ -40,7 +40,7 @@ type CreateContextOptions = {
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
-    namespace: opts.namespace,
+    namespaceSlug: opts.namespaceSlug,
     prisma,
   };
 };
@@ -57,11 +57,10 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
 
   // Get the session from the server using the getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
-  const namespace = await prisma.namespaceSettings.findUnique({ where: { slug: namespaceSlug } })
 
   return createInnerTRPCContext({
     session,
-    namespace,
+    namespaceSlug,
   });
 };
 
@@ -116,69 +115,105 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   return next({
     ctx: {
       // infers the `session` as non-nullable
+      namespaceSlug: ctx.namespaceSlug,
       session: { ...ctx.session, user: ctx.session.user },
     },
   });
 });
 
-const enforceNamespace = t.middleware(async ({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user || !ctx.namespace) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+
+export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) => {
+  const namespace = ctx.namespaceSlug ? await prisma.namespaceSettings.findUnique({
+    include: {
+      permissions: {
+        where: {
+          userId: ctx.session.user.id,
+          AND: {
+            userLevel: true,
+            OR: {
+              admin: true,
+              OR: {
+                createAsOther: true,
+                OR: {
+                  readAll: true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    where: { slug: ctx.namespaceSlug }
+  }) : null
+
+  if (!namespace) {
+    throw new TRPCError({
+      code: 'NOT_FOUND',
+      message: 'Namesapce doesn\'t exist'
+    })
   }
 
-  let permission = await ctx.prisma.permission.findFirst({
-    where: {
-      namespaceId: ctx.namespace.id,
-      userId: ctx.session.user.id,
-    }
-  })
-
-  if (!permission) {
-    permission = await ctx.prisma.permission.create({
-      data: { userId: ctx.session.user.id, namespaceId: ctx.namespace.id }
+  if (!namespace.permissions.length) {
+    await ctx.prisma.permission.create({
+      data: { userId: ctx.session.user.id, namespaceId: namespace.id }
     })
   }
 
   return next({
     ctx: {
-      permission,
-      namespace: ctx.namespace,
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
-    },
-  });
+      ...ctx,
+      namespace,
+    }
+  })
+})
+
+export const namespaceReadableProcedure = namespaceProcedure.use(async ({ ctx, next }) => {
+
+  for (const permission of ctx.namespace.permissions) {
+    if (permission.admin || permission.readAll) {
+      return next({
+        ctx
+      })
+    }
+  }
+
+  throw new TRPCError({
+    code: 'UNAUTHORIZED',
+    message: 'Not allowed'
+  })
 });
 
-const enforceNamespaceAdmin = t.middleware(async ({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user || !ctx.namespace) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
-  }
+export const namespaceCreateProcedure = namespaceProcedure.use(async ({ ctx, next }) => {
 
-  let permission = await ctx.prisma.permission.findFirst({
-    where: {
-      namespaceId: ctx.namespace.id,
-      userId: ctx.session.user.id,
+  for (const permission of ctx.namespace.permissions) {
+    if (permission.admin || permission.createAsOther) {
+      return next({
+        ctx
+      })
     }
+  }
+
+  throw new TRPCError({
+    code: 'UNAUTHORIZED',
+    message: 'Not allowed'
   })
+});
 
-  if (!permission) {
-    permission = await ctx.prisma.permission.create({
-      data: { userId: ctx.session.user.id, namespaceId: ctx.namespace.id }
-    })
+export const namespaceAdminProcedure = namespaceProcedure.use(async ({ ctx, next }) => {
+
+  for (const permission of ctx.namespace.permissions) {
+    if (permission.admin) {
+      return next({
+        ctx
+      })
+    }
   }
 
-  if(!permission.admin) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
-  }
-
-  return next({
-    ctx: {
-      permission,
-      namespace: ctx.namespace,
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
-    },
-  });
+  throw new TRPCError({
+    code: 'UNAUTHORIZED',
+    message: 'Not allowed'
+  })
 });
 
 /**
@@ -190,6 +225,3 @@ const enforceNamespaceAdmin = t.middleware(async ({ ctx, next }) => {
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
-export const namespaceProcedure = t.procedure.use(enforceNamespace);
-export const namespaceAdminProcedure = t.procedure.use(enforceNamespaceAdmin);

@@ -6,6 +6,12 @@ import { api } from "../utils/api";
 
 import "../styles/globals.css";
 
+import dayjs from 'dayjs'
+
+import 'dayjs/locale/es' // import locale
+
+dayjs.locale('es')
+
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
