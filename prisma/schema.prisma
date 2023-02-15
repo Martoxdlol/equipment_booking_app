@@ -89,7 +89,8 @@ model Booking {
     to     TimeStamp @relation("to", fields: [toId], references: [id])
     toId   String
 
-    equipment EquipmentBookingItem[]
+    equipment  EquipmentBookingItem[]
+    inUseAssets InUseAsset[]
 
     // Optionally, each booking can be part of a pool.
     // This means that if you change one request of the pool it changes all relatively
@@ -172,6 +173,7 @@ model NamespaceSettings {
     assets               Asset[]                @relation("settings")
     equipmentBookingItem EquipmentBookingItem[] @relation("settings")
     permissions          Permission[]
+    inUseAssets          InUseAsset[]           @relation("settings")
 
     @@index([slug])
 }
@@ -206,6 +208,8 @@ model ElegibleTime {
     namespaceId String
 
     timeStamps TimeStamp[]
+
+    enabled Boolean @default(true)
 
     @@unique([namespaceId, hours, minutes])
     @@index([namespaceId, hours, minutes])
@@ -266,7 +270,8 @@ model AssetType {
     metadata String? // Any data
     picture  String? // Picture URL
 
-    assets Asset[]
+    assets  Asset[]
+    enabled Boolean @default(true)
 
     // Standard to all models
     createdAt             DateTime               @default(now())
@@ -292,6 +297,27 @@ model Asset {
     serial      String? // Serial number
     metadata    String? // Any data
     picture     String? // Picture URL
+    enabled     Boolean   @default(true)
+
+    // Standard to all models
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+    namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId String
+    inUseAssets  InUseAsset[]
+
+    @@unique([namespaceId, tag, assetTypeId])
+    @@index([namespaceId])
+}
+
+model InUseAsset {
+    id String @id @default(cuid())
+
+    asset   Asset  @relation(fields: [assetId], references: [id])
+    assetId String
+
+    booking   Booking @relation(fields: [bookingId], references: [id])
+    bookingId String
 
     // Standard to all models
     createdAt   DateTime          @default(now())
@@ -299,6 +325,5 @@ model Asset {
     namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
     namespaceId String
 
-    @@unique([namespaceId, tag, assetTypeId])
     @@index([namespaceId])
 }

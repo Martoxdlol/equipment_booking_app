@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import { api } from "../../utils/api";
 import Select from "./Select"
 
 export type ElegibleTime = { id: string };
@@ -9,13 +10,10 @@ export default function ElegibleTimePicker({ value, onChange, minExcludeId, maxE
     label?: React.ReactNode
     minExcludeId?: string
     maxExcludeId?: string
-
 }) {
-    const options = [
-        { label: '7:30', value: '10', },
-        { label: '8:30', value: '20' },
-        { label: '9:30', value: '30' },
-    ]
+    const { data: times, refetch: refetchTimes } = api.namespace.elegibleTimes.useQuery()
+
+    const options = times?.map(t => ({ value: t.id, label: `${t.hours}:${t.minutes}` })) || []
 
     let minIndex = options.findIndex(o => o.value == minExcludeId)
     let maxIndex = options.findIndex(o => o.value == maxExcludeId)

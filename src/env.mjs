@@ -23,6 +23,7 @@ const server = z.object({
   OPENID_ISSUER: z.string(),
   OPENID_CLIENT_ID: z.string(),
   OPENID_CLIENT_SECRET: z.string(),
+  DEFAULT_GLOBAL_ADMINS: z.array(z.string()),
 });
 
 /**
@@ -37,7 +38,7 @@ const client = z.object({
 /**
  * You can't destruct `process.env` as a regular object in the Next.js
  * edge runtimes (e.g. middlewares) or client-side so we need to destruct manually.
- * @type {Record<keyof z.infer<typeof server> | keyof z.infer<typeof client>, string | undefined>}
+ * @type {Record<keyof z.infer<typeof server> | keyof z.infer<typeof client>, string | string[] | undefined>}
  */
 const processEnv = {
   DATABASE_URL: process.env.DATABASE_URL,
@@ -47,6 +48,7 @@ const processEnv = {
   OPENID_ISSUER: process.env.OPENID_ISSUER,
   OPENID_CLIENT_ID: process.env.OPENID_CLIENT_ID,
   OPENID_CLIENT_SECRET: process.env.OPENID_CLIENT_SECRET,
+  DEFAULT_GLOBAL_ADMINS: process.env.DEFAULT_GLOBAL_ADMINS?.split(",").filter(t => t.trim()) || [],
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 

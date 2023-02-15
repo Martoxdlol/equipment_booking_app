@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import AssetTypeQtyPicker from "../../../lib/components/AssetTypeQtyPicker";
@@ -7,9 +8,11 @@ import DatePicker, { Date } from "../../../lib/components/DatePicker";
 import ElegibleTimePicker, { ElegibleTime } from "../../../lib/components/ElegibleTimePicker";
 import Input from "../../../lib/components/Input";
 import Label from "../../../lib/components/Label";
+import { useNamespace } from "../../../lib/components/NamespaceProvider";
 import RecurrencyPicker from "../../../lib/components/RecurrencyPicker";
 import Switch from "../../../lib/components/Switch";
-import { useNamespace } from "../../../utils/hooks";
+import { api } from "../../../utils/api";
+import { useNamespaceSlug } from "../../../utils/hooks";
 
 export default function DashboardNewBooking() {
 
@@ -38,7 +41,7 @@ export default function DashboardNewBooking() {
 
     const [qty, setQty] = useState(0)
 
-    const toDateIsSameAsFrom = true
+    const toDateIsSameAsFrom = !namespace?.multiDayBooking
 
     useEffect(() => {
         setToDate(fromDate)
@@ -48,7 +51,7 @@ export default function DashboardNewBooking() {
         title="Nuevo pedido"
     >
         <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-2">
-            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-2 mb-auto">
+            <div className="grid sm:grid-cols-1 md:grid-cols-[7fr_5fr] gap-2 mb-auto">
                 <div>
                     <ComboBox
                         options={[
@@ -85,7 +88,9 @@ export default function DashboardNewBooking() {
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Hasta</label>
+                    <label className={classNames("block text-sm font-medium text-gray-700",
+                        { 'hidden md:block': toDateIsSameAsFrom }
+                    )}>Hasta</label>
                     <DatePicker
                         disabled={toDateIsSameAsFrom}
                         value={toDate}
@@ -93,7 +98,9 @@ export default function DashboardNewBooking() {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 hidden md:block">Horario</label>
+                    {toDateIsSameAsFrom && <Label className="sm:hidden">Hasta</Label>}
+                    {toDateIsSameAsFrom && <Label className="hidden sm:block">Horario</Label>}
+                    {!toDateIsSameAsFrom && <Label>Horario</Label>}
                     <ElegibleTimePicker
                         value={toTime}
                         onChange={setToTime}

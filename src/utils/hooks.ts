@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
 
-export function useNamespace() {
+export function useNamespaceSlug() {
     return useRouter().query.namespace?.toString() || ''
 }

@@ -72,6 +72,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
  */
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
+import { env } from "../../env.mjs";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -123,6 +124,36 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 
 export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
 
+export const globalAdminProcedure = protectedProcedure.use(async ({ ctx, next }) => {
+  let user = await prisma.user.findUnique({
+    where: {
+      id: ctx.session.user.id
+    }
+  })
+
+  if (ctx.session.user.email && env.DEFAULT_GLOBAL_ADMINS.includes(ctx.session.user.email)) {
+    user = await prisma.user.update({
+      where: {
+        id: ctx.session.user.id
+      },
+      data: {
+        globalAdmin: true
+      }
+    })
+  }
+
+  if (!user?.globalAdmin) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+
+  return next({
+    ctx: {
+      ...ctx,
+      isGlobalAdmin: true,
+    },
+  });
+})
+
 export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) => {
   const namespace = ctx.namespaceSlug ? await prisma.namespaceSettings.findUnique({
     include: {
@@ -155,8 +186,19 @@ export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) =
   }
 
   if (!namespace.permissions.length) {
-    await ctx.prisma.permission.create({
-      data: { userId: ctx.session.user.id, namespaceId: namespace.id }
+    await ctx.prisma.permission.upsert({
+      create: {
+        userLevel: true,
+        userId: ctx.session.user.id, namespaceId: namespace.id,
+      },
+      where: {
+        namespaceId_userId: {
+          userId: ctx.session.user.id, namespaceId: namespace.id,
+        }
+      },
+      update: {
+        userLevel: true,
+      }
     })
   }
 
@@ -172,10 +214,12 @@ export const namespaceReadableProcedure = namespaceProcedure.use(async ({ ctx, n
 
   for (const permission of ctx.namespace.permissions) {
     if (permission.admin || permission.readAll) {
-      return next({
-        ctx
-      })
+      return next({ ctx })
     }
+  }
+
+  if ((await ctx.prisma.user.findUnique({ where: { id: ctx.session.user.id } }))?.globalAdmin) {
+    return next({ ctx })
   }
 
   throw new TRPCError({
@@ -194,6 +238,10 @@ export const namespaceCreateProcedure = namespaceProcedure.use(async ({ ctx, nex
     }
   }
 
+  if ((await ctx.prisma.user.findUnique({ where: { id: ctx.session.user.id } }))?.globalAdmin) {
+    return next({ ctx })
+  }
+
   throw new TRPCError({
     code: 'UNAUTHORIZED',
     message: 'Not allowed'
@@ -208,6 +256,10 @@ export const namespaceAdminProcedure = namespaceProcedure.use(async ({ ctx, next
         ctx
       })
     }
+  }
+
+  if ((await ctx.prisma.user.findUnique({ where: { id: ctx.session.user.id } }))?.globalAdmin) {
+    return next({ ctx })
   }
 
   throw new TRPCError({

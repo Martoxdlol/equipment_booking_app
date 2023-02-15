@@ -1,5 +1,6 @@
 import { createTRPCRouter } from "./trpc";
-import { exampleRouter } from "./routers/example";
+import { namespaceRouter } from "./routers/namespace/namespace";
+import { assetTypeRouter } from "./routers/assetType/assetType";
 
 /**
  * This is the primary router for your server.
@@ -7,7 +8,8 @@ import { exampleRouter } from "./routers/example";
  * All routers added in /api/routers should be manually added here
  */
 export const appRouter = createTRPCRouter({
-  example: exampleRouter,
+  namespace: namespaceRouter,
+  assetType: assetTypeRouter,
 });
 
 // export type definition of API

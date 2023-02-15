@@ -1,11 +1,12 @@
 import { useRouter } from "next/router"
 import { useState } from "react"
-import Button from "../../lib/components/Button"
-import DashboardLayout from "../../lib/components/DashboardLayout"
-import Input from "../../lib/components/Input"
-import Label from "../../lib/components/Label"
-import { apiOperation } from "../../lib/util/errors"
-import { api } from "../../utils/api"
+import Button from "../../../../lib/components/Button"
+import DashboardLayout from "../../../../lib/components/DashboardLayout"
+import Input from "../../../../lib/components/Input"
+import Label from "../../../../lib/components/Label"
+import { apiOperation } from "../../../../lib/util/errors"
+import { api } from "../../../../utils/api"
+import { useNamespaceSlug } from "../../../../utils/hooks"
 
 export default function DashboardCreateNamespace() {
 
@@ -13,16 +14,22 @@ export default function DashboardCreateNamespace() {
     const [name, setName] = useState('')
     const [slug, setSlug] = useState('')
 
-    const { mutateAsync: create } = api.namespace.create.useMutation()
+    const namespaceSlug = useNamespaceSlug()
+
+    const { mutateAsync: create } = api.assetType.createAsset.useMutation()
 
     const router = useRouter()
+
+    const typeSlug = router.query.slug?.toString() || '-'
+
+    const { data: type } = api.assetType.getDetailed.useQuery(typeSlug)
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
         void apiOperation({
             async action() {
-                await create({ name, slug })
-                await router.push(`/${slug}`)
+                await create({ name, tag: slug, type: typeSlug })
+                await router.push(`/${namespaceSlug}/equipment/${typeSlug}/${slug}`)
             },
             onApiError(error) {
                 if (error.code == 'BAD_REQUEST') {
@@ -33,7 +40,7 @@ export default function DashboardCreateNamespace() {
     }
 
     return <DashboardLayout
-        title="New namespace"
+        title={type ? `Nuevo "${type.name}"` : "Nuevo asset"}
     >
         <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-2">
             <form action="" onSubmit={handleSubmit}>
@@ -41,12 +48,12 @@ export default function DashboardCreateNamespace() {
                     <p className="text-red-500 my-1 font-semibold">{error}</p>
                     <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-2 mb-auto">
                         <div>
-                            <Label>Nombre</Label>
-                            <Input placeholder="Escuela Técnica Henry Ford" onChange={e => setName(e.target.value)} value={name} />
+                            <Label>Tag</Label>
+                            <Input placeholder="PC-01-10-22" onChange={e => setSlug(e.target.value)} value={slug} />
                         </div>
                         <div>
-                            <Label>Identificador</Label>
-                            <Input placeholder="ethf" onChange={e => setSlug(e.target.value)} value={slug} />
+                            <Label>Nombre</Label>
+                            <Input placeholder="N22" onChange={e => setName(e.target.value)} value={name} />
                         </div>
                     </div>
                     <div>

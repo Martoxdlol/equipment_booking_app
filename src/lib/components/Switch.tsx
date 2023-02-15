@@ -7,9 +7,10 @@ export default function Switch(props: {
     onLabel?: React.ReactNode
     value?: boolean
     onChange?: (value: boolean) => void
+    clsasName?: string
 }) {
     return <div
-        className="grid grid-cols-2"
+        className={classNames("grid grid-cols-2", props.clsasName)}
     >
         <button
             onClick={() => props.onChange && props.onChange(false)}

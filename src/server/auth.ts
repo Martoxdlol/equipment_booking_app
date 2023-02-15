@@ -103,7 +103,7 @@ type UserInfo = {
 }
 
 function isProfile(user: unknown): user is UserInfo {
-  if (<UserInfo>user && !(typeof (<UserInfo>user).sub === 'string') && (<UserInfo>user).sub) return true
-  if (<UserInfo>user && !(typeof (<UserInfo>user).email === 'string') && (<UserInfo>user).email) return true
-  return false
+  if (<UserInfo>user && !(typeof (<UserInfo>user).sub === 'string') && (<UserInfo>user).sub) return false
+  if (<UserInfo>user && !(typeof (<UserInfo>user).email === 'string') && (<UserInfo>user).email) return false
+  return true
 }

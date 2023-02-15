@@ -31,7 +31,7 @@ export default function AssetTypeQtyPicker({ name, min, max, value: _value, onCh
         <button className={className + ' sm:rounded-r-md rounded-l-md '}
             onClick={() => onChange(formatValue(value + 1))}
         >{name}</button>
-        <button className={className + ' sm:rounded-l-md sm:ml-[8px]'}
+        <button className={className + ' sm:rounded-l-md sm:ml-[8px] border-r-0'}
             onClick={() => onChange(formatValue(value - 1))}
         >-</button>
         <button className={className}>
@@ -46,7 +46,7 @@ export default function AssetTypeQtyPicker({ name, min, max, value: _value, onCh
                 }}
             />
         </button>
-        <button className={className + ' rounded-r-md'}
+        <button className={className + ' rounded-r-md border-l-0'}
             onClick={() => onChange(formatValue(value + 1))}
         >+</button>
     </div>
