@@ -3,12 +3,15 @@ import { z } from "zod";
 import { prismaOperation } from "../../../../lib/util/helpers";
 import { slugRegex } from "../../../../lib/util/validators";
 
-import { createTRPCRouter, namespaceAdminProcedure, namespaceProcedure } from "../../trpc";
+import { createTRPCRouter, namespaceAdminProcedure, namespaceProcedure, namespaceReadableProcedure } from "../../trpc";
 import { createNamespaceProcedure } from "./create";
 
 export const namespaceRouter = createTRPCRouter({
   current: namespaceProcedure.query(({ ctx }) => ctx.namespace),
   create: createNamespaceProcedure,
+  isAdmin: namespaceAdminProcedure.query(({ ctx }) => {
+    return true
+  }),
   elegibleTimes: namespaceProcedure.query(async ({ ctx }) => {
     return ctx.prisma.elegibleTime.findMany({
       where: { namespaceId: ctx.namespace.id }

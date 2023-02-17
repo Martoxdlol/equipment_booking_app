@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import React from "react"
 import { useNamespaceSlug } from "../../utils/hooks"
 import { useNamespace } from "./NamespaceProvider"
+import Head from "next/head"
 
 interface Props {
     children: React.ReactNode
@@ -26,6 +27,9 @@ export default function DashboardLayout(props: Props) {
     const authed = session.status === "authenticated" && loaded
 
     return <div className="flex h-screen flex-col">
+        <Head>
+            <title>{props.title}</title>
+        </Head>
         <div className="relative z-40 border-b bg-primary px-3 text-primary sm:px-6">
             <header className="relative mx-auto">
                 <div className="flex items-center pt-3 pb-2 md:pt-4 md:pb-3">

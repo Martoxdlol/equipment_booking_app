@@ -1,16 +1,53 @@
-// React Button with tailwind that extends html button
+import classNames from 'classnames';
 
-import classNames from 'classnames'
+// ButtonProps extends html button:
+interface ButtonProps extends React.ComponentPropsWithRef<'button'> {
+    variant?: ButtonVariantLiterals
+    variants?: ButtonVariantLiterals[]
+}
 
-export default function Button({ className, children, ...props }: React.ComponentProps<'button'>) {
-    return <button className={classNames(
-        'inline-flex items-center px-3 py-1 shadow justify-center align-middle',
-        'text-center text-sm font-medium rounded-md',
-        'text-white bg-gray-900 hover:bg-gray-800',
-        className
-    )}
+export const buttonVariants = {
+    colored: {
+        className: classNames(
+            'bg-gray-900 hover:bg-gray-800',
+            'text-white',
+            'dark:bg-white hover:bg-white-800',
+            'dark:text-gray-900',
+        )
+    },
+    outlined: { className: 'border border-gray-300 dark:border-gray-600 focus:border-blue-500' },
+} as const
+
+export type ButtonVariantLiterals = keyof typeof buttonVariants
+
+export default function Button({
+    variant,
+    variants,
+    className,
+    ...props
+}: ButtonProps) {
+
+    return <button
+        className={classNames([
+            'border-box',
+            'inline-flex',
+            'items-center',
+            'justify-center',
+            'text-center',
+            'no-underline',
+            'leading-none',
+            'whitespace-nowrap',
+            'select-none',
+            'font-semibold',
+            'h-4 py-1.5 px-2',
+            'rounded',
+            'focus:outline-none outline-none',
+            'focus:ring',
+            'shadow-sm',
+            variant ? buttonVariants[variant]?.className : buttonVariants.colored.className,
+            ...(variants?.map(v => buttonVariants[v]?.className) || []),
+            className,
+        ])}
         {...props}
-    >
-        {children}
-    </button>
+    />
 }

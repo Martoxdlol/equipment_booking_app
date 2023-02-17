@@ -1,13 +1,12 @@
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { prismaOperation } from "../../../../lib/util/helpers";
-import { slugRegex } from "../../../../lib/util/validators";
 
-import { createTRPCRouter, namespaceAdminProcedure, namespaceProcedure, namespaceReadableProcedure } from "../../trpc";
-import { createAssetTypeProcedure } from "./create";
+import { createTRPCRouter, namespaceAdminProcedure, namespaceReadableProcedure } from "../../trpc";
+import { createAssetTypeProcedure, updateAssetTypeProcedure } from "./upsert";
 
 export const assetTypeRouter = createTRPCRouter({
   create: createAssetTypeProcedure,
+  update: updateAssetTypeProcedure,
   getDetailed: namespaceReadableProcedure.input(z.string()).query(async ({ ctx, input }) => {
     return ctx.prisma.assetType.findUnique({
       where: { namespaceId_slug: { namespaceId: ctx.namespace.id, slug: input } },
@@ -57,6 +56,15 @@ export const assetTypeRouter = createTRPCRouter({
           }
         })
       },
+    })
+  }),
+  getAsset: namespaceReadableProcedure.input(z.object({tag: z.string(), typeId: z.string()})).query(async ({ ctx, input }) => {
+    return ctx.prisma.asset.findFirst({
+      where: {
+        namespaceId: ctx.namespace.id,
+        tag: input.tag,
+        assetTypeId: input.typeId,
+      }
     })
   })
 });

@@ -23,14 +23,15 @@ export default function DashboardOverview() {
     >
 
         <div className="relative w.full h-1">
-            <div className="absolute top-0 right-0">
+            <div className="absolute top-0 right-0 flex gap-1">
+                <Button onClick={() => void router.push(`/${namespaceSlug}/equipment/${slug}/change`)} variant="outlined">Editar</Button>
                 <Button onClick={() => void router.push(`/${namespaceSlug}/equipment/${slug}/new`)}>Nuevo</Button>
             </div>
         </div>
 
         <h1 className="text-lg font-semibold mb-2">Assets</h1>
         <div className="grid md:grid-cols-2 gap-2">
-            {type?.assets.map(asset => <Link key={asset.id} className="rounded-md shadow border px-4 py-2" href={`/${namespaceSlug}/equipment/${type.slug}/${asset.tag}`}>
+            {type?.assets.map(asset => <Link key={asset.id} className="rounded-md shadow border px-4 py-2" href={`/${namespaceSlug}/equipment/${type.slug}/asset/${asset.tag}`}>
                 <h2 className="font-semibold mb-1">{asset.name}</h2>
 
                 {/* <div>
