@@ -4,15 +4,15 @@ import { useEffect, useState } from "react";
 import AssetTypeQtyPicker from "../../../lib/components/AssetTypeQtyPicker";
 import ComboBox from "../../../lib/components/ComboBox";
 import DashboardLayout from "../../../lib/components/DashboardLayout";
-import DatePicker, { Date } from "../../../lib/components/DatePicker";
-import ElegibleTimePicker, { ElegibleTime } from "../../../lib/components/ElegibleTimePicker";
+import type { Date } from "../../../lib/components/DatePicker";
+import DatePicker from "../../../lib/components/DatePicker";
+import type { ElegibleTime } from "../../../lib/components/ElegibleTimePicker";
+import ElegibleTimePicker from "../../../lib/components/ElegibleTimePicker";
 import Input from "../../../lib/components/Input";
 import Label from "../../../lib/components/Label";
 import { useNamespace } from "../../../lib/components/NamespaceProvider";
 import RecurrencyPicker from "../../../lib/components/RecurrencyPicker";
 import Switch from "../../../lib/components/Switch";
-import { api } from "../../../utils/api";
-import { useNamespaceSlug } from "../../../utils/hooks";
 
 export default function DashboardNewBooking() {
 
@@ -25,7 +25,7 @@ export default function DashboardNewBooking() {
         if (!requestedBy && session?.user.id) {
             setRequestedBy(session?.user.id)
         }
-    }, [session, session?.user.id])
+    }, [requestedBy, session, session?.user.id])
 
 
     const [useType, setUseType] = useState('')
@@ -44,8 +44,8 @@ export default function DashboardNewBooking() {
     const toDateIsSameAsFrom = !namespace?.multiDayBooking
 
     useEffect(() => {
-        setToDate(fromDate)
-    }, [fromDate])
+        toDateIsSameAsFrom && setToDate(fromDate)
+    }, [fromDate, toDateIsSameAsFrom])
 
     return <DashboardLayout
         title="Nuevo pedido"
@@ -79,7 +79,7 @@ export default function DashboardNewBooking() {
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 hidden md:block">Horario</label>
+                    <label className="sm:block text-sm font-medium text-gray-700 hidden md:block">Horario</label>
                     <ElegibleTimePicker
                         value={fromTime}
                         onChange={setFromTime}
@@ -87,10 +87,11 @@ export default function DashboardNewBooking() {
                     />
                 </div>
 
-                <div>
-                    <label className={classNames("block text-sm font-medium text-gray-700",
-                        { 'hidden md:block': toDateIsSameAsFrom }
-                    )}>Hasta</label>
+                <div className={classNames({
+                    'hidden sm:block': toDateIsSameAsFrom
+                })}>
+                    
+                    <Label>Hasta</Label>
                     <DatePicker
                         disabled={toDateIsSameAsFrom}
                         value={toDate}
