@@ -9,7 +9,7 @@ interface Props<T> {
 }
 
 // For some reason error instanceof PrismaClientKnownRequestError doesn't work anymore (I hate you JavaScript)
-function isPrismaError(error: unknown): error is PrismaClientKnownRequestError {
+export function isPrismaError(error: unknown): error is PrismaClientKnownRequestError {
     return (error as PrismaClientKnownRequestError).code !== undefined && (error as PrismaClientKnownRequestError).clientVersion !== undefined
 }
 

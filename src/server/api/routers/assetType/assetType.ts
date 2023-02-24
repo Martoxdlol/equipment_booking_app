@@ -1,12 +1,15 @@
 import { z } from "zod";
 import { prismaOperation } from "../../../../lib/util/helpers";
 
-import { createTRPCRouter, namespaceAdminProcedure, namespaceReadableProcedure } from "../../trpc";
+import { createTRPCRouter, namespaceAdminProcedure, namespaceProcedure, namespaceReadableProcedure } from "../../trpc";
 import { createAssetTypeProcedure, updateAssetTypeProcedure } from "./upsert";
 
 export const assetTypeRouter = createTRPCRouter({
   create: createAssetTypeProcedure,
   update: updateAssetTypeProcedure,
+  getAll: namespaceProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.assetType.findMany({ where: { namespaceId: ctx.namespace.id, enabled: true } })
+  }),
   getDetailed: namespaceReadableProcedure.input(z.string()).query(async ({ ctx, input }) => {
     return ctx.prisma.assetType.findUnique({
       where: { namespaceId_slug: { namespaceId: ctx.namespace.id, slug: input } },
@@ -58,7 +61,7 @@ export const assetTypeRouter = createTRPCRouter({
       },
     })
   }),
-  getAsset: namespaceReadableProcedure.input(z.object({tag: z.string(), typeId: z.string()})).query(async ({ ctx, input }) => {
+  getAsset: namespaceReadableProcedure.input(z.object({ tag: z.string(), typeId: z.string() })).query(async ({ ctx, input }) => {
     return ctx.prisma.asset.findFirst({
       where: {
         namespaceId: ctx.namespace.id,

@@ -29,7 +29,7 @@ export default function DashboardCreateNamespace() {
         void apiOperation({
             async action() {
                 await create({ name, tag: slug, type: typeSlug })
-                await router.push(`/${namespaceSlug}/equipment/${typeSlug}/${slug}`)
+                await router.push(`/${namespaceSlug}/equipment/${typeSlug}/asset/${slug}`)
             },
             onApiError(error) {
                 if (error.code == 'BAD_REQUEST') {

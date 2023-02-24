@@ -57,7 +57,7 @@ export default function DashboardLayout(props: Props) {
                     </div>
                     <div className="flex flex-none items-center">
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="16" cy="16" r="16" stroke="black" stroke-width="0" fill="brown" />
+                            <circle cx="16" cy="16" r="16" stroke="black" strokeWidth="0" fill="brown" />
                         </svg>
                     </div>
                 </div>

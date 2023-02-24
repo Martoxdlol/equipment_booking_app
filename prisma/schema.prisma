@@ -121,6 +121,7 @@ model EquipmentBookingItem {
     bookingId   String
     assetType   AssetType @relation(fields: [assetTypeId], references: [id])
     assetTypeId String
+    quantity    Int
 
     // Standard to all models
     createdAt   DateTime          @default(now())

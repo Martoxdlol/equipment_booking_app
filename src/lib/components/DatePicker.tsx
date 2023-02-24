@@ -1,7 +1,8 @@
 import { useEffect } from "react"
 import Select from "./Select"
+import dayjs from "dayjs"
 
-export type Date = { year: number, month: number, day: number } | { year: number | null, month: number | null, day: number | null }
+export type Date = { year: number, month: number, day: number, } | { year: number | null, month: number | null, day: number | null,  }
 
 const weekDays = [
     'Lun',
@@ -36,10 +37,10 @@ export default function DatePicker({ value, onChange, disabled }: {
     if (value?.month && value.year) {
         for (let i = 1; i <= getDays(value.year, value.month); i++) {
 
-            const date = new Date(value.year, value.month, i)
+            const date = new Date(value.year, value.month-1, i)
 
             days.push({
-                inWeek: getDayName(date.toDateString(), 'es'),
+                inWeek: dayjs(date).format('ddd'),
                 num: i
             })
         }

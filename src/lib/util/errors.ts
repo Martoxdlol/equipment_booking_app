@@ -29,7 +29,7 @@ export function analyzeApiError(error: unknown) {
     } as const
 }
 
-function isErrorDataType(error: unknown): error is ErrorDataType {
+export function isErrorDataType(error: unknown): error is ErrorDataType {
     return (error as ErrorDataType).code !== undefined
 }
 
