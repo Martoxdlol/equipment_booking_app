@@ -153,7 +153,7 @@ export default function DashboardBookings() {
 
                         const dateAsDayjs = dayjs(`${date.year}/${date.month}/${date.day}`).startOf('day')
                         let txt = dateAsDayjs.format('dddd DD/MM/YYYY')
-                        if(!isToday) {
+                        if (!isToday) {
                             txt = txt[0] ? txt[0].toUpperCase() + txt.slice(1) : ''
                         }
 
@@ -170,10 +170,16 @@ export default function DashboardBookings() {
                                     const endMs = end.valueOf()
                                     const progress = (nowMs - startMs) / (endMs - startMs)
 
-                                    return <li key={booking.id} tabIndex={bookings.indexOf(booking)} className={classNames("block p-1 border rounded-md shadow-sm relative overflow-hidden",
-                                        "focus-within:ring-2 focus-within:border-blue-500 outline-none", {
-                                        'border-blue-500': isCurrent,
-                                    })}>
+                                    return <li key={booking.id}
+                                        tabIndex={bookings.indexOf(booking)}
+                                        className={classNames("block p-1 border rounded-md shadow-sm relative overflow-hidden",
+                                            "focus-within:ring-2 focus-within:border-blue-500 outline-none", {
+                                            'border-blue-500': isCurrent,
+                                        })}
+                                        onClick={() => {
+                                            void router.push(`/${namespace.slug}/bookings/${booking.id}/change`)
+                                        }}
+                                    >
                                         {isCurrent && <div className="absolute bottom-0 left-0 h-[3px] bg-blue-500 w-2" style={{ 'width': `${progress * 100}%` }}></div>}
                                         <p className="font-semibold text-sm">{booking.user.name}</p>
                                         <BookingTimeRangeRender from={booking.from} to={booking.to} />

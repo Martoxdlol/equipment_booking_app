@@ -15,7 +15,7 @@ const weekDays = [
 ]
 
 export default function DatePicker({ value, onChange, disabled }: {
-    value?: Date
+    value?: Date | null
     onChange: (value: Date) => void
     label?: React.ReactNode
     disabled?: boolean

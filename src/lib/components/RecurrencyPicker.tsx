@@ -3,7 +3,7 @@ import Select from "./Select";
 import dayjs from 'dayjs'
 
 interface Props {
-    initialDate?: Date
+    initialDate?: Date | null
     vale: number
     onChange: (weeks: number) => void
     disabled?: boolean

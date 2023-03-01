@@ -15,16 +15,20 @@ import Switch from "./Switch";
 import { api } from "../../utils/api";
 import Button from "./Button";
 import type { Booking } from "@prisma/client";
+import type { FullBooking } from "../../server/api/routers/bookings/bookings";
+import dayjs from "dayjs";
 
 interface BookingFormProps {
-    id?: string
+    booking?: FullBooking
     onSave?: (booking: Booking) => unknown
 }
 
-export default function BookingForm({ id, onSave }: BookingFormProps) {
+export default function BookingForm({ booking, onSave, }: BookingFormProps) {
 
     const namespace = useNamespace()
     const { data: session } = useSession()
+
+    const isEditing = !!booking
 
     const [requestedBy, setRequestedBy] = useState(session?.user.id)
 
@@ -35,19 +39,34 @@ export default function BookingForm({ id, onSave }: BookingFormProps) {
     }, [requestedBy, session, session?.user.id])
 
 
-    const [useType, setUseType] = useState('')
-    const [comment, setComment] = useState('')
+    const [useType, setUseType] = useState<string>(booking?.useType || '')
+    const [comment, setComment] = useState<string>(booking?.comment || '')
 
-    const [fromDate, setFromDate] = useState<Date>()
-    const [toDate, setToDate] = useState<Date>()
+    const [fromDate, setFromDate] = useState<Date | null>(booking ? {
+        day: booking.from.date.day,
+        month: booking.from.date.month,
+        year: booking.from.date.year,
+    } : null)
 
-    const [fromTime, setFromTime] = useState<ElegibleTime>()
-    const [toTime, setToTime] = useState<ElegibleTime>()
+    const [toDate, setToDate] = useState<Date | null>(booking ? {
+        day: booking.to.date.day,
+        month: booking.to.date.month,
+        year: booking.to.date.year,
+    } : null)
 
-    const [recurrencyEnabled, setRecurrencyEnabled] = useState(false)
-    const [recurrency, setRecurrency] = useState(0)
+    const [fromTime, setFromTime] = useState<ElegibleTime>({
+        id: booking?.from.timeId || '',
+    })
+    const [toTime, setToTime] = useState<ElegibleTime>({
+        id: booking?.to.timeId || '',
+    })
+
+    const [recurrencyEnabled, setRecurrencyEnabled] = useState(booking?.poolId ? true : false)
+    const [recurrency, setRecurrency] = useState((booking?.pool?._count.bookings || 1) - 1)
 
     const toDateIsSameAsFrom = !namespace?.multiDayBooking
+
+
 
     useEffect(() => {
         toDateIsSameAsFrom && setToDate(fromDate)
@@ -73,11 +92,15 @@ export default function BookingForm({ id, onSave }: BookingFormProps) {
             },
             timeId: toTime?.id || ''
         },
-        excludeBookingId: null,
+        excludeBookingId: booking?.id || null,
         repeatWeekly: recurrencyEnabled ? recurrency : 0
     }, { enabled: fetchAvailabilityEnabled, refetchInterval: 1000 * 5 })
 
-    const [items, setItems] = useState<Map<string, number>>(new Map<string, number>())
+    const [items, setItems] = useState<Map<string, number>>(booking ? () => {
+        const map = new Map<string, number>()
+        booking.equipment.forEach(e => map.set(e.assetTypeId, e.quantity))
+        return map
+    } : new Map<string, number>())
 
     function setQtyOf(typeId: string, qty: number) {
         const map = new Map(items).set(typeId, qty)
@@ -101,7 +124,7 @@ export default function BookingForm({ id, onSave }: BookingFormProps) {
 
     async function handleSave() {
         const data = await createOrUpdate({
-            id,
+            id: booking?.id || undefined,
             requestedBy: requestedBy || '',
             useType,
             start: {
