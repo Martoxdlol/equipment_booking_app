@@ -7,11 +7,57 @@ import { addDays, validateAppDate } from "../../../../utils/dates";
 import { TRPCError } from "@trpc/server";
 
 
-function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, userId: string | null }) {
+interface Date {
+    day: number
+    month: number
+    year: number
+}
+
+interface Time {
+    date: Date
+}
+
+function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, userId: string | null, from?: Time, to?: Time }) {
     return opts.prisma.booking.findMany({
         where: {
             namespaceId: opts.namespaceId,
             userId: opts.userId || undefined,
+            from: opts.from ? {
+                date: {
+                    OR: [
+                        {
+                            year: { gt: opts.from.date.year },
+                        },
+                        {
+                            year: { equals: opts.from.date.year },
+                            month: { gt: opts.from.date.month },
+                        },
+                        {
+                            year: { equals: opts.from.date.year },
+                            month: { equals: opts.from.date.month },
+                            day: { gte: opts.from.date.day },
+                        }
+                    ]
+                }
+            } : undefined,
+            to: opts.to ? {
+                date: {
+                    OR: [
+                        {
+                            year: { lt: opts.to.date.year },
+                        },
+                        {
+                            year: { equals: opts.to.date.year },
+                            month: { lt: opts.to.date.month },
+                        },
+                        {
+                            year: { equals: opts.to.date.year },
+                            month: { equals: opts.to.date.month },
+                            day: { lt: opts.to.date.day },
+                        }
+                    ]
+                }
+            } : undefined,
         },
         include: {
             equipment: {
@@ -30,32 +76,40 @@ function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, userId
     })
 }
 
+const getInput = {
+    from: z.object({
+        date: z.object({
+            day: z.number(),
+            month: z.number(),
+            year: z.number(),
+        }),
+    }).optional(),
+    to: z.object({
+        date: z.object({
+            day: z.number(),
+            month: z.number(),
+            year: z.number(),
+        }),
+    }).optional(),
+}
+
 export const bookingsRoute = createTRPCRouter({
 
     getAll: namespaceProcedure.input(z.object({
-        from: z.object({
-            date: z.object({
-                day: z.number(),
-                month: z.number(),
-                year: z.number(),
-            }),
-        }),
-        to: z.object({
-            date: z.object({
-                day: z.number(),
-                month: z.number(),
-                year: z.number(),
-            }),
-        }),
-    })).query(async ({ ctx }) => {
+        ...getInput,
+    })).query(async ({ input, ctx }) => {
         return getBookingsOf({
+            from: input.from,
+            to: input.to,
             namespaceId: ctx.namespace.id,
             prisma: ctx.prisma,
             userId: ctx.session.user.id,
         })
     }),
 
-    getAllAsAdmin: namespaceReadableProcedure.query(async ({ ctx }) => {
+    getAllAsAdmin: namespaceReadableProcedure.input(z.object({
+        ...getInput,
+    })).query(async ({ ctx }) => {
         return getBookingsOf({
             namespaceId: ctx.namespace.id,
             prisma: ctx.prisma,
@@ -81,6 +135,7 @@ export const bookingsRoute = createTRPCRouter({
             }),
             timeId: z.string(),
         }),
+        repeatWeekly: z.number().optional(),
     })).query(async ({ input, ctx }) => {
         return await getBookingAvailability({
             namespaceId: ctx.namespace.id,
@@ -88,12 +143,14 @@ export const bookingsRoute = createTRPCRouter({
             excludeBookingId: input.excludeBookingId,
             start: input.start,
             end: input.end,
+            repeatWeekly: input.repeatWeekly,
         })
     }),
     createOrUpdate: namespaceProcedure.input(z.object({
         id: z.string().optional(),
         requestedBy: z.string(),
         useType: z.string(),
+        comment: z.string(),
         start: z.object({
             date: z.object({
                 day: z.number(),
@@ -166,6 +223,8 @@ export const bookingsRoute = createTRPCRouter({
                         namespaceId: ctx.namespace.id,
                         userId: input.requestedBy,
                         poolId: pool?.id,
+                        useType: input.useType,
+                        comment: input.comment,
                         fromId: (await getTimeStamp({
                             namespaceId: ctx.namespace.id,
                             prisma,
@@ -210,6 +269,8 @@ export const bookingsRoute = createTRPCRouter({
 async function getBookingAvailability(opts: {
     namespaceId: string, prisma: PrismaClient,
     excludeBookingId: string | null,
+    excludePoolId?: string | null,
+    repeatWeekly?: number | null,
     start: {
         date: {
             day: number,
@@ -227,6 +288,49 @@ async function getBookingAvailability(opts: {
         timeId: string
     }
 }) {
+    if (!validateAppDate(opts.start.date)) throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid start date" })
+    if (!validateAppDate(opts.end.date)) throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid start date" })
+
+    if (opts.repeatWeekly) {
+        const map = new Map<string, number>()
+        const booking = opts.excludeBookingId ? await opts.prisma.booking.findUnique({ where: { id: opts.excludeBookingId } }) : null
+
+        let isFirst = true
+
+        for (let i = 0; i < opts.repeatWeekly + 1; i++) {
+            const start = {
+                date: addDays(opts.start.date, i * 7),
+                timeId: opts.start.timeId,
+            }
+
+            const end = {
+                date: addDays(opts.end.date, i * 7),
+                timeId: opts.end.timeId,
+            }
+
+            const availability = await getBookingAvailability({ ...opts, repeatWeekly: undefined, excludePoolId: booking?.poolId, start, end })
+
+            if (isFirst) {
+                for (const [assetTypeId, quantity] of availability) {
+                    map.set(assetTypeId, quantity)
+                }
+                isFirst = false
+            } else {
+                for (const [assetTypeId, quantity] of map) {
+                    const num = availability.get(assetTypeId) || 0
+                    if (num === 0) {
+                        map.delete(assetTypeId)
+                    } else {
+                        map.set(assetTypeId, num)
+                    }
+                }
+            }
+
+        }
+
+        return map
+    }
+
     const { day: startDay, month: startMonth, year: startYear } = opts.start.date
     const { hours: startHour, minutes: startMinute } = await opts.prisma.elegibleTime.findUniqueOrThrow({
         where: { id: opts.start.timeId },
@@ -262,15 +366,28 @@ async function getBookingAvailability(opts: {
         }
     }
 
+    const pool = opts.excludePoolId ? await opts.prisma.booking.findMany({ where: { poolId: opts.excludePoolId }, select: { id: true } }) : null
+
     let requestedItemsInThatTimeFrame = await opts.prisma.equipmentBookingItem.findMany({
         where: {
             booking: {
                 namespaceId: opts.namespaceId,
                 from: {
                     date: {
-                        day: { lte: endDay },
-                        month: { lte: endMonth },
-                        year: { lte: endYear },
+                        OR: [
+                            {
+                                year: { lt: endYear },
+                            },
+                            {
+                                year: { equals: endYear },
+                                month: { lt: endMonth },
+                            },
+                            {
+                                year: { equals: endYear },
+                                month: { equals: endMonth },
+                                day: { lte: endDay },
+                            },
+                        ]
                     },
                     time: {
                         OR: [
@@ -306,7 +423,21 @@ async function getBookingAvailability(opts: {
         }
     })
 
+    // console.log(requestedItemsInThatTimeFrame)
+    // console.log(requestedItemsInThatTimeFrame.length && await opts.prisma.booking.findUnique({
+    //     where: { id: requestedItemsInThatTimeFrame[0]?.bookingId },
+    //     include: {
+    //         from: {
+    //             include: {date: true, time: true}
+    //         },
+    //         to: {
+    //             include: {date: true, time: true}
+    //         }
+    //     }
+    // }))
+
     requestedItemsInThatTimeFrame = requestedItemsInThatTimeFrame.filter(item => item.bookingId !== opts.excludeBookingId)
+    requestedItemsInThatTimeFrame = requestedItemsInThatTimeFrame.filter(item => !pool?.find(poolItem => poolItem.id === item.bookingId))
 
     const requestedItemsByAssetId = new Map<string, typeof requestedItemsInThatTimeFrame>()
     for (const item of requestedItemsInThatTimeFrame) {

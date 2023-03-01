@@ -36,6 +36,7 @@ export default function BookingForm({ id, onSave }: BookingFormProps) {
 
 
     const [useType, setUseType] = useState('')
+    const [comment, setComment] = useState('')
 
     const [fromDate, setFromDate] = useState<Date>()
     const [toDate, setToDate] = useState<Date>()
@@ -73,6 +74,7 @@ export default function BookingForm({ id, onSave }: BookingFormProps) {
             timeId: toTime?.id || ''
         },
         excludeBookingId: null,
+        repeatWeekly: recurrencyEnabled ? recurrency : 0
     }, { enabled: fetchAvailabilityEnabled, refetchInterval: 1000 * 5 })
 
     const [items, setItems] = useState<Map<string, number>>(new Map<string, number>())
@@ -119,6 +121,7 @@ export default function BookingForm({ id, onSave }: BookingFormProps) {
                 timeId: toTime?.id || ''
             },
             repeatWeeks: recurrency,
+            comment,
             equipment: [...items.entries()].map(([typeId, qty]) => ({ typeId, qty })).reduce((acc, curr) => {
                 acc.set(curr.typeId, qtyOf(curr.typeId))
                 return acc
@@ -202,9 +205,13 @@ export default function BookingForm({ id, onSave }: BookingFormProps) {
                     onChange={setRecurrency}
                 />
             </div>
+            <div className="col-span-2">
+                <Label>Comentario (opcional)</Label>
+                <Input value={comment} onChange={(e) => setComment(e.target.value)} />
+            </div>
         </div>
         <div>
-            <label className="block text-sm font-medium text-gray-700">Elegir equipamiento</label>
+            <Label>Elegir equipamiento</Label>
             {types?.map(type => {
                 return <AssetTypeQtyPicker
                     key={type.id}

@@ -89,7 +89,10 @@ model Booking {
     to     TimeStamp @relation("to", fields: [toId], references: [id])
     toId   String
 
-    equipment  EquipmentBookingItem[]
+    useType String @default("")
+    comment String @default("")
+
+    equipment   EquipmentBookingItem[]
     inUseAssets InUseAsset[]
 
     // Optionally, each booking can be part of a pool.
@@ -305,7 +308,7 @@ model Asset {
     updatedAt   DateTime          @updatedAt
     namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
     namespaceId String
-    inUseAssets  InUseAsset[]
+    inUseAssets InUseAsset[]
 
     @@unique([namespaceId, tag, assetTypeId])
     @@index([namespaceId])

@@ -18,7 +18,7 @@ export default function RecurrencyPicker(props: Props) {
     }
 
     const jsDate = new window.Date(props.initialDate.year, props.initialDate.month, props.initialDate.day,)
-    const initialDate = dayjs()
+    const initialDate = dayjs(`${props.initialDate.year}/${props.initialDate.month}/${props.initialDate.day}`)
 
     const options: { label: string, value: string }[] = []
 

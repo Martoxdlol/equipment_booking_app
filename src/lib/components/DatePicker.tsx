@@ -63,10 +63,11 @@ export default function DatePicker({ value, onChange, disabled }: {
         onChange(value)
     }
 
-    return <div className="grid grid-cols-3">
+    return <div className="grid" style={{gridTemplateColumns: 'minmax(0, 8fr) minmax(0, 10fr) minmax(0, 13fr)'}}>
         <Select
             disabled={disabled}
             radiusLeft
+            lessPadding
             value={value?.year?.toString()}
             onChange={v => handleChange({
                 year: parseInt(v),
@@ -83,6 +84,7 @@ export default function DatePicker({ value, onChange, disabled }: {
         <Select
             disabled={disabled}
             value={value?.month?.toString()}
+            lessPadding
             onChange={v => onChange({
                 month: parseInt(v),
                 year: value?.year || null,
