@@ -8,7 +8,7 @@ const NamespaceContext = createContext<{ namespace: NamespaceSettings | null, er
 
 export default function NamespaceProvider({ children }: { children: React.ReactNode, }) {
 
-    const { data: namespace, error, isInitialLoading } = api.namespace.current.useQuery()
+    const { data: namespace, error, isInitialLoading } = api.namespace.current.useQuery(undefined, { retry: false })
 
     const apiError = analyzeApiError(error).data
 

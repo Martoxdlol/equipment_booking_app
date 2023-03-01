@@ -4,6 +4,7 @@ import LoadingFullPage from "./LoadingFullPage";
 import React from "react";
 import ErrorFullPage from "./ErrorFullPage";
 import NotFoundFullPage from "./NotFoundFullPage";
+import SignInFullPage from "./SignInPage";
 
 interface NamespaceRouteProps {
     children: (props: { namespace: NamespaceSettings }) => JSX.Element
@@ -12,7 +13,11 @@ interface NamespaceRouteProps {
 export default function NamespaceRoute(props: NamespaceRouteProps) {
     const { namespace, error, isInitialLoading } = useNamespaceInfo()
 
-    if ((!error && !namespace && !isInitialLoading) || error?.code === 'NOT_FOUND' || error?.code === 'UNAUTHORIZED') {
+    if (error && error.code === 'UNAUTHORIZED') {
+        return <SignInFullPage />
+    }
+
+    if ((!error && !namespace && !isInitialLoading) || error?.code === 'NOT_FOUND') {
         return <NotFoundFullPage />
     }
 
