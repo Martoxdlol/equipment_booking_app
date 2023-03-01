@@ -241,161 +241,30 @@ export const bookingsRoute = createTRPCRouter({
         }
 
         return await ctx.prisma.$transaction(async (_prisma) => {
-            const isEditing = input.id
-
-            const existingBooking = isEditing ? await _prisma.booking.findUnique({
-                where: { id: input.id },
-                include: {
-                    from: { include: { date: true } },
-                    to: { include: { date: true } },
-                    pool: {
-                        include: {
-                            bookings: {
-                                include: {
-                                    from: { include: { date: true } },
-                                    to: { include: { date: true } },
-                                }
-                            },
-                            _count: { select: { bookings: true } }
-                        }
-                    },
-                },
-            }) : null
-
             const prisma = _prisma as unknown as PrismaClient
 
             const repeat = input.repeatWeeks ?? 0
             const bookings: Booking[] = []
 
-            const pool: RecurrentBookingPool | null = repeat > 0 ? (existingBooking?.pool || await prisma.recurrentBookingPool.create({
+            const pool = repeat > 0 ? await prisma.recurrentBookingPool.create({
                 data: {
                     namespaceId: ctx.namespace.id,
                 }
-            })) : null
-
-            // Edit exisitng recurrent bookings instead of creating new ones
-            let creationList = existingBooking?.pool ? existingBooking?.pool.bookings.map((b, i) => {
-                return {
-                    booking: b as typeof b | null,
-                    index: i,
-                }
-            }) : []
-
-            // Sort by date
-            creationList = creationList.sort((a, b) => {
-                if (!a.booking || !b.booking) return 0
-                if (a.booking.from.date.year < b.booking.to.date.year) return -1
-                if (a.booking.from.date.year > b.booking.to.date.year) return 1
-                if (a.booking.from.date.month < b.booking.to.date.month) return -1
-                if (a.booking.from.date.month > b.booking.to.date.month) return 1
-                if (a.booking.from.date.day < b.booking.to.date.day) return -1
-                if (a.booking.from.date.day > b.booking.to.date.day) return 1
-                return 0
-            })
-
-
-            const firstOfCreationList = creationList[0]?.booking
-            const firstOfCreationListFromDate = firstOfCreationList && dayjs(`${firstOfCreationList.from.date.year}/${firstOfCreationList.from.date.month}/${firstOfCreationList.from.date.day}`).startOf('day')
-
-
-            // Fix indexes (if some bookings in the middle were deleted and the indexes are not consecutive)
-            if (firstOfCreationListFromDate) {
-                for (const entry of creationList) {
-                    if (!entry.booking) continue;
-                    const dateFrom = dayjs(`${entry.booking.from.date.year}/${entry.booking.from.date.month}/${entry.booking.from.date.day}`).startOf('day')
-                    const diff = dateFrom.diff(firstOfCreationListFromDate, 'week')
-                    entry.index = diff
-                }
-            }
-
-            const lastIndex = creationList[creationList.length - 1]?.index ?? -1
-            const lastBooking = creationList[lastIndex]?.booking
-
-
-            // If you are modifying a recurrent booking, and you are extending the recurrency, add new entries
-            for (let i = lastIndex + 1; i <= repeat + 1; i++) {
-                creationList.push({
-                    booking: null,
-                    index: i,
-                })
-            }
-
-            // Delete unused bookings
-            if (lastBooking) {
-                await ctx.prisma.booking.deleteMany({
-                    where: {
-                        poolId: pool?.id || '',
-                        from: {
-                            date: {
-                                OR: [
-                                    {
-                                        year: {
-                                            gt: lastBooking.from.date.year
-                                        },
-                                    },
-                                    {
-                                        year: lastBooking.from.date.year,
-                                        month: {
-                                            gt: lastBooking.from.date.month
-                                        },
-                                    },
-                                    {
-                                        year: lastBooking.from.date.year,
-                                        month: lastBooking.from.date.month,
-                                        day: {
-                                            gt: lastBooking.from.date.day
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                })
-            }
-
-            if (repeat === 0 && existingBooking) {
-                creationList = [{
-                    booking: existingBooking,
-                    index: 0,
-                }]
-            }
-
-            // If you are modifying a recurrent booking, and you are changing the start date, move all bookings
-            // But, you must consider that is possible that you are changing not the first booking and we start moving from the first one
-            let initialDaysDiff = 0
-            if (existingBooking && firstOfCreationList && firstOfCreationListFromDate) {
-                const existingBookingFromDate = dayjs(`${existingBooking.from.date.year}/${existingBooking.from.date.month}/${existingBooking.from.date.day}`).startOf('day')
-                initialDaysDiff = firstOfCreationListFromDate.diff(existingBookingFromDate, 'day')
-            }
-
-            console.log(">")
-            console.log(">")
-            console.log(">")
-            console.log(">")
-            console.log(">")
-            console.log(creationList)
-            console.log(">")
-            console.log(">")
-            console.log(">")
-            console.log(">")
-            console.log(">")
-
-            throw new TRPCError({ code: "BAD_REQUEST", message: "DEBUG" })
+            }) : null
 
             // Create different weekly bookings
-            for (const entry of creationList) {
-                const i = entry.index
+            for (let i = 0; i < repeat + 1; i++) {
 
                 if (!validateAppDate(input.start.date)) throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid start date" })
                 if (!validateAppDate(input.end.date)) throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid end date" })
 
                 const start = {
-                    date: addDays(input.start.date, i * 7 - initialDaysDiff),
+                    date: addDays(input.start.date, i * 7),
                     timeId: input.start.timeId,
                 }
 
                 const end = {
-                    date: addDays(input.end.date, i * 7 - initialDaysDiff),
+                    date: addDays(input.end.date, i * 7),
                     timeId: input.end.timeId,
                 }
 
@@ -409,12 +278,6 @@ export const bookingsRoute = createTRPCRouter({
 
                 const equipment = [...input.equipment.entries()].filter(([assetTypeId, quantity]) => quantity > 0 && quantity <= (availability.get(assetTypeId) || 0))
 
-                // console.log(">>>>>>>>>")
-                // console.log(start, end)
-                // console.log(addDays(input.start.date, i * 7), input.start.date)
-                // console.log(addDays(input.start.date, i * 7), input.start.date)
-                // console.log(input.equipment, equipment, availability)
-
                 const fromDate = dayjs(`${start.date.year}/${start.date.month}/${start.date.day}`).startOf('day')
                 const nowDate = dayjs().startOf('day')
 
@@ -422,52 +285,38 @@ export const bookingsRoute = createTRPCRouter({
 
                 if (equipment.length === 0) throw new TRPCError({ code: "BAD_REQUEST", message: "No hay equipo reservado o no está disponible en ese rando de dia y horario" })
 
-                const data = {
-                    createdByUserId: ctx.session.user.id,
-                    updatedByUserId: ctx.session.user.id,
-                    namespaceId: ctx.namespace.id,
-                    userId: input.requestedBy,
-                    poolId: pool?.id,
-                    useType: input.useType,
-                    comment: input.comment,
-                    fromId: (await getTimeStamp({
-                        namespaceId: ctx.namespace.id,
-                        prisma,
-                        day: start.date.day,
-                        month: start.date.month,
-                        year: start.date.year,
-                        timeId: start.timeId,
-                    })).id,
-                    toId: (await getTimeStamp({
-                        namespaceId: ctx.namespace.id,
-                        prisma,
-                        day: end.date.day,
-                        month: end.date.month,
-                        year: end.date.year,
-                        timeId: end.timeId,
-                    })).id,
-                    equipment: {
-                        create: equipment.map(([assetTypeId, quantity]) => ({
-                            assetTypeId,
-                            namespaceId: ctx.namespace.id,
-                            quantity,
-                        }))
-                    }
-                }
-
-                if (entry.booking) {
-                    const booking = await prisma.booking.update({
-                        where: {
-                            id: entry.booking.id,
-                        },
-                        data: data
-                    })
-
-                    bookings.push(booking)
-                    continue
-                }
                 const booking = await prisma.booking.create({
-                    data: data
+                    data: {
+                        createdByUserId: ctx.session.user.id,
+                        updatedByUserId: ctx.session.user.id,
+                        namespaceId: ctx.namespace.id,
+                        userId: input.requestedBy,
+                        useType: input.useType,
+                        comment: input.comment,
+                        fromId: (await getTimeStamp({
+                            namespaceId: ctx.namespace.id,
+                            prisma,
+                            day: start.date.day,
+                            month: start.date.month,
+                            year: start.date.year,
+                            timeId: start.timeId,
+                        })).id,
+                        toId: (await getTimeStamp({
+                            namespaceId: ctx.namespace.id,
+                            prisma,
+                            day: end.date.day,
+                            month: end.date.month,
+                            year: end.date.year,
+                            timeId: end.timeId,
+                        })).id,
+                        equipment: {
+                            create: equipment.map(([assetTypeId, quantity]) => ({
+                                assetTypeId,
+                                namespaceId: ctx.namespace.id,
+                                quantity,
+                            }))
+                        }
+                    }
                 })
 
                 bookings.push(booking)
