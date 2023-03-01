@@ -7,7 +7,7 @@ export default function Input({ type, className, ...props }: React.ComponentProp
     return <input type={type || "text"} className={classNames(
         defaultClasses,
         className,
-        'relative w-full mt-1 rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm'
+        'relative w-full mt-1 rounded-md border border-gray-300 bg-white py-1 pl-2 pr-2 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm'
     )}
         {...props}
     />

@@ -96,5 +96,5 @@ export function RowLink(props: {
         return <Link className="whitespace-nowrap border-b pb-2 pt-1 leading-none text-primary transition sm:px-2 border-blue-600 font-semibold" href={props.href}>{props.children}</Link>
     }
 
-    return <Link className="whitespace-nowrap border-b pb-2 pt-1 leading-none text-primary transition sm:px-2 border-transparent hover:border-gray-300 dark:hover:border-gray-600" href={props.href}>{props.children}</Link>
+    return <Link className="whitespace-nowrap border-b pb-2 pt-1 leading-none text-primary transition sm:px-2 border-transparent hover:border-gray-300" href={props.href}>{props.children}</Link>
 }

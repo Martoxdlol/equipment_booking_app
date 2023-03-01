@@ -11,11 +11,9 @@ export const buttonVariants = {
         className: classNames(
             'bg-gray-900 hover:bg-gray-800',
             'text-white',
-            'dark:bg-white hover:bg-white-800',
-            'dark:text-gray-900',
         )
     },
-    outlined: { className: 'border border-gray-300 dark:border-gray-600 focus:border-blue-500' },
+    outlined: { className: 'border border-gray-300 focus:border-blue-500' },
 } as const
 
 export type ButtonVariantLiterals = keyof typeof buttonVariants
