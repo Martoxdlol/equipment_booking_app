@@ -5,6 +5,7 @@ import React from "react";
 import ErrorFullPage from "./ErrorFullPage";
 import NotFoundFullPage from "./NotFoundFullPage";
 import SignInFullPage from "./SignInPage";
+import { useRouter } from "next/router";
 
 interface NamespaceRouteProps {
     children: (props: { namespace: NamespaceSettings }) => JSX.Element
@@ -12,6 +13,7 @@ interface NamespaceRouteProps {
 
 export default function NamespaceRoute(props: NamespaceRouteProps) {
     const { namespace, error, isInitialLoading } = useNamespaceInfo()
+    const router = useRouter()
 
     if (error && error.code === 'UNAUTHORIZED') {
         return <SignInFullPage />
@@ -22,6 +24,8 @@ export default function NamespaceRoute(props: NamespaceRouteProps) {
     }
 
     if (error) {
+        if(router.query.retry) return
+        window.location.reload()
         return <ErrorFullPage />
     }
 

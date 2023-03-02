@@ -17,7 +17,7 @@ export default function UserPage() {
 
     useEffect(() => {
         if (namespaces?.length === 1 && namespaces[0]) {
-            void router.push(`/${namespaces[0].slug}`)
+            window.location.href = `/${namespaces[0].slug}`
         }
     }, [namespaces, router])
 
@@ -36,7 +36,7 @@ export default function UserPage() {
             ]}
         >
             {namespaces?.map((namespace, i) => {
-                return <Link key={namespace.slug} href={`/${namespace.slug}`} className={`flex rounded-md px-3 py-2 gradient-${(i % 3) + 1} text-white mb-5 mt-3 shadow-lg`}>
+                return <a key={namespace.slug} href={`/${namespace.slug}`} className={`flex rounded-md px-3 py-2 gradient-${(i % 3) + 1} text-white mb-5 mt-3 shadow-lg`}>
                     {namespace.picture && <Image 
                         alt="Logo"
                         height={30}
@@ -45,7 +45,7 @@ export default function UserPage() {
                         className="mr-2"
                     />}
                     <h2 className="text-xl">{namespace.name}</h2>
-                </Link>
+                </a>
             })}
 
 
