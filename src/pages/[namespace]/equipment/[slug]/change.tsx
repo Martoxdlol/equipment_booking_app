@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Button from "../../../../lib/components/Button";
-import DashboardLayout from "../../../../lib/components/DashboardLayout";
 import Input from "../../../../lib/components/Input";
 import Label from "../../../../lib/components/Label";
 import AssetTypeRoute from "../../../../lib/layouts/AssetTypeRoute";
@@ -10,6 +9,7 @@ import { apiOperation } from "../../../../lib/util/errors";
 import ImagePicker from "../../../../lib/components/ImagePicker";
 import DeleteButton from "../../../../lib/components/DeleteButton";
 import assetTypeRow from "../../../../lib/util/assetTypeRow";
+import DashboardLayout from "../../../../lib/layouts/Dashboard";
 
 export default function ChangeAssetType() {
     return <AssetTypeRoute>

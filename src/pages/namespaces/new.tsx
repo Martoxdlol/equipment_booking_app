@@ -1,7 +1,6 @@
 import { useRouter } from "next/router"
 import { useState } from "react"
 import Button from "../../lib/components/Button"
-import ImagePicker from "../../lib/components/ImagePicker"
 import Input from "../../lib/components/Input"
 import Label from "../../lib/components/Label"
 import DashboardLayout from "../../lib/layouts/Dashboard"
@@ -23,7 +22,7 @@ export default function DashboardCreateNamespace() {
         void apiOperation({
             async action() {
                 await create({ name, slug })
-                await router.push(`/${slug}`)
+                window.location.href = `/${slug}`
             },
             onApiError(error) {
                 if (error.code == 'BAD_REQUEST') {

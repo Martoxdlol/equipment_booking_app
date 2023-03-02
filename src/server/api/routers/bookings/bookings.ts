@@ -255,7 +255,7 @@ export const bookingsRoute = createTRPCRouter({
         return await ctx.prisma.$transaction(async (_prisma) => {
             const prisma = _prisma as unknown as PrismaClient
 
-            const repeat = input.repeatWeeks ?? 0
+            const repeat: number = input.repeatWeeks || 0
             const bookings: Booking[] = []
 
             const pool = repeat > 0 ? await prisma.recurrentBookingPool.create({
@@ -297,12 +297,16 @@ export const bookingsRoute = createTRPCRouter({
 
                 if (equipment.length === 0) throw new TRPCError({ code: "BAD_REQUEST", message: "No hay equipo reservado o no está disponible en ese rando de dia y horario" })
 
+                if (!user) {
+                    throw new TRPCError({ code: "BAD_REQUEST", message: "No se puede encontrar el usuario elegido" })
+                }
+
                 const booking = await prisma.booking.create({
                     data: {
                         createdByUserId: ctx.session.user.id,
                         updatedByUserId: ctx.session.user.id,
                         namespaceId: ctx.namespace.id,
-                        userId: input.requestedBy,
+                        userId: user.id,
                         useType: input.useType,
                         comment: input.comment,
                         poolId: pool?.id,

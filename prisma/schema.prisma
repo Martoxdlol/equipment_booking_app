@@ -14,13 +14,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-// TODO: DELETE THIS MODEL
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
@@ -59,9 +52,11 @@ model User {
     sessions      Session[]
 
     // Business logic
-    bookings       Booking[]       @relation("requestedby")
-    permissions    Permission[]
-    namespaceUsers NamespaceUser[] @relation("user")
+    bookings        Booking[]       @relation("requestedby")
+    permissions     Permission[]
+    namespaceUsers  NamespaceUser[] @relation("user")
+    createdBookings Booking[]       @relation("createdby")
+    updatedBookings Booking[]       @relation("updatedby")
 
     globalAdmin Boolean @default(false)
 }
@@ -87,9 +82,6 @@ model NamespaceUser {
     updatedAt   DateTime          @updatedAt
     namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
     namespaceId String
-
-    createdBookings Booking[] @relation("createdby")
-    updatedBookings Booking[] @relation("updatedby")
 
     @@unique([userId, namespaceId])
     @@index([namespaceId])
@@ -120,11 +112,11 @@ model Booking {
     poolId String?
 
     // A booking can be created by a different user than the requester 
-    createdBy       NamespaceUser @relation("createdby", fields: [createdByUserId], references: [id])
+    createdBy       User   @relation("createdby", fields: [createdByUserId], references: [id])
     createdByUserId String
 
     // A booking can be updated by a different user than the requester 
-    updatedBy       NamespaceUser @relation("updatedby", fields: [createdByUserId], references: [id])
+    updatedBy       User   @relation("updatedby", fields: [createdByUserId], references: [id])
     updatedByUserId String
 
     // Standard to all models
@@ -282,6 +274,8 @@ model TimeStamp {
     namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
     namespaceId String
 
+    @@unique([namespaceId, dateId, timeId])
+    @@index([namespaceId, dateId, timeId])
     @@index([namespaceId])
 }
 
