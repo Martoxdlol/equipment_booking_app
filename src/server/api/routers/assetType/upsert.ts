@@ -8,19 +8,21 @@ import type { PrismaClient } from "@prisma/client"
 export const createAssetTypeProcedure = namespaceAdminProcedure.input(z.object({
     name: z.string(),
     slug: z.string(),
+    picture: z.string().optional(),
 })).mutation(async ({ input, ctx }) => {
-    return await createOrUpdate({ ...input, prisma: ctx.prisma, namespaceId: ctx.namespace.id })
+    return await createOrUpdate({ ...input, prisma: ctx.prisma, namespaceId: ctx.namespace.id, picture: input.picture })
 })
 
 export const updateAssetTypeProcedure = namespaceAdminProcedure.input(z.object({
     name: z.string(),
     slug: z.string(),
     id: z.string(),
+    picture: z.string().optional(),
 })).mutation(async ({ input, ctx }) => {
-    return await createOrUpdate({ name: input.name, slug: input.slug, id: input.id, prisma: ctx.prisma, namespaceId: ctx.namespace.id })
+    return await createOrUpdate({ name: input.name, slug: input.slug, id: input.id, prisma: ctx.prisma, namespaceId: ctx.namespace.id, picture: input.picture })
 })
 
-function createOrUpdate(opts: { prisma: PrismaClient, namespaceId: string, name: string, slug: string, id?: string }) {
+function createOrUpdate(opts: { prisma: PrismaClient, namespaceId: string, name: string, slug: string, id?: string, picture?: string }) {
     if (slugRegex.test(opts.slug) === false) {
         throw new TRPCError({
             code: "BAD_REQUEST",
@@ -46,6 +48,7 @@ function createOrUpdate(opts: { prisma: PrismaClient, namespaceId: string, name:
                         id: opts.id,
                     },
                     data: {
+                        picture: opts.picture ? opts.picture : null,
                         name: opts.name,
                         slug: opts.slug,
                         namespaceId: opts.namespaceId
@@ -57,6 +60,7 @@ function createOrUpdate(opts: { prisma: PrismaClient, namespaceId: string, name:
 
             await opts.prisma.assetType.create({
                 data: {
+                    picture: opts.picture,
                     name: opts.name,
                     slug: opts.slug,
                     namespaceId: opts.namespaceId

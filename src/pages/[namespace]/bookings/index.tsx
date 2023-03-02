@@ -142,7 +142,7 @@ export default function DashboardBookings() {
                         }}
                     />
                     <div className="mt-7">
-                        <Button className="w-full md:w-auto"
+                        <Button className="w-full md:w-auto ml-2"
                             onClick={() => {
                                 void router.push(`/${namespace.slug}/bookings/new`)
                             }}

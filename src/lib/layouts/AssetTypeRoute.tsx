@@ -5,10 +5,16 @@ import LoadingFullPage from "./LoadingFullPage";
 import NotFoundFullPage from "./NotFoundFullPage";
 import type { NamespaceSettings, AssetType } from "@prisma/client";
 import React from "react";
+import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
+import type { AppRouter } from "../../server/api/root";
 
 interface NamespaceRouteProps {
-    children: (props: { assetType: AssetType, namespace: NamespaceSettings }) => JSX.Element
+    children: (props: { assetType: FullAssetType, namespace: NamespaceSettings }) => JSX.Element
 }
+
+export type RouterOutput = inferRouterOutputs<AppRouter>;
+export type RouterInput = inferRouterInputs<AppRouter>;
+export type FullAssetType = NonNullable<RouterOutput['assetType']['getDetailed']>;
 
 export default function AssetTypeRoute(props: NamespaceRouteProps) {
     const namespace = useNamespace()

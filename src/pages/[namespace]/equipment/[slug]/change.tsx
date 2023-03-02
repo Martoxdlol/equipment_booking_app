@@ -7,6 +7,9 @@ import AssetTypeRoute from "../../../../lib/layouts/AssetTypeRoute";
 import { api } from "../../../../utils/api";
 import { useRouter } from "next/router";
 import { apiOperation } from "../../../../lib/util/errors";
+import ImagePicker from "../../../../lib/components/ImagePicker";
+import DeleteButton from "../../../../lib/components/DeleteButton";
+import assetTypeRow from "../../../../lib/util/assetTypeRow";
 
 export default function ChangeAssetType() {
     return <AssetTypeRoute>
@@ -17,9 +20,11 @@ export default function ChangeAssetType() {
             const [message, setMessage] = useState('')
             const [name, setName] = useState(assetType.name)
             const [slug, setSlug] = useState(assetType.slug)
+            const [picture, setPictrue] = useState(assetType.picture || undefined)
 
 
             const { mutateAsync: update } = api.assetType.update.useMutation()
+            const { mutateAsync: deleteAssetType } = api.assetType.delete.useMutation()
 
             const router = useRouter()
 
@@ -29,7 +34,7 @@ export default function ChangeAssetType() {
                 setMessage('')
                 void apiOperation({
                     async action() {
-                        await update({ name, slug, id: assetType.id })
+                        await update({ name, slug, id: assetType.id, picture })
                         await router.push(`/${namespace.slug}/equipment`)
                         setMessage('Actualizado correctamente')
                     },
@@ -42,6 +47,7 @@ export default function ChangeAssetType() {
 
             return <DashboardLayout
                 title={assetType.name}
+                row={assetTypeRow({ namespace: namespace.slug, slug: assetType.slug, })}
             >
                 <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-2">
                     <form action="" onSubmit={handleSubmit}>
@@ -59,7 +65,22 @@ export default function ChangeAssetType() {
                                 </div>
                             </div>
                             <div>
+                                <Label>Imagen (icono)</Label>
+                                <ImagePicker
+                                    onChangeUrl={url => setPictrue(url)}
+                                    url={picture || undefined}
+                                />
+                            </div>
+                            <div>
                                 <Button className="w-full">Guardar</Button>
+                            </div>
+                            <div>
+                                <DeleteButton 
+                                    onConfirmDelete={async () => {
+                                        await deleteAssetType(assetType.slug)
+                                        await router.push(`/${namespace.slug}/equipment`)
+                                    }}
+                                />
                             </div>
                         </div>
                     </form>

@@ -2,6 +2,7 @@ import { useRouter } from "next/router"
 import { useState } from "react"
 import Button from "../../../../lib/components/Button"
 import DashboardLayout from "../../../../lib/components/DashboardLayout"
+import ImagePicker from "../../../../lib/components/ImagePicker"
 import Input from "../../../../lib/components/Input"
 import Label from "../../../../lib/components/Label"
 import { apiOperation } from "../../../../lib/util/errors"
@@ -13,6 +14,7 @@ export default function DashboardCreateNamespace() {
     const [error, setError] = useState('')
     const [name, setName] = useState('')
     const [slug, setSlug] = useState('')
+    const [image, setImage] = useState<string | undefined>()
 
     const namespaceSlug = useNamespaceSlug()
 
@@ -28,7 +30,7 @@ export default function DashboardCreateNamespace() {
         e.preventDefault()
         void apiOperation({
             async action() {
-                await create({ name, tag: slug, type: typeSlug })
+                await create({ name, tag: slug, type: typeSlug, picture: image })
                 await router.push(`/${namespaceSlug}/equipment/${typeSlug}/asset/${slug}`)
             },
             onApiError(error) {
@@ -55,6 +57,10 @@ export default function DashboardCreateNamespace() {
                             <Label>Nombre</Label>
                             <Input placeholder="N22" onChange={e => setName(e.target.value)} value={name} />
                         </div>
+                    </div>
+                    <div>
+                        <Label>Imagen (icono)</Label>
+                        <ImagePicker onChangeUrl={url => setImage(url)} url={image} />
                     </div>
                     <div>
                         <Button className="w-full">Crear</Button>

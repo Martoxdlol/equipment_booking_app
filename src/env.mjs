@@ -7,6 +7,7 @@ import { z } from "zod";
  */
 const server = z.object({
   DATABASE_URL: z.string().url(),
+  STORAGE_PATH: z.string(),
   NODE_ENV: z.enum(["development", "test", "production"]),
   NEXTAUTH_SECRET:
     process.env.NODE_ENV === "production"
@@ -49,6 +50,7 @@ const processEnv = {
   OPENID_CLIENT_ID: process.env.OPENID_CLIENT_ID,
   OPENID_CLIENT_SECRET: process.env.OPENID_CLIENT_SECRET,
   DEFAULT_GLOBAL_ADMINS: process.env.DEFAULT_GLOBAL_ADMINS?.split(",").filter(t => t.trim()) || [],
+  STORAGE_PATH: process.env.STORAGE_PATH,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
 

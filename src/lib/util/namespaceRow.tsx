@@ -9,10 +9,12 @@ export default function namespaceRow(slug: string) {
             href: '/' + slug + '/bookings',
         },
         {
+            admin: true,
             label: 'Equipamiento',
             href: '/' + slug + '/equipment',
         },
         {
+            admin: true,
             label: 'Config',
             href: '/' + slug + '/settings',
         }

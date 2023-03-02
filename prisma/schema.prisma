@@ -156,6 +156,7 @@ model NamespaceSettings {
     id   String @id @default(cuid())
     slug String @unique
     name String @unique
+    picture String?
 
     // It can be used to adjust the frontend
     timezone Int @default(-3)
@@ -318,7 +319,7 @@ model InUseAsset {
     id String @id @default(cuid())
 
     asset   Asset  @relation(fields: [assetId], references: [id])
-    assetId String
+    assetId String @unique
 
     booking   Booking @relation(fields: [bookingId], references: [id])
     bookingId String

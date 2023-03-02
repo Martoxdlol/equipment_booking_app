@@ -1,12 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Button from "../../../lib/components/Button";
-import DashboardLayout, { RowLink } from "../../../lib/components/DashboardLayout";
-import { useNamespace } from "../../../lib/components/NamespaceProvider";
-import namespaceRow from "../../../lib/util/namespaceRow";
 import { api } from "../../../utils/api";
-import { useNamespaceSlug } from "../../../utils/hooks";
 import DashboardNamespaceRoute from "../../../lib/layouts/DashboardNamespaceRoute";
+import Image from "next/image";
 
 export default function DashboardOverview() {
     const { data: types } = api.assetType.getAllDetailed.useQuery()
@@ -25,8 +22,9 @@ export default function DashboardOverview() {
 
                 <h1 className="text-lg font-semibold mb-2">Tipos de equipamiento</h1>
                 <div className="grid md:grid-cols-2 gap-2">
-                    {types?.map(type => <Link key={type.id} className="rounded-md shadow border px-4 py-2" href={`/${namespace.slug}/equipment/${type.slug}`}>
-                        <h2 className="font-semibold mb-1">{type.name}</h2>
+                    {types?.map(type => <Link key={type.id} className="rounded-md shadow border px-4 py-2 flex items-center" href={`/${namespace.slug}/equipment/${type.slug}`}>
+                        {type.picture && <Image src={type.picture} alt="Logo" height={30} width={30} className="ml-[-16px]" />}
+                        <h2 className="font-semibold mb-1 ml-2">{type.name}</h2>
 
                         {/* <div>
                     <div>Cantidad <b>{type.assets.length}</b></div>
