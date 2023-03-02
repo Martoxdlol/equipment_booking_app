@@ -1,4 +1,4 @@
-import DashboardLayout from "../../../lib/components/DashboardLayout";
+import DashboardLayout from "../../../lib/layouts/Dashboard";
 import NamespaceAdminRoute from "../../../lib/layouts/NamespaceAdminRoute";
 
 export default function DashboardDeploy() {

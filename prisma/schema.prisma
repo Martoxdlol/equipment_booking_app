@@ -52,7 +52,6 @@ model User {
     sessions      Session[]
 
     // Business logic
-    bookings        Booking[]       @relation("requestedby")
     permissions     Permission[]
     namespaceUsers  NamespaceUser[] @relation("user")
     createdBookings Booking[]       @relation("createdby")
@@ -76,6 +75,7 @@ model NamespaceUser {
 
     user   User?   @relation("user", fields: [userId], references: [id], onDelete: SetNull)
     userId String?
+    bookings        Booking[]       @relation("requestedby")
 
     // Standard to all models
     createdAt   DateTime          @default(now())
@@ -91,7 +91,7 @@ model Booking {
     id String @id @default(cuid())
 
     // Each booking is requested by a user 
-    user   User   @relation("requestedby", fields: [userId], references: [id])
+    user   NamespaceUser   @relation("requestedby", fields: [userId], references: [id])
     userId String
 
     // Start time to end time

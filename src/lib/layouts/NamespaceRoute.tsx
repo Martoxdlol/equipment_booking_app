@@ -11,7 +11,7 @@ interface NamespaceRouteProps {
     children: (props: { namespace: NamespaceSettings }) => JSX.Element
 }
 
-export default function NamespaceRoute(props: NamespaceRouteProps) {
+export default function NamespaceRoute(props: NamespaceRouteProps): JSX.Element {
     const { namespace, error, isInitialLoading } = useNamespaceInfo()
     const router = useRouter()
 
@@ -24,13 +24,13 @@ export default function NamespaceRoute(props: NamespaceRouteProps) {
     }
 
     if (error) {
-        if(router.query.retry) return
+        if(router.query.retry) return <ErrorFullPage />
         window.location.reload()
         return <ErrorFullPage />
     }
 
     if (namespace != null) {
-        return React.createElement(props.children, { namespace })
+        return <>{React.createElement(props.children, { namespace })}</>
     }
 
     return <LoadingFullPage />

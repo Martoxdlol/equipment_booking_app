@@ -27,7 +27,7 @@ export default function DashboardAsset() {
 
                 {booking && <div className="bg-yellow-100 border border-yellow-300 p-2 rounded-md mb-2">
                     <h2 className="font-semibold mb-1">En uso</h2>
-                    <div>Por <b>{booking.user.name}</b></div>
+                    <div>Por <b>{booking.user.user?.name}</b></div>
                 </div>}
             </DashboardLayout>
         }}

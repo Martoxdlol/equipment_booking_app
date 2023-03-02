@@ -83,7 +83,18 @@ function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, userId
             to: { include: { time: true, date: true } },
             createdBy: true,
             updatedBy: true,
-            user: true,
+            user: {
+                include: {
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            image: true,
+                        }
+                    }
+                }
+            },
             inUseAssets: true,
         }
     })
@@ -142,7 +153,7 @@ export const bookingsRoute = createTRPCRouter({
             to: input.to,
             namespaceId: ctx.namespace.id,
             prisma: ctx.prisma,
-            userId: ctx.session.user.id,
+            userId: ctx.namespaceUser.id,
         })
     }),
 
@@ -219,7 +230,15 @@ export const bookingsRoute = createTRPCRouter({
         const isAdmin = !!permissions.find((p) => p.admin);
         const createAsOther = isAdmin || !!permissions.find((p) => p.createAsOther);
 
-        const user = await ctx.prisma.namespaceUser.findUnique({ where: { id: input.requestedBy } })
+        const user = await ctx.prisma.namespaceUser.findUnique({
+            where: {
+                id: input.requestedBy,
+            }
+        })
+
+        if (!user) {
+            throw new TRPCError({ code: "BAD_REQUEST", message: "No se puede encontrar el usuario elegido" })
+        }
 
         if (user?.userId !== ctx.session.user.id && !createAsOther) {
             throw new TRPCError({ code: "BAD_REQUEST", message: "No tenes permisos para crear o actualizar pedidos en nombre de otra persona" })
@@ -297,9 +316,25 @@ export const bookingsRoute = createTRPCRouter({
 
                 if (equipment.length === 0) throw new TRPCError({ code: "BAD_REQUEST", message: "No hay equipo reservado o no está disponible en ese rando de dia y horario" })
 
-                if (!user) {
-                    throw new TRPCError({ code: "BAD_REQUEST", message: "No se puede encontrar el usuario elegido" })
-                }
+
+                const fromTS = await getTimeStamp({
+                    namespaceId: ctx.namespace.id,
+                    prisma: prisma,
+                    day: start.date.day,
+                    month: start.date.month,
+                    year: start.date.year,
+                    timeId: start.timeId,
+                })
+
+                const toTS = await getTimeStamp({
+                    namespaceId: ctx.namespace.id,
+                    prisma: prisma,
+                    day: end.date.day,
+                    month: end.date.month,
+                    year: end.date.year,
+                    timeId: end.timeId,
+                })
+
 
                 const booking = await prisma.booking.create({
                     data: {
@@ -310,22 +345,8 @@ export const bookingsRoute = createTRPCRouter({
                         useType: input.useType,
                         comment: input.comment,
                         poolId: pool?.id,
-                        fromId: (await getTimeStamp({
-                            namespaceId: ctx.namespace.id,
-                            prisma,
-                            day: start.date.day,
-                            month: start.date.month,
-                            year: start.date.year,
-                            timeId: start.timeId,
-                        })).id,
-                        toId: (await getTimeStamp({
-                            namespaceId: ctx.namespace.id,
-                            prisma,
-                            day: end.date.day,
-                            month: end.date.month,
-                            year: end.date.year,
-                            timeId: end.timeId,
-                        })).id,
+                        fromId: fromTS.id,
+                        toId: toTS.id,
                         equipment: {
                             create: equipment.map(([assetTypeId, quantity]) => ({
                                 assetTypeId,

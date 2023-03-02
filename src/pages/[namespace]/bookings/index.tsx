@@ -201,7 +201,7 @@ export default function DashboardBookings() {
                                         }}
                                     >
                                         {isCurrent && <div className="absolute bottom-0 left-0 h-[3px] bg-blue-500 w-2" style={{ 'width': `${progress * 100}%` }}></div>}
-                                        <p className="font-semibold text-sm">{booking.user.name}</p>
+                                        <p className="font-semibold text-sm">{booking.user.user?.name}</p>
                                         <BookingTimeRangeRender from={booking.from} to={booking.to} />
                                         <div className="grid grid-flow-col gap-[7px] justify-start my-[2px]">
                                             {booking.equipment.map(equipment => {

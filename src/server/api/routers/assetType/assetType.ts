@@ -37,7 +37,26 @@ export const assetTypeRouter = createTRPCRouter({
       include: {
         assets: {
           include: {
-            inUseAssets: { select: { id: true, booking: { select: { id: true, user: { select: { name: true, email: true, id: true, image: true, } } } } } },
+            inUseAssets: {
+              select: {
+                id: true, booking: {
+                  select: {
+                    id: true, user: {
+                      include: {
+                        user: {
+                          select: {
+                            name: true,
+                            email: true,
+                            id: true,
+                            image: true,
+                          }
+                        }
+                      }
+                    },
+                  }
+                }
+              }
+            },
           }
         },
       }
@@ -55,8 +74,17 @@ export const assetTypeRouter = createTRPCRouter({
               select: {
                 id: true,
                 user: {
-                  select: { name: true, email: true, id: true, image: true, }
-                }
+                  include: {
+                    user: {
+                      select: {
+                        name: true,
+                        email: true,
+                        id: true,
+                        image: true,
+                      }
+                    }
+                  }
+                },
               }
             }
           },
@@ -139,7 +167,18 @@ export const assetTypeRouter = createTRPCRouter({
           include: {
             booking: {
               include: {
-                user: { select: { name: true, email: true, id: true, image: true, } },
+                user: {
+                  include: {
+                    user: {
+                      select: {
+                        name: true,
+                        email: true,
+                        id: true,
+                        image: true,
+                      }
+                    }
+                  }
+                },
                 from: { include: { date: true, time: true } },
                 to: { include: { date: true, time: true } },
               }

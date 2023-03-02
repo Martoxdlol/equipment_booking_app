@@ -1,15 +1,17 @@
 import { useRouter } from "next/router";
-import DashboardLayout from "../../../../lib/components/DashboardLayout";
 import BookingForm from "../../../../lib/components/bookingForm";
 import NotFoundFullPage from "../../../../lib/layouts/NotFoundFullPage";
 import { api } from "../../../../utils/api";
-import { useState } from "react";
 import LoadingFullPage from "../../../../lib/layouts/LoadingFullPage";
+import DashboardLayout from "../../../../lib/layouts/Dashboard";
+import namespaceRow from "../../../../lib/util/namespaceRow";
+import { useNamespaceSlug } from "../../../../utils/hooks";
 
 
 export default function DashboardNewBooking() {
     const router = useRouter()
     const bookingId = router.query.bookingId?.toString() || ''
+    const namespaceSlug = useNamespaceSlug()
 
     const { data: booking, isInitialLoading } = api.bookings.get.useQuery(bookingId || '', { enabled: !!bookingId })
 
@@ -17,7 +19,7 @@ export default function DashboardNewBooking() {
         return <NotFoundFullPage />
     }
 
-    if(isInitialLoading) {
+    if (isInitialLoading) {
         return <LoadingFullPage />
     }
 
@@ -30,7 +32,8 @@ export default function DashboardNewBooking() {
     }
 
     return <DashboardLayout
-        title="Nuevo pedido"
+        title="Modificar pedido"
+        row={namespaceRow(namespaceSlug || '-')}
     >
         <BookingForm
             booking={booking}
