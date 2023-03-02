@@ -2,7 +2,6 @@ import dayjs from "dayjs";
 import Label from "./Label";
 import Select from "./Select";
 import DatePicker from "./DatePicker";
-import Input from "./Input";
 
 interface Date {
     year: number
@@ -24,15 +23,6 @@ export default function TimeRangePicker(props: { value: { from: Date, duartion: 
         year: current.get('year'),
     }
 
-    const toDate = current.add(props.value?.duartion || 30, 'day')
-
-    const to = {
-        day: toDate.get('date'),
-        month: toDate.get('month') + 1,
-        year: toDate.get('year'),
-    }
-
-
     return <div className="grid sm:grid-cols-2 gap-1" style={{ display: 'grid' }}>
         <div>
             <Label>Desde</Label>
@@ -51,20 +41,26 @@ export default function TimeRangePicker(props: { value: { from: Date, duartion: 
         </div>
         <div>
             <Label>Hasta</Label>
-            <DatePicker onChange={(value) => {
-                if (!value || !value.day || !value.month || !value.year) return;
-
-                const date = dayjs(`${value.year}-${value.month}-${value.day}`)
-
-                const diff = Math.floor((date.valueOf() - current.valueOf()) / (1000 * 60 * 60 * 24))
-
-                if (diff < 1) return;
-
-                props.onChange({
-                    from: from || current,
-                    duartion: diff || 30
-                })
-            }} value={to} />
+            <Select
+                radiusLeft
+                radiusRight
+                value={props.value?.duartion.toString()}
+                options={[
+                    { label: 'Un día', value: '1' },
+                    { label: 'Un semana', value: '7' },
+                    { label: 'Un mes', value: '30' },
+                    { label: '2 meses', value: '61' },
+                    { label: '3 meses', value: '92' },
+                    { label: '6 meses', value: '184' },
+                    { label: 'Un año', value: '365' },
+                ]}
+                onChange={(v) => {
+                    props.onChange({
+                        from: from,
+                        duartion: parseInt(v)
+                    })
+                }}
+            />
         </div>
     </div>
 }
