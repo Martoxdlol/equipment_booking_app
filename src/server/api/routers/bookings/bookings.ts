@@ -25,9 +25,10 @@ export type RouterOutput = inferRouterOutputs<AppRouter>;
 export type RouterInput = inferRouterInputs<AppRouter>;
 export type FullBooking = RouterOutput['bookings']['get'];
 
-function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, userId: string | null, from?: Time, to?: Time }) {
+function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, userId: string | null, from?: Time, to?: Time, poolId: string | undefined }) {
     return opts.prisma.booking.findMany({
         where: {
+            poolId: opts.poolId ? opts.poolId : undefined,
             namespaceId: opts.namespaceId,
             userId: opts.userId || undefined,
             from: opts.from ? {
@@ -73,7 +74,11 @@ function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, userId
                     assetType: true,
                 }
             },
-            pool: true,
+            pool: {
+                include: {
+                    _count: { select: { bookings: true } }
+                }
+            },
             from: { include: { time: true, date: true } },
             to: { include: { time: true, date: true } },
             createdBy: true,
@@ -85,6 +90,7 @@ function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, userId
 }
 
 const getInput = {
+    poolId: z.string().optional(),
     from: z.object({
         date: z.object({
             day: z.number(),
@@ -131,6 +137,7 @@ export const bookingsRoute = createTRPCRouter({
         ...getInput,
     })).query(async ({ input, ctx }) => {
         return getBookingsOf({
+            poolId: input.poolId,
             from: input.from,
             to: input.to,
             namespaceId: ctx.namespace.id,
@@ -141,8 +148,11 @@ export const bookingsRoute = createTRPCRouter({
 
     getAllAsAdmin: namespaceReadableProcedure.input(z.object({
         ...getInput,
-    })).query(async ({ ctx }) => {
+    })).query(async ({ input, ctx }) => {
         return getBookingsOf({
+            poolId: input.poolId,
+            from: input.from,
+            to: input.to,
             namespaceId: ctx.namespace.id,
             prisma: ctx.prisma,
             userId: null,
@@ -293,6 +303,7 @@ export const bookingsRoute = createTRPCRouter({
                         userId: input.requestedBy,
                         useType: input.useType,
                         comment: input.comment,
+                        poolId: pool?.id,
                         fromId: (await getTimeStamp({
                             namespaceId: ctx.namespace.id,
                             prisma,
@@ -361,20 +372,123 @@ async function getBookingAvailability(opts: {
 
     if (opts.repeatWeekly) {
         const map = new Map<string, number>()
-        const booking = opts.excludeBookingId ? await opts.prisma.booking.findUnique({ where: { id: opts.excludeBookingId } }) : null
+        const booking = opts.excludeBookingId ? await opts.prisma.booking.findUnique({
+            where: { id: opts.excludeBookingId },
+            include: { from: { select: { date: true, time: true, } }, to: { select: { date: true, time: true } } }
+        }) : null
+
+
+        const pool = booking?.poolId && await opts.prisma.recurrentBookingPool.findFirst({
+            where: { id: booking.poolId },
+            include: {
+                bookings: {
+                    select: {
+                        id: true,
+                        from: { select: { date: true }, },
+                        to: { select: { date: true }, },
+                    }
+                }
+            }
+        })
+
+
+        // const iterable = pool ? pool.bookings.map(booking => {
+        //     const date = dayjs(`${booking.from.date.year}/${booking.from.date.month}/${booking.from.date.day}`).get('months')
+
+        //     return {
+        //         booking: booking as typeof booking | null,
+        //         daysDiff: 0
+        //     }
+        // }) : []
+
+        // if (!pool) {
+        //     for (let i = 0; i < opts.repeatWeekly + 1; i++) {
+        //         iterable.push({
+        //             booking: null,
+        //             daysDiff: i * 7
+        //         })
+        //     }
+        // }
+
+        type TimeDate = {
+            date: {
+                day: number
+                month: number
+                year: number
+            };
+            timeId: string
+        }
+
+        const datesToCheck: { start: TimeDate, end: TimeDate }[] = []
+
+        if (pool && booking) {
+            let bookingDate = dayjs().startOf('day')
+            bookingDate = bookingDate.set('year', booking.from.date.year)
+            bookingDate = bookingDate.set('month', booking.from.date.month - 1)
+            bookingDate = bookingDate.set('date', booking.from.date.day)
+            // bookingDate = bookingDate.set('hour', booking.from.time.hours)
+            // bookingDate = bookingDate.set('minute', booking.from.time.minutes)
+
+            let inputDate = dayjs().startOf('day')
+            inputDate = inputDate.set('year', opts.start.date.year)
+            inputDate = inputDate.set('month', opts.start.date.month - 1)
+            inputDate = inputDate.set('date', opts.start.date.day)
+            const diff = inputDate.diff(bookingDate, 'day')
+
+            for (const booking of pool.bookings) {
+                let bookingFromDate = dayjs().startOf('day')
+                bookingFromDate = bookingFromDate.set('year', booking.from.date.year)
+                bookingFromDate = bookingFromDate.set('month', booking.from.date.month - 1)
+                bookingFromDate = bookingFromDate.set('date', booking.from.date.day)
+
+                const newPossibleFromDate = bookingFromDate.add(diff, 'day')
+
+                let bookingToDate = dayjs().startOf('day')
+                bookingToDate = bookingToDate.set('year', booking.to.date.year)
+                bookingToDate = bookingToDate.set('month', booking.to.date.month - 1)
+                bookingToDate = bookingToDate.set('date', booking.to.date.day)
+
+                const start = {
+                    date: {
+                        day: newPossibleFromDate.get('date'),
+                        month: newPossibleFromDate.get('month') + 1,
+                        year: newPossibleFromDate.get('year'),
+                    },
+                    timeId: opts.start.timeId
+                }
+
+                const end = {
+                    date: {
+                        day: bookingToDate.get('date'),
+                        month: bookingToDate.get('month') + 1,
+                        year: bookingToDate.get('year'),
+                    },
+                    timeId: opts.end.timeId
+                }
+
+                datesToCheck.push({ start, end })
+            }
+        } else {
+            for (let i = 0; i < opts.repeatWeekly + 1; i++) {
+                const start = {
+                    date: addDays(opts.start.date, i * 7),
+                    timeId: opts.start.timeId,
+                }
+
+                const end = {
+                    date: addDays(opts.end.date, i * 7),
+                    timeId: opts.end.timeId,
+                }
+
+                datesToCheck.push({ start, end })
+            }
+        }
+
 
         let isFirst = true
 
-        for (let i = 0; i < opts.repeatWeekly + 1; i++) {
-            const start = {
-                date: addDays(opts.start.date, i * 7),
-                timeId: opts.start.timeId,
-            }
-
-            const end = {
-                date: addDays(opts.end.date, i * 7),
-                timeId: opts.end.timeId,
-            }
+        for (const entry of datesToCheck) {
+            const { start, end } = entry
 
             const availability = await getBookingAvailability({ ...opts, repeatWeekly: undefined, excludePoolId: booking?.poolId, start, end })
 

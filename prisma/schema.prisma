@@ -120,7 +120,7 @@ model Booking {
 model EquipmentBookingItem {
     id String @id @default(cuid())
 
-    booking     Booking   @relation(fields: [bookingId], references: [id])
+    booking     Booking   @relation(fields: [bookingId], references: [id], onDelete: Cascade)
     bookingId   String
     assetType   AssetType @relation(fields: [assetTypeId], references: [id])
     assetTypeId String

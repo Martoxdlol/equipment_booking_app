@@ -16,6 +16,7 @@ type Unboxed<T> =
 export default function DashboardBookings() {
     return <DashboardNamespaceRoute>
         {function Render({ namespace }) {
+
             const [dateStr, setDateStr] = useQueryState('show-from-date', { defaultValue: dayjs().startOf('week').format('YYYY-MM-DD') })
             const date = useMemo(() => (dateStr && dateStr != 'current') ? dayjs(dateStr) : dayjs().startOf('week'), [dateStr])
             const setDate = useMemo(() => (value: dayjs.Dayjs) => setDateStr(value.format('YYYY-MM-DD')), [setDateStr])
@@ -28,21 +29,24 @@ export default function DashboardBookings() {
 
             const router = useRouter()
 
+            const [poolId, setPoolId] = useQueryState('pool', { defaultValue: '' })
+
             const { data: _bookings } = api.bookings.getAll.useQuery({
-                from: {
+                poolId: poolId ? poolId : undefined,
+                from: (!poolId || (router.query['show-from-date'] && router.query['time-length-days'])) ? {
                     date: {
                         year: date.year(),
                         month: date.month() + 1,
                         day: date.date(),
                     }
-                },
-                to: {
+                } : undefined,
+                to: (!poolId || (router.query['show-from-date'] && router.query['time-length-days'])) ? {
                     date: {
                         year: dateTo.year(),
                         month: dateTo.month() + 1,
                         day: dateTo.date(),
                     }
-                },
+                } : undefined,
             }, {
                 refetchInterval: 1000 * 30,
             })
@@ -116,6 +120,8 @@ export default function DashboardBookings() {
                 })
             }, [bookings])
 
+            const firstBooking = bookings[0] || null
+
             return <>
                 <div className="md:flex justify-between mb-3">
                     <TimeRangePicker
@@ -140,6 +146,15 @@ export default function DashboardBookings() {
                         >Nuevo</Button>
                     </div>
                 </div>
+                {(poolId && firstBooking) && <div className="shadow-sm border rounded-md p-2 flex justify-between">
+                    <p>Viendo pedido recurrente</p>
+                    <p className="text-blue-500 font-semibold cursor-pointer"
+                        onClick={() => {
+                            void setPoolId(null)
+                        }}
+                    >CERRAR</p>
+                    {/* firstBooking */}
+                </div>}
                 <div>
                     {dates.map(dateId => {
                         const date = datesById.get(dateId)

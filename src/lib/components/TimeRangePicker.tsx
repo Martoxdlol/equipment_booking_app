@@ -24,7 +24,7 @@ export default function TimeRangePicker(props: { value: { from: Date, duartion: 
         year: current.get('year'),
     }
 
-    const toDate = current.add(props.value?.duartion || 7, 'day')
+    const toDate = current.add(props.value?.duartion || 30, 'day')
 
     const to = {
         day: toDate.get('date'),
@@ -45,7 +45,7 @@ export default function TimeRangePicker(props: { value: { from: Date, duartion: 
                         month: value.month,
                         year: value.year,
                     },
-                    duartion: props.value?.duartion || 7
+                    duartion: props.value?.duartion || 30
                 })
             }} value={from} />
         </div>
@@ -62,7 +62,7 @@ export default function TimeRangePicker(props: { value: { from: Date, duartion: 
 
                 props.onChange({
                     from: from || current,
-                    duartion: diff || 7
+                    duartion: diff || 30
                 })
             }} value={to} />
         </div>

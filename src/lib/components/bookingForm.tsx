@@ -17,6 +17,7 @@ import Button from "./Button";
 import type { Booking } from "@prisma/client";
 import type { FullBooking } from "../../server/api/routers/bookings/bookings";
 import dayjs from "dayjs";
+import Link from "next/link";
 
 interface BookingFormProps {
     booking?: FullBooking
@@ -212,26 +213,35 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
                 />
             </div>
 
-            <div>
-                <label className="block text-sm font-medium text-gray-700">Pedido recurrente</label>
-                <Switch
-                    value={recurrencyEnabled}
-                    onChange={setRecurrencyEnabled}
-                />
-            </div>
-            <div>
-                <label className="block text-sm font-medium text-gray-700">Repetir hasta (inclusive)</label>
-                <RecurrencyPicker
-                    disabled={!recurrencyEnabled}
-                    initialDate={fromDate}
-                    vale={recurrency}
-                    onChange={setRecurrency}
-                />
-            </div>
+            {!isEditing && <>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Pedido recurrente</label>
+                    <Switch
+                        value={recurrencyEnabled}
+                        onChange={setRecurrencyEnabled}
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Repetir hasta (inclusive)</label>
+                    <RecurrencyPicker
+                        disabled={!recurrencyEnabled}
+                        initialDate={fromDate}
+                        vale={recurrency}
+                        onChange={setRecurrency}
+                    />
+                </div>
+            </>}
             <div className="col-span-2">
                 <Label>Comentario (opcional)</Label>
                 <Input value={comment} onChange={(e) => setComment(e.target.value)} />
             </div>
+            {(isEditing && booking.pool && namespace) && <div className="col-span-2">
+                <p className="font-semibold">
+                    El pedido es recurrente por {booking.pool?._count.bookings} semanas
+                    &nbsp;
+                    <Link href={`/${namespace.slug}/bookings?pool=${booking.pool.id}`} className="text-blue-500">ver fechas</Link>
+                </p>
+            </div>}
         </div>
         <div>
             <Label>Elegir equipamiento</Label>
