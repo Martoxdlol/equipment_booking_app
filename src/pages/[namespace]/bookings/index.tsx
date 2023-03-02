@@ -7,6 +7,9 @@ import { useQueryState } from 'next-usequerystate'
 import TimeRangePicker from "../../../lib/components/TimeRangePicker";
 import Button from "../../../lib/components/Button";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import { stringToColor } from "../../../lib/util/colors";
+import Link from "next/link";
 
 type Unboxed<T> =
     T extends (infer U)[]
@@ -21,7 +24,7 @@ export default function DashboardBookings() {
             const date = useMemo(() => (dateStr && dateStr != 'current') ? dayjs(dateStr) : dayjs().startOf('week'), [dateStr])
             const setDate = useMemo(() => (value: dayjs.Dayjs) => setDateStr(value.format('YYYY-MM-DD')), [setDateStr])
 
-            const [lengthDaysStr, setLengthDaysStr] = useQueryState('time-length-days', { defaultValue: '7' })
+            const [lengthDaysStr, setLengthDaysStr] = useQueryState('time-length-days', { defaultValue: '30' })
             const lengthDays = useMemo(() => parseInt(lengthDaysStr), [lengthDaysStr])
             const setLengthDays = useMemo(() => (value: number) => setLengthDaysStr(value.toString()), [setLengthDaysStr])
 
@@ -210,6 +213,17 @@ export default function DashboardBookings() {
                                             {booking.useType && <p>{booking.useType}</p>}
                                             {(booking.comment && booking.useType) && <p>&nbsp;&bull;&nbsp;</p>}
                                             {booking.comment && <p>{booking.comment}</p>}
+                                        </div>
+                                        <div
+                                            onClick={e => {
+                                                e.stopPropagation()
+                                                if(!booking.poolId) return;
+                                                void setPoolId(booking.poolId)
+                                            }}
+                                            className="absolute top-[3px] right-[4px] h-[12px] w-[24px] rounded-full bg-blue-500 flex justify-around"
+                                            style={{ backgroundColor: stringToColor(booking.poolId ?? booking.userId) }}
+                                        >
+                                            {booking.poolId && <Image alt="icon" src="/link.svg" width={14} height={14} />}
                                         </div>
                                     </li>
                                 })}

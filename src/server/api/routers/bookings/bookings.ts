@@ -239,8 +239,8 @@ export const bookingsRoute = createTRPCRouter({
             const totalNowMinutes = minutes + (hours * 60)
             const totalTimeMinutes = time.minutes + (time.hours * 60)
 
-            if (totalNowMinutes - 30 < totalTimeMinutes) {
-                throw new TRPCError({ code: "BAD_REQUEST", message: "No se pueden tener reservas en el pasado" })
+            if (totalNowMinutes - 30 > totalTimeMinutes) {
+                throw new TRPCError({ code: "BAD_REQUEST", message: "No se pueden tener reservas en el mismo día pero más de media hora en el pasado" })
             }
         }
 
