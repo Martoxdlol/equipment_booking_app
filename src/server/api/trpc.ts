@@ -202,10 +202,28 @@ export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) =
     })
   }
 
+  const namespaceUser = await prisma.namespaceUser.upsert({
+    where: {
+      userId_namespaceId: {
+        userId: ctx.session.user.id,
+        namespaceId: namespace.id
+      }
+    },
+    create: {
+      userId: ctx.session.user.id,
+      namespaceId: namespace.id
+    },
+    update: {
+      userId: ctx.session.user.id,
+      namespaceId: namespace.id
+    }
+  })
+
   return next({
     ctx: {
       ...ctx,
       namespace,
+      namespaceUser,
     }
   })
 })

@@ -9,7 +9,6 @@ import Button from "../../../lib/components/Button";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { stringToColor } from "../../../lib/util/colors";
-import Link from "next/link";
 
 type Unboxed<T> =
     T extends (infer U)[]
@@ -17,9 +16,12 @@ type Unboxed<T> =
     : T;
 
 export default function DashboardBookings() {
-    return <DashboardNamespaceRoute>
-        {function Render({ namespace }) {
+    const { data: isAdmin } = api.namespace.isAdmin.useQuery()
 
+    return <DashboardNamespaceRoute
+        isAdmin={isAdmin}
+    >
+        {function Render({ namespace }) {
             const [dateStr, setDateStr] = useQueryState('show-from-date', { defaultValue: dayjs().startOf('week').format('YYYY-MM-DD') })
             const date = useMemo(() => (dateStr && dateStr != 'current') ? dayjs(dateStr) : dayjs().startOf('week'), [dateStr])
             const setDate = useMemo(() => (value: dayjs.Dayjs) => setDateStr(value.format('YYYY-MM-DD')), [setDateStr])
@@ -217,7 +219,7 @@ export default function DashboardBookings() {
                                         <div
                                             onClick={e => {
                                                 e.stopPropagation()
-                                                if(!booking.poolId) return;
+                                                if (!booking.poolId) return;
                                                 void setPoolId(booking.poolId)
                                             }}
                                             className="absolute top-[3px] right-[4px] h-[12px] w-[24px] rounded-full bg-blue-500 flex justify-around"

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, namespaceProcedure, namespaceReadableProcedure, } from "../../trpc";
-import type { Asset, Booking, PrismaClient, RecurrentBookingPool } from "@prisma/client";
+import type { Asset, Booking, PrismaClient } from "@prisma/client";
 import { getTimeStamp } from "../../../../utils/timestamps";
 import { addDays, validateAppDate } from "../../../../utils/dates";
 import { TRPCError } from "@trpc/server";
@@ -219,7 +219,9 @@ export const bookingsRoute = createTRPCRouter({
         const isAdmin = !!permissions.find((p) => p.admin);
         const createAsOther = isAdmin || !!permissions.find((p) => p.createAsOther);
 
-        if (input.requestedBy !== ctx.session.user.id && !createAsOther) {
+        const user = await ctx.prisma.namespaceUser.findUnique({ where: { id: input.requestedBy } })
+
+        if (user?.userId !== ctx.session.user.id && !createAsOther) {
             throw new TRPCError({ code: "BAD_REQUEST", message: "No tenes permisos para crear o actualizar pedidos en nombre de otra persona" })
         }
 
@@ -502,7 +504,7 @@ async function getBookingAvailability(opts: {
                     const num = availability.get(assetTypeId) || 0
                     if (num === 0) {
                         map.delete(assetTypeId)
-                    } else {
+                    } else if (quantity > num) {
                         map.set(assetTypeId, num)
                     }
                 }

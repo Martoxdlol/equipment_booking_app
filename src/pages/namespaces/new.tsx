@@ -1,10 +1,10 @@
 import { useRouter } from "next/router"
 import { useState } from "react"
 import Button from "../../lib/components/Button"
-import DashboardLayout from "../../lib/components/DashboardLayout"
 import ImagePicker from "../../lib/components/ImagePicker"
 import Input from "../../lib/components/Input"
 import Label from "../../lib/components/Label"
+import DashboardLayout from "../../lib/layouts/Dashboard"
 import { apiOperation } from "../../lib/util/errors"
 import { api } from "../../utils/api"
 

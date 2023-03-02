@@ -16,7 +16,6 @@ import { api } from "../../utils/api";
 import Button from "./Button";
 import type { Booking } from "@prisma/client";
 import type { FullBooking } from "../../server/api/routers/bookings/bookings";
-import dayjs from "dayjs";
 import Link from "next/link";
 
 interface BookingFormProps {
@@ -25,19 +24,22 @@ interface BookingFormProps {
 }
 
 export default function BookingForm({ booking, onSave, }: BookingFormProps) {
+    const { data: isAdmin } = api.namespace.isAdmin.useQuery()
+    const { data: users } = api.namespace.users.useQuery(undefined, { enabled: isAdmin })
+    const { data: user } = api.namespace.currentUser.useQuery(undefined)
 
     const namespace = useNamespace()
     const { data: session } = useSession()
 
     const isEditing = !!booking
 
-    const [requestedBy, setRequestedBy] = useState(session?.user.id)
+    const [requestedBy, setRequestedBy] = useState<string | null>(null)
 
     useEffect(() => {
-        if (!requestedBy && session?.user.id) {
-            setRequestedBy(session?.user.id)
+        if (!requestedBy && user) {
+            setRequestedBy(user.id || null)
         }
-    }, [requestedBy, session, session?.user.id])
+    }, [requestedBy, user])
 
 
     const [useType, setUseType] = useState<string>(booking?.useType || '')
@@ -158,9 +160,14 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
         <div className="grid sm:grid-cols-1 md:grid-cols-[7fr_5fr] gap-2 mb-auto">
             <div>
                 <ComboBox
-                    options={[
+                    options={!users ? [
                         { label: session?.user.name || 'Yo', value: session?.user.id || '', picture: session?.user.image },
-                    ]}
+                    ] : users.map(user => {
+                        return {
+                            label: user.user?.name || user.id,
+                            value: user.id,
+                        }
+                    })}
                     onChange={setRequestedBy}
                     value={requestedBy}
                     label="Pedido por"
