@@ -289,22 +289,6 @@ export const bookingsRoute = createTRPCRouter({
                 const booking = await prisma.booking.findFirst({
                     where: {
                         id: input.id,
-                        from: {
-                            date: {
-                                day: input.start.date.day,
-                                month: input.start.date.month,
-                                year: input.start.date.year,
-                            },
-                            timeId: input.start.timeId,
-                        },
-                        to: {
-                            date: {
-                                day: input.end.date.day,
-                                month: input.end.date.month,
-                                year: input.end.date.year,
-                            },
-                            timeId: input.end.timeId,
-                        }
                     },
                     include: {
                         inUseAssets: true,
@@ -333,12 +317,12 @@ export const bookingsRoute = createTRPCRouter({
                                     {
                                         year: now.get('year'),
                                         month: {
-                                            gte: now.get('month'),
+                                            gte: now.get('month') + 1,
                                         },
                                     },
                                     {
                                         year: now.get('year'),
-                                        month: now.get('month'),
+                                        month: now.get('month') + 1,
                                         day: {
                                             gte: now.get('day'),
                                         },
@@ -370,26 +354,77 @@ export const bookingsRoute = createTRPCRouter({
                     }
                 })
 
+                const poolId = booking.poolId
                 for (const booking of bookings) {
+
+                    if (!poolId && bookings.length === 1) {
+                        await prisma.booking.update({
+                            where: {
+                                id: booking.id,
+                            },
+                            data: {
+                                from: {
+                                    connect: {
+                                        id: (await getTimeStamp({
+                                            day: input.start.date.day,
+                                            month: input.start.date.month,
+                                            year: input.start.date.year,
+                                            timeId: input.start.timeId,
+                                            namespaceId: ctx.namespace.id,
+                                            prisma,
+                                        })).id
+                                    },
+                                },
+                                to: {
+                                    connect: {
+                                        id: (await getTimeStamp({
+                                            day: input.end.date.day,
+                                            month: input.end.date.month,
+                                            year: input.end.date.year,
+                                            timeId: input.end.timeId,
+                                            namespaceId: ctx.namespace.id,
+                                            prisma,
+                                        })).id
+                                    }
+                                },
+                            }
+                        })
+                    }
                     await prisma.booking.update({
                         where: {
                             id: booking.id,
                         },
                         data: {
-                            equipment: {
-                                upsert: {
-                                    create: [...input.equipment.entries()].map(([id, quantity]) => ({
-                                        quantity: quantity,
-                                        assetTypeId: id,
-                                        namespaceId: ctx.namespace.id,
-                                    })),
-                                    update: {}
-                                },
-                                
-                            }
+                            userId: input.requestedBy,
+                            useType: input.useType,
+                            comment: input.comment,
                         }
                     })
+
+
+                    for (const [type, quantity] of input.equipment) {
+                        await prisma.equipmentBookingItem.create({
+                            data: {
+                                bookingId: booking.id,
+                                assetTypeId: type,
+                                quantity: quantity,
+                                namespaceId: ctx.namespace.id,
+                            }
+                        })
+                    }
                 }
+
+                const ret = await prisma.booking.findUnique({
+                    where: {
+                        id: input.id
+                    }
+                })
+
+                if (!ret) {
+                    throw new TRPCError({ code: "BAD_REQUEST", message: "No se pudo encontrar la reserva" })
+                }
+
+                return {main: ret}
             }
 
             // Create different weekly bookings
@@ -745,18 +780,6 @@ async function getBookingAvailability(opts: {
         }
     })
 
-    // console.log(requestedItemsInThatTimeFrame)
-    // console.log(requestedItemsInThatTimeFrame.length && await opts.prisma.booking.findUnique({
-    //     where: { id: requestedItemsInThatTimeFrame[0]?.bookingId },
-    //     include: {
-    //         from: {
-    //             include: {date: true, time: true}
-    //         },
-    //         to: {
-    //             include: {date: true, time: true}
-    //         }
-    //     }
-    // }))
 
     requestedItemsInThatTimeFrame = requestedItemsInThatTimeFrame.filter(item => item.bookingId !== opts.excludeBookingId)
     requestedItemsInThatTimeFrame = requestedItemsInThatTimeFrame.filter(item => !pool?.find(poolItem => poolItem.id === item.bookingId))
