@@ -424,7 +424,7 @@ export const bookingsRoute = createTRPCRouter({
                     throw new TRPCError({ code: "BAD_REQUEST", message: "No se pudo encontrar la reserva" })
                 }
 
-                return {main: ret}
+                return { main: ret }
             }
 
             // Create different weekly bookings
@@ -777,6 +777,46 @@ async function getBookingAvailability(opts: {
                     }
                 }
             }
+        },
+        include: {
+            booking: {
+                select: {
+                    from: {
+                        select: {
+                            date: {
+                                select: {
+                                    day: true,
+                                    month: true,
+                                    year: true,
+                                },
+                            },
+                            time: {
+                                select: {
+                                    hours: true,
+                                    minutes: true,
+                                },
+                            },
+                        },
+                    },
+                    to: {
+                        select: {
+                            date: {
+                                select: {
+                                    day: true,
+                                    month: true,
+                                    year: true,
+                                },
+                            },
+                            time: {
+                                select: {
+                                    hours: true,
+                                    minutes: true,
+                                },
+                            },
+                        }
+                    }
+                }
+            }
         }
     })
 
@@ -784,29 +824,112 @@ async function getBookingAvailability(opts: {
     requestedItemsInThatTimeFrame = requestedItemsInThatTimeFrame.filter(item => item.bookingId !== opts.excludeBookingId)
     requestedItemsInThatTimeFrame = requestedItemsInThatTimeFrame.filter(item => !pool?.find(poolItem => poolItem.id === item.bookingId))
 
-    const requestedItemsByAssetId = new Map<string, typeof requestedItemsInThatTimeFrame>()
+    type Unpacked<T> = T extends (infer U)[] ? U : T;
+
+    // Different times
+    const times = new Set<number>
+    const timestampFromOf = new Map<string, number>()
+    const timestampToOf = new Map<string, number>()
+    const itemsByTime = new Map<number, typeof requestedItemsInThatTimeFrame>()
+
+
     for (const item of requestedItemsInThatTimeFrame) {
-        const list = requestedItemsByAssetId.get(item.assetTypeId) || []
-        requestedItemsByAssetId.set(item.assetTypeId, [...list, item])
+        let fromTs = dayjs()
+        fromTs = fromTs.set('year', item.booking.from.date.year)
+        fromTs = fromTs.set('month', item.booking.from.date.month - 1)
+        fromTs = fromTs.set('date', item.booking.from.date.day)
+        fromTs = fromTs.set('hour', item.booking.from.time.hours)
+        fromTs = fromTs.set('minute', item.booking.from.time.minutes)
+        fromTs = fromTs.set('second', 0)
+
+        const from = fromTs.valueOf();
+
+        let toTs = dayjs()
+        toTs = toTs.set('year', item.booking.to.date.year)
+        toTs = toTs.set('month', item.booking.to.date.month - 1)
+        toTs = toTs.set('date', item.booking.to.date.day)
+        toTs = toTs.set('hour', item.booking.to.time.hours)
+        toTs = toTs.set('minute', item.booking.to.time.minutes)
+        toTs = toTs.set('second', 0)
+
+        const to = toTs.valueOf();
+
+        times.add(to)
+        times.add(from)
+
+
+
+        timestampFromOf.set(item.id, from)
+        timestampToOf.set(item.id, to)
+    }
+
+
+    for (const time of times) {
+        const items = requestedItemsInThatTimeFrame.filter(item => {
+            const from = timestampFromOf.get(item.id) || 0
+            const to = timestampToOf.get(item.id) || 0
+
+            return time >= from && time <= to
+        })
+
+
+        itemsByTime.set(time, items)
+    }
+
+
+    const availabilities: Map<string, number>[] = []
+
+
+    const baseAvailability = new Map<string, number>()
+
+    for (const key of assetsByTypeId.keys()) {
+        const assets = assetsByTypeId.get(key)
+        const num = assets?.length || 0
+        baseAvailability.set(key, num)
+    }
+
+    for (const [time, items] of itemsByTime) {
+        const requestedItemsByAssetId = new Map<string, typeof items>()
+        for (const item of items) {
+            const list = requestedItemsByAssetId.get(item.assetTypeId) || []
+            requestedItemsByAssetId.set(item.assetTypeId, [...list, item])
+        }
+
+        const typeAvailabilityById = new Map<string, number>()
+
+        for (const key of assetsByTypeId.keys()) {
+            const assets = assetsByTypeId.get(key)
+            const requestedItems = requestedItemsByAssetId.get(key)
+
+            let num = baseAvailability.get(key) || 0
+            if (requestedItems) {
+                num -= requestedItems.reduce((acc, item) => (acc as unknown as number) + (item.quantity as unknown as number), 0)
+            }
+
+            if (num < 0) {
+                console.log('CONFLICT', 'Availability lower than 0', 'assets', assets?.length, 'requestedItems', requestedItems?.length, 'key', key)
+                num = 0
+            }
+
+            typeAvailabilityById.set(key, num)
+        }
+
+        availabilities.push(typeAvailabilityById)
     }
 
     const typeAvailabilityById = new Map<string, number>()
 
-    for (const key of assetsByTypeId.keys()) {
-        const assets = assetsByTypeId.get(key)
-        const requestedItems = requestedItemsByAssetId.get(key)
-
-        let num = assets?.length || 0
-        if (requestedItems) {
-            num -= requestedItems.reduce((acc, item) => (acc as unknown as number) + (item.quantity as unknown as number), 0)
+    let isFirst = true;
+    for (const availability of availabilities) {
+        for (const [key, value] of availability) {
+            const current = typeAvailabilityById.get(key) || (isFirst ? value : 0)
+            isFirst = false
+            typeAvailabilityById.set(key, Math.min(current, value))
         }
+    }
 
-        if (num < 0) {
-            console.log('CONFLICT', 'Availability lower than 0', 'assets', assets?.length, 'requestedItems', requestedItems?.length, 'key', key)
-            num = 0
-        }
-
-        typeAvailabilityById.set(key, num)
+    if (availabilities.length === 0) {
+        return baseAvailability
     }
 
     return typeAvailabilityById
