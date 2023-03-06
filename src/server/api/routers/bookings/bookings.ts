@@ -225,6 +225,8 @@ export const bookingsRoute = createTRPCRouter({
     })).mutation(async ({ ctx, input }) => {
         const now = dayjs()
 
+        const isUpdating = !!input.id
+
         const permissions = ctx.namespace.permissions.filter((p) => p.userId === ctx.session.user.id)
 
         const isAdmin = !!permissions.find((p) => p.admin);
@@ -283,8 +285,116 @@ export const bookingsRoute = createTRPCRouter({
                 }
             }) : null
 
+            if (isUpdating) {
+                const booking = await prisma.booking.findFirst({
+                    where: {
+                        id: input.id,
+                        from: {
+                            date: {
+                                day: input.start.date.day,
+                                month: input.start.date.month,
+                                year: input.start.date.year,
+                            },
+                            timeId: input.start.timeId,
+                        },
+                        to: {
+                            date: {
+                                day: input.end.date.day,
+                                month: input.end.date.month,
+                                year: input.end.date.year,
+                            },
+                            timeId: input.end.timeId,
+                        }
+                    },
+                    include: {
+                        inUseAssets: true,
+                    }
+                })
+
+                if (!booking) throw new TRPCError({ code: "BAD_REQUEST", message: "No se puede encontrar la reserva o no se pudo modificar" })
+
+                if (booking.namespaceId !== ctx.namespace.id) throw new TRPCError({ code: "BAD_REQUEST", message: "No tenes permisos para actualizar esta reserva" })
+
+                if (booking.userId !== input.requestedBy && !isAdmin) throw new TRPCError({ code: "BAD_REQUEST", message: "No tenes permisos para actualizar esta reserva" })
+
+                if (booking.inUseAssets.length > 0 && !isAdmin) throw new TRPCError({ code: "BAD_REQUEST", message: "No se puede actualizar una reserva que ya tiene elementos en uso" })
+
+                const bookings = booking.poolId ? await prisma.booking.findMany({
+                    where: {
+                        poolId: booking.poolId,
+                        from: {
+                            date: {
+                                OR: [
+                                    {
+                                        year: {
+                                            gte: now.get('year'),
+                                        },
+                                    },
+                                    {
+                                        year: now.get('year'),
+                                        month: {
+                                            gte: now.get('month'),
+                                        },
+                                    },
+                                    {
+                                        year: now.get('year'),
+                                        month: now.get('month'),
+                                        day: {
+                                            gte: now.get('day'),
+                                        },
+                                    },
+                                ]
+                            },
+                            time: {
+                                OR: [
+                                    {
+                                        hours: {
+                                            gte: now.get('hour'),
+                                        },
+                                    },
+                                    {
+                                        hours: now.get('hour'),
+                                        minutes: {
+                                            gte: now.get('minute'),
+                                        },
+                                    },
+                                ]
+                            }
+                        },
+                    }
+                }) : [booking]
+
+                await prisma.equipmentBookingItem.deleteMany({
+                    where: {
+                        OR: bookings.map((b) => ({ bookingId: b.id }))
+                    }
+                })
+
+                for (const booking of bookings) {
+                    await prisma.booking.update({
+                        where: {
+                            id: booking.id,
+                        },
+                        data: {
+                            equipment: {
+                                upsert: {
+                                    create: [...input.equipment.entries()].map(([id, quantity]) => ({
+                                        quantity: quantity,
+                                        assetTypeId: id,
+                                        namespaceId: ctx.namespace.id,
+                                    })),
+                                    update: {}
+                                },
+                                
+                            }
+                        }
+                    })
+                }
+            }
+
             // Create different weekly bookings
             for (let i = 0; i < repeat + 1; i++) {
+                if (isUpdating) break;
 
                 if (!validateAppDate(input.start.date)) throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid start date" })
                 if (!validateAppDate(input.end.date)) throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid end date" })
@@ -334,7 +444,6 @@ export const bookingsRoute = createTRPCRouter({
                     year: end.date.year,
                     timeId: end.timeId,
                 })
-
 
                 const booking = await prisma.booking.create({
                     data: {
@@ -467,6 +576,10 @@ async function getBookingAvailability(opts: {
                 bookingFromDate = bookingFromDate.set('year', booking.from.date.year)
                 bookingFromDate = bookingFromDate.set('month', booking.from.date.month - 1)
                 bookingFromDate = bookingFromDate.set('date', booking.from.date.day)
+
+                const now = dayjs()
+
+                if (now.subtract(30, 'minute').isAfter(bookingFromDate)) continue
 
                 const newPossibleFromDate = bookingFromDate.add(diff, 'day')
 

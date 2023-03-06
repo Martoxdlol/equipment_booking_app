@@ -185,6 +185,7 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
             <div>
                 <label className="block text-sm font-medium text-gray-700">Desde</label>
                 <DatePicker
+                    disabled={!!(isEditing && booking?.poolId)}
                     value={fromDate}
                     onChange={setFromDate}
                 />
@@ -192,6 +193,7 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
             <div>
                 <label className="sm:block text-sm font-medium text-gray-700 hidden md:block">Horario</label>
                 <ElegibleTimePicker
+                    disabled={!!(isEditing && booking?.poolId)}
                     value={fromTime}
                     onChange={setFromTime}
                     maxExcludeId={toTime?.id}
@@ -204,7 +206,7 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
 
                 <Label>Hasta</Label>
                 <DatePicker
-                    disabled={toDateIsSameAsFrom}
+                    disabled={toDateIsSameAsFrom || !!(isEditing && booking?.poolId)}
                     value={toDate}
                     onChange={setToDate}
                 />
@@ -214,6 +216,7 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
                 {toDateIsSameAsFrom && <Label className="hidden sm:block">Horario</Label>}
                 {!toDateIsSameAsFrom && <Label>Horario</Label>}
                 <ElegibleTimePicker
+                    disabled={!!(isEditing && booking?.poolId)}
                     value={toTime}
                     onChange={setToTime}
                     minExcludeId={fromTime?.id}
