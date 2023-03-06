@@ -17,6 +17,7 @@ import Button from "./Button";
 import type { Booking } from "@prisma/client";
 import type { FullBooking } from "../../server/api/routers/bookings/bookings";
 import Link from "next/link";
+import DeleteButton from "./DeleteButton";
 
 interface BookingFormProps {
     booking?: FullBooking
@@ -270,8 +271,17 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
             <Button className="w-full"
                 onClick={() => void handleSave()}
             >
-                Crear
+                {isEditing ? 'Guardar cambios' : 'Crear'}
             </Button>
+            {isEditing && <>
+                {booking?.poolId && <div className="grid md:grid-cols-2">
+                    <DeleteButton onConfirmDelete={() => undefined}>Eliminar todas las fechas</DeleteButton>
+                    <div className="sm:flex sm:justify-end">
+                        <DeleteButton onConfirmDelete={() => undefined}>Eliminar solo esta fecha</DeleteButton>
+                    </div>
+                </div>}
+                {!booking?.poolId && <DeleteButton onConfirmDelete={() => undefined}>Eliminar</DeleteButton>}
+            </>}
         </div>
     </div>
 }
