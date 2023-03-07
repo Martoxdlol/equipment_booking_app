@@ -1,18 +1,16 @@
 import DashboardNamespaceRoute from "../../lib/layouts/DashboardNamespaceRoute";
-import TopRightActions from "../../lib/components/TopRightActions";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { api } from "../../utils/api";
+import { useIsAdmin } from "../../utils/hooks";
 
 export default function DashboardOverview() {
 
-    const { data: isAdmin, error } = api.namespace.isAdmin.useQuery()
+    const isAdmin = useIsAdmin()
 
     return <DashboardNamespaceRoute
         isAdmin={isAdmin}
     >
         {function Render({ namespace }) {
-            const router = useRouter()
             return <>
 
                 <h1 className="text-lg font-semibold mb-2">Destacado</h1>

@@ -31,7 +31,9 @@ export const deployRouter = createTRPCRouter({
                         bookingId: input.bookingId,
                         namespaceId: ctx.namespace.id,
                     },
-                    update: {}
+                    update: {
+                        bookingId: input.bookingId,
+                    }
                 })
             }
 
@@ -52,11 +54,13 @@ export const deployRouter = createTRPCRouter({
             const quantityByTypeId = new Map<string, number>()
 
             for (const asset of updated.inUseAssets) {
-                if(asset.namespaceId !== ctx.namespace.id) throw new TRPCError({ code: 'NOT_FOUND', cause: 'ASSET' })
+                if (asset.namespaceId !== ctx.namespace.id) throw new TRPCError({ code: 'NOT_FOUND', cause: 'ASSET' })
 
                 const quantity = quantityByTypeId.get(asset.asset.assetTypeId) || 0
                 quantityByTypeId.set(asset.asset.assetTypeId, quantity + 1)
             }
+
+            const okTypes = new Set<string>()
 
             for (const item of updated.equipment) {
                 const inUseQuantity = quantityByTypeId.get(item.assetTypeId) || 0
@@ -72,6 +76,21 @@ export const deployRouter = createTRPCRouter({
                         }
                     })
                 }
+
+                okTypes.add(item.assetTypeId)
+            }
+
+            for (const [typeId, quantity] of quantityByTypeId) {
+                if (okTypes.has(typeId)) continue
+                await prisma.equipmentBookingItem.create({
+                    data: {
+                        bookingId: updated.id,
+                        assetTypeId: typeId,
+                        quantity: quantity,
+                        namespaceId: ctx.namespace.id,
+                    }
+                })
+
             }
 
             return updated.inUseAssets.map(asset => asset.asset)

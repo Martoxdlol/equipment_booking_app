@@ -15,6 +15,11 @@ export default function namespaceRow(slug: string) {
         },
         {
             admin: true,
+            label: 'Deploy',
+            href: '/' + slug + '/deploy',
+        },
+        {
+            admin: true,
             label: 'Config',
             href: '/' + slug + '/settings',
         }

@@ -95,7 +95,15 @@ function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, userId
                     }
                 }
             },
-            inUseAssets: true,
+            inUseAssets: {
+                include: {
+                    asset: {
+                        select: {
+                            assetTypeId: true,
+                        }
+                    }
+                }
+            },
         }
     })
 }
@@ -226,7 +234,7 @@ export const bookingsRoute = createTRPCRouter({
         }),
         equipment: z.map(z.string(), z.number()),
         repeatWeeks: z.number().optional(),
-    })).mutation(async ({ ctx, input }) => {
+    })).mutation(async ({ ctx, input, }) => {
         const now = dayjs()
 
         const isUpdating = !!input.id
@@ -461,7 +469,7 @@ export const bookingsRoute = createTRPCRouter({
                 const fromDate = dayjs(`${start.date.year}/${start.date.month}/${start.date.day}`).startOf('day')
                 const nowDate = dayjs().startOf('day')
 
-                if (fromDate.isBefore(nowDate)) continue
+                if (fromDate.isBefore(nowDate) && !isAdmin) continue
 
                 if (equipment.length === 0) throw new TRPCError({
                     code: "BAD_REQUEST",

@@ -2,11 +2,13 @@ import classNames from "classnames";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { useState } from "react";
+import BookingAssetIndicator from "../../../lib/components/BookingAssetIndicator";
 import Button from "../../../lib/components/Button";
 import Label from "../../../lib/components/Label";
 import Switch from "../../../lib/components/Switch";
 import DashboardLayout from "../../../lib/layouts/Dashboard";
 import NamespaceAdminRoute from "../../../lib/layouts/NamespaceAdminRoute";
+import namespaceRow from "../../../lib/util/namespaceRow";
 import { api } from "../../../utils/api";
 
 export default function DashboardDeploy() {
@@ -68,16 +70,16 @@ export default function DashboardDeploy() {
             }
 
             return <DashboardLayout
+                row={namespaceRow(namespace.slug)}
                 titleHref={`/${namespace.slug}`}
                 title="Entregar y devolver"
             >
                 <div className="grid md:grid-cols-2 gap-2">
-                    <div className="grid gap-2">
+                    <div className="grid gap-2 mb-auto">
                         {assetTypes?.map(assetType => {
                             return <div key={assetType.id}>
                                 <div className="flex justify-between">
                                     <Label>{assetType.name}</Label>
-                                    {selection.size > 0 && <p className="text-blue-500 text-sm font-semibold cursor-pointer" onClick={() => void handlerReturn()}>Devolver seleccionados</p>}
                                 </div>
                                 <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-1">
 
@@ -98,7 +100,7 @@ export default function DashboardDeploy() {
                             </div>
                         })}
                     </div>
-                    <div>
+                    <div className="mb-auto">
                         <Label>Entregar a</Label>
                         <Switch offLabel="Elegir" onLabel="Nuevo" />
                         <div className="grid gap-1 mt-2">
@@ -113,17 +115,17 @@ export default function DashboardDeploy() {
                                     <p>{booking.user.user?.name || ''}</p>
                                     <p className="text-sm font-semibold text-blue-500">{booking.from.time.hours}:{booking.from.time.minutes} - {booking.to.time.hours}:{booking.to.time.minutes}</p>
                                     <div>
-                                        {booking.equipment.map(equipment => {
-                                            return <p key={equipment.id} className="text-sm font-semibold">
-                                                {equipment.assetType.name}: {equipment.quantity}
-                                            </p>
-                                        })}
+                                        <BookingAssetIndicator
+                                            inUse={booking.inUseAssets}
+                                            equipment={booking.equipment}
+                                        />
                                     </div>
                                 </div>
                             })}
                         </div>
                         <div className="mt-2">
-                            {selectedBooking && <Button className="w-full" onClick={() => void handleDeployTo(selectedBooking)}>Entregar</Button>}
+                            {selectedBooking && <Button className="w-full mt-2" onClick={() => void handleDeployTo(selectedBooking)}>Entregar</Button>}
+                            {selection.size > 0 && <Button variant="outlined" className="w-full mt-2" onClick={() => void handlerReturn()}>Devolver</Button>}
                         </div>
                     </div>
                 </div>

@@ -34,7 +34,7 @@ export default function BookingView() {
         return <NotFoundFullPage />
     }
 
-    let from = dayjs()
+    let from = dayjs().startOf('day')
     from = from.set('year', booking.from.date.year)
     from = from.set('month', booking.from.date.month - 1)
     from = from.set('day', booking.from.date.day)
@@ -42,7 +42,7 @@ export default function BookingView() {
     from = from.set('minute', booking.from.time.minutes)
     from = from.set('second', 0)
 
-    let to = dayjs()
+    let to = dayjs().startOf('day')
     to = to.set('year', booking.to.date.year)
     to = to.set('month', booking.to.date.month - 1)
     to = to.set('day', booking.to.date.day)
@@ -80,7 +80,11 @@ export default function BookingView() {
                     <Input value={booking.comment} />
                 </div>
                 <div className="col-span-2 flex gap-1">
-                    <Button>Editar</Button>
+                    <Button
+                        onClick={() => {
+                            void router.push(`/${namespaceSlug}/bookings/${booking.id}/change`)
+                        }}
+                    >Editar</Button>
                 </div>
                 {booking.pool && <div className="col-span-2">
                     <Label>Fechas (pedido recurrente)</Label>
@@ -110,7 +114,7 @@ export default function BookingView() {
                                 {equipment.assetType.name}
                             </p>
                             <p className="pr-1 font-semibold">
-                                10
+                                {equipment.quantity}
                             </p>
                         </div>
                     })}

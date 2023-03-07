@@ -4,11 +4,15 @@ import Button from "../../../lib/components/Button";
 import { api } from "../../../utils/api";
 import DashboardNamespaceRoute from "../../../lib/layouts/DashboardNamespaceRoute";
 import Image from "next/image";
+import { useIsAdmin } from "../../../utils/hooks";
 
 export default function DashboardOverview() {
     const { data: types } = api.assetType.getAllDetailed.useQuery()
+    const isAdmin = useIsAdmin()
 
-    return <DashboardNamespaceRoute>
+    return <DashboardNamespaceRoute
+        isAdmin={isAdmin}
+    >
 
         {function Render({ namespace }) {
             const router = useRouter()

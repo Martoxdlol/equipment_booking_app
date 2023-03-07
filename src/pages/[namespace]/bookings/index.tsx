@@ -9,6 +9,8 @@ import Button from "../../../lib/components/Button";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { stringToColor } from "../../../lib/util/colors";
+import BookingAssetIndicator from "../../../lib/components/BookingAssetIndicator";
+import { useIsAdmin } from "../../../utils/hooks";
 
 type Unboxed<T> =
     T extends (infer U)[]
@@ -16,7 +18,7 @@ type Unboxed<T> =
     : T;
 
 export default function DashboardBookings() {
-    const { data: isAdmin } = api.namespace.isAdmin.useQuery()
+    const isAdmin = useIsAdmin()
 
     return <DashboardNamespaceRoute
         isAdmin={isAdmin}
@@ -85,7 +87,7 @@ export default function DashboardBookings() {
                 return map
             }, [bookings])
 
-            const dates = useMemo(() => {
+            const _dates = useMemo(() => {
                 const dates = [...bookingsByFromDateId.keys()]
 
                 return dates.sort((a, b) => {
@@ -114,21 +116,27 @@ export default function DashboardBookings() {
                 })
             }, [bookingsByFromDateId, datesById])
 
-            // const pendingBookings = useMemo(() => {
-            //     return bookings.filter(booking => {
-            //         const now = dayjs().startOf('day')
-            //         const year = now.get('year')
-            //         const month = now.get('month')
-            //         const day = now.get('date')
+            const pendingBookings = useMemo(() => {
+                return bookings.filter(booking => {
+                    const now = dayjs().startOf('day')
+                    const year = now.get('year')
+                    const month = now.get('month') + 1
+                    const day = now.get('date')
 
-            //         if (booking.to.date.day) {
-            //             if (booking.to.date.year > year) return false
-            //             if (booking.to.date.year === year && booking.to.date.month > month) return false
-            //             if (booking.to.date.year === year && booking.to.date.month === month && booking.to.date.day > day) return false
-            //         }
-            //         return booking.inUseAssets.length > 0
-            //     })
-            // }, [bookings])
+                    if (booking.to.date.day) {
+                        if (booking.to.date.year > year) return false
+                        if (booking.to.date.year === year && booking.to.date.month > month) return false
+                        if (booking.to.date.year === year && booking.to.date.month === month && booking.to.date.day >= day) return false
+                    }
+                    return booking.inUseAssets.length > 0
+                })
+            }, [bookings])
+
+            const dates = useMemo(() => {
+                return ['pending', ..._dates]
+            }, [_dates])
+
+            bookingsByFromDateId.set('pending', pendingBookings)
 
             const firstBooking = bookings[0] || null
 
@@ -197,21 +205,37 @@ export default function DashboardBookings() {
                     {dates.map(dateId => {
                         const date = datesById.get(dateId)
                         const bookings = bookingsByFromDateId.get(dateId)
-                        if (date === undefined || bookings === undefined) return null
 
-                        const asDate = dayjs(`${date.year}-${date.month}-${date.day}`).startOf('day')
+                        if (bookings === undefined || bookings?.length === 0) return null
 
-                        const isBefore = asDate.isBefore(dayjs().startOf('day').subtract(1, 'millisecond'))
-                        const isToday = asDate.isSame(dayjs().startOf('day'))
+                        let isBefore = false
+                        let isToday = false
+                        let txt = "Pedidos pendientes"
+                        const isPending = dateId === 'pending'
 
-                        const dateAsDayjs = dayjs(`${date.year}/${date.month}/${date.day}`).startOf('day')
-                        let txt = dateAsDayjs.format('dddd DD/MM/YYYY')
-                        if (!isToday) {
-                            txt = txt[0] ? txt[0].toUpperCase() + txt.slice(1) : ''
+                        if (date) {
+                            const asDate = dayjs(`${date.year}-${date.month}-${date.day}`).startOf('day')
+
+                            isBefore = asDate.isBefore(dayjs().startOf('day').subtract(1, 'millisecond'))
+                            isToday = asDate.isSame(dayjs().startOf('day'))
+
+                            const dateAsDayjs = dayjs(`${date.year}/${date.month}/${date.day}`).startOf('day')
+                            txt = dateAsDayjs.format('dddd DD/MM/YYYY')
+                            if (!isToday) {
+                                txt = txt[0] ? txt[0].toUpperCase() + txt.slice(1) : ''
+                            }
+
+                            if (isToday) {
+                                txt = 'Hoy ' + txt
+                            }
                         }
 
-                        return <div key={dateId} className={classNames('print:shadow-none', { 'opacity-50': isBefore, 'rounded-md mx-[-10px] p-[10px] shadow': isToday })}>
-                            <h2 className="font-semibold text-sm mb-1 mt-2">{isToday ? 'Hoy ' : ''}{txt}</h2>
+
+
+                        return <div key={dateId} className={classNames('print:shadow-none', {
+                            'opacity-50': isBefore, 'rounded-md mx-[-10px] p-[10px] shadow': isToday,
+                        })}>
+                            <h2 className="font-semibold text-sm mb-1 mt-2">{txt}</h2>
                             <ul className={classNames([
                                 "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1",
                                 "print:border-b-0 print:border-r-0 print:border-l-0 print:pl-0 print:border-t print:border-gray-200",
@@ -227,28 +251,40 @@ export default function DashboardBookings() {
                                     const endMs = end.valueOf()
                                     const progress = (nowMs - startMs) / (endMs - startMs)
 
+                                    const isPast = isToday && progress > 1
+                                    const isTodayPending = isPast && booking.inUseAssets.length > 0
+                                    const isCompleted = isPast && booking.inUseAssets.length === 0
+
                                     return <li key={booking.id}
                                         tabIndex={bookings.indexOf(booking)}
                                         className={classNames("block p-1 border rounded-md shadow-sm relative overflow-hidden",
                                             "print:border-none print:shadow-none print:pt-1 print:pl-0 print:pb-0 print:pr-0 print:rounded-none print:break-inside-avoid",
                                             "focus-within:ring-2 focus-within:border-blue-500 outline-none", {
-                                            'border-blue-500': isCurrent,
+                                            'border-blue-500': isCurrent && !(isPending && isTodayPending),
+                                            'focus:ring-red-200 focus:border-red-500 border-red-500': isPending || isTodayPending,
+                                            'opacity-50': isCompleted,
                                         })}
                                         onClick={() => {
                                             void router.push(`/${namespace.slug}/bookings/${booking.id}`)
                                         }}
                                     >
                                         {isCurrent && <div className="absolute bottom-0 left-0 h-[3px] bg-blue-500 w-2 print:hidden" style={{ 'width': `${progress * 100}%` }}></div>}
-                                        <p className="font-semibold text-sm">{booking.user.user?.name}</p>
+                                        <p className="font-semibold text-sm">{booking.user.user?.name} {isCompleted && '(terminado)'}</p>
                                         <BookingTimeRangeRender from={booking.from} to={booking.to} />
-                                        <div className="grid grid-flow-col gap-[7px] justify-start my-[2px]">
+                                        <BookingAssetIndicator
+                                            inUse={((!isToday || isPast) && !booking.inUseAssets.length) ? undefined : booking.inUseAssets}
+                                            equipment={booking.equipment}
+                                        />
+                                        {/* <div className="grid grid-flow-col gap-[7px] justify-start my-[2px]">
+                                            
+
                                             {booking.equipment.map(equipment => {
                                                 return <div
                                                     key={equipment.id}
                                                     className="text-xs"
                                                 >{equipment.assetType.name}: <b>{equipment.quantity}</b></div>
                                             })}
-                                        </div>
+                                        </div> */}
                                         <div className="flex font-semibold text-xs text-blue-500">
                                             {booking.useType && <p>{booking.useType}</p>}
                                             {(booking.comment && booking.useType) && <p>&nbsp;&bull;&nbsp;</p>}
