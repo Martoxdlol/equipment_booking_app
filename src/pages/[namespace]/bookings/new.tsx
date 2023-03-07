@@ -14,7 +14,7 @@ export default function DashboardNewBooking() {
     >
         <BookingForm
             onSave={(booking) => {
-                void router.push(`/${namespaceSlug}/bookings/${booking.id}`)
+                void router.push(`/${namespaceSlug}/bookings/${booking.id}?ok=true`)
             }}
         />
     </DashboardLayout>

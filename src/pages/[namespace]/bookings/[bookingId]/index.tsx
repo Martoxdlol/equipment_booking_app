@@ -18,6 +18,8 @@ export default function BookingView() {
     const namespaceSlug = useNamespaceSlug()
     const { data: booking, isInitialLoading } = api.bookings.get.useQuery(bookingId || '', { enabled: !!bookingId })
 
+    const isOk = router.query.ok === 'true'
+
     if (!bookingId) {
         return <NotFoundFullPage />
     }
@@ -56,7 +58,14 @@ export default function BookingView() {
     return <DashboardLayout
         titleHref={`/${namespaceSlug}/bookings`}
         title={`Pedido de ${requestedBy}`}
+        row={[{
+            label: 'Mis Pedidos',
+            href: `/${namespaceSlug}/bookings`
+        }]}
     >
+        {isOk && <p className="text-lg mb-1 py-1 text-center border-2 border-green-500 text-green-500 rounded-md">
+            Tu pedido se registró correctamente
+        </p>}
         <div className="grid md:grid-cols-2 gap-2">
             <div className="grid sm:grid-cols-2 gap-2">
                 <div>
