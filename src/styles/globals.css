@@ -13,7 +13,8 @@
   }
 }
 
-.gradient, .gradient-1 {
+.gradient,
+.gradient-1 {
   background: rgb(69, 42, 125);
   background: linear-gradient(103deg, rgba(69, 42, 125, 1) 0%, rgba(77, 53, 128, 1) 17%, rgba(97, 58, 158, 1) 19%, rgba(97, 58, 158, 1) 33%, rgba(58, 82, 166, 1) 35%, rgba(58, 82, 166, 1) 53%, rgba(180, 55, 114, 1) 56%, rgba(180, 55, 114, 1) 77%, rgba(255, 65, 192, 1) 80%, rgba(255, 65, 192, 1) 100%);
 }
@@ -26,4 +27,9 @@
 .gradient-3 {
   background: rgb(238, 174, 202);
   background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+}
+
+.repeat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 }

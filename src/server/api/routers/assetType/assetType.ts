@@ -13,7 +13,11 @@ export const assetTypeRouter = createTRPCRouter({
       const type = await prisma.assetType.findUnique({
         where: { namespaceId_slug: { namespaceId: ctx.namespace.id, slug: input } },
         select: {
-          assets: { select: { _count: true } },
+          assets: {
+            select: {
+              id: true,
+            }
+          },
         }
       })
 
@@ -37,7 +41,7 @@ export const assetTypeRouter = createTRPCRouter({
       include: {
         assets: {
           include: {
-            inUseAssets: {
+            inUseAsset: {
               select: {
                 id: true, booking: {
                   select: {
@@ -62,11 +66,31 @@ export const assetTypeRouter = createTRPCRouter({
       }
     })
   }),
-  getAllDetailed: namespaceReadableProcedure.query(async ({ ctx }) => {
+  getAllDetailed: namespaceReadableProcedure.input(z.object({
+    includeAssets: z.boolean().optional(),
+  }).optional()).query(async ({ ctx, input }) => {
     return ctx.prisma.assetType.findMany({
       where: { namespaceId: ctx.namespace.id },
       include: {
-        assets: { select: { id: true, name: true } },
+        ...(input?.includeAssets ? {
+          assets: {
+            select: {
+              id: true, name: true, picture: true, inUseAsset: {
+                include: {
+                  booking: {
+                    select: {
+                      id: true, user: {
+                        include: {
+                          user: true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+        } : {}),
         equipmentBookingItems: {
           select: {
             id: true,
@@ -140,11 +164,11 @@ export const assetTypeRouter = createTRPCRouter({
       const asset = await prisma.asset.findUnique({
         where: { id: input },
         select: {
-          inUseAssets: { select: { id: true } },
+          inUseAsset: { select: { id: true } },
         }
       })
 
-      if ((asset?.inUseAssets.length || 0) > 0) {
+      if (asset?.inUseAsset) {
         throw new TRPCError({
           code: "CONFLICT",
           cause: 'used',
@@ -163,7 +187,7 @@ export const assetTypeRouter = createTRPCRouter({
         assetTypeId: input.typeId,
       },
       include: {
-        inUseAssets: {
+        inUseAsset: {
           include: {
             booking: {
               include: {

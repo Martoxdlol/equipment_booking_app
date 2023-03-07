@@ -73,9 +73,10 @@ model VerificationToken {
 model NamespaceUser {
     id String @id @default(cuid())
 
-    user   User?   @relation("user", fields: [userId], references: [id], onDelete: SetNull)
-    userId String?
-    bookings        Booking[]       @relation("requestedby")
+    user     User?     @relation("user", fields: [userId], references: [id], onDelete: SetNull)
+    userId   String?
+    email    String
+    bookings Booking[] @relation("requestedby")
 
     // Standard to all models
     createdAt   DateTime          @default(now())
@@ -84,6 +85,7 @@ model NamespaceUser {
     namespaceId String
 
     @@unique([userId, namespaceId])
+    @@unique([email, namespaceId])
     @@index([namespaceId])
 }
 
@@ -91,7 +93,7 @@ model Booking {
     id String @id @default(cuid())
 
     // Each booking is requested by a user 
-    user   NamespaceUser   @relation("requestedby", fields: [userId], references: [id])
+    user   NamespaceUser @relation("requestedby", fields: [userId], references: [id])
     userId String
 
     // Start time to end time
@@ -323,7 +325,7 @@ model Asset {
     updatedAt   DateTime          @updatedAt
     namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
     namespaceId String
-    inUseAssets InUseAsset[]
+    inUseAsset  InUseAsset?
 
     @@unique([namespaceId, tag, assetTypeId])
     @@index([namespaceId])

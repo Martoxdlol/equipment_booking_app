@@ -100,7 +100,7 @@ function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, userId
     })
 }
 
-const getInput = {
+const getInput = z.object({
     poolId: z.string().optional(),
     from: z.object({
         date: z.object({
@@ -116,7 +116,7 @@ const getInput = {
             year: z.number(),
         }),
     }).optional(),
-}
+})
 
 export const bookingsRoute = createTRPCRouter({
 
@@ -124,6 +124,7 @@ export const bookingsRoute = createTRPCRouter({
         const result = await ctx.prisma.booking.findUnique({
             where: { id: input },
             include: {
+                user: { include: { user: true } },
                 from: { include: { time: true, date: true } },
                 to: { include: { time: true, date: true } },
                 equipment: {
@@ -133,6 +134,13 @@ export const bookingsRoute = createTRPCRouter({
                 },
                 pool: {
                     include: {
+                        bookings: {
+                            select: {
+                                id: true,
+                                from: { select: { time: true, date: true } },
+                                to: { select: { time: true, date: true } },
+                            }
+                        },
                         _count: { select: { bookings: true } }
                     }
                 },
@@ -144,9 +152,7 @@ export const bookingsRoute = createTRPCRouter({
         return result
     }),
 
-    getAll: namespaceProcedure.input(z.object({
-        ...getInput,
-    })).query(async ({ input, ctx }) => {
+    getAll: namespaceProcedure.input(getInput).query(async ({ input, ctx }) => {
         return getBookingsOf({
             poolId: input.poolId,
             from: input.from,
@@ -157,9 +163,7 @@ export const bookingsRoute = createTRPCRouter({
         })
     }),
 
-    getAllAsAdmin: namespaceReadableProcedure.input(z.object({
-        ...getInput,
-    })).query(async ({ input, ctx }) => {
+    getAllAsAdmin: namespaceReadableProcedure.input(getInput).query(async ({ input, ctx }) => {
         return getBookingsOf({
             poolId: input.poolId,
             from: input.from,
@@ -459,7 +463,11 @@ export const bookingsRoute = createTRPCRouter({
 
                 if (fromDate.isBefore(nowDate)) continue
 
-                if (equipment.length === 0) throw new TRPCError({ code: "BAD_REQUEST", message: "No hay equipo reservado o no está disponible en ese rando de dia y horario" })
+                if (equipment.length === 0) throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "No hay equipo reservado o no está disponible en ese rando de dia y horario",
+                    cause: "NOT_AVAILABLE"
+                })
 
 
                 const fromTS = await getTimeStamp({

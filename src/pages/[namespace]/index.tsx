@@ -25,6 +25,10 @@ export default function DashboardOverview() {
                     <h2 className="text-xl">Nuevo pedido</h2>
                     <p>Reservar equipamiento</p>
                 </Link>
+                {isAdmin && <Link href={`/${namespace.slug}/deploy`} className="block rounded-md px-3 py-2 gradient-3 text-white mb-5 shadow-lg">
+                    <h2 className="text-xl">Entregar o devolver</h2>
+                    <p>Entregar o devolver equipamiento disponible</p>
+                </Link>}
                 {isAdmin && <Link href={`/${namespace.slug}/equipment`} className="block rounded-md px-3 py-2 gradient-3 text-white mb-5 shadow-lg">
                     <h2 className="text-xl">Equipamiento</h2>
                     <p>Ver equipamiento disponible</p>

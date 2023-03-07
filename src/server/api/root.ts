@@ -3,6 +3,7 @@ import { namespaceRouter } from "./routers/namespace/namespace";
 import { assetTypeRouter } from "./routers/assetType/assetType";
 import { bookingsRoute } from "./routers/bookings/bookings";
 import { filesRouter } from "./routers/files/filesRouter";
+import { deployRouter } from "./routers/deploy/deploy";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   assetType: assetTypeRouter,
   bookings: bookingsRoute,
   files: filesRouter,
+  deploy: deployRouter,
   namespaces: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.namespaceSettings.findMany({
       select: {

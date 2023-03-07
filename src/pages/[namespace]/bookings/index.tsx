@@ -22,7 +22,10 @@ export default function DashboardBookings() {
         isAdmin={isAdmin}
     >
         {function Render({ namespace }) {
-            const [dateStr, setDateStr] = useQueryState('show-from-date', { defaultValue: dayjs().startOf('week').format('YYYY-MM-DD') })
+
+            const defaultDateStrValue = dayjs().startOf('week').format('YYYY-MM-DD')
+
+            const [dateStr, setDateStr] = useQueryState('show-from-date', { defaultValue: defaultDateStrValue })
             const date = useMemo(() => (dateStr && dateStr != 'current') ? dayjs(dateStr) : dayjs().startOf('week'), [dateStr])
             const setDate = useMemo(() => (value: dayjs.Dayjs) => setDateStr(value.format('YYYY-MM-DD')), [setDateStr])
 
@@ -36,7 +39,9 @@ export default function DashboardBookings() {
 
             const [poolId, setPoolId] = useQueryState('pool', { defaultValue: '' })
 
-            const { data: _bookings } = api.bookings.getAll.useQuery({
+            const fn: typeof api.bookings.getAll = (isAdmin ? api.bookings.getAllAsAdmin : api.bookings.getAll) as unknown as typeof api.bookings.getAll
+
+            const { data: _bookings } = fn.useQuery({
                 poolId: poolId ? poolId : undefined,
                 from: (!poolId || (router.query['show-from-date'] && router.query['time-length-days'])) ? {
                     date: {
@@ -109,42 +114,70 @@ export default function DashboardBookings() {
                 })
             }, [bookingsByFromDateId, datesById])
 
-            const pendingBookings = useMemo(() => {
-                return bookings.filter(booking => {
-                    const now = dayjs().startOf('day')
-                    const year = now.get('year')
-                    const month = now.get('month')
-                    const day = now.get('date')
+            // const pendingBookings = useMemo(() => {
+            //     return bookings.filter(booking => {
+            //         const now = dayjs().startOf('day')
+            //         const year = now.get('year')
+            //         const month = now.get('month')
+            //         const day = now.get('date')
 
-                    if (booking.to.date.day) {
-                        if (booking.to.date.year > year) return false
-                        if (booking.to.date.year === year && booking.to.date.month > month) return false
-                        if (booking.to.date.year === year && booking.to.date.month === month && booking.to.date.day > day) return false
-                    }
-                    return booking.inUseAssets.length > 0
-                })
-            }, [bookings])
+            //         if (booking.to.date.day) {
+            //             if (booking.to.date.year > year) return false
+            //             if (booking.to.date.year === year && booking.to.date.month > month) return false
+            //             if (booking.to.date.year === year && booking.to.date.month === month && booking.to.date.day > day) return false
+            //         }
+            //         return booking.inUseAssets.length > 0
+            //     })
+            // }, [bookings])
 
             const firstBooking = bookings[0] || null
 
+            const isTodayOnly = lengthDays === 1 && dayjs(date).startOf('day').isSame(dayjs().startOf('day'))
+
             return <>
+                <div className="hidden print:block">
+                    <h1 className="text-2xl mt-[-20px]">Lista de pedidos</h1>
+                </div>
                 <div className="md:flex justify-between mb-3">
-                    <TimeRangePicker
-                        onChange={value => {
-                            const date = dayjs(`${value.from.year}-${value.from.month}-${value.from.day}`).startOf('day')
-                            void setDate(date).then(() => void setLengthDays(value.duartion))
-                        }}
-                        value={{
-                            from: {
-                                year: date.year(),
-                                month: date.month() + 1,
-                                day: date.date(),
-                            },
-                            duartion: lengthDays,
-                        }}
-                    />
-                    <div className="mt-7">
-                        <Button className="w-full md:w-auto ml-2"
+                    <div className={classNames({
+                        'print:hidden': isTodayOnly
+                    })}>
+                        <TimeRangePicker
+                            onChange={value => {
+                                const date = dayjs(`${value.from.year}-${value.from.month}-${value.from.day}`).startOf('day')
+                                void setDate(date).then(() => void setLengthDays(value.duartion))
+                            }}
+                            value={{
+                                from: {
+                                    year: date.year(),
+                                    month: date.month() + 1,
+                                    day: date.date(),
+                                },
+                                duartion: lengthDays,
+                            }}
+                        />
+                    </div>
+                    <div className="mt-7 flex print:hidden">
+                        <Button className="w-full md:w-auto ml-1"
+                            variant="outlined"
+                            onClick={() => {
+                                print()
+                            }}
+                        >
+                            <Image src="/printer.png" height={16} width={16} alt="Imprimir" />
+                        </Button>
+                        {!isTodayOnly && <Button className="w-full md:w-auto ml-2" variant="outlined"
+                            onClick={() => {
+                                void setDate(dayjs()).then(() => void setLengthDays(1))
+
+                            }}
+                        >Solo hoy</Button>}
+                        {isTodayOnly && <Button className="w-full md:w-auto ml-2" variant="outlined"
+                            onClick={() => {
+                                void setDateStr(defaultDateStrValue).then(() => void setLengthDays(30))
+                            }}
+                        >Esta semana</Button>}
+                        <Button className="w-full md:w-auto ml-1"
                             onClick={() => {
                                 void router.push(`/${namespace.slug}/bookings/new`)
                             }}
@@ -177,9 +210,13 @@ export default function DashboardBookings() {
                             txt = txt[0] ? txt[0].toUpperCase() + txt.slice(1) : ''
                         }
 
-                        return <div key={dateId} className={classNames({ 'opacity-50': isBefore, 'rounded-md mx-[-10px] p-[10px] shadow': isToday })}>
+                        return <div key={dateId} className={classNames('print:shadow-none', { 'opacity-50': isBefore, 'rounded-md mx-[-10px] p-[10px] shadow': isToday })}>
                             <h2 className="font-semibold text-sm mb-1 mt-2">{isToday ? 'Hoy ' : ''}{txt}</h2>
-                            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1">
+                            <ul className={classNames([
+                                "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1",
+                                "print:border-b-0 print:border-r-0 print:border-l-0 print:pl-0 print:border-t print:border-gray-200",
+                                "print:grid print:grid-cols-2 print:gap-2"
+                            ])}>
                                 {bookings?.map(booking => {
                                     const start = dayjs(`${booking.from.date.year}/${booking.from.date.month}/${booking.from.date.day}`).set('hour', booking.from.time.hours).set('minute', booking.from.time.minutes)
                                     const end = dayjs(`${booking.to.date.year}/${booking.to.date.month}/${booking.to.date.day}`).set('hour', booking.to.time.hours).set('minute', booking.to.time.minutes)
@@ -193,14 +230,15 @@ export default function DashboardBookings() {
                                     return <li key={booking.id}
                                         tabIndex={bookings.indexOf(booking)}
                                         className={classNames("block p-1 border rounded-md shadow-sm relative overflow-hidden",
+                                            "print:border-none print:shadow-none print:pt-1 print:pl-0 print:pb-0 print:pr-0 print:rounded-none print:break-inside-avoid",
                                             "focus-within:ring-2 focus-within:border-blue-500 outline-none", {
                                             'border-blue-500': isCurrent,
                                         })}
                                         onClick={() => {
-                                            void router.push(`/${namespace.slug}/bookings/${booking.id}/change`)
+                                            void router.push(`/${namespace.slug}/bookings/${booking.id}`)
                                         }}
                                     >
-                                        {isCurrent && <div className="absolute bottom-0 left-0 h-[3px] bg-blue-500 w-2" style={{ 'width': `${progress * 100}%` }}></div>}
+                                        {isCurrent && <div className="absolute bottom-0 left-0 h-[3px] bg-blue-500 w-2 print:hidden" style={{ 'width': `${progress * 100}%` }}></div>}
                                         <p className="font-semibold text-sm">{booking.user.user?.name}</p>
                                         <BookingTimeRangeRender from={booking.from} to={booking.to} />
                                         <div className="grid grid-flow-col gap-[7px] justify-start my-[2px]">

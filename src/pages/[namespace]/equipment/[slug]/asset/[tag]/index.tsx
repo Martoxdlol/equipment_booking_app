@@ -9,7 +9,7 @@ export default function DashboardAsset() {
         {function Render({ asset, namespace, assetType }) {
             const router = useRouter()
 
-            const booking = asset.inUseAssets[0]?.booking
+            const booking = asset.inUseAsset?.booking
 
             return <DashboardLayout title={asset.tag}
                 imageUrl={asset.picture || assetType.picture || undefined}

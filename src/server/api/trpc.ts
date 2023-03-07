@@ -202,20 +202,33 @@ export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) =
     })
   }
 
-  const namespaceUser = await prisma.namespaceUser.upsert({
+  const email = ctx.session.user.email || ctx.session.user.id + '@'
+
+  const exisitng = await prisma.namespaceUser.findFirst({
     where: {
-      userId_namespaceId: {
-        userId: ctx.session.user.id,
+      userId: ctx.session.user.id,
+      namespaceId: namespace.id,
+    }
+  })
+
+  const namespaceUser = await prisma.namespaceUser.upsert({
+    where: exisitng ? {
+      id: exisitng.id
+    } : {
+      email_namespaceId: {
+        email: email,
         namespaceId: namespace.id
-      }
+      },
     },
     create: {
       userId: ctx.session.user.id,
-      namespaceId: namespace.id
+      namespaceId: namespace.id,
+      email: email,
     },
     update: {
       userId: ctx.session.user.id,
-      namespaceId: namespace.id
+      namespaceId: namespace.id,
+      email: email,
     }
   })
 

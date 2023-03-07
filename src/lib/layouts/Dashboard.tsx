@@ -23,7 +23,7 @@ export default function DashboardLayout(props: Props) {
     const path = router.asPath.split('?')[0]
 
     return <div className="flex h-screen flex-col">
-        <div className="relative z-40 border-b bg-primary px-3 text-primary sm:px-6">
+        <div className="relative z-40 border-b bg-primary px-3 text-primary sm:px-6 print:hidden">
             <header className="relative mx-auto">
                 <div className="flex items-center pt-3 pb-2 md:pt-4 md:pb-3">
 

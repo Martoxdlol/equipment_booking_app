@@ -18,6 +18,7 @@ import type { Booking } from "@prisma/client";
 import type { FullBooking } from "../../server/api/routers/bookings/bookings";
 import Link from "next/link";
 import DeleteButton from "./DeleteButton";
+import { apiOperation } from "../util/errors";
 
 interface BookingFormProps {
     booking?: FullBooking
@@ -45,6 +46,7 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
 
     const [useType, setUseType] = useState<string>(booking?.useType || '')
     const [comment, setComment] = useState<string>(booking?.comment || '')
+    const [error, setError] = useState<string>('')
 
     const [fromDate, setFromDate] = useState<Date | null>(booking ? {
         day: booking.from.date.day,
@@ -127,161 +129,178 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
     const { mutateAsync: createOrUpdate } = api.bookings.createOrUpdate.useMutation()
 
     async function handleSave() {
-        const data = await createOrUpdate({
-            id: booking?.id || undefined,
-            requestedBy: requestedBy || '',
-            useType,
-            start: {
-                date: {
-                    day: fromDate?.day || 0,
-                    month: fromDate?.month || 0,
-                    year: fromDate?.year || 0
-                },
-                timeId: fromTime?.id || ''
+        const result = await apiOperation({
+            async action() {
+                const data = await createOrUpdate({
+                    id: booking?.id || undefined,
+                    requestedBy: requestedBy || '',
+                    useType,
+                    start: {
+                        date: {
+                            day: fromDate?.day || 0,
+                            month: fromDate?.month || 0,
+                            year: fromDate?.year || 0
+                        },
+                        timeId: fromTime?.id || ''
+                    },
+                    end: {
+                        date: {
+                            day: toDate?.day || 0,
+                            month: toDate?.month || 0,
+                            year: toDate?.year || 0
+                        },
+                        timeId: toTime?.id || ''
+                    },
+                    repeatWeeks: recurrency,
+                    comment,
+                    equipment: [...items.entries()].map(([typeId, qty]) => ({ typeId, qty })).reduce((acc, curr) => {
+                        acc.set(curr.typeId, qtyOf(curr.typeId))
+                        return acc
+                    }, new Map<string, number>())
+                })
+                onSave?.(data.main)
             },
-            end: {
-                date: {
-                    day: toDate?.day || 0,
-                    month: toDate?.month || 0,
-                    year: toDate?.year || 0
-                },
-                timeId: toTime?.id || ''
+            onApiError(error) {
+                if(error.cause === 'NOT_AVAILABLE'){
+                    setError('No hay disponibilidad para los equipos seleccionados, asegurese de seleccionar el tipo de equipo que quiere reservar')
+                    return
+                }
+                setError(error.message)
             },
-            repeatWeeks: recurrency,
-            comment,
-            equipment: [...items.entries()].map(([typeId, qty]) => ({ typeId, qty })).reduce((acc, curr) => {
-                acc.set(curr.typeId, qtyOf(curr.typeId))
-                return acc
-            }, new Map<string, number>())
         })
-        onSave?.(data.main)
+
     }
 
-    return <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-2">
-        <div className="grid sm:grid-cols-1 md:grid-cols-[7fr_5fr] gap-2 mb-auto">
-            <div>
-                <ComboBox
-                    options={!users ? [
-                        { label: session?.user.name || 'Yo', value: session?.user.id || '', picture: session?.user.image },
-                    ] : users.map(user => {
-                        return {
-                            label: user.user?.name || user.id,
-                            value: user.id,
-                        }
-                    })}
-                    onChange={setRequestedBy}
-                    value={requestedBy}
-                    label="Pedido por"
-                />
-            </div>
-            <div>
-                <Label>Donde/como se va a usar</Label>
-                <Input
-                    placeholder="Ejemplo: Aula 5, matemática "
-                    onChange={e => setUseType(e.target.value)}
-                    type="text" id="useType" name="name"
-                    value={useType} />
-            </div>
-
-            <div>
-                <label className="block text-sm font-medium text-gray-700">Desde</label>
-                <DatePicker
-                    disabled={!!(isEditing && booking?.poolId)}
-                    value={fromDate}
-                    onChange={setFromDate}
-                />
-            </div>
-            <div>
-                <label className="sm:block text-sm font-medium text-gray-700 hidden md:block">Horario</label>
-                <ElegibleTimePicker
-                    disabled={!!(isEditing && booking?.poolId)}
-                    value={fromTime}
-                    onChange={setFromTime}
-                    maxExcludeId={toTime?.id}
-                />
-            </div>
-
-            <div className={classNames({
-                'hidden sm:block': toDateIsSameAsFrom
-            })}>
-
-                <Label>Hasta</Label>
-                <DatePicker
-                    disabled={toDateIsSameAsFrom || !!(isEditing && booking?.poolId)}
-                    value={toDate}
-                    onChange={setToDate}
-                />
-            </div>
-            <div>
-                {toDateIsSameAsFrom && <Label className="sm:hidden">Hasta</Label>}
-                {toDateIsSameAsFrom && <Label className="hidden sm:block">Horario</Label>}
-                {!toDateIsSameAsFrom && <Label>Horario</Label>}
-                <ElegibleTimePicker
-                    disabled={!!(isEditing && booking?.poolId)}
-                    value={toTime}
-                    onChange={setToTime}
-                    minExcludeId={fromTime?.id}
-                />
-            </div>
-
-            {!isEditing && <>
+    return <div>
+        <p className="my-0.5 font-semibold text-red-500">
+            {error}
+        </p>
+        <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-2">
+            <div className="grid sm:grid-cols-1 md:grid-cols-[7fr_5fr] gap-2 mb-auto">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Pedido recurrente</label>
-                    <Switch
-                        value={recurrencyEnabled}
-                        onChange={setRecurrencyEnabled}
+                    <ComboBox
+                        options={!users ? [
+                            { label: session?.user.name || 'Yo', value: session?.user.id || '', picture: session?.user.image },
+                        ] : users.map(user => {
+                            return {
+                                label: user.user?.name || user.id,
+                                value: user.id,
+                            }
+                        })}
+                        onChange={setRequestedBy}
+                        value={requestedBy}
+                        label="Pedido por"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Repetir hasta (inclusive)</label>
-                    <RecurrencyPicker
-                        disabled={!recurrencyEnabled}
-                        initialDate={fromDate}
-                        vale={recurrency}
-                        onChange={setRecurrency}
+                    <Label>Donde/como se va a usar</Label>
+                    <Input
+                        placeholder="Ejemplo: Aula 5, matemática "
+                        onChange={e => setUseType(e.target.value)}
+                        type="text" id="useType" name="name"
+                        value={useType} />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Desde</label>
+                    <DatePicker
+                        disabled={!!(isEditing && booking?.poolId)}
+                        value={fromDate}
+                        onChange={setFromDate}
                     />
                 </div>
-            </>}
-            <div className="col-span-2">
-                <Label>Comentario (opcional)</Label>
-                <Input value={comment} onChange={(e) => setComment(e.target.value)} />
-            </div>
-            {(isEditing && booking.pool && namespace) && <div className="col-span-2">
-                <p className="font-semibold">
-                    El pedido es recurrente por {booking.pool?._count.bookings} semanas
-                    &nbsp;
-                    <Link href={`/${namespace.slug}/bookings?pool=${booking.pool.id}`} className="text-blue-500">ver fechas</Link>
-                </p>
-            </div>}
-        </div>
-        <div>
-            <Label>Elegir equipamiento</Label>
-            {types?.map(type => {
-                return <AssetTypeQtyPicker
-                    key={type.id}
-                    name={type.name}
-                    max={bookableEquipmentAvailability?.get(type.id) || 1000}
-                    min={0}
-                    value={qtyOf(type.id)}
-                    onChange={qty => setQtyOf(type.id, qty)}
-                />
-            })}
-        </div>
-        <div>
-            <Button className="w-full"
-                onClick={() => void handleSave()}
-            >
-                {isEditing ? 'Guardar cambios' : 'Crear'}
-            </Button>
-            {isEditing && <>
-                {booking?.poolId && <div className="grid md:grid-cols-2">
-                    <DeleteButton onConfirmDelete={() => undefined}>Eliminar todas las fechas</DeleteButton>
-                    <div className="sm:flex sm:justify-end">
-                        <DeleteButton onConfirmDelete={() => undefined}>Eliminar solo esta fecha</DeleteButton>
+                <div>
+                    <label className="sm:block text-sm font-medium text-gray-700 hidden md:block">Horario</label>
+                    <ElegibleTimePicker
+                        disabled={!!(isEditing && booking?.poolId)}
+                        value={fromTime}
+                        onChange={setFromTime}
+                        maxExcludeId={toTime?.id}
+                    />
+                </div>
+
+                <div className={classNames({
+                    'hidden sm:block': toDateIsSameAsFrom
+                })}>
+
+                    <Label>Hasta</Label>
+                    <DatePicker
+                        disabled={toDateIsSameAsFrom || !!(isEditing && booking?.poolId)}
+                        value={toDate}
+                        onChange={setToDate}
+                    />
+                </div>
+                <div>
+                    {toDateIsSameAsFrom && <Label className="sm:hidden">Hasta</Label>}
+                    {toDateIsSameAsFrom && <Label className="hidden sm:block">Horario</Label>}
+                    {!toDateIsSameAsFrom && <Label>Horario</Label>}
+                    <ElegibleTimePicker
+                        disabled={!!(isEditing && booking?.poolId)}
+                        value={toTime}
+                        onChange={setToTime}
+                        minExcludeId={fromTime?.id}
+                    />
+                </div>
+
+                {!isEditing && <>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Pedido recurrente</label>
+                        <Switch
+                            value={recurrencyEnabled}
+                            onChange={setRecurrencyEnabled}
+                        />
                     </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Repetir hasta (inclusive)</label>
+                        <RecurrencyPicker
+                            disabled={!recurrencyEnabled}
+                            initialDate={fromDate}
+                            vale={recurrency}
+                            onChange={setRecurrency}
+                        />
+                    </div>
+                </>}
+                <div className="col-span-2">
+                    <Label>Comentario (opcional)</Label>
+                    <Input value={comment} onChange={(e) => setComment(e.target.value)} />
+                </div>
+                {(isEditing && booking.pool && namespace) && <div className="col-span-2">
+                    <p className="font-semibold">
+                        El pedido es recurrente por {booking.pool?._count.bookings} semanas
+                        &nbsp;
+                        <Link href={`/${namespace.slug}/bookings?pool=${booking.pool.id}`} className="text-blue-500">ver fechas</Link>
+                    </p>
                 </div>}
-                {!booking?.poolId && <DeleteButton onConfirmDelete={() => undefined}>Eliminar</DeleteButton>}
-            </>}
+            </div>
+            <div>
+                <Label>Elegir equipamiento</Label>
+                {types?.map(type => {
+                    return <AssetTypeQtyPicker
+                        key={type.id}
+                        name={type.name}
+                        max={bookableEquipmentAvailability?.get(type.id) || 1000}
+                        min={0}
+                        value={qtyOf(type.id)}
+                        onChange={qty => setQtyOf(type.id, qty)}
+                    />
+                })}
+            </div>
+            <div>
+                <Button className="w-full"
+                    onClick={() => void handleSave()}
+                >
+                    {isEditing ? 'Guardar cambios' : 'Crear'}
+                </Button>
+                {isEditing && <>
+                    {booking?.poolId && <div className="grid md:grid-cols-2">
+                        <DeleteButton onConfirmDelete={() => undefined}>Eliminar todas las fechas</DeleteButton>
+                        <div className="sm:flex sm:justify-end">
+                            <DeleteButton onConfirmDelete={() => undefined}>Eliminar solo esta fecha</DeleteButton>
+                        </div>
+                    </div>}
+                    {!booking?.poolId && <DeleteButton onConfirmDelete={() => undefined}>Eliminar</DeleteButton>}
+                </>}
+            </div>
         </div>
     </div>
 }
