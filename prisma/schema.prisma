@@ -171,6 +171,10 @@ model NamespaceSettings {
     slug    String  @unique
     name    String  @unique
     picture String?
+
+    title String?
+    description String?
+
     allowUsersByDefault Boolean @default(true)
 
     // It can be used to adjust the frontend

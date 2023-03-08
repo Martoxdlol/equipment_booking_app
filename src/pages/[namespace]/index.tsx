@@ -12,6 +12,8 @@ export default function DashboardOverview() {
     >
         {function Render({ namespace }) {
             return <>
+                {namespace.title && <h1 className="text-lg font-semibold mb-2">{namespace.title}</h1>}
+                {namespace.description && <p className="text-md font-normail mb-2">{namespace.description}</p>}
 
                 <h1 className="text-lg font-semibold mb-2">Destacado</h1>
 

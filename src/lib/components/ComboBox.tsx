@@ -111,6 +111,8 @@ export default function ComboBox(props: {
                                 onChange={(event) => setQuery(event.target.value)}
                                 displayValue={(option) => ''}
                                 placeholder={selected.label}
+                                value={query}
+                                onClick={() => setQuery('')}
                             />
 
                             <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
@@ -126,7 +128,7 @@ export default function ComboBox(props: {
                             leaveTo="opacity-0"
                         >
                             <Combobox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                {options?.map((option) => (
+                                {filtered?.map((option) => (
                                     <Combobox.Option
                                         key={option.value}
                                         className={({ active }) =>

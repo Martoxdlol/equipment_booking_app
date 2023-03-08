@@ -1,13 +1,9 @@
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import Button from "../../lib/components/Button";
 import ElegibleTimeOption from "../../lib/components/ElegibleTimeOption";
 import ImagePicker from "../../lib/components/ImagePicker";
 import Input from "../../lib/components/Input";
 import Label from "../../lib/components/Label";
-import { useNamespace } from "../../lib/components/NamespaceProvider";
 import Switch from "../../lib/components/Switch";
 import UserConfigurator from "../../lib/components/UserConfigurator";
 import DashboardLayout from "../../lib/layouts/Dashboard";
@@ -25,8 +21,11 @@ export default function DashboardNamespaceSettings() {
 
             const [error, setError] = useState('')
             const [name, setName] = useState(namespace.name)
+            const [title, setTitle] = useState(namespace.title || '')
+            const [description, setDescription] = useState(namespace.description || '')
             const [slug, setSlug] = useState(namespace.slug)
             const [allowUsersByDefault, setAllowUsersByDefault] = useState<boolean>(!!namespace.allowUsersByDefault)
+            const [allowMultiDay, setAllowMultiDay] = useState<boolean>(!!namespace.multiDayBooking)
             const [picture, setPicture] = useState<string | null>(namespace.picture)
 
             const { data: times, refetch: refetchTimes } = api.namespace.adminElegibleTimes.useQuery()
@@ -44,7 +43,7 @@ export default function DashboardNamespaceSettings() {
                 void apiOperation({
                     async action() {
                         if (!namespace) return
-                        await updateNamespace({ name, slug, id: namespace.id, picture: picture, allowUsersByDefault })
+                        await updateNamespace({ name, slug, id: namespace.id, picture: picture, allowUsersByDefault, multiDayBooking: allowMultiDay, description, title })
                         window.location.href = `/${slug}`
                     },
                     onApiError(error) {
@@ -89,6 +88,21 @@ export default function DashboardNamespaceSettings() {
                                     onChange={setAllowUsersByDefault}
                                     value={allowUsersByDefault}
                                 />
+                            </div>
+                            <div>
+                                <Label>Permitir pedidos de más de un día</Label>
+                                <Switch
+                                    onChange={setAllowMultiDay}
+                                    value={allowMultiDay}
+                                />
+                            </div>
+                            <div>
+                                <Label>Título de página resumen</Label>
+                                <Input value={title} onChange={e => setTitle(e.target.value)} />
+                            </div>
+                            <div>
+                                <Label>Descripción de página resumen</Label>
+                                <Input value={description} onChange={e => setDescription(e.target.value)} />
                             </div>
                             <div>
                                 <Button className="w-full">Guardar configuración</Button>

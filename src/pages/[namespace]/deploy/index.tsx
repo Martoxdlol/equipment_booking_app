@@ -1,11 +1,14 @@
 import classNames from "classnames";
 import dayjs from "dayjs";
+import { useQueryState } from "next-usequerystate";
 import Image from "next/image";
 import { useState } from "react";
 import BookingAssetIndicator from "../../../lib/components/BookingAssetIndicator";
 import Button from "../../../lib/components/Button";
+import ComboBox from "../../../lib/components/ComboBox";
 import Label from "../../../lib/components/Label";
 import Switch from "../../../lib/components/Switch";
+import TimePicker from "../../../lib/components/TimePicker";
 import DashboardLayout from "../../../lib/layouts/Dashboard";
 import NamespaceAdminRoute from "../../../lib/layouts/NamespaceAdminRoute";
 import namespaceRow from "../../../lib/util/namespaceRow";
@@ -24,6 +27,10 @@ export default function DashboardDeploy() {
             const monthTo = tomorrow.get('month') + 1
             const yearTo = tomorrow.get('year')
 
+            const [user, setUser] = useState<string | null>(null)
+
+            const { data: users } = api.namespace.users.useQuery()
+
             const { data: assetTypes, refetch: refetchTypes } = api.assetType.getAllDetailed.useQuery({ includeAssets: true })
             const { data: bookings, refetch: refetchBookings } = api.bookings.getAllAsAdmin.useQuery({
                 from: {
@@ -36,6 +43,9 @@ export default function DashboardDeploy() {
 
             const [selection, setSelection] = useState<Set<string>>(new Set())
             const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
+            const [mode, setMode] = useQueryState<'new' | 'existing'>('mode', {
+                defaultValue: 'existing'
+            })
 
             function toggleSelect(id: string) {
                 if (selection.has(id)) {
@@ -102,8 +112,13 @@ export default function DashboardDeploy() {
                     </div>
                     <div className="mb-auto">
                         <Label>Entregar a</Label>
-                        <Switch offLabel="Elegir" onLabel="Nuevo" />
-                        <div className="grid gap-1 mt-2">
+                        <Switch
+                            value={mode === 'new'}
+                            onChange={value => void setMode(value ? 'new' : 'existing')}
+                            offLabel="Elegir"
+                            onLabel="Nuevo"
+                        />
+                        {mode === 'existing' && <div className="grid gap-1 mt-2">
                             {bookings?.map(booking => {
 
                                 return <div key={booking.id} className={classNames("p-1 shadow-md cursor-pointer rounded-md", {
@@ -122,7 +137,33 @@ export default function DashboardDeploy() {
                                     </div>
                                 </div>
                             })}
-                        </div>
+                        </div>}
+                        {mode === 'new' && <div className="mt-2">
+                            <ComboBox
+                                label="Usuario"
+                                value={user}
+                                options={users?.map(user => ({
+                                    label: user.name,
+                                    value: user.id
+                                })) || []}
+                                onChange={value => setUser(value)}
+                            />
+                            <div className="grid grid-cols-2 gap-1 mt-1 mb-1">
+                                <div>
+                                    <Label>Desde (hoy)</Label>
+                                    <TimePicker
+                                        onChange={value => console.log(value)}
+                                    />
+                                </div>
+                                <div>
+                                    <Label>hasta (hoy)</Label>
+                                    <TimePicker
+                                        onChange={value => console.log(value)}
+                                    />
+                                </div>
+                            </div>
+                            <Button className="w-full mt-1">Crear y entregar</Button>
+                        </div>}
                         <div className="mt-2">
                             {selectedBooking && <Button className="w-full mt-2" onClick={() => void handleDeployTo(selectedBooking)}>Entregar</Button>}
                             {selection.size > 0 && <Button variant="outlined" className="w-full mt-2" onClick={() => void handlerReturn()}>Devolver</Button>}

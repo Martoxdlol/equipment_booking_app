@@ -43,6 +43,9 @@ export const updateNamespaceProcedure = globalAdminProcedure.input(z.object({
     slug: z.string(),
     picture: z.string().nullable(),
     allowUsersByDefault: z.boolean(),
+    multiDayBooking: z.boolean(),
+    title: z.string().nullable(),
+    description: z.string().nullable(),
 })).mutation(async ({ input, ctx }) => {
 
     if (slugRegex.test(input.slug) === false) {
@@ -72,6 +75,9 @@ export const updateNamespaceProcedure = globalAdminProcedure.input(z.object({
                     slug: input.slug,
                     picture: input.picture,
                     allowUsersByDefault: input.allowUsersByDefault,
+                    multiDayBooking: input.multiDayBooking,
+                    title: input.title,
+                    description: input.description,
                 }
             })
         },
