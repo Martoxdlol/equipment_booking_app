@@ -44,7 +44,9 @@ export default function DashboardDeploy() {
             const [selection, setSelection] = useState<Set<string>>(new Set())
             const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
             const [mode, setMode] = useQueryState<'new' | 'existing'>('mode', {
-                defaultValue: 'existing'
+                defaultValue: 'existing', parse(value) {
+                    return value === 'new' ? 'new' : 'existing'
+                },
             })
 
             function toggleSelect(id: string) {
