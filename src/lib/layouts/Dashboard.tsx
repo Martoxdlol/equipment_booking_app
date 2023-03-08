@@ -3,6 +3,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
 import { useNamespaceSlug } from "../../utils/hooks"
+import { useNamespacePicture } from "../components/NamespaceProvider"
 
 interface Props {
     children: React.ReactNode
@@ -22,6 +23,8 @@ export default function DashboardLayout(props: Props) {
 
     const path = router.asPath.split('?')[0]
 
+    const picture = useNamespacePicture()
+
     return <div className="flex h-screen flex-col">
         <div className="relative z-40 border-b bg-primary px-3 text-primary sm:px-6 print:hidden">
             <header className="relative mx-auto">
@@ -35,13 +38,19 @@ export default function DashboardLayout(props: Props) {
                             </svg> */}
                             {/* <Image src={props.imageUrl || "/colored-image.svg"} alt="Colores" width={32} height={32} className="rounded-full" /> */}
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
+                            {!picture &&<img
                                 height={32}
                                 width={32}
                                 src={props.imageUrl || (namespaceSlug ? `/api/files/namespaces/${namespaceSlug}/picture` : "/colored-image.svg")}
                                 alt="Logo"
                                 className=""
-                            />
+                            />}
+                            {picture && <Image
+                                height={32}
+                                width={32}
+                                src={picture}
+                                alt="Logo"
+                            />}
                         </Link>
                     </div>
                     <div className="flex flex-grow items-center">

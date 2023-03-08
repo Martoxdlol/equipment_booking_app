@@ -3,6 +3,7 @@ import dayjs from "dayjs"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import BookingAssetIndicator from "../../../../lib/components/BookingAssetIndicator"
 import Button from "../../../../lib/components/Button"
 import Input from "../../../../lib/components/Input"
 import Label from "../../../../lib/components/Label"
@@ -113,8 +114,9 @@ export default function BookingView() {
                 </div>}
             </div>
             <div>
-                <Label>Equipamiento pedido</Label>
-                <div className="grid sm:grid-cols-2 gap-2 mt-1">
+                <Label>Equipamiento</Label>
+                <BookingAssetIndicator equipment={booking.equipment} inUse={booking.inUseAssets}/>
+                {/* <div className="grid sm:grid-cols-2 gap-2 mt-1">
                     {booking.equipment.map((equipment) => {
                         return <div key={equipment.id} className="shadow-md rounded-md py-1 px-2 flex items-center">
 
@@ -127,7 +129,7 @@ export default function BookingView() {
                             </p>
                         </div>
                     })}
-                </div>
+                </div> */}
             </div>
         </div>
 

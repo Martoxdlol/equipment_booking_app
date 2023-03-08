@@ -25,8 +25,6 @@ export default function DashboardAsset() {
             const { mutateAsync: update } = api.assetType.updateAsset.useMutation()
             const { mutateAsync: deleteAsset } = api.assetType.deleteAsset.useMutation()
 
-            console.log(asset)
-
             function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
                 e.preventDefault()
                 setError('')

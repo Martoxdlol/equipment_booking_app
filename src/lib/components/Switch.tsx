@@ -13,9 +13,11 @@ export default function Switch(props: {
         className={classNames("grid grid-cols-2", props.clsasName)}
     >
         <button
+            type="button"
             onClick={() => props.onChange && props.onChange(false)}
             className={classNames(className, 'rounded-l-md border-r-0', { 'bg-indigo-500 text-white': !props.value })}>{props.offLabel || 'No'}</button>
         <button
+            type="button"
             onClick={() => props.onChange && props.onChange(true)}
             className={classNames(className, 'rounded-r-md border-l-0', { 'bg-indigo-500 text-white': props.value })}>{props.onLabel || 'Si'}</button>
     </div >

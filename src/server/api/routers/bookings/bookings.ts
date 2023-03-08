@@ -140,6 +140,11 @@ export const bookingsRoute = createTRPCRouter({
                         assetType: true,
                     }
                 },
+                inUseAssets: {
+                    include: {
+                        asset: true
+                    }
+                },
                 pool: {
                     include: {
                         bookings: {

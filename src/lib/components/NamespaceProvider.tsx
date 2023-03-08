@@ -30,3 +30,9 @@ export function useNamespaceInfo() {
 
     return data
 }
+
+export function useNamespacePicture() {
+    const namespace = useNamespace()
+
+    return namespace?.picture
+}

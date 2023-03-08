@@ -174,7 +174,7 @@ export default function DashboardBookings() {
                         >
                             <Image src="/printer.png" height={16} width={16} alt="Imprimir" />
                         </Button>
-                        {!isTodayOnly && <Button className="w-full md:w-auto ml-2" variant="outlined"
+                        {!isTodayOnly && <Button className="w-full md:w-auto ml-1" variant="outlined"
                             onClick={() => {
                                 void setDate(dayjs()).then(() => void setLengthDays(1))
 

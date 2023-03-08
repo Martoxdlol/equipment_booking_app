@@ -20,7 +20,6 @@ import { type Session } from "next-auth";
 
 import { getServerAuthSession } from "../auth";
 import { prisma } from "../db";
-import type { NamespaceSettings } from "@prisma/client";
 
 type CreateContextOptions = {
   session: Session | null;
@@ -185,7 +184,7 @@ export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) =
     })
   }
 
-  if (!namespace.permissions.length) {
+  if (!namespace.permissions.length && namespace.allowUsersByDefault) {
     await ctx.prisma.permission.upsert({
       create: {
         userLevel: true,
@@ -204,39 +203,82 @@ export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) =
 
   const email = ctx.session.user.email || ctx.session.user.id + '@'
 
-  const exisitng = await prisma.namespaceUser.findFirst({
+  let nsuser = await ctx.prisma.namespaceUser.findFirst({
     where: {
-      userId: ctx.session.user.id,
+      OR: [
+        { userId: ctx.session.user.id, },
+        { email: email, }
+      ],
       namespaceId: namespace.id,
     }
   })
 
-  const namespaceUser = await prisma.namespaceUser.upsert({
-    where: exisitng ? {
-      id: exisitng.id
-    } : {
-      email_namespaceId: {
-        email: email,
-        namespaceId: namespace.id
-      },
-    },
-    create: {
-      userId: ctx.session.user.id,
-      namespaceId: namespace.id,
-      email: email,
-    },
-    update: {
-      userId: ctx.session.user.id,
-      namespaceId: namespace.id,
-      email: email,
+  const name = ctx.session.user.name || nsuser?.name || email.split('@')[0] || 'Unnamed'
+
+  if (nsuser && (nsuser.email !== email || nsuser.userId != ctx.session.user.id || nsuser.name !== ctx.session.user.name)) {
+
+    if (!ctx.session.user.name && nsuser.name) {
+      await ctx.prisma.user.update({
+        where: {
+          id: ctx.session.user.id
+        },
+        data: {
+          name: nsuser.name,
+        }
+      })
     }
-  })
+
+    nsuser = await ctx.prisma.namespaceUser.update({
+      where: {
+        id: nsuser.id
+      },
+      data: {
+        email: email,
+        userId: ctx.session.user.id,
+        name: name,
+      }
+    })
+  }
+
+  if (!nsuser) {
+    nsuser = await ctx.prisma.namespaceUser.create({
+      data: {
+        email: email,
+        userId: ctx.session.user.id,
+        name: name,
+        namespaceId: namespace.id,
+      }
+    })
+  }
+
+  if (ctx.session.user.name && nsuser.name !== ctx.session.user.name) {
+    await ctx.prisma.namespaceUser.update({
+      where: {
+        id: nsuser.id
+      },
+      data: {
+        name: ctx.session.user.name,
+      }
+    })
+  }
+
+  if (ctx.session.user.email && nsuser.email !== ctx.session.user.email) {
+    await ctx.prisma.namespaceUser.update({
+      where: {
+        id: nsuser.id
+      },
+      data: {
+        email: ctx.session.user.email,
+      }
+    })
+  }
+
 
   return next({
     ctx: {
       ...ctx,
       namespace,
-      namespaceUser,
+      namespaceUser: nsuser,
     }
   })
 })

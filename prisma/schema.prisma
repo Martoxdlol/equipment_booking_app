@@ -75,6 +75,7 @@ model NamespaceUser {
 
     user     User?     @relation("user", fields: [userId], references: [id], onDelete: SetNull)
     userId   String?
+    name     String
     email    String
     bookings Booking[] @relation("requestedby")
 
@@ -170,6 +171,7 @@ model NamespaceSettings {
     slug    String  @unique
     name    String  @unique
     picture String?
+    allowUsersByDefault Boolean @default(true)
 
     // It can be used to adjust the frontend
     timezone Int @default(-3)
