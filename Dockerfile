@@ -14,6 +14,6 @@ ENV RUNNING_IN_DOCKER=true
 
 ENV DATABASE_URL=file:/database/db.sqlite
 
-ENV NEXT_TELEMETRY_DISABLED=1
+ENV DATABASE_URL=/files
 
 CMD [ "npm", "run", "entrypoint" ]
