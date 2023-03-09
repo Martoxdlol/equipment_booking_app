@@ -29,8 +29,8 @@ env.then(async ({ env }) => {
 
     if (!exists) {
         console.log("Building for the first time...")
-        fs.writeFileSync(lastEnvPath, envJson)
         await build()
+        fs.writeFileSync(lastEnvPath, envJson)
 
         console.log("Already built, starting server...")
         process.exit(await run())
@@ -63,6 +63,10 @@ async function execStdIODirect(command) {
         p.stderr?.pipe(process.stderr)
 
         p.addListener('exit', (code) => {
+            console.log("Exit code:", code)
+            if(code != 0) {
+                return reject(code)
+            }
             resolve(code)
         })
 
