@@ -8,8 +8,6 @@ RUN npm ci --only=production
 
 COPY . .
 
-RUN npm run build
-
 EXPOSE 3000
 
 ENV RUNNING_IN_DOCKER=true
