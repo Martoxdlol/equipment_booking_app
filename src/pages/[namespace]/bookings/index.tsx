@@ -271,36 +271,34 @@ export default function DashboardBookings() {
                                         {isCurrent && <div className="absolute bottom-0 left-0 h-[3px] bg-blue-500 w-2 print:hidden" style={{ 'width': `${progress * 100}%` }}></div>}
                                         <p className="font-semibold text-sm">{booking.user.user?.name} {isCompleted && '(terminado)'}</p>
                                         <BookingTimeRangeRender from={booking.from} to={booking.to} />
+                                        <div className=" font-semibold text-xs text-blue-500">
+                                            {booking.useType && <p>{booking.useType}</p>}
+                                            {booking.comment && <p className="text-gray-500">{booking.comment}</p>}
+                                        </div>
                                         <BookingAssetIndicator
                                             inUse={((!isToday || isPast) && !booking.inUseAssets.length) ? undefined : booking.inUseAssets}
                                             equipment={booking.equipment}
                                         />
-                                        {/* <div className="grid grid-flow-col gap-[7px] justify-start my-[2px]">
-                                            
-
-                                            {booking.equipment.map(equipment => {
-                                                return <div
-                                                    key={equipment.id}
-                                                    className="text-xs"
-                                                >{equipment.assetType.name}: <b>{equipment.quantity}</b></div>
-                                            })}
-                                        </div> */}
-                                        <div className="flex font-semibold text-xs text-blue-500">
-                                            {booking.useType && <p>{booking.useType}</p>}
-                                            {(booking.comment && booking.useType) && <p>&nbsp;&bull;&nbsp;</p>}
-                                            {booking.comment && <p>{booking.comment}</p>}
-                                        </div>
                                         <div
                                             onClick={e => {
                                                 e.stopPropagation()
                                                 if (!booking.poolId) return;
                                                 void setPoolId(booking.poolId)
                                             }}
-                                            className="absolute top-[3px] right-[4px] h-[12px] w-[24px] rounded-full bg-blue-500 flex justify-around"
+                                            className="absolute top-[3px] right-[4px] h-[12px] w-[24px] rounded-full bg-blue-500 flex justify-around cursor-pointer"
                                             style={{ backgroundColor: stringToColor(booking.poolId ?? booking.userId) }}
                                         >
                                             {booking.poolId && <Image alt="icon" src="/link.svg" width={14} height={14} />}
                                         </div>
+                                        {booking.directDeploy && <div
+                                            onClick={e => {
+                                                e.stopPropagation()
+                                                alert('"D" es por "Entregado directamente", lo que significa que este pedido se creó desde la sección de "Deploy" y no se había reservado previamente.')
+                                            }}
+                                            className="absolute top-[3px] right-[31px] h-[12px] w-[24px] rounded-full bg-blue-500 flex justify-around cursor-pointer"
+                                        >
+                                            <span className="font-extrabold text-white text-[8px]">D</span>
+                                        </div>}
                                     </li>
                                 })}
                             </ul>

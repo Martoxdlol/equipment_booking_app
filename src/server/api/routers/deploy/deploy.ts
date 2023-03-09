@@ -1,5 +1,8 @@
+import type { PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
+import dayjs from "dayjs";
 import { z } from "zod";
+import { getTimeStamp } from "../../../../utils/timestamps";
 import { createTRPCRouter, namespaceAdminProcedure } from "../../trpc";
 
 export const deployRouter = createTRPCRouter({
@@ -107,6 +110,85 @@ export const deployRouter = createTRPCRouter({
                 },
                 namespaceId: ctx.namespace.id,
             }
+        })
+    }),
+
+    directDeploy: namespaceAdminProcedure.input(z.object({
+        assets: z.array(z.string()),
+        userId: z.string(),
+        timeFrom: z.string(),
+        timeTo: z.string(),
+    })).mutation(async ({ ctx, input }) => {
+        return await ctx.prisma.$transaction(async prisma => {
+
+            const assets = await prisma.asset.findMany({
+                where: {
+                    id: {
+                        in: input.assets,
+                    },
+                    namespaceId: ctx.namespace.id,
+                }
+            })
+
+            await prisma.inUseAsset.deleteMany({
+                where: {
+                    assetId: {
+                        in: input.assets,
+                    },
+                    namespaceId: ctx.namespace.id,
+                }
+            })
+
+            const quantityByTypeId = new Map<string, number>()
+
+            for (const asset of assets) {
+                const quantity = quantityByTypeId.get(asset.assetTypeId) || 0
+                quantityByTypeId.set(asset.assetTypeId, quantity + 1)
+            }
+
+            const date = dayjs()
+            const year = date.get('year')
+            const month = date.get('month') + 1
+            const day = date.get('date')
+
+
+            const from = (await getTimeStamp({
+                prisma: prisma as unknown as PrismaClient,
+                day, month, year,
+                namespaceId: ctx.namespace.id,
+                timeId: input.timeFrom,
+            }))
+
+            const to = (await getTimeStamp({
+                prisma: prisma as unknown as PrismaClient,
+                day, month, year,
+                namespaceId: ctx.namespace.id,
+                timeId: input.timeTo,
+            }))
+
+            return await prisma.booking.create({
+                data: {
+                    namespaceId: ctx.namespace.id,
+                    userId: input.userId,
+                    equipment: {
+                        create: [...quantityByTypeId.entries()].map(([assetTypeId, quantity]) => ({
+                            assetTypeId, quantity,
+                            namespaceId: ctx.namespace.id,
+                        }))
+                    },
+                    inUseAssets: {
+                        create: assets.map(asset => ({
+                            assetId: asset.id,
+                            namespaceId: ctx.namespace.id,
+                        }))
+                    },
+                    fromId: from.id,
+                    toId: to.id,
+                    updatedByUserId: ctx.session.user.id,
+                    createdByUserId: ctx.session.user.id,
+                    directDeploy: true,
+                }
+            })
         })
     }),
 })

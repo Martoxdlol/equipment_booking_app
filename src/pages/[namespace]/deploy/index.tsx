@@ -8,11 +8,12 @@ import Button from "../../../lib/components/Button";
 import ComboBox from "../../../lib/components/ComboBox";
 import Label from "../../../lib/components/Label";
 import Switch from "../../../lib/components/Switch";
-import TimePicker from "../../../lib/components/TimePicker";
+import ElegibleTimePicker from "../../../lib/components/ElegibleTimePicker";
 import DashboardLayout from "../../../lib/layouts/Dashboard";
 import NamespaceAdminRoute from "../../../lib/layouts/NamespaceAdminRoute";
 import namespaceRow from "../../../lib/util/namespaceRow";
 import { api } from "../../../utils/api";
+import { useRouter } from "next/router";
 
 export default function DashboardDeploy() {
     return <NamespaceAdminRoute>
@@ -27,7 +28,15 @@ export default function DashboardDeploy() {
             const monthTo = tomorrow.get('month') + 1
             const yearTo = tomorrow.get('year')
 
-            const [user, setUser] = useState<string | null>(null)
+            const router = useRouter()
+
+            const defUser = router.query.user?.toString() || null
+            const defBooking = router.query.booking?.toString() || null
+
+            const [user, setUser] = useState<string | null>(defUser)
+
+            const [fromTimeId, setFromTimeId] = useState<string | null>(null)
+            const [toTimeId, setToTimeId] = useState<string | null>(null)
 
             const { data: users } = api.namespace.users.useQuery()
 
@@ -42,7 +51,7 @@ export default function DashboardDeploy() {
             })
 
             const [selection, setSelection] = useState<Set<string>>(new Set())
-            const [selectedBooking, setSelectedBooking] = useState<string | null>(null)
+            const [selectedBooking, setSelectedBooking] = useState<string | null>(defBooking)
             const [mode, setMode] = useQueryState<'new' | 'existing'>('mode', {
                 defaultValue: 'existing', parse(value) {
                     return value === 'new' ? 'new' : 'existing'
@@ -60,6 +69,7 @@ export default function DashboardDeploy() {
 
             const { mutateAsync: deployTo } = api.deploy.deployTo.useMutation()
             const { mutateAsync: returnAssets } = api.deploy.return.useMutation()
+            const { mutateAsync: directDeploy } = api.deploy.directDeploy.useMutation()
 
             async function handleDeployTo(bookingId: string) {
                 await deployTo({
@@ -75,6 +85,19 @@ export default function DashboardDeploy() {
             async function handlerReturn() {
                 await returnAssets({
                     assets: Array.from(selection)
+                })
+                setSelection(new Set())
+                void refetchBookings()
+                void refetchTypes()
+            }
+
+            async function fastDeploy() {
+                if (!fromTimeId || !toTimeId || !user) return
+                await directDeploy({
+                    assets: Array.from(selection),
+                    timeFrom: fromTimeId,
+                    timeTo: toTimeId,
+                    userId: user,
                 })
                 setSelection(new Set())
                 void refetchBookings()
@@ -130,6 +153,7 @@ export default function DashboardDeploy() {
                                     onClick={() => setSelectedBooking(booking.id === selectedBooking ? null : booking.id)}
                                 >
                                     <p>{booking.user.user?.name || ''}</p>
+                                    <p className="text-sm">{booking.useType}</p>
                                     <p className="text-sm font-semibold text-blue-500">{booking.from.time.hours}:{booking.from.time.minutes} - {booking.to.time.hours}:{booking.to.time.minutes}</p>
                                     <div>
                                         <BookingAssetIndicator
@@ -137,6 +161,7 @@ export default function DashboardDeploy() {
                                             equipment={booking.equipment}
                                         />
                                     </div>
+                                    <p className="text-sm">{booking.comment}</p>
                                 </div>
                             })}
                         </div>}
@@ -153,18 +178,20 @@ export default function DashboardDeploy() {
                             <div className="grid grid-cols-2 gap-1 mt-1 mb-1">
                                 <div>
                                     <Label>Desde (hoy)</Label>
-                                    <TimePicker
-                                        onChange={value => console.log(value)}
+                                    <ElegibleTimePicker
+                                        onChange={t => setFromTimeId(t.id)}
+                                        value={{ id: fromTimeId || '' }}
                                     />
                                 </div>
                                 <div>
                                     <Label>hasta (hoy)</Label>
-                                    <TimePicker
-                                        onChange={value => console.log(value)}
+                                    <ElegibleTimePicker
+                                        onChange={t => setToTimeId(t.id)}
+                                        value={{ id: toTimeId || '' }}
                                     />
                                 </div>
                             </div>
-                            <Button className="w-full mt-1">Crear y entregar</Button>
+                            <Button className="w-full mt-1" onClick={() => void fastDeploy()}>Crear y entregar</Button>
                         </div>}
                         <div className="mt-2">
                             {selectedBooking && <Button className="w-full mt-2" onClick={() => void handleDeployTo(selectedBooking)}>Entregar</Button>}

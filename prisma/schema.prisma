@@ -103,6 +103,8 @@ model Booking {
     to     TimeStamp @relation("to", fields: [toId], references: [id])
     toId   String
 
+    directDeploy Boolean @default(false) // If the booking was generated at deploy time (not by a user)
+
     useType String @default("")
     comment String @default("")
 
@@ -172,7 +174,7 @@ model NamespaceSettings {
     name    String  @unique
     picture String?
 
-    title String?
+    title       String?
     description String?
 
     allowUsersByDefault Boolean @default(true)

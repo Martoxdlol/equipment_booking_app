@@ -115,21 +115,15 @@ export default function BookingView() {
             </div>
             <div>
                 <Label>Equipamiento</Label>
-                <BookingAssetIndicator equipment={booking.equipment} inUse={booking.inUseAssets}/>
-                {/* <div className="grid sm:grid-cols-2 gap-2 mt-1">
-                    {booking.equipment.map((equipment) => {
-                        return <div key={equipment.id} className="shadow-md rounded-md py-1 px-2 flex items-center">
-
-                            {equipment.assetType.picture && <Image src={equipment.assetType.picture} alt="Ícono" height={35} width={35} />}
-                            <p className="py-1 px-1 w-full">
-                                {equipment.assetType.name}
-                            </p>
-                            <p className="pr-1 font-semibold">
-                                {equipment.quantity}
-                            </p>
-                        </div>
-                    })}
-                </div> */}
+                <BookingAssetIndicator equipment={booking.equipment} inUse={booking.inUseAssets} />
+                <Button className="mt-2" onClick={() => {
+                    void router.push({
+                        hostname: `/${namespaceSlug}/deploy`,
+                        query: {
+                            booking: booking.id
+                        }
+                    })
+                }}>Entregar o devolver equipos</Button>
             </div>
         </div>
 
