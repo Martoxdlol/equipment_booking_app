@@ -1,9 +1,7 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import TopRightActions from "../lib/components/TopRightActions";
 import AuthedRoute from "../lib/layouts/AuthedRoute";
 import DashboardLayout from "../lib/layouts/Dashboard";
 import { api } from "../utils/api";
@@ -37,7 +35,7 @@ export default function UserPage() {
         >
             {namespaces?.map((namespace, i) => {
                 return <a key={namespace.slug} href={`/${namespace.slug}`} className={`flex rounded-md px-3 py-2 gradient-${(i % 3) + 1} text-white mb-5 mt-3 shadow-lg`}>
-                    {namespace.picture && <Image 
+                    {namespace.picture && <Image
                         alt="Logo"
                         height={30}
                         width={30}
@@ -48,7 +46,9 @@ export default function UserPage() {
                 </a>
             })}
 
-
+            {namespaces?.length === 0 && <div className="flex flex-col items-center justify-center">
+                <h1>No hay nada para hacer acá.</h1>
+            </div>}
         </DashboardLayout>
     </AuthedRoute >
 }

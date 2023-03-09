@@ -18,6 +18,9 @@ export const appRouter = createTRPCRouter({
   deploy: deployRouter,
   namespaces: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.namespaceSettings.findMany({
+      where: {
+        enabled: true,
+      },
       select: {
         name: true,
         slug: true,

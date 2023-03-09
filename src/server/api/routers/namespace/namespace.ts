@@ -225,4 +225,33 @@ export const namespaceRouter = createTRPCRouter({
       })
     })
   }),
+  deleteNamespace: namespaceAdminProcedure.mutation(async ({ ctx }) => {
+    return prismaOperation({
+      action: () => {
+        return ctx.prisma.$transaction(async (prisma) => {
+          const bookings = await prisma.booking.count({ where: { namespaceId: ctx.namespace.id } })
+
+          if (bookings > 0) {
+            throw new TRPCError({
+              code: 'CONFLICT',
+              cause: 'BOOKINGS_FOUND',
+              message: 'Cannot remove namespace',
+            })
+          }
+
+          await prisma.namespaceUser.deleteMany({ where: { namespaceId: ctx.namespace.id } })
+
+          await prisma.permission.deleteMany({ where: { namespaceId: ctx.namespace.id } })
+
+          await prisma.elegibleTime.deleteMany({ where: { namespaceId: ctx.namespace.id } })
+
+          await prisma.namespaceSettings.delete({ where: { id: ctx.namespace.id } })
+        })
+      },
+      onUniqueConstraintError: () => new TRPCError({
+        code: 'CONFLICT',
+        message: 'Cannot remove namespace',
+      })
+    })
+  }),
 });

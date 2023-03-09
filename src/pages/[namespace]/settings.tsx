@@ -11,6 +11,7 @@ import NamespaceAdminRoute from "../../lib/layouts/NamespaceAdminRoute";
 import { apiOperation } from "../../lib/util/errors";
 import namespaceRow from "../../lib/util/namespaceRow";
 import { api } from "../../utils/api";
+import DeleteButton from "../../lib/components/DeleteButton";
 
 
 export default function DashboardNamespaceSettings() {
@@ -27,6 +28,7 @@ export default function DashboardNamespaceSettings() {
             const [allowUsersByDefault, setAllowUsersByDefault] = useState<boolean>(!!namespace.allowUsersByDefault)
             const [allowMultiDay, setAllowMultiDay] = useState<boolean>(!!namespace.multiDayBooking)
             const [picture, setPicture] = useState<string | null>(namespace.picture)
+            const [enabled, setEnabled] = useState<boolean>(!!namespace.enabled)
 
             const { data: times, refetch: refetchTimes } = api.namespace.adminElegibleTimes.useQuery()
             const { data: users, refetch: refetchUsers } = api.namespace.users.useQuery()
@@ -35,15 +37,31 @@ export default function DashboardNamespaceSettings() {
             const { mutateAsync: setElegibleTimeEnabled } = api.namespace.setElegibleTimeEnabled.useMutation()
             const { mutateAsync: addUser } = api.namespace.addUser.useMutation()
             const { mutateAsync: updateNamespace } = api.namespace.update.useMutation()
+            const { mutateAsync: deleteNamespace } = api.namespace.deleteNamespace.useMutation()
 
             const [newTime, setNewTime] = useState({ hours: 0, minutes: 0 })
+
+            function handleDeleteNamespace() {
+                void apiOperation({
+                    async action() {
+                        if (!namespace) return
+                        await deleteNamespace()
+                        window.location.href = `/`
+                    },
+                    onApiError(error) {
+                        if (error.code == 'BAD_REQUEST') {
+                            setError(error.message)
+                        }
+                    },
+                })
+            }
 
             function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
                 e.preventDefault()
                 void apiOperation({
                     async action() {
                         if (!namespace) return
-                        await updateNamespace({ name, slug, id: namespace.id, picture: picture, allowUsersByDefault, multiDayBooking: allowMultiDay, description, title })
+                        await updateNamespace({ name, slug, id: namespace.id, picture: picture, allowUsersByDefault, multiDayBooking: allowMultiDay, description, title, enabled })
                         window.location.href = `/${slug}`
                     },
                     onApiError(error) {
@@ -105,7 +123,19 @@ export default function DashboardNamespaceSettings() {
                                 <Input value={description} onChange={e => setDescription(e.target.value)} />
                             </div>
                             <div>
+                                <Label>Ocultar y desactivar o mostrar y activar</Label>
+                                <Switch
+                                    offLabel="Desactivar"
+                                    onLabel="Activar"
+                                    onChange={setEnabled}
+                                    value={enabled}
+                                />
+                            </div>
+                            <div>
                                 <Button className="w-full">Guardar configuración</Button>
+                            </div>
+                            <div>
+                                <DeleteButton onConfirmDelete={handleDeleteNamespace} question="¿Estás seguro de querer eliminar este espacio?\nNo se borrará si hay información asociada, pero se puede ocultar." />
                             </div>
                         </div>
                     </form>
@@ -154,7 +184,7 @@ export default function DashboardNamespaceSettings() {
 
                         <Label className="mt-2">Usuarios</Label>
                         <div className="grid gap-1">
-                            {users?.map(user => <UserConfigurator key={user.id} user={user} onUpdateNeeded={refetchUsers}/>)}
+                            {users?.map(user => <UserConfigurator key={user.id} user={user} onUpdateNeeded={refetchUsers} />)}
                         </div>
                         <Button className="w-full mt-2" variant="outlined"
                             onClick={() => {
