@@ -45,6 +45,8 @@ export const filesRouter = createTRPCRouter({
             // Write file
             await fs.writeFile(webpFilename, webpBuffer)
 
+            console.log(`Imagen con hash ${webpHash} subida correctamente a ${webpFilename}`)
+
             return {
                 url: `/api/files/images/${webpHash}.webp`,
             }
@@ -58,6 +60,7 @@ export const filesRouter = createTRPCRouter({
         }
     }),
     getAllImages: namespaceAdminProcedure.query(async ({ ctx }) => {
+        await fs.mkdir(path.resolve(env.STORAGE_PATH, 'images'), { recursive: true })
         const files = await fs.readdir(path.resolve(env.STORAGE_PATH, 'images'))
         return files.map(file => ({
             url: `/api/files/images/${file}`,
