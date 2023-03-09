@@ -1,28 +1,27 @@
-# Create T3 App
+# Equipment Booking App
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This web app is for booking assets in a organisation. It's originally developed for booking it equipment in a high school. It can be used for other type of equipment.
 
-## What's next? How do I make an app with this?
+It is somewhat configurable, but it's not very flexible. 
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Features
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+ - Opend ID signin
+ - Admin interface
+ - Create bookings
+ - Deploy and return assets to people
+ - Preload users manually if doesn't exist in the system or never logged in
+ - Limit time of booking
+ - Limit extent of booking to a single day
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Stack
 
-## Learn More
+It is made using next.js and t3 stack (create.t3.gg). It uses sqlite as database.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Installation
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+ - Clone the repo
+ - Install dependencies with `npm install`
+ - Run `npm run dev` to start the dev server
+ - Run `npm run build` to build the app
+ - Run `npm run start` to start the app
