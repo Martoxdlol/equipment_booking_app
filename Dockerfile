@@ -14,6 +14,6 @@ ENV RUNNING_IN_DOCKER=true
 
 ENV DATABASE_URL=file:/database/db.sqlite
 
-ENV DATABASE_URL=/files
+ENV STORAGE_PATH=/files
 
 CMD [ "npm", "run", "entrypoint" ]
