@@ -7,7 +7,8 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "entrypoint": "node ./deploy/build_and_run.mjs"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.10",
@@ -23,6 +24,7 @@
     "@types/sharp": "^0.31.1",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.7",
+    "dotenv": "^16.0.3",
     "next": "13.1.6",
     "next-auth": "^4.19.0",
     "next-usequerystate": "^1.7.2",
