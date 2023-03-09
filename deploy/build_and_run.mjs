@@ -19,6 +19,8 @@ env.then(async ({ env }) => {
 
     const envJson = JSON.stringify(env)
 
+    console.log("Found environment:", Object.keys(env))
+
     if (!exists) {
         console.log("Building for the first time...")
         fs.writeFileSync(lastEnvPath, envJson)
