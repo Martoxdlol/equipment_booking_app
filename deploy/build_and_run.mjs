@@ -33,6 +33,8 @@ env.then(async ({ env }) => {
 
     console.log("Found environment:", Object.keys(env))
 
+    console.log("Storage path:", env.STORAGE_PATH)
+
     if (!exists) {
         console.log("Building for the first time...")
         await build()
