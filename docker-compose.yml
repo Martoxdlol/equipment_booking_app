@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  equipment_booking_app:
+    container_name: equipment_booking_app
+    build: https://github.com/Martoxdlol/equipment_booking_app.git
+    restart: unless-stopped
+    environment:
+      - OPENID_ISSUER="https://auth.server.com/openid/issuer"
+      - OPENID_CLIENT_ID="00000000000000"
+      - OPENID_CLIENT_SECRET="..."
+      - DEFAULT_GLOBAL_ADMINS="admin@myorg.com"
+      - STORAGE_PATH="./files" #optional, file storage inside container
+    ports:
+      - 80:3000

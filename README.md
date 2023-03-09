@@ -22,6 +22,14 @@ It is made using next.js and t3 stack (create.t3.gg). It uses sqlite as database
 
  - Clone the repo
  - Install dependencies with `npm install`
+ - Setup envirnonment variables (see .env.example)
  - Run `npm run dev` to start the dev server
  - Run `npm run build` to build the app
  - Run `npm run start` to start the app
+
+
+## Configuration
+
+See .env.example for configuration options. You can set them in a .env file in the root of the project or as normal environment variables.
+
+You can also use Docker to deploy the app. See the docker-compose.yml for more information.
