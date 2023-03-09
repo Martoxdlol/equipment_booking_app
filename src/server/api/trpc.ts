@@ -159,18 +159,6 @@ export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) =
       permissions: {
         where: {
           userId: ctx.session.user.id,
-          AND: {
-            userLevel: true,
-            OR: {
-              admin: true,
-              OR: {
-                createAsOther: true,
-                OR: {
-                  readAll: true
-                }
-              }
-            }
-          }
         }
       }
     },
@@ -322,7 +310,6 @@ export const namespaceCreateProcedure = namespaceProcedure.use(async ({ ctx, nex
 });
 
 export const namespaceAdminProcedure = namespaceProcedure.use(async ({ ctx, next }) => {
-
   for (const permission of ctx.namespace.permissions) {
     if (permission.admin) {
       return next({
