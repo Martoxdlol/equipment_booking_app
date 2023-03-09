@@ -116,7 +116,7 @@ export default function DashboardDeploy() {
                                 <div className="flex justify-between">
                                     <Label>{assetType.name}</Label>
                                 </div>
-                                <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-1">
+                                <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-1">
 
                                     {assetType.assets?.map(asset => {
                                         const pic = asset.picture || assetType.picture
