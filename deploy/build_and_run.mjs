@@ -76,8 +76,9 @@ async function execStdIODirect(command) {
     })
 }
 
-function build() {
-    return execStdIODirect('npm run build')
+async function build() {
+    await execStdIODirect('npx prisma db push --accept-data-loss')
+    return await execStdIODirect('npm run build')
 }
 
 function run() {
