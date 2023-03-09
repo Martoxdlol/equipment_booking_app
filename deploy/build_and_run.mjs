@@ -2,8 +2,11 @@ import { exec } from 'child_process'
 import fs from 'fs'
 import dotenv from 'dotenv';
 import path from 'path';
+import pkg from '../package.json'
 
 dotenv.config();
+
+const VERSION = pkg.version
 
 const penv = process.env
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -14,7 +17,7 @@ const env = import('../src/env.mjs')
 
 const local = path.resolve('.local')
 
-if (!fs.existsSync(local)){
+if (!fs.existsSync(local)) {
     fs.mkdirSync(local);
 }
 
@@ -23,7 +26,10 @@ env.then(async ({ env }) => {
 
     const exists = fs.existsSync(lastEnvPath) && fs.existsSync(path.resolve('./.next/BUILD_ID'))
 
-    const envJson = JSON.stringify(env)
+    const envJson = JSON.stringify({
+        ...env,
+        version: VERSION
+    })
 
     console.log("Found environment:", Object.keys(env))
 
@@ -64,7 +70,7 @@ async function execStdIODirect(command) {
 
         p.addListener('exit', (code) => {
             console.log("Exit code:", code)
-            if(code != 0) {
+            if (code != 0) {
                 return reject(code)
             }
             resolve(code)
