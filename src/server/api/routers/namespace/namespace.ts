@@ -165,12 +165,12 @@ export const namespaceRouter = createTRPCRouter({
       action: async () => {
         return await ctx.prisma.permission.upsert({
           where: {
-           namespaceId_userId: {
+            namespaceId_userId: {
               namespaceId: ctx.namespace.id,
               userId: input,
-           },
+            },
           },
-          update:{
+          update: {
             admin: true
           },
           create: {
@@ -186,7 +186,33 @@ export const namespaceRouter = createTRPCRouter({
       })
     })
   }),
-  removeAdmin: namespaceAdminProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+  giveUserRequestPermission: namespaceAdminProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    return prismaOperation({
+      action: async () => {
+        return await ctx.prisma.permission.upsert({
+          where: {
+            namespaceId_userId: {
+              namespaceId: ctx.namespace.id,
+              userId: input,
+            },
+          },
+          update: {
+            userLevel: true
+          },
+          create: {
+            namespaceId: ctx.namespace.id,
+            userId: input,
+            userLevel: true,
+          }
+        })
+      },
+      onUniqueConstraintError: () => new TRPCError({
+        code: 'CONFLICT',
+        message: 'Permission already granted',
+      })
+    })
+  }),
+  removeAllPermissions: namespaceAdminProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
     return prismaOperation({
       action: async () => {
         return await ctx.prisma.permission.deleteMany({

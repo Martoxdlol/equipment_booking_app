@@ -72,6 +72,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { env } from "../../env.mjs";
+import type { NamespaceUser, Permission } from "@prisma/client";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -172,8 +173,11 @@ export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) =
     })
   }
 
-  if (!namespace.permissions.length && namespace.allowUsersByDefault) {
-    await ctx.prisma.permission.upsert({
+  let permission: Permission | null = namespace.permissions[0] || null
+
+  if ((!namespace.permissions.length && namespace.allowUsersByDefault || !namespace.permissions.find(p => p.userLevel) && namespace.allowUsersByDefault)) {
+
+    permission = await ctx.prisma.permission.upsert({
       create: {
         userLevel: true,
         userId: ctx.session.user.id, namespaceId: namespace.id,
@@ -191,7 +195,7 @@ export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) =
 
   const email = ctx.session.user.email || ctx.session.user.id + '@'
 
-  let nsuser = await ctx.prisma.namespaceUser.findFirst({
+  let nsuser: NamespaceUser | null = await ctx.prisma.namespaceUser.findFirst({
     where: {
       OR: [
         { userId: ctx.session.user.id, },
@@ -240,7 +244,7 @@ export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) =
   }
 
   if (ctx.session.user.name && nsuser.name !== ctx.session.user.name) {
-    await ctx.prisma.namespaceUser.update({
+    nsuser = await ctx.prisma.namespaceUser.update({
       where: {
         id: nsuser.id
       },
@@ -251,7 +255,7 @@ export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) =
   }
 
   if (ctx.session.user.email && nsuser.email !== ctx.session.user.email) {
-    await ctx.prisma.namespaceUser.update({
+    nsuser = await ctx.prisma.namespaceUser.update({
       where: {
         id: nsuser.id
       },
@@ -261,6 +265,17 @@ export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) =
     })
   }
 
+  if (!permission) throw new TRPCError({
+    code: 'UNAUTHORIZED',
+    message: 'PERMISSION_NOT_FOUND',
+  })
+
+  if (!permission.admin && !permission.readAll && !permission.userLevel) {
+    if (!permission) throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'PERMISSION_NOT_ALLOWED',
+    })
+  }
 
   return next({
     ctx: {

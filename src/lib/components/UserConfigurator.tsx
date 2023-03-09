@@ -10,11 +10,13 @@ export default function UserConfigurator(props: {
     const { mutateAsync: changeUser } = api.namespace.changeUser.useMutation()
     const { mutateAsync: deleteUser } = api.namespace.deleteUser.useMutation()
     const { mutateAsync: makeAdmin } = api.namespace.makeAdmin.useMutation()
-    const { mutateAsync: removeAdmin } = api.namespace.removeAdmin.useMutation()
+    const { mutateAsync: makeCanRequest } = api.namespace.giveUserRequestPermission.useMutation()
+    const { mutateAsync: removePermissions } = api.namespace.removeAllPermissions.useMutation()
 
     const isLinked = !!props.user.user
 
     const isAdmin = props.user.user?.permissions.find(p => p.admin)
+    const canUseTheSystem = isAdmin || props.user.user?.permissions.find(p => p.userLevel) || props.user.user?.permissions.find(p => p.createAsOther)
     const isGlobalAdmin = props.user.user?.globalAdmin
 
     async function changeName() {
@@ -68,11 +70,24 @@ export default function UserConfigurator(props: {
         props.onUpdateNeeded && props.onUpdateNeeded()
     }
 
-    async function removeUserAdmin() {
+    async function makeUserCanRequest() {
         await apiOperation({
             async action() {
                 if (!props.user.user) return
-                return  await removeAdmin(props.user.user.id)
+                return await makeCanRequest(props.user.user.id)
+            },
+            onApiError(error) {
+                alert(error.message)
+            }
+        })
+        props.onUpdateNeeded && props.onUpdateNeeded()
+    }
+
+    async function removeUserPermissions() {
+        await apiOperation({
+            async action() {
+                if (!props.user.user) return
+                return await removePermissions(props.user.user.id)
             },
             onApiError(error) {
                 alert(error.message)
@@ -91,7 +106,8 @@ export default function UserConfigurator(props: {
         {isLinked && <div className="flex gap-1 text-[12px] mt-1">
             {isGlobalAdmin && <p className="text-[12px] font-semibold text-blue-500">ADMINISTRADOR GLOBAL</p>}
             {!isAdmin && <SlimButton onClick={makeUserAdmin}>HACER ADMINISTRADOR</SlimButton>}
-            {isAdmin && <SlimButton onClick={removeUserAdmin}>QUITAR ADMINISTRADOR</SlimButton>}
+            {!canUseTheSystem && <SlimButton onClick={makeUserCanRequest}>HACER USUARIO</SlimButton>}
+            <SlimButton onClick={removeUserPermissions}>QUITAR PERMISOS</SlimButton>
         </div>}
     </div>
 }
