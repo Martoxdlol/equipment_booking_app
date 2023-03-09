@@ -12,7 +12,7 @@ EXPOSE 3000
 
 ENV RUNNING_IN_DOCKER=true
 
-ENV DATABASE_URL=file:/files/db.sqlite
+ENV DATABASE_URL=file:/database/db.sqlite
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
