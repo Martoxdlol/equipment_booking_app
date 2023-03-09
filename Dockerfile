@@ -10,4 +10,6 @@ COPY . .
 
 EXPOSE 3000
 
+ENV RUNNING_IN_DOCKER=true
+
 CMD [ "npm", "run", "start" ]

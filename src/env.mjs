@@ -50,9 +50,13 @@ const processEnv = {
   OPENID_CLIENT_ID: process.env.OPENID_CLIENT_ID,
   OPENID_CLIENT_SECRET: process.env.OPENID_CLIENT_SECRET,
   DEFAULT_GLOBAL_ADMINS: process.env.DEFAULT_GLOBAL_ADMINS?.split(",").filter(t => t.trim()) || [],
-  STORAGE_PATH: process.env.STORAGE_PATH || (process.env.NODE_ENV === "production" ? './files' : './.local/files'),
+  STORAGE_PATH: process.env.STORAGE_PATH || (process.env.RUNNING_IN_DOCKER?.toString().trim() === "true" ? '/files' : './.local/files'),
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
 };
+
+if(process.env.RUNNING_IN_DOCKER){
+  console.log("Running in docker container")
+}
 
 // Don't touch the part below
 // --------------------------

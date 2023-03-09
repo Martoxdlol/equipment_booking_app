@@ -10,6 +10,6 @@ services:
       - OPENID_CLIENT_ID="00000000000000"
       - OPENID_CLIENT_SECRET="..."
       - DEFAULT_GLOBAL_ADMINS="admin@myorg.com"
-      - STORAGE_PATH="./files" #optional, file storage inside container
+      - STORAGE_PATH="/files" #optional, file storage inside container
     ports:
       - 80:3000
