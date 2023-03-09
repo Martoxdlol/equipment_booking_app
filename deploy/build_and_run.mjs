@@ -12,6 +12,12 @@ penv.NODE_ENV = process.env.NODE_ENV || 'production';
 
 const env = import('../src/env.mjs')
 
+const local = path.resolve('.local')
+
+if (!fs.existsSync(local)){
+    fs.mkdirSync(local);
+}
+
 env.then(async ({ env }) => {
     const lastEnvPath = path.resolve('.local', 'last_env.json')
 
