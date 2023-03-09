@@ -211,5 +211,14 @@ export const assetTypeRouter = createTRPCRouter({
         }
       }
     })
-  })
+  }),
+  setAssetEnabled: namespaceAdminProcedure.input(z.object({
+    id: z.string(),
+    enabled: z.boolean(),
+  })).mutation(async ({ ctx, input }) => {
+    return await ctx.prisma.asset.updateMany({
+      where: { id: input.id, namespaceId: ctx.namespace.id },
+      data: { enabled: input.enabled }
+    })
+  }),
 });
