@@ -54,7 +54,7 @@ export default function DashboardLayout(props: Props) {
                         </Link>
                     </div>
                     <div className="flex flex-grow items-center">
-                        <Link className="hidden items-center rounded p-1 text-lg font-medium leading-3 text-primary transition sm:flex" href={props.titleHref || `#!`}>{props.title}</Link>
+                        <Link className="items-center rounded p-1 text-lg font-medium leading-3 text-primary transition sm:flex" href={props.titleHref || `#!`}>{props.title}</Link>
                     </div>
                     <div className="flex flex-none items-center">
                         <Link href="/me">
