@@ -4,6 +4,7 @@ import { AssetRoute } from "../../../../../../lib/layouts/AssetRoute"
 import DashboardLayout from "../../../../../../lib/layouts/Dashboard"
 import assetRow from "../../../../../../lib/util/assetRow"
 import { api } from "../../../../../../utils/api"
+import { nameOf } from "../../../../../../utils/names"
 
 export default function DashboardAsset() {
     return <AssetRoute>
@@ -38,7 +39,7 @@ export default function DashboardAsset() {
 
                 {booking && <div className="bg-yellow-100 border border-yellow-300 p-2 rounded-md mb-2">
                     <h2 className="font-semibold mb-1">En uso</h2>
-                    <div>Por <b>{booking.user.user?.name}</b></div>
+                    <div>Por <b>{nameOf(booking.user)}</b></div>
                 </div>}
             </DashboardLayout>
         }}

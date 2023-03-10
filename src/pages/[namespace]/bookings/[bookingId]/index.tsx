@@ -12,6 +12,7 @@ import LoadingFullPage from "../../../../lib/layouts/LoadingFullPage"
 import NotFoundFullPage from "../../../../lib/layouts/NotFoundFullPage"
 import { api } from "../../../../utils/api"
 import { useIsAdmin, useNamespaceSlug } from "../../../../utils/hooks"
+import { nameOf } from "../../../../utils/names"
 
 export default function BookingView() {
     const router = useRouter()
@@ -56,7 +57,7 @@ export default function BookingView() {
     to = to.set('minute', booking.to.time.minutes)
     to = to.set('second', 0)
 
-    const requestedBy: string = booking.user?.user?.name || ''
+    const requestedBy: string = nameOf(booking.user)
     const requestedByEmail = booking.user?.user?.email
 
 

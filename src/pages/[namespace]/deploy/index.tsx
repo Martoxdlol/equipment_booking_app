@@ -14,6 +14,7 @@ import NamespaceAdminRoute from "../../../lib/layouts/NamespaceAdminRoute";
 import namespaceRow from "../../../lib/util/namespaceRow";
 import { api } from "../../../utils/api";
 import { useRouter } from "next/router";
+import { nameOf } from "../../../utils/names";
 
 export default function DashboardDeploy() {
     return <NamespaceAdminRoute>
@@ -128,7 +129,7 @@ export default function DashboardDeploy() {
                                             <div className="px-1">
                                                 {asset.name}
                                             </div>
-                                            {asset.inUseAsset && <p className="text-xs font-semibold text-blue-500 absolute bottom-[1px] left-0 right-0 text-center">{asset.inUseAsset.booking.user.user?.name}</p>}
+                                            {asset.inUseAsset && <p className="text-xs font-semibold text-blue-500 absolute bottom-[1px] left-0 right-0 text-center">{nameOf(asset.inUseAsset.booking.user)}</p>}
                                         </div>
                                     })}
                                 </div>
@@ -152,7 +153,7 @@ export default function DashboardDeploy() {
                                 })}
                                     onClick={() => setSelectedBooking(booking.id === selectedBooking ? null : booking.id)}
                                 >
-                                    <p>{booking.user.user?.name || ''}</p>
+                                    <p>{nameOf(booking.user)}</p>
                                     <p className="text-sm">{booking.useType}</p>
                                     <p className="text-sm font-semibold text-blue-500">{booking.from.time.hours}:{booking.from.time.minutes} - {booking.to.time.hours}:{booking.to.time.minutes}</p>
                                     <div>
@@ -170,7 +171,7 @@ export default function DashboardDeploy() {
                                 label="Usuario"
                                 value={user}
                                 options={users?.map(user => ({
-                                    label: user.name,
+                                    label: nameOf(user),
                                     value: user.id
                                 })) || []}
                                 onChange={value => setUser(value)}

@@ -13,6 +13,7 @@ import BookingAssetIndicator from "../../../lib/components/BookingAssetIndicator
 import { useIsAdmin } from "../../../utils/hooks";
 import Switch from "../../../lib/components/Switch";
 import Label from "../../../lib/components/Label";
+import { nameOf } from "../../../utils/names";
 
 type Unboxed<T> =
     T extends (infer U)[]
@@ -275,7 +276,7 @@ export default function DashboardBookings() {
                                         }}
                                     >
                                         {isCurrent && <div className="absolute bottom-0 left-0 h-[3px] bg-blue-500 w-2 print:hidden" style={{ 'width': `${progress * 100}%` }}></div>}
-                                        <p className="font-semibold text-sm">{booking.user.user?.name} {isCompleted && '(terminado)'}</p>
+                                        <p className="font-semibold text-sm">{nameOf(booking.user)} {isCompleted && '(terminado)'}</p>
                                         <BookingTimeRangeRender from={booking.from} to={booking.to} />
                                         <div className=" font-semibold text-xs text-blue-500">
                                             {booking.useType && <p>{booking.useType}</p>}

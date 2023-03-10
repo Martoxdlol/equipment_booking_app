@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import AuthedRoute from "../lib/layouts/AuthedRoute";
 import DashboardLayout from "../lib/layouts/Dashboard";
 import { api } from "../utils/api";
+import { nameOf } from "../utils/names";
 
 export default function UserPage() {
     const { data: session } = useSession();
@@ -21,7 +22,7 @@ export default function UserPage() {
 
     return <AuthedRoute>
         <DashboardLayout
-            title={session?.user?.name || "Mi perfil"}
+            title={nameOf(session?.user)}
             row={[
                 {
                     label: "Inicio",

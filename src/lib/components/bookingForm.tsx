@@ -20,6 +20,7 @@ import Link from "next/link";
 import DeleteButton from "./DeleteButton";
 import { apiOperation } from "../util/errors";
 import { useRouter } from "next/router";
+import { nameOf } from "../../utils/names";
 
 interface BookingFormProps {
     booking?: FullBooking
@@ -187,10 +188,10 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
                 <div>
                     <ComboBox
                         options={!users ? [
-                            { label: session?.user.name || 'Yo', value: session?.user.id || '', picture: session?.user.image },
+                            { label: nameOf(session?.user, 'Yo') , value: session?.user.id || '', picture: session?.user.image },
                         ] : users.map(user => {
                             return {
-                                label: user.user?.name || user.id,
+                                label: nameOf(user),
                                 value: user.id,
                             }
                         })}
