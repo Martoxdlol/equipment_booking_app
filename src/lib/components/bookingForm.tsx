@@ -175,8 +175,8 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
         <p className="my-0.5 font-semibold text-red-500">
             {error}
         </p>
-        <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-2">
-            <div className="grid sm:grid-cols-1 md:grid-cols-[7fr_5fr] gap-2 mb-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+            <div className="flex flex-col sm:grid grid-flow-row sm:grid-cols-[7fr_5fr] gap-2 mb-auto">
                 <div>
                     <ComboBox
                         options={!users ? [

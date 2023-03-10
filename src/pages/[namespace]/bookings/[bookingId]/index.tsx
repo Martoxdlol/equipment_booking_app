@@ -68,7 +68,7 @@ export default function BookingView() {
             Tu pedido se registró correctamente
         </p>}
         <div className="grid md:grid-cols-2 gap-2">
-            <div className="grid sm:grid-cols-2 gap-2">
+            <div className="flex flex-col sm:grid sm:grid-cols-2 gap-2">
                 <div>
                     <Label>Pedido por</Label>
                     <Input value={requestedBy + (requestedByEmail ? ` <${requestedByEmail}>` : '')} />
