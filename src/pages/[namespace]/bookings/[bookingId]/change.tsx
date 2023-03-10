@@ -38,7 +38,7 @@ export default function DashboardNewBooking() {
         <BookingForm
             booking={booking}
             onSave={(booking) => {
-                console.log(booking);
+                void router.push(`/${namespaceSlug}/bookings/${booking.id}?updated=true`)
             }}
         />
     </DashboardLayout>

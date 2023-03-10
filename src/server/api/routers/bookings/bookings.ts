@@ -25,9 +25,10 @@ export type RouterOutput = inferRouterOutputs<AppRouter>;
 export type RouterInput = inferRouterInputs<AppRouter>;
 export type FullBooking = RouterOutput['bookings']['get'];
 
-function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, userId: string | null, from?: Time, to?: Time, poolId: string | undefined }) {
+function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, showHidden?: boolean, userId: string | null, from?: Time, to?: Time, poolId: string | undefined }) {
     return opts.prisma.booking.findMany({
         where: {
+            hidden: opts.showHidden ? undefined : false,
             poolId: opts.poolId ? opts.poolId : undefined,
             namespaceId: opts.namespaceId,
             userId: opts.userId || undefined,
@@ -124,13 +125,14 @@ const getInput = z.object({
             year: z.number(),
         }),
     }).optional(),
+    showHidden: z.boolean().optional(),
 })
 
 export const bookingsRoute = createTRPCRouter({
 
     get: namespaceProcedure.input(z.string()).query(async ({ input, ctx }) => {
-        const result = await ctx.prisma.booking.findUnique({
-            where: { id: input },
+        const result = await ctx.prisma.booking.findFirst({
+            where: { id: input, namespaceId: ctx.namespace.id },
             include: {
                 user: { include: { user: true } },
                 from: { include: { time: true, date: true } },
@@ -167,6 +169,7 @@ export const bookingsRoute = createTRPCRouter({
 
     getAll: namespaceProcedure.input(getInput).query(async ({ input, ctx }) => {
         return getBookingsOf({
+            showHidden: input.showHidden,
             poolId: input.poolId,
             from: input.from,
             to: input.to,
@@ -178,6 +181,7 @@ export const bookingsRoute = createTRPCRouter({
 
     getAllAsAdmin: namespaceReadableProcedure.input(getInput).query(async ({ input, ctx }) => {
         return getBookingsOf({
+            showHidden: input.showHidden,
             poolId: input.poolId,
             from: input.from,
             to: input.to,
@@ -216,10 +220,37 @@ export const bookingsRoute = createTRPCRouter({
             repeatWeekly: input.repeatWeekly,
         })
     }),
+    deleteSingle: namespaceProcedure.input(z.string()).mutation(async ({ input, ctx }) => {
+        return ctx.prisma.booking.deleteMany({
+            where: {
+                id: input,
+                namespaceId: ctx.namespace.id,
+                inUseAssets: {
+                    none: {
+
+                    }
+                }
+            },
+        })
+    }),
+    deleteFull: namespaceProcedure.input(z.string()).mutation(async ({ input, ctx }) => {
+        return ctx.prisma.booking.deleteMany({
+            where: {
+                poolId: input,
+                namespaceId: ctx.namespace.id,
+                inUseAssets: {
+                    none: {
+                        
+                    }
+                }
+            },
+        })
+    }),
     createOrUpdate: namespaceProcedure.input(z.object({
         id: z.string().optional(),
         requestedBy: z.string(),
         useType: z.string(),
+        hidden: z.boolean().optional(),
         comment: z.string(),
         start: z.object({
             date: z.object({
@@ -415,6 +446,7 @@ export const bookingsRoute = createTRPCRouter({
                             userId: input.requestedBy,
                             useType: input.useType,
                             comment: input.comment,
+                            hidden: input.hidden,
                         }
                     })
 
@@ -509,6 +541,7 @@ export const bookingsRoute = createTRPCRouter({
                         userId: user.id,
                         useType: input.useType,
                         comment: input.comment,
+                        hidden: input.hidden,
                         poolId: pool?.id,
                         fromId: fromTS.id,
                         toId: toTS.id,

@@ -11,6 +11,8 @@ import Image from "next/image";
 import { stringToColor } from "../../../lib/util/colors";
 import BookingAssetIndicator from "../../../lib/components/BookingAssetIndicator";
 import { useIsAdmin } from "../../../utils/hooks";
+import Switch from "../../../lib/components/Switch";
+import Label from "../../../lib/components/Label";
 
 type Unboxed<T> =
     T extends (infer U)[]
@@ -41,9 +43,13 @@ export default function DashboardBookings() {
 
             const [poolId, setPoolId] = useQueryState('pool', { defaultValue: '' })
 
+            const [_showHidden, setShowHidden] = useQueryState('show-hidden', { defaultValue: 'false' })
+            const showHidden = useMemo(() => _showHidden == 'true', [_showHidden])
+
             const fn: typeof api.bookings.getAll = (isAdmin ? api.bookings.getAllAsAdmin : api.bookings.getAll) as unknown as typeof api.bookings.getAll
 
             const { data: _bookings } = fn.useQuery({
+                showHidden: showHidden,
                 poolId: poolId ? poolId : undefined,
                 from: (!poolId || (router.query['show-from-date'] && router.query['time-length-days'])) ? {
                     date: {
@@ -304,6 +310,13 @@ export default function DashboardBookings() {
                             </ul>
                         </div>
                     }).filter(Boolean)}
+                </div>
+                <div className="mt-2 max-w-[200px]">
+                    <Label>Mostrar ocultos</Label>
+                    <Switch
+                        value={showHidden}
+                        onChange={setShowHidden}
+                    />
                 </div>
             </>
         }}

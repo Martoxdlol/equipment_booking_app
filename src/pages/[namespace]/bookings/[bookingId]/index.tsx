@@ -20,6 +20,7 @@ export default function BookingView() {
     const { data: booking, isInitialLoading } = api.bookings.get.useQuery(bookingId || '', { enabled: !!bookingId })
 
     const isOk = router.query.ok === 'true'
+    const isUpdated = router.query.updated === 'true'
     
     const isAdmin = useIsAdmin()
 
@@ -69,6 +70,9 @@ export default function BookingView() {
     >
         {isOk && <p className="text-lg mb-1 py-1 text-center border-2 border-green-500 text-green-500 rounded-md">
             Tu pedido se registró correctamente
+        </p>}
+        {isUpdated && <p className="text-lg mb-1 py-1 text-center border-2 border-green-500 text-green-500 rounded-md">
+            Tu pedido se actualizó correctamente
         </p>}
         <div className="grid md:grid-cols-2 gap-2">
             <div className="flex flex-col sm:grid sm:grid-cols-2 gap-2">

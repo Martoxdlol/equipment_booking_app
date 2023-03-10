@@ -108,6 +108,8 @@ model Booking {
     useType String @default("")
     comment String @default("")
 
+    hidden Boolean @default(false)
+
     equipment   EquipmentBookingItem[]
     inUseAssets InUseAsset[]
 

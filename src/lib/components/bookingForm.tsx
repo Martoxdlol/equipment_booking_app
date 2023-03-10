@@ -19,6 +19,7 @@ import type { FullBooking } from "../../server/api/routers/bookings/bookings";
 import Link from "next/link";
 import DeleteButton from "./DeleteButton";
 import { apiOperation } from "../util/errors";
+import { useRouter } from "next/router";
 
 interface BookingFormProps {
     booking?: FullBooking
@@ -43,9 +44,11 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
         }
     }, [requestedBy, user])
 
+    const router = useRouter()
 
     const [useType, setUseType] = useState<string>(booking?.useType || '')
     const [comment, setComment] = useState<string>(booking?.comment || '')
+    const [hidden, setHidden] = useState<boolean>(booking?.hidden || false)
     const [error, setError] = useState<string>('')
 
     const [fromDate, setFromDate] = useState<Date | null>(booking ? {
@@ -127,6 +130,9 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
     }
 
     const { mutateAsync: createOrUpdate } = api.bookings.createOrUpdate.useMutation()
+    const { mutateAsync: deleteSingle } = api.bookings.deleteSingle.useMutation()
+    const { mutateAsync: deleteFull } = api.bookings.deleteFull.useMutation()
+
 
     async function handleSave() {
         const result = await apiOperation({
@@ -135,6 +141,7 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
                     id: booking?.id || undefined,
                     requestedBy: requestedBy || '',
                     useType,
+                    hidden,
                     start: {
                         date: {
                             day: fromDate?.day || 0,
@@ -161,7 +168,7 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
                 onSave?.(data.main)
             },
             onApiError(error) {
-                if(error.cause === 'NOT_AVAILABLE'){
+                if (error.cause === 'NOT_AVAILABLE') {
                     setError('No hay disponibilidad para los equipos seleccionados, asegurese de seleccionar el tipo de equipo que quiere reservar')
                     return
                 }
@@ -286,6 +293,14 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
                 })}
             </div>
             <div>
+                {(isEditing && isAdmin) && <>
+                    <Label>Ocultar</Label>
+                    <Switch
+                        value={hidden}
+                        onChange={setHidden}
+                        clsasName="mb-2"
+                    />
+                </>}
                 <Button className="w-full"
                     onClick={() => void handleSave()}
                 >
@@ -293,12 +308,27 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
                 </Button>
                 {isEditing && <>
                     {booking?.poolId && <div className="grid md:grid-cols-2">
-                        <DeleteButton onConfirmDelete={() => undefined}>Eliminar todas las fechas</DeleteButton>
+                        <DeleteButton onConfirmDelete={async () => {
+                            if (!booking.poolId) return
+                            if (!namespace) return
+                            await deleteFull(booking.poolId).catch(console.error)
+                            await router.push(`/${namespace.slug}/bookings`)
+                        }}>Eliminar todas las fechas</DeleteButton>
                         <div className="sm:flex sm:justify-end">
-                            <DeleteButton onConfirmDelete={() => undefined}>Eliminar solo esta fecha</DeleteButton>
+                            <DeleteButton onConfirmDelete={async () => {
+                                if (!booking.id) return
+                                if (!namespace) return
+                                await deleteSingle(booking.id).catch(console.error)
+                                await router.push(`/${namespace.slug}/bookings`)
+                            }}>Eliminar solo esta fecha</DeleteButton>
                         </div>
                     </div>}
-                    {!booking?.poolId && <DeleteButton onConfirmDelete={() => undefined}>Eliminar</DeleteButton>}
+                    {!booking?.poolId && <DeleteButton onConfirmDelete={async () => {
+                        if (!booking.id) return
+                        if (!namespace) return
+                        await deleteSingle(booking.id).catch(console.error)
+                        await router.push(`/${namespace.slug}/bookings`)
+                    }}>Eliminar</DeleteButton>}
                 </>}
             </div>
         </div>
