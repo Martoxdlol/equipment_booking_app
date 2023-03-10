@@ -6,7 +6,7 @@ export default function Switch(props: {
     offLabel?: React.ReactNode
     onLabel?: React.ReactNode
     value?: boolean
-    onChange?: (value: boolean) => void
+    onChange?: (value: boolean) => unknown
     clsasName?: string
 }) {
     return <div

@@ -315,7 +315,7 @@ export default function DashboardBookings() {
                     <Label>Mostrar ocultos</Label>
                     <Switch
                         value={showHidden}
-                        onChange={setShowHidden}
+                        onChange={v => setShowHidden(v.toString())}
                     />
                 </div>
             </>
