@@ -173,6 +173,7 @@ model NamespaceSettings {
     slug    String  @unique
     name    String  @unique
     picture String?
+    enabled Boolean @default(true)
 
     title       String?
     description String?

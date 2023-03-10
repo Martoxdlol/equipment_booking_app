@@ -277,6 +277,21 @@ export const namespaceProcedure = protectedProcedure.use(async ({ ctx, next }) =
     })
   }
 
+  if (!namespace.enabled && !permission.admin) {
+    const user = await ctx.prisma.user.findUnique({
+      where: {
+        id: ctx.session.user.id
+      }
+    })
+
+    if (!user?.globalAdmin) {
+      throw new TRPCError({
+        code: 'UNAUTHORIZED',
+        message: 'PERMISSION_NOT_ALLOWED',
+      })
+    }
+  }
+
   return next({
     ctx: {
       ...ctx,

@@ -11,7 +11,7 @@ import DashboardLayout from "../../../../lib/layouts/Dashboard"
 import LoadingFullPage from "../../../../lib/layouts/LoadingFullPage"
 import NotFoundFullPage from "../../../../lib/layouts/NotFoundFullPage"
 import { api } from "../../../../utils/api"
-import { useNamespaceSlug } from "../../../../utils/hooks"
+import { useIsAdmin, useNamespaceSlug } from "../../../../utils/hooks"
 
 export default function BookingView() {
     const router = useRouter()
@@ -20,6 +20,8 @@ export default function BookingView() {
     const { data: booking, isInitialLoading } = api.bookings.get.useQuery(bookingId || '', { enabled: !!bookingId })
 
     const isOk = router.query.ok === 'true'
+    
+    const isAdmin = useIsAdmin()
 
     if (!bookingId) {
         return <NotFoundFullPage />
@@ -55,6 +57,7 @@ export default function BookingView() {
 
     const requestedBy: string = booking.user?.user?.name || ''
     const requestedByEmail = booking.user?.user?.email
+
 
     return <DashboardLayout
         titleHref={`/${namespaceSlug}/bookings`}
@@ -116,18 +119,15 @@ export default function BookingView() {
             <div>
                 <Label>Equipamiento</Label>
                 <BookingAssetIndicator equipment={booking.equipment} inUse={booking.inUseAssets} />
-                <Button className="mt-2" onClick={() => {
+                {isAdmin && <Button className="mt-2" onClick={() => {
                     void router.push({
                         hostname: `/${namespaceSlug}/deploy`,
                         query: {
                             booking: booking.id
                         }
                     })
-                }}>Entregar o devolver equipos</Button>
+                }}>Entregar o devolver equipos</Button>}
             </div>
         </div>
-
-
-
     </DashboardLayout>
 }
