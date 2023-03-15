@@ -75,6 +75,7 @@ export const assetTypeRouter = createTRPCRouter({
         ...(input?.includeAssets ? {
           assets: {
             select: {
+              enabled: true,
               id: true, name: true, picture: true, inUseAsset: {
                 include: {
                   booking: {

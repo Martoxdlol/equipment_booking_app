@@ -5,6 +5,7 @@ import Button from "../../../../lib/components/Button";
 import AssetTypeRoute from "../../../../lib/layouts/AssetTypeRoute";
 import DashboardLayout from "../../../../lib/layouts/Dashboard";
 import assetTypeRow from "../../../../lib/util/assetTypeRow";
+import classNames from "classnames";
 
 export default function DashboardAssetTypeOverview() {
     return <AssetTypeRoute>
@@ -26,7 +27,9 @@ export default function DashboardAssetTypeOverview() {
 
                 <h1 className="text-lg font-semibold mb-2">Assets</h1>
                 <div className="grid md:grid-cols-2 gap-2">
-                    {type.assets.map(asset => <Link key={asset.id} className="flex rounded-md shadow border px-4 py-2" href={`/${namespace.slug}/equipment/${type.slug}/asset/${asset.tag}`}>
+                    {type.assets.map(asset => <Link key={asset.id} className={classNames("flex rounded-md shadow border px-4 py-2", {
+                        'opacity-50': !asset.enabled,
+                    })} href={`/${namespace.slug}/equipment/${type.slug}/asset/${asset.tag}`}>
                         {(asset.picture || type.picture) && <Image src={asset.picture || type.picture || ''} alt="Logo" height={30} width={30} className="ml-[-16px]" />}
                         <h2 className="font-semibold mb-1 ml-2">{asset.name}</h2>
                         {/* <div>

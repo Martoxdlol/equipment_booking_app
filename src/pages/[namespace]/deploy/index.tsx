@@ -122,8 +122,9 @@ export default function DashboardDeploy() {
                                     {assetType.assets?.map(asset => {
                                         const pic = asset.picture || assetType.picture
                                         return <div key={asset.id} className={classNames("shadow-md rounded-md flex items-center cursor-pointer border relative p-1", {
-                                            ' border-blue-500': selection.has(asset.id),
-                                            ' border-transparent': !selection.has(asset.id)
+                                            'border-blue-500': selection.has(asset.id),
+                                            'border-transparent': !selection.has(asset.id),
+                                            'opacity-50': !asset.enabled
                                         })} onClick={() => toggleSelect(asset.id)}>
                                             {pic && <Image src={pic} height={40} width={40} alt="Icono" className="p-1 mr-[-8px]" />}
                                             <div className="px-1">
