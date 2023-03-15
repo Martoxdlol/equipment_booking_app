@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, namespaceProcedure, namespaceReadableProcedure, } from "../../trpc";
-import type { Asset, Booking, PrismaClient } from "@prisma/client";
+import type { Asset, Booking, Prisma, PrismaClient } from "@prisma/client";
 import { getTimeStamp } from "../../../../utils/timestamps";
 import { addDays, validateAppDate } from "../../../../utils/dates";
 import { TRPCError } from "@trpc/server";
@@ -26,48 +26,66 @@ export type RouterInput = inferRouterInputs<AppRouter>;
 export type FullBooking = RouterOutput['bookings']['get'];
 
 function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, showHidden?: boolean, userId: string | null, from?: Time, to?: Time, poolId: string | undefined }) {
+
+    const dateIsGTFrom = {
+        OR: [
+            {
+                year: { gt: opts.from?.date.year },
+            },
+            {
+                year: { equals: opts.from?.date.year },
+                month: { gt: opts.from?.date.month },
+            },
+            {
+                year: { equals: opts.from?.date.year },
+                month: { equals: opts.from?.date.month },
+                day: { gte: opts.from?.date.day },
+            }
+        ]
+    }
+
+    const dateIsLTTo = {
+        OR: [
+            {
+                year: { lt: opts.to?.date.year },
+            },
+            {
+                year: { equals: opts.to?.date.year },
+                month: { lt: opts.to?.date.month },
+            },
+            {
+                year: { equals: opts.to?.date.year },
+                month: { equals: opts.to?.date.month },
+                day: { lt: opts.to?.date.day },
+            }
+        ]
+    }
+
+    const filter: Prisma.BookingWhereInput = {}
+
+    filter.from = {
+        date: dateIsGTFrom
+    }
+    filter.to = {
+        date: dateIsLTTo
+    }
+
+    if(opts.from && opts.to) {
+        filter.to = {
+            date: dateIsGTFrom
+        }
+        filter.from = {
+            date: dateIsLTTo
+        }
+    }
+
     return opts.prisma.booking.findMany({
         where: {
             hidden: opts.showHidden ? undefined : false,
             poolId: opts.poolId ? opts.poolId : undefined,
             namespaceId: opts.namespaceId,
             userId: opts.userId || undefined,
-            from: opts.from ? {
-                date: {
-                    OR: [
-                        {
-                            year: { gt: opts.from.date.year },
-                        },
-                        {
-                            year: { equals: opts.from.date.year },
-                            month: { gt: opts.from.date.month },
-                        },
-                        {
-                            year: { equals: opts.from.date.year },
-                            month: { equals: opts.from.date.month },
-                            day: { gte: opts.from.date.day },
-                        }
-                    ]
-                }
-            } : undefined,
-            to: opts.to ? {
-                date: {
-                    OR: [
-                        {
-                            year: { lt: opts.to.date.year },
-                        },
-                        {
-                            year: { equals: opts.to.date.year },
-                            month: { lt: opts.to.date.month },
-                        },
-                        {
-                            year: { equals: opts.to.date.year },
-                            month: { equals: opts.to.date.month },
-                            day: { lt: opts.to.date.day },
-                        }
-                    ]
-                }
-            } : undefined,
+            ...filter,
         },
         include: {
             equipment: {
@@ -240,7 +258,7 @@ export const bookingsRoute = createTRPCRouter({
                 namespaceId: ctx.namespace.id,
                 inUseAssets: {
                     none: {
-                        
+
                     }
                 }
             },
