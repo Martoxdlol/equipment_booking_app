@@ -53,11 +53,14 @@ export const deployRouter = createTRPCRouter({
                     }
                 })
 
-                if (event) {
+                if (event && event.bookingId != input.bookingId) {
                     await returnAsset(event.id, { prisma: prisma as unknown as typeof db, namespaceId: ctx.namespace.id })
                 }
 
-                await deployAsset(asset, input.bookingId, { prisma: prisma as unknown as typeof db, namespaceId: ctx.namespace.id })
+                if(!event) {
+                    await deployAsset(asset, input.bookingId, { prisma: prisma as unknown as typeof db, namespaceId: ctx.namespace.id })
+                }
+
             }
 
             const updated = await prisma.booking.findUniqueOrThrow({
