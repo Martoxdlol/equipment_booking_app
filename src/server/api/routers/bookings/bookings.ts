@@ -165,6 +165,11 @@ export const bookingsRoute = createTRPCRouter({
                         asset: true
                     }
                 },
+                events: {
+                    include: {
+                        asset: true,
+                    }
+                },
                 pool: {
                     include: {
                         bookings: {

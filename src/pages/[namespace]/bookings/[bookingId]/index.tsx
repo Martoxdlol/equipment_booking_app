@@ -9,9 +9,10 @@ import Label from "../../../../lib/components/Label"
 import DashboardLayout from "../../../../lib/layouts/Dashboard"
 import LoadingFullPage from "../../../../lib/layouts/LoadingFullPage"
 import NotFoundFullPage from "../../../../lib/layouts/NotFoundFullPage"
-import { api } from "../../../../utils/api"
+import { type Unpacked, api } from "../../../../utils/api"
 import { useIsAdmin, useNamespaceSlug } from "../../../../utils/hooks"
 import { nameOf } from "../../../../utils/names"
+import { useMemo } from "react"
 
 export default function BookingView() {
     const router = useRouter()
@@ -21,8 +22,26 @@ export default function BookingView() {
 
     const isOk = router.query.ok === 'true'
     const isUpdated = router.query.updated === 'true'
-    
+
     const isAdmin = useIsAdmin()
+
+    type BookingType = NonNullable<typeof booking>
+
+    const events = useMemo<BookingType['events']>(() => {
+        const eventsByAssetId = new Map<string, Unpacked<BookingType['events']>>();
+        const list: BookingType['events'] = []
+        if (!booking) return list
+        for (const event of booking.events) {
+            const prev = eventsByAssetId.get(event.assetId)
+            if (prev && dayjs((prev.returnedAt ?? prev.deployedAt).toString()).isBefore(dayjs())) continue;
+            eventsByAssetId.set(event.assetId, event)
+        }
+
+        for (const [,event] of eventsByAssetId) {
+            list.push(event)
+        }
+        return list
+    }, [booking])
 
     if (!bookingId) {
         return <NotFoundFullPage />
@@ -130,14 +149,26 @@ export default function BookingView() {
             <div>
                 <Label>Equipamiento</Label>
                 <BookingAssetIndicator equipment={booking.equipment} inUse={booking.inUseAssets} />
-                {isAdmin && <Button className="mt-2" onClick={() => {
-                    void router.push({
-                        hostname: `/${namespaceSlug}/deploy`,
-                        query: {
-                            booking: booking.id
-                        }
-                    })
-                }}>Entregar o devolver equipos</Button>}
+                <Label>Equipos utilizados</Label>
+                {events.map(event => {
+
+                    return <div key={event.id}>
+                        {event.asset.tag} {event.returnedAt ?
+                            <span className="font-semibold text-green-600">DEVUELTO</span>
+                            :
+                            <span className="font-semibold text-yellow-600">PENDIENTE</span>}
+                    </div>
+                })}
+                {isAdmin && <>
+                    <Button className="mt-2" onClick={() => {
+                        void router.push({
+                            hostname: `/${namespaceSlug}/deploy`,
+                            query: {
+                                booking: booking.id
+                            }
+                        })
+                    }}>Entregar o devolver equipos</Button>
+                </>}
             </div>
         </div>
     </DashboardLayout>
