@@ -127,10 +127,11 @@ model Booking {
     updatedByUserId String
 
     // Standard to all models
-    createdAt   DateTime          @default(now())
-    updatedAt   DateTime          @updatedAt
-    namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
-    namespaceId String
+    createdAt         DateTime            @default(now())
+    updatedAt         DateTime            @updatedAt
+    namespace         NamespaceSettings   @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId       String
+    events EquipmentUseEvent[]
 
     @@index([namespaceId])
 }
@@ -204,6 +205,7 @@ model NamespaceSettings {
     permissions          Permission[]
     inUseAssets          InUseAsset[]           @relation("settings")
     users                NamespaceUser[]        @relation("settings")
+    useEvents            EquipmentUseEvent[]    @relation("settings")
 
     @@index([slug])
 }
@@ -332,11 +334,12 @@ model Asset {
     enabled     Boolean   @default(true)
 
     // Standard to all models
-    createdAt   DateTime          @default(now())
-    updatedAt   DateTime          @updatedAt
-    namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
-    namespaceId String
-    inUseAsset  InUseAsset?
+    createdAt         DateTime            @default(now())
+    updatedAt         DateTime            @updatedAt
+    namespace         NamespaceSettings   @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId       String
+    inUseAsset        InUseAsset?
+    events EquipmentUseEvent[]
 
     @@unique([namespaceId, tag, assetTypeId])
     @@index([namespaceId])
@@ -350,6 +353,28 @@ model InUseAsset {
 
     booking   Booking @relation(fields: [bookingId], references: [id])
     bookingId String
+
+    // Standard to all models
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime          @updatedAt
+    namespace   NamespaceSettings @relation("settings", fields: [namespaceId], references: [id])
+    namespaceId String
+
+    @@index([namespaceId])
+}
+
+// Events
+model EquipmentUseEvent {
+    id String @id @default(cuid())
+
+    booking   Booking @relation(fields: [bookingId], references: [id])
+    bookingId String
+
+    asset   Asset  @relation(fields: [assetId], references: [id])
+    assetId String
+
+    deployedAt DateTime // When the asset was deployed
+    returnedAt DateTime?
 
     // Standard to all models
     createdAt   DateTime          @default(now())

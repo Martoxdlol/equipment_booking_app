@@ -1,6 +1,5 @@
 import classNames from "classnames"
 import dayjs from "dayjs"
-import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import BookingAssetIndicator from "../../../../lib/components/BookingAssetIndicator"
@@ -60,6 +59,9 @@ export default function BookingView() {
     const requestedBy: string = nameOf(booking.user)
     const requestedByEmail = booking.user?.user?.email
 
+    const createdAtFormattedLC = dayjs(booking.createdAt.toString()).format('dddd DD [de] MMMM YYYY - HH:mm')
+
+    const createdAtFormatted = (createdAtFormattedLC[0]?.toUpperCase() || '') + createdAtFormattedLC.substring(1)
 
     return <DashboardLayout
         titleHref={`/${namespaceSlug}/bookings`}
@@ -96,6 +98,10 @@ export default function BookingView() {
                 <div className="col-span-2">
                     <Label>Comentario</Label>
                     <Input value={booking.comment} />
+                </div>
+                <div className="col-span-2">
+                    <Label>Creado</Label>
+                    <Input value={createdAtFormatted} />
                 </div>
                 <div className="col-span-2 flex gap-1">
                     <Button

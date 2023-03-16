@@ -257,9 +257,10 @@ export const bookingsRoute = createTRPCRouter({
                 poolId: input,
                 namespaceId: ctx.namespace.id,
                 inUseAssets: {
-                    none: {
-
-                    }
+                    none: {}
+                },
+                events: {
+                    none: {}
                 }
             },
         })

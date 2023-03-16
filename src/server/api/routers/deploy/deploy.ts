@@ -4,6 +4,8 @@ import dayjs from "dayjs";
 import { z } from "zod";
 import { getTimeStamp } from "../../../../utils/timestamps";
 import { createTRPCRouter, namespaceAdminProcedure } from "../../trpc";
+import { deployAsset, returnAsset } from "../../../../utils/events";
+import { prisma as db } from "../../../db";
 
 export const deployRouter = createTRPCRouter({
     deployTo: namespaceAdminProcedure.input(z.object({
@@ -38,6 +40,24 @@ export const deployRouter = createTRPCRouter({
                         bookingId: input.bookingId,
                     }
                 })
+
+                // Log events
+                
+                const event = await prisma.equipmentUseEvent.findFirst({
+                    where: {
+                        assetId: asset,
+                        returnedAt: null,
+                    },
+                    orderBy: {
+                        deployedAt: 'desc',
+                    }
+                })
+
+                if (event) {
+                    await returnAsset(event.id, { prisma: prisma as unknown as typeof db, namespaceId: ctx.namespace.id })
+                }
+
+                await deployAsset(asset, input.bookingId, { prisma: prisma as unknown as typeof db, namespaceId: ctx.namespace.id })
             }
 
             const updated = await prisma.booking.findUniqueOrThrow({
