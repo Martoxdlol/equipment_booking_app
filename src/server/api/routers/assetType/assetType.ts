@@ -188,6 +188,15 @@ export const assetTypeRouter = createTRPCRouter({
         assetTypeId: input.typeId,
       },
       include: {
+        events: {
+          include: {
+            booking: {
+              include: {
+                user: true
+              }
+            },
+          }
+        },
         inUseAsset: {
           include: {
             booking: {

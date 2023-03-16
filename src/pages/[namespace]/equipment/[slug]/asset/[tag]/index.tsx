@@ -5,6 +5,10 @@ import DashboardLayout from "../../../../../../lib/layouts/Dashboard"
 import assetRow from "../../../../../../lib/util/assetRow"
 import { api } from "../../../../../../utils/api"
 import { nameOf } from "../../../../../../utils/names"
+import Label from "../../../../../../lib/components/Label"
+import dayjs from "dayjs"
+import Link from "next/link"
+import { useMemo } from "react"
 
 export default function DashboardAsset() {
     return <AssetRoute>
@@ -14,6 +18,17 @@ export default function DashboardAsset() {
             const booking = asset.inUseAsset?.booking
 
             const { mutateAsync: setAssetEnabled } = api.assetType.setAssetEnabled.useMutation()
+
+            const events = useMemo(() => {
+                return asset.events.sort((a, b) => {
+                    const d1 = dayjs((a.returnedAt ?? a.deployedAt).toString())
+                    const d2 = dayjs((b.returnedAt ?? b.deployedAt).toString())
+
+                    if(d1.isAfter(d2)) return -1
+                    if(d2.isAfter(d1)) return 1
+                    return 0
+                })
+            }, [asset])
 
             return <DashboardLayout title={asset.tag}
                 imageUrl={asset.picture || assetType.picture || undefined}
@@ -41,6 +56,19 @@ export default function DashboardAsset() {
                     <h2 className="font-semibold mb-1">En uso</h2>
                     <div>Por <b>{nameOf(booking.user)}</b></div>
                 </div>}
+                <div>{events.map(event => {
+                    const date = dayjs((event.returnedAt ?? event.deployedAt).toString()).format('DD/MM/YYYY [-] HH:mm')
+
+                    return <div key={event.id} className="my-2 border p-1 rounded-md">
+                        <Label>{event.returnedAt ? 'Recibido de ' : 'Entregado a '} {event.booking.user.name + ' '}</Label>
+                        <span className="text-sm">
+                            <span className="font-semibold text-fuchsia-600">{date}</span>
+                        </span>
+                        <p><Link href={`/${namespace.slug}/bookings/${event.booking.id}`}
+                            className="text-blue-500 text-sm font-semibold"
+                        >Ver pedido original</Link></p>
+                    </div>
+                })}</div>
             </DashboardLayout>
         }}
     </AssetRoute>
