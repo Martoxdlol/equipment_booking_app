@@ -10,6 +10,7 @@ import dayjs from 'dayjs'
 
 import 'dayjs/locale/es' // import locale
 import NamespaceProvider from "../lib/components/NamespaceProvider";
+import Head from "next/head";
 
 dayjs.locale('es')
 
@@ -19,6 +20,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
+      <Head>
+        <title>Equipment Booking APP</title>
+      </Head>
       <NamespaceProvider>
         <Component {...pageProps} />
       </NamespaceProvider >

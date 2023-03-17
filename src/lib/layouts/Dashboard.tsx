@@ -1,3 +1,4 @@
+import Head from "next/head"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -29,7 +30,9 @@ export default function DashboardLayout(props: Props) {
         <div className="relative z-40 border-b bg-primary px-3 text-primary sm:px-6 print:hidden">
             <header className="relative mx-auto">
                 <div className="flex items-center pt-3 pb-2 md:pt-4 md:pb-3">
-
+                    {props.title && <Head>
+                        <title>{props.title}</title>
+                    </Head>}
                     <div className="mr-1 flex shrink-0 items-center">
                         <Link className="rounded text-primary" aria-label="Go to dashboard" href={`/`}>
                             {/* <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,7 +57,7 @@ export default function DashboardLayout(props: Props) {
                         </Link>
                     </div>
                     <div className="flex flex-grow items-center">
-                        <Link className="items-center rounded p-1 text-lg font-medium leading-3 text-primary transition sm:flex" href={props.titleHref || `#!`}>{props.title}</Link>
+                        <Link className="items-center rounded p-1 text-lg font-medium leading-3 text-primary transition sm:flex" href={props.titleHref || `/`}>{props.title}</Link>
                     </div>
                     <div className="flex flex-none items-center">
                         <Link href="/me">
