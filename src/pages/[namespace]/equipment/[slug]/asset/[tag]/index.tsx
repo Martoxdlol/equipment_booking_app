@@ -57,12 +57,14 @@ export default function DashboardAsset() {
                     <div>Por <b>{nameOf(booking.user)}</b></div>
                 </div>}
                 <div>{events.map(event => {
-                    const date = dayjs((event.returnedAt ?? event.deployedAt).toString()).format('DD/MM/YYYY [-] HH:mm')
+                    const dateDeployed = dayjs(event.deployedAt.toString()).format('DD/MM/YYYY [-] HH:mm:ss')
+                    const dateReturned = event.returnedAt ? dayjs(event.returnedAt.toString()).format('DD/MM/YYYY [-] HH:mm:ss') : null
 
                     return <div key={event.id} className="my-2 border p-1 rounded-md">
-                        <Label>{event.returnedAt ? 'Recibido de ' : 'Entregado a '} {event.booking.user.name + ' '}</Label>
+                        <Label>{event.returnedAt ? '' : 'Entregado a '} {event.booking.user.name + ' '}</Label>
                         <span className="text-sm">
-                            <span className="font-semibold text-fuchsia-600">{date}</span>
+                        <p className="font-semibold text-fuchsia-600">{dateDeployed && <span>Entregado el {' '}</span>}{dateDeployed}</p>
+                            {dateReturned && <p className="font-semibold text-fuchsia-600">Devuelto el {dateReturned}</p>}
                         </span>
                         <p><Link href={`/${namespace.slug}/bookings/${event.booking.id}`}
                             className="text-blue-500 text-sm font-semibold"
