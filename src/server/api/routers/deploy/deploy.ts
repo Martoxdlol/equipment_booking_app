@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { z } from "zod";
 import { getTimeStamp } from "../../../../utils/timestamps";
 import { createTRPCRouter, namespaceAdminProcedure } from "../../trpc";
-import { deployAsset, returnAsset } from "../../../../utils/events";
+import { deployAsset, deployMultipleAssetsAuto, returnAsset, returnMultipleAssetsAuto } from "../../../../utils/events";
 import { prisma as db } from "../../../db";
 
 export const deployRouter = createTRPCRouter({
@@ -26,41 +26,10 @@ export const deployRouter = createTRPCRouter({
                 throw new TRPCError({ code: 'NOT_FOUND' })
             }
 
-            for (const asset of input.assets) {
-                await prisma.inUseAsset.upsert({
-                    where: {
-                        assetId: asset,
-                    },
-                    create: {
-                        assetId: asset,
-                        bookingId: input.bookingId,
-                        namespaceId: ctx.namespace.id,
-                    },
-                    update: {
-                        bookingId: input.bookingId,
-                    }
-                })
-
-                // Log events
-
-                const event = await prisma.equipmentUseEvent.findFirst({
-                    where: {
-                        assetId: asset,
-                        returnedAt: null,
-                    },
-                    orderBy: {
-                        deployedAt: 'desc',
-                    }
-                })
-
-                if (event && event.bookingId != input.bookingId) {
-                    await returnAsset(event.id, { prisma: prisma as unknown as typeof db, namespaceId: ctx.namespace.id })
-                }
-
-                if (!event || event.bookingId != input.bookingId) {
-                    await deployAsset(asset, input.bookingId, { prisma: prisma as unknown as typeof db, namespaceId: ctx.namespace.id })
-                }
-            }
+            await deployMultipleAssetsAuto(input.assets, input.bookingId, {
+                namespaceId: ctx.namespace.id,
+                prisma: prisma as unknown as typeof db,
+            })
 
             const updated = await prisma.booking.findUniqueOrThrow({
                 where: {
@@ -125,7 +94,7 @@ export const deployRouter = createTRPCRouter({
     return: namespaceAdminProcedure.input(z.object({
         assets: z.array(z.string()),
     })).mutation(async ({ ctx, input }) => {
-        return await ctx.prisma.inUseAsset.deleteMany({
+        const result = await ctx.prisma.inUseAsset.deleteMany({
             where: {
                 assetId: {
                     in: input.assets,
@@ -133,6 +102,13 @@ export const deployRouter = createTRPCRouter({
                 namespaceId: ctx.namespace.id,
             }
         })
+
+        await returnMultipleAssetsAuto(input.assets, {
+            namespaceId: ctx.namespace.id,
+            prisma: ctx.prisma,
+        })
+        
+        return result
     }),
 
     directDeploy: namespaceAdminProcedure.input(z.object({
@@ -188,7 +164,7 @@ export const deployRouter = createTRPCRouter({
                 timeId: input.timeTo,
             }))
 
-            return await prisma.booking.create({
+            const result = await prisma.booking.create({
                 data: {
                     namespaceId: ctx.namespace.id,
                     userId: input.userId,
@@ -211,6 +187,14 @@ export const deployRouter = createTRPCRouter({
                     directDeploy: true,
                 }
             })
+
+            // DEPLOY ASSETS
+            await deployMultipleAssetsAuto(input.assets, result.id, {
+                namespaceId: ctx.namespace.id,
+                prisma: prisma as unknown as typeof db,
+            })
+
+            return result
         })
     }),
 })

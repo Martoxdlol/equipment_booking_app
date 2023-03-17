@@ -85,4 +85,74 @@ export async function returnAsset(eventId: string, opts: {
         + ` Event id ${result.id}.`)
 
     return result
-} 
+}
+
+
+export async function deployMultipleAssetsAuto(assets: string[], bookingId: string, opts: {
+    prisma?: typeof db | null,
+    namespaceId: string
+}) {
+    const prisma = (opts?.prisma || db);
+
+    for (const asset of assets) {
+        await prisma.inUseAsset.upsert({
+            where: {
+                assetId: asset,
+            },
+            create: {
+                assetId: asset,
+                bookingId: bookingId,
+                namespaceId: opts.namespaceId,
+            },
+            update: {
+                bookingId: bookingId,
+            }
+        })
+
+        // Log events
+
+        const event = await prisma.equipmentUseEvent.findFirst({
+            where: {
+                assetId: asset,
+                returnedAt: null,
+            },
+            orderBy: {
+                deployedAt: 'desc',
+            }
+        })
+
+        if (event && event.bookingId != bookingId) {
+            await returnAsset(event.id, { prisma: prisma as unknown as typeof db, namespaceId: opts.namespaceId })
+        }
+
+        if (event && event.bookingId == bookingId) {
+            console.log("Asset already deployed")
+            continue
+        }
+
+        await deployAsset(asset, bookingId, { prisma: prisma as unknown as typeof db, namespaceId: opts.namespaceId })
+    }
+}
+
+export async function returnMultipleAssetsAuto(assets: string[], opts: {
+    prisma?: typeof db | null,
+    namespaceId: string
+}) {
+    const prisma = (opts?.prisma || db);
+
+    for (const asset of assets) {
+        const event = await prisma.equipmentUseEvent.findFirst({
+            where: {
+                assetId: asset,
+                returnedAt: null,
+            },
+            orderBy: {
+                deployedAt: 'desc',
+            }
+        })
+
+        if (event) {
+            await returnAsset(event.id, { prisma: prisma as unknown as typeof db, namespaceId: opts.namespaceId })
+        }
+    }
+}
