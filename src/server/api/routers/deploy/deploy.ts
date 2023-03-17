@@ -4,8 +4,8 @@ import dayjs from "dayjs";
 import { z } from "zod";
 import { getTimeStamp } from "../../../../utils/timestamps";
 import { createTRPCRouter, namespaceAdminProcedure } from "../../trpc";
-import { deployAsset, deployMultipleAssetsAuto, returnAsset, returnMultipleAssetsAuto } from "../../../../utils/events";
-import { prisma as db } from "../../../db";
+import { deployMultipleAssetsAuto, returnMultipleAssetsAuto } from "../../../../utils/events";
+import type { prisma as db } from "../../../db";
 
 export const deployRouter = createTRPCRouter({
     deployTo: namespaceAdminProcedure.input(z.object({
@@ -107,7 +107,7 @@ export const deployRouter = createTRPCRouter({
             namespaceId: ctx.namespace.id,
             prisma: ctx.prisma,
         })
-        
+
         return result
     }),
 
