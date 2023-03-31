@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import dayjs from "dayjs";
-import { useQueryState } from "next-usequerystate";
 import Image from "next/image";
 import { useState } from "react";
 import BookingAssetIndicator from "../../../lib/components/BookingAssetIndicator";
@@ -53,11 +52,7 @@ export default function DashboardDeploy() {
 
             const [selection, setSelection] = useState<Set<string>>(new Set())
             const [selectedBooking, setSelectedBooking] = useState<string | null>(defBooking)
-            const [mode, setMode] = useQueryState<'new' | 'existing'>('mode', {
-                defaultValue: 'existing', parse(value) {
-                    return value === 'new' ? 'new' : 'existing'
-                },
-            })
+            const [mode, setMode] = useState<'new' | 'existing'>('existing')
 
             function toggleSelect(id: string) {
                 if (selection.has(id)) {
