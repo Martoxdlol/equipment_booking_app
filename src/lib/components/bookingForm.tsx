@@ -186,9 +186,9 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
             <div className="flex flex-col sm:grid grid-flow-row sm:grid-cols-[7fr_5fr] gap-2 mb-auto">
                 <div>
-                    <ComboBox
+                    {isAdmin && <ComboBox
                         options={!users ? [
-                            { label: nameOf(session?.user, 'Yo') , value: session?.user.id || '', picture: session?.user.image },
+                            { label: nameOf(session?.user, 'Yo'), value: session?.user.id || '', picture: session?.user.image },
                         ] : users.map(user => {
                             return {
                                 label: nameOf(user),
@@ -198,7 +198,11 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
                         onChange={setRequestedBy}
                         value={requestedBy}
                         label="Pedido por"
-                    />
+                    />}
+                    {!isAdmin && <>
+                        <Label>Pedido por</Label>
+                        <Input value={user?.name} />
+                    </>}
                 </div>
                 <div>
                     <Label>Donde/como se va a usar</Label>
