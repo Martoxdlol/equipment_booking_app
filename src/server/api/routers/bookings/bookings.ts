@@ -70,7 +70,7 @@ function getBookingsOf(opts: { prisma: PrismaClient, namespaceId: string, showHi
         date: dateIsLTTo
     }
 
-    if(opts.from && opts.to) {
+    if (opts.from && opts.to) {
         filter.to = {
             date: dateIsGTFrom
         }
@@ -379,43 +379,56 @@ export const bookingsRoute = createTRPCRouter({
                     where: {
                         poolId: booking.poolId,
                         from: {
-                            date: {
-                                OR: [
-                                    {
-                                        year: {
-                                            gte: now.get('year'),
-                                        },
+                            OR: [
+                                {
+                                    date: {
+                                        OR: [
+                                            {
+                                                year: {
+                                                    gte: now.get('year'),
+                                                },
+                                            },
+                                            {
+                                                year: now.get('year'),
+                                                month: {
+                                                    gte: now.get('month') + 1,
+                                                },
+                                            },
+                                            {
+                                                year: now.get('year'),
+                                                month: now.get('month') + 1,
+                                                day: {
+                                                    gte: now.get('day'),
+                                                },
+                                            },
+                                        ]
                                     },
-                                    {
-                                        year: now.get('year'),
-                                        month: {
-                                            gte: now.get('month') + 1,
-                                        },
-                                    },
+                                },
+                                {
+                                    date:
                                     {
                                         year: now.get('year'),
                                         month: now.get('month') + 1,
-                                        day: {
-                                            gte: now.get('day'),
-                                        },
-                                    },
-                                ]
-                            },
-                            time: {
-                                OR: [
-                                    {
-                                        hours: {
-                                            gte: now.get('hour'),
-                                        },
-                                    },
-                                    {
-                                        hours: now.get('hour'),
-                                        minutes: {
-                                            gte: now.get('minute'),
-                                        },
-                                    },
-                                ]
-                            }
+                                        day: now.get('day'),
+                                    }
+                                    ,
+                                    time: {
+                                        OR: [
+                                            {
+                                                hours: {
+                                                    gte: now.get('hour'),
+                                                },
+                                            },
+                                            {
+                                                hours: now.get('hour'),
+                                                minutes: {
+                                                    gte: now.get('minute'),
+                                                },
+                                            },
+                                        ]
+                                    }
+                                }
+                            ]
                         },
                     }
                 }) : [booking]
@@ -425,10 +438,8 @@ export const bookingsRoute = createTRPCRouter({
                         OR: bookings.map((b) => ({ bookingId: b.id }))
                     }
                 })
-
                 const poolId = booking.poolId
                 for (const booking of bookings) {
-
                     if (!poolId && bookings.length === 1) {
                         await prisma.booking.update({
                             where: {
