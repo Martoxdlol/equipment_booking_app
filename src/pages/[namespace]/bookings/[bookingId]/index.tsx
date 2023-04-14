@@ -59,21 +59,10 @@ export default function BookingView() {
         return <NotFoundFullPage />
     }
 
-    let from = dayjs().startOf('day')
-    from = from.set('year', booking.from.date.year)
-    from = from.set('month', booking.from.date.month - 1)
-    from = from.set('day', booking.from.date.day)
-    from = from.set('hour', booking.from.time.hours)
-    from = from.set('minute', booking.from.time.minutes)
-    from = from.set('second', 0)
+    const from = dayjs().startOf('day').set('date', booking.from.date.day).set('month', booking.from.date.month - 1).set('year', booking.from.date.year).set('hour', booking.from.time.hours).set('minute', booking.from.time.minutes)
 
-    let to = dayjs().startOf('day')
-    to = to.set('year', booking.to.date.year)
-    to = to.set('month', booking.to.date.month - 1)
-    to = to.set('day', booking.to.date.day)
-    to = to.set('hour', booking.to.time.hours)
-    to = to.set('minute', booking.to.time.minutes)
-    to = to.set('second', 0)
+    const to = dayjs().startOf('day').set('date', booking.to.date.day).set('month', booking.to.date.month - 1).set('year', booking.to.date.year).set('hour', booking.to.time.hours).set('minute', booking.to.time.minutes)
+
 
     const requestedBy: string = nameOf(booking.user)
     const requestedByEmail = booking.user?.user?.email
