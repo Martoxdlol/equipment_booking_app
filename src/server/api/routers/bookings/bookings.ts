@@ -398,7 +398,7 @@ export const bookingsRoute = createTRPCRouter({
                                                 year: now.get('year'),
                                                 month: now.get('month') + 1,
                                                 day: {
-                                                    gte: now.get('day'),
+                                                    gt: now.get('day'),
                                                 },
                                             },
                                         ]
@@ -819,51 +819,84 @@ async function getBookingAvailability(opts: {
             booking: {
                 namespaceId: opts.namespaceId,
                 from: {
-                    date: {
-                        OR: [
-                            {
-                                year: { lt: endYear },
-                            },
-                            {
-                                year: { equals: endYear },
-                                month: { lt: endMonth },
-                            },
-                            {
+                    OR: [
+                        {
+                            date: {
+                                OR: [
+                                    {
+                                        year: { lt: endYear },
+                                    },
+                                    {
+                                        year: { equals: endYear },
+                                        month: { lt: endMonth },
+                                    },
+                                    {
+                                        year: { equals: endYear },
+                                        month: { equals: endMonth },
+                                        day: { lt: endDay },
+                                    },
+                                ]
+                            }
+                        },
+                        {
+                            date: {
                                 year: { equals: endYear },
                                 month: { equals: endMonth },
-                                day: { lte: endDay },
+                                day: endDay,
                             },
-                        ]
-                    },
-                    time: {
-                        OR: [
-                            {
-                                hours: startHour,
-                                minutes: { lt: endMinute },
-                            },
-                            {
-                                hours: { lt: endHour },
+                            time: {
+                                OR: [
+                                    {
+                                        hours: startHour,
+                                        minutes: { lt: endMinute },
+                                    },
+                                    {
+                                        hours: { lt: endHour },
+                                    }
+                                ]
                             }
-                        ]
-                    }
+                        },
+                    ]
                 },
                 to: {
-                    date: {
-                        day: { gte: startDay },
-                        month: { gte: startMonth },
-                        year: { gte: startYear },
-                    },
-                    time: {
-                        OR: [
-                            {
-                                hours: startHour,
-                                minutes: { gt: startMinute },
-                            },
-                            {
-                                hours: { gt: startHour },
+                    OR: [
+                        {
+                            date: {
+                                OR: [
+                                    {
+                                        year: { gt: startYear },
+                                    },
+                                    {
+                                        year: { equals: startYear },
+                                        month: { gt: startMonth },
+                                    },
+                                    {
+                                        year: { equals: startYear },
+                                        month: { equals: startMonth },
+                                        day: { gt: startDay },
+                                    },
+                                ]
                             }
-                        ]
-                    }
+                        },
+                        {
+                            date: {
+                                year: { equals: startYear },
+                                month: { equals: startMonth },
+                                day: startDay,
+                            },
+                            time: {
+                                OR: [
+                                    {
+                                        hours: startHour,
+                                        minutes: { gt: startMinute },
+                                    },
+                                    {
+                                        hours: { gt: startHour },
+                                    }
+                                ]
+                            }
+                        }
+                    ]
                 }
             }
         },
