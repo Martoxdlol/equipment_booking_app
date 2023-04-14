@@ -1,0 +1,136 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+  // provider = "sqlite"
+  // url      = "file:./dev.db"
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+// generator zod {
+//   provider = "prisma-zod-generator"
+// }
+
+enum PosterSource {
+  RAW
+  GITHUB
+}
+
+model Post {
+  id     String       @id @default(uuid())
+  name   String
+  text   String
+  source PosterSource @default(RAW)
+
+  // To return `Date`s intact through the API we need to add data transformers
+  // https://trpc.io/docs/data-transformers
+  createdAt DateTime @unique @default(now())
+  updatedAt DateTime @unique @default(now())
+}
+
+/// AUTH RELATED
+
+model User {
+  id               String             @id @default(cuid())
+  name             String?
+  email            String             @unique
+  emailVerified    DateTime?
+  image            String?
+  adminLevel       Int                @default(0)
+  accounts         Account[]
+  sessions         Session[]
+  EquipmentRequest EquipmentRequest[]
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+/// BUSINESS LOGIC RELATED
+
+model EquipmentRequest {
+  id           Int           @id @default(autoincrement())
+  requested_by User          @relation(fields: [requester_id], references: [id])
+  requester_id String
+  items        RequestItem[]
+  notes        String        @default("")
+  time_start   DateTime
+  time_end     DateTime
+  asset        Asset[]
+  created_at   DateTime      @default(now())
+
+  link      RecurrentRequestLink? @relation(fields: [linked_to], references: [id])
+  linked_to Int?
+
+  @@index([time_start])
+  @@index([time_start, requester_id])
+  @@index([time_end])
+  @@index([time_end, requester_id])
+}
+
+model RecurrentRequestLink {
+  id                 Int                @id @default(autoincrement())
+  equipment_requests EquipmentRequest[]
+}
+
+model RequestItem {
+  id            Int              @id @default(autoincrement())
+  request       EquipmentRequest @relation(fields: [request_id], references: [id])
+  request_id    Int
+  quantity      Int
+  asset_type    AssetType        @relation(fields: [asset_type_id], references: [id])
+  asset_type_id String
+
+  @@unique([request_id, asset_type_id])
+}
+
+model AssetType {
+  id          String        @id @unique
+  title       String
+  assets      Asset[]
+  unique      Boolean       @default(true)
+  quantity    Int?
+  RequestItem RequestItem[]
+}
+
+model Asset {
+  id             String            @id @unique
+  type           AssetType         @relation(fields: [type_id], references: [id])
+  type_id        String
+  deployed_to    EquipmentRequest? @relation(fields: [deployed_to_id], references: [id])
+  deployed_to_id Int?
+}
