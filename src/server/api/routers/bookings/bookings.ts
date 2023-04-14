@@ -306,11 +306,7 @@ export const bookingsRoute = createTRPCRouter({
 
         const user = await ctx.prisma.namespaceUser.findUnique({
             where: {
-                id: input.requestedBy ? input.requestedBy : undefined,
-                email_namespaceId: input.requestedBy ? undefined : {
-                    email: ctx.session.user.email || '',
-                    namespaceId: ctx.namespace.id,
-                }
+                id: input.requestedBy
             }
         })
 
