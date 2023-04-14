@@ -26,8 +26,9 @@ export default function UserPage() {
                     {
                         variant: 'outlined',
                         label: "Cambiar cuenta",
-                        onClick() {
-                            void signIn('openid')
+                        async onClick() {
+                            await signOut({ redirect: false })
+                            await signIn('openid')
                         },
                     },
                     {

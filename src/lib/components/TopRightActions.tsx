@@ -5,7 +5,7 @@ interface Props {
     actions: {
         label?: React.ReactNode
         variant?: React.ComponentProps<typeof Button>['variant'],
-        onClick?: () => void
+        onClick?: () => unknown
         className?: string
     }[]
     addPaddingToPage?: boolean
