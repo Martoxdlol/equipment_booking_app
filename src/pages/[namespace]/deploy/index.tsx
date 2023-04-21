@@ -136,6 +136,10 @@ export default function DashboardDeploy() {
                         })}
                     </div>
                     <div className="mb-auto">
+                        {selection.size > 0 && <>
+                            <Label>Selección</Label>
+                            <Button variant="outlined" className="w-full mb-2 mt-1" onClick={() => void handlerReturn()}>Devolver</Button>
+                        </>}
                         <Label>Entregar a</Label>
                         <Switch
                             value={mode === 'new'}
@@ -152,7 +156,7 @@ export default function DashboardDeploy() {
                                 })}
                                     onClick={() => setSelectedBooking(booking.id === selectedBooking ? null : booking.id)}
                                 >
-                                    
+
                                     <div
                                         onClick={e => {
                                             e.stopPropagation()

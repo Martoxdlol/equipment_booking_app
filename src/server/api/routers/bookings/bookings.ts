@@ -690,23 +690,7 @@ async function getBookingAvailability(opts: {
         })
 
 
-        // const iterable = pool ? pool.bookings.map(booking => {
-        //     const date = dayjs(`${booking.from.date.year}/${booking.from.date.month}/${booking.from.date.day}`).get('months')
 
-        //     return {
-        //         booking: booking as typeof booking | null,
-        //         daysDiff: 0
-        //     }
-        // }) : []
-
-        // if (!pool) {
-        //     for (let i = 0; i < opts.repeatWeekly + 1; i++) {
-        //         iterable.push({
-        //             booking: null,
-        //             daysDiff: i * 7
-        //         })
-        //     }
-        // }
 
         type TimeDate = {
             date: {
@@ -724,8 +708,7 @@ async function getBookingAvailability(opts: {
             bookingDate = bookingDate.set('year', booking.from.date.year)
             bookingDate = bookingDate.set('month', booking.from.date.month - 1)
             bookingDate = bookingDate.set('date', booking.from.date.day)
-            // bookingDate = bookingDate.set('hour', booking.from.time.hours)
-            // bookingDate = bookingDate.set('minute', booking.from.time.minutes)
+
 
             let inputDate = dayjs().startOf('day')
             inputDate = inputDate.set('year', opts.start.date.year)
@@ -834,7 +817,7 @@ async function getBookingAvailability(opts: {
         include: {
             assets: {
                 where: {
-                    enabled: true
+                    // enabled: true
                 }
             }
         }
@@ -849,6 +832,7 @@ async function getBookingAvailability(opts: {
             assetsByTypeId.set(asset.assetTypeId, [...list, asset])
         }
     }
+
 
     const pool = opts.excludePoolId ? await opts.prisma.booking.findMany({ where: { poolId: opts.excludePoolId }, select: { id: true } }) : null
 
@@ -984,7 +968,7 @@ async function getBookingAvailability(opts: {
     requestedItemsInThatTimeFrame = requestedItemsInThatTimeFrame.filter(item => item.bookingId !== opts.excludeBookingId)
     requestedItemsInThatTimeFrame = requestedItemsInThatTimeFrame.filter(item => !pool?.find(poolItem => poolItem.id === item.bookingId))
 
-    type Unpacked<T> = T extends (infer U)[] ? U : T;
+    // type Unpacked<T> = T extends (infer U)[] ? U : T;
 
     // Different times
     const times = new Set<number>
@@ -1039,7 +1023,6 @@ async function getBookingAvailability(opts: {
 
     const availabilities: Map<string, number>[] = []
 
-
     const baseAvailability = new Map<string, number>()
 
     for (const key of assetsByTypeId.keys()) {
@@ -1063,7 +1046,8 @@ async function getBookingAvailability(opts: {
 
             let num = baseAvailability.get(key) || 0
             if (requestedItems) {
-                num -= requestedItems.reduce((acc, item) => (acc as unknown as number) + (item.quantity as unknown as number), 0)
+                const reduceAvailibilityBy = requestedItems.reduce((acc, item) => (acc as unknown as number) + (item.quantity as unknown as number), 0)
+                num -= reduceAvailibilityBy
             }
 
             if (num < 0) {
@@ -1079,13 +1063,18 @@ async function getBookingAvailability(opts: {
 
     const typeAvailabilityById = new Map<string, number>()
 
-    let isFirst = true;
+    const availabilitiesByType = new Map<string, string[]>()
+
     for (const availability of availabilities) {
         for (const [key, value] of availability) {
-            const current = typeAvailabilityById.get(key) || (isFirst ? value : 0)
-            isFirst = false
-            typeAvailabilityById.set(key, Math.min(current, value))
+            const list = availabilitiesByType.get(key) || []
+            availabilitiesByType.set(key, [...list, value.toString()])
         }
+    }
+
+    for(const [key, values] of availabilitiesByType) {
+        const min = Math.min(...values.map(v => parseInt(v)))
+        typeAvailabilityById.set(key, min)
     }
 
     if (availabilities.length === 0) {
