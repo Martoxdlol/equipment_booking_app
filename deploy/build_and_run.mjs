@@ -3,6 +3,17 @@ import fs from 'fs'
 import dotenv from 'dotenv';
 import path from 'path';
 import pkg from '../package.json' assert { type: "json" }
+import express from 'express'
+
+const tmpApp = express()
+
+const tmpServer = tmpApp.listen(3000)
+
+tmpApp.use((req, res) => {
+    res.status(200).sendFile(path.resolve('./deploy/updating.html'))
+})
+
+
 
 dotenv.config();
 
@@ -90,5 +101,6 @@ async function build() {
 }
 
 function run() {
+    tmpServer.close()
     return execStdIODirect('npm run start')
 }
