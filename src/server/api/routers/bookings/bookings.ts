@@ -244,6 +244,41 @@ export const bookingsRoute = createTRPCRouter({
         })
     }),
     deleteSingle: namespaceProcedure.input(z.string()).mutation(async ({ input, ctx }) => {
+        const user = await ctx.prisma.user.findUnique({
+            where: {
+                id: ctx.session.user.id
+            }
+        })
+
+        if (user && user.globalAdmin) {
+            return ctx.prisma.$transaction(async prisma => {
+                const booking = await prisma.booking.findMany({
+                    where: {
+                        id: input,
+                        inUseAssets: {
+                            none: {
+
+                            },
+                        },
+                    },
+                })
+
+                if (!booking) return null
+
+                await prisma.equipmentUseEvent.deleteMany({
+                    where: {
+                        bookingId: input
+                    }
+                })
+
+                return await prisma.booking.deleteMany({
+                    where: {
+                        id: input,
+                    }
+                })
+            })
+        }
+
         return ctx.prisma.booking.deleteMany({
             where: {
                 id: input,
@@ -251,7 +286,10 @@ export const bookingsRoute = createTRPCRouter({
                 inUseAssets: {
                     none: {
 
-                    }
+                    },
+                },
+                events: {
+                    none: {}
                 }
             },
         })

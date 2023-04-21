@@ -98,7 +98,10 @@ export default function ComboBox(props: {
     if (!filtered.length) filtered = [defaultOption]
 
     return (
-        <Combobox value={selected} onChange={o => props.onChange(o.value)}>
+        <Combobox value={selected} onChange={o => {
+            setQuery('')
+            props.onChange(o.value)
+        }}>
             {({ open }) => (
                 <>
 

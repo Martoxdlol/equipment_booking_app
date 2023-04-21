@@ -37,7 +37,7 @@ export default function BookingForm({ booking, onSave, }: BookingFormProps) {
 
     const isEditing = !!booking
 
-    const [requestedBy, setRequestedBy] = useState<string | null>(null)
+    const [requestedBy, setRequestedBy] = useState<string | null>(booking?.userId || null)
 
     useEffect(() => {
         if (!requestedBy && user) {

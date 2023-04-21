@@ -14,6 +14,7 @@ import namespaceRow from "../../../lib/util/namespaceRow";
 import { api } from "../../../utils/api";
 import { useRouter } from "next/router";
 import { nameOf } from "../../../utils/names";
+import { stringToColor } from "../../../lib/util/colors";
 
 export default function DashboardDeploy() {
     return <NamespaceAdminRoute>
@@ -125,7 +126,9 @@ export default function DashboardDeploy() {
                                             <div className="px-1">
                                                 {asset.name}
                                             </div>
-                                            {asset.inUseAsset && <p className="text-xs font-semibold text-blue-500 absolute bottom-[1px] left-0 right-0 text-center">{nameOf(asset.inUseAsset.booking.user)}</p>}
+                                            {asset.inUseAsset && <p className="text-xs font-semibold text-blue-500 absolute bottom-[1px] left-0 right-0 text-center"
+                                                style={{ color: stringToColor(nameOf(asset.inUseAsset.booking.user)) }}
+                                            >{nameOf(asset.inUseAsset.booking.user)}</p>}
                                         </div>
                                     })}
                                 </div>
@@ -143,13 +146,25 @@ export default function DashboardDeploy() {
                         {mode === 'existing' && <div className="grid gap-1 mt-2">
                             {bookings?.map(booking => {
 
-                                return <div key={booking.id} className={classNames("p-1 shadow-md cursor-pointer rounded-md", {
+                                return <div key={booking.id} className={classNames("p-1 shadow-md cursor-pointer rounded-md relative", {
                                     'border border-blue-500 ring': booking.id === selectedBooking,
                                     'border border-transparent': booking.id !== selectedBooking,
                                 })}
                                     onClick={() => setSelectedBooking(booking.id === selectedBooking ? null : booking.id)}
                                 >
-                                    <p>{nameOf(booking.user)}</p>
+                                    
+                                    <div
+                                        onClick={e => {
+                                            e.stopPropagation()
+                                        }}
+                                        className="absolute top-[3px] right-[4px] h-[12px] w-[24px] rounded-full bg-blue-500 flex justify-around cursor-pointer"
+                                        style={{ backgroundColor: stringToColor(booking.poolId ?? booking.userId) }}
+                                    >
+                                        {booking.poolId && <Image alt="icon" src="/link.svg" width={14} height={14} />}
+                                    </div>
+
+
+                                    <p style={{ color: stringToColor(nameOf(booking.user)) }}>{nameOf(booking.user)}</p>
                                     <p className="text-sm">{booking.useType}</p>
                                     <p className="text-sm font-semibold text-blue-500">{booking.from.time.hours}:{booking.from.time.minutes} - {booking.to.time.hours}:{booking.to.time.minutes}</p>
                                     <div>

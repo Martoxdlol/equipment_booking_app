@@ -27,7 +27,7 @@ function createOrUpdate(opts: { prisma: PrismaClient, namespaceId: string, name:
         throw new TRPCError({
             code: "BAD_REQUEST",
             cause: 'slug',
-            message: "Identificador tiene un formato inválido",
+            message: "Identificador tiene un formato inválido. (todo minúsuculas, sin espacios, mínimo 5 caracteres, sin caracteres especiales, se aceptan guiones)",
         })
     }
 
