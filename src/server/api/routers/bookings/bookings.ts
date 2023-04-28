@@ -828,6 +828,7 @@ async function getBookingAvailability(opts: {
 
     for (const type of types) {
         for (const asset of type.assets) {
+            if(!asset.enabled) continue;
             const list = assetsByTypeId.get(asset.assetTypeId) || []
             assetsByTypeId.set(asset.assetTypeId, [...list, asset])
         }
@@ -1080,6 +1081,8 @@ async function getBookingAvailability(opts: {
     if (availabilities.length === 0) {
         return baseAvailability
     }
+    console.log(availabilities)
+    console.log(baseAvailability)
 
     return typeAvailabilityById
 }
