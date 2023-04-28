@@ -1081,8 +1081,6 @@ async function getBookingAvailability(opts: {
     if (availabilities.length === 0) {
         return baseAvailability
     }
-    console.log(availabilities)
-    console.log(baseAvailability)
 
     return typeAvailabilityById
 }
