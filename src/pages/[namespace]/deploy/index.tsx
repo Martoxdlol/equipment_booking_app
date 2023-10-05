@@ -249,8 +249,8 @@ export default function DashboardDeploy() {
                             }}
                         >
                             {assetTypes?.map((assetType, index1) => {
-                                return <div key={assetType.id} className="py-1 lg:p-1">
-                                    <h2 className="p-[2px] lg:px-0 font-medium">{assetType.name}</h2>
+                                return <div key={assetType.id} className="py-1">
+                                    <h2 className="p-[2px] font-medium">{assetType.name}</h2>
                                     <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-[1px]" id={`grid-${index1}`}>
                                         {assetType.assets?.map((asset, index2) => {
 
