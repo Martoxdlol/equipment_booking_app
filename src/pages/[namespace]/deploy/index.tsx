@@ -264,7 +264,7 @@ export default function DashboardDeploy() {
                             })}
                         </div>
                     </section>
-                    <section className={classNames("border-t lg:border-none", {
+                    <section className={classNames("border-t lg:border-none overflow-auto", {
                         'fixed bg-stone-700 bg-opacity-25 w-full bottom-0 h-full': expanded,
                     })}
                         onClick={() => setExpanded(false)}
