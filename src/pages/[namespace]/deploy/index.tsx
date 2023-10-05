@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import dayjs from "dayjs";
 import Image from "next/image";
-import { useId, useLayoutEffect, useState } from "react";
+import { useId, useLayoutEffect, useMemo, useState } from "react";
 import BookingAssetIndicator from "../../../lib/components/BookingAssetIndicator";
 import Button from "../../../lib/components/Button";
 import ComboBox from "../../../lib/components/ComboBox";
@@ -81,6 +81,37 @@ export default function DashboardDeploy() {
 
 
             }, [expanded])
+
+            const assetTypeById = useMemo(() => {
+                const map = new Map<string, NonNullable<typeof assetTypes>[0]>()
+                assetTypes?.forEach(assetType => {
+                    map.set(assetType.id, assetType)
+                })
+                return map
+            }, [assetTypes])
+
+
+            const assetTypeByAssetId = useMemo(() => {
+                const map = new Map<string, NonNullable<typeof assetTypes>[0]>()
+                assetTypes?.forEach(assetType => {
+                    assetType.assets?.forEach(asset => {
+                        map.set(asset.id, assetType)
+                    })
+                })
+                return map
+            }, [assetTypes])
+
+            const selectedQuantityByAssetTypeId = useMemo(() => {
+                const map = new Map<string, number>()
+                selection.forEach(assetId => {
+                    const assetType = assetTypeByAssetId.get(assetId)
+                    if (assetType) {
+                        const current = map.get(assetType.id) ?? 0
+                        map.set(assetType.id, current + 1)
+                    }
+                })
+                return map
+            }, [selection, assetTypeByAssetId])
 
 
             let selectedBooking = _selectedBooking
@@ -312,17 +343,35 @@ export default function DashboardDeploy() {
                             </div>
 
                             <div className="p-1">
-                                <div className={classNames("p-1 shadow-md cursor-pointer rounded-md relative", {
+                                {[...selectedQuantityByAssetTypeId.entries()].map(([typeId, quantity], index) => {
+
+                                    const assetType = assetTypeById.get(typeId)!
+
+                                    return <div key={typeId} className="inline-flex items-center border py-[1px] px-1 rounded-full mr-1" >
+                                        {assetType.picture && <Image alt={assetType.name} src={assetType.picture} height={20} width={20} />}
+                                        {!assetType.picture && <p key={typeId} className="font-semibold text-sm">
+                                            {assetType.name}
+                                        </p>}
+                                        <p className="font-semibold px-1">{quantity}</p>
+                                    </div>
+                                })}
+
+                            </div>
+
+                            <div className="p-1">
+                                <div className={classNames("p-1 cursor-pointer rounded-md relative", {
                                     'border border-blue-500 ring': 'new' === selectedBooking,
-                                    'border border-transparent': 'new' !== selectedBooking,
+                                    'border shadow-sm': 'new' !== selectedBooking,
                                 })}
                                     onClick={() => setSelectedBooking('new' === selectedBooking ? null : 'new')}
                                 >
+                                    {'new' !== selectedBooking && <span className="float-right text-sm text-blue-500 font-medium">elegir</span>}
                                     <h2 className="font-medium">Crear y entregar (D)</h2>
                                     <div className="grid grid-cols-2 gap-1 mt-1 mb-1">
                                         <div onClick={e => e.stopPropagation()}>
                                             <Label>Desde (hoy)</Label>
                                             <ElegibleTimePicker
+                                                disabled={selectedBooking !== 'new'}
                                                 onChange={t => setFromTimeId(t.id)}
                                                 value={{ id: fromTimeId || '' }}
                                             />
@@ -330,6 +379,7 @@ export default function DashboardDeploy() {
                                         <div onClick={e => e.stopPropagation()}>
                                             <Label>hasta (hoy)</Label>
                                             <ElegibleTimePicker
+                                                disabled={selectedBooking !== 'new'}
                                                 onChange={t => setToTimeId(t.id)}
                                                 value={{ id: toTimeId || '' }}
                                             />
@@ -384,7 +434,7 @@ export default function DashboardDeploy() {
 
                     </section>
                 </div>
-            </div>
+            </div >
 
             // return <DashboardLayout
             //     row={namespaceRow(namespace.slug)}
@@ -503,5 +553,5 @@ export default function DashboardDeploy() {
 
             // </DashboardLayout>
         }}
-    </NamespaceAdminRoute>
+    </NamespaceAdminRoute >
 }
