@@ -26,7 +26,7 @@
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "lucide-react": "^0.284.0",
-    "next": "13.1.6",
+    "next": "13.5.1",
     "next-auth": "^4.19.0",
     "next-usequerystate": "^1.7.2",
     "react": "18.2.0",
