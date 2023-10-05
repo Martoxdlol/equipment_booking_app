@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 
-const className = "mt-1 cursor-default border border-gray-300 bg-white py-1 px-1 text-center text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+const className = "mt-1 cursor-default border border-gray-300 bg-white py-1 px-1 text-center shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
 
 interface Props {
     name: React.ReactNode
