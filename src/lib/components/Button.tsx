@@ -42,6 +42,7 @@ export default function Button({
             'focus:outline-none outline-none',
             'focus:ring',
             'shadow-sm',
+            { 'opacity-60': props.disabled },
             variant ? buttonVariants[variant]?.className : buttonVariants.colored.className,
             ...(variants?.map(v => buttonVariants[v]?.className) || []),
             className,

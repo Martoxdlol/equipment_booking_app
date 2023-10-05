@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { useEffect } from "react"
 import { api } from "../../utils/api";
 import Select from "./Select"
@@ -14,7 +15,7 @@ export default function ElegibleTimePicker({ value, onChange, minExcludeId, maxE
 }) {
     const { data: times, refetch: refetchTimes } = api.namespace.elegibleTimes.useQuery()
 
-    const options = times?.map(t => ({ value: t.id, label: `${t.hours}:${t.minutes}` })) || []
+    const options = times?.map(t => ({ value: t.id, label: dayjs().set('hour', t.hours).set('minute', t.minutes).format('HH:mm') })) || []
 
     let minIndex = options.findIndex(o => o.value == minExcludeId)
     let maxIndex = options.findIndex(o => o.value == maxExcludeId)

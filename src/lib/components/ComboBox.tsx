@@ -75,6 +75,7 @@ export default function ComboBox(props: {
     onChange: (value: string) => void
     value: string | null | undefined
     placeHolder?: string
+    reseteable?: boolean
 }) {
     const options = props.options || []
 
@@ -105,7 +106,14 @@ export default function ComboBox(props: {
             {({ open }) => (
                 <>
 
-                    <Combobox.Label className="block text-sm font-medium text-gray-700">{props.label}</Combobox.Label>
+                    <Combobox.Label className="flex text-sm font-medium text-gray-700">{props.label}
+                        {props.reseteable && <button className='ml-auto block text-blue-500'
+                            onClick={() => {
+                                setQuery('')
+                                props.onChange('')
+                            }}
+                        >reset</button>}
+                    </Combobox.Label>
                     <div className="relative mt-1">
                         <Combobox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-1 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
 
