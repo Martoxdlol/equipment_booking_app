@@ -7,7 +7,7 @@
     "dev": "next dev",
     "postinstall": "pnpm dlx prisma generate",
     "lint": "next lint",
-    "start": "next start",
+    "start": "next start -H 0.0.0.0",
     "entrypoint": "node ./deploy/build_and_run.mjs"
   },
   "dependencies": {
