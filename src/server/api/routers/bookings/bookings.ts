@@ -362,6 +362,10 @@ export const bookingsRoute = createTRPCRouter({
             throw new TRPCError({ code: "BAD_REQUEST", message: "No se pueden tener reservas en el pasado" })
         }
 
+        if (ctx.namespace.disableSameDayBooking && realFromDate.isBefore(dayjs().startOf('day').add(1, 'day')) && !isAdmin) {
+            throw new TRPCError({ code: "BAD_REQUEST", message: "No se pueden hacer reservas en el mismo día" })
+        }
+
         if (realFromDate.isSame(dayjs().startOf('day')) && !isAdmin) {
             const time = await ctx.prisma.elegibleTime.findUnique({ where: { id: input.start.timeId } })
             const minutes = now.get('minute')

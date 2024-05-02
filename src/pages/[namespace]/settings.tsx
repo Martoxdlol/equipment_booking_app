@@ -27,6 +27,7 @@ export default function DashboardNamespaceSettings() {
             const [slug, setSlug] = useState(namespace.slug)
             const [allowUsersByDefault, setAllowUsersByDefault] = useState<boolean>(!!namespace.allowUsersByDefault)
             const [allowMultiDay, setAllowMultiDay] = useState<boolean>(!!namespace.multiDayBooking)
+            const [allowSameDay, setAllowSameDay] = useState<boolean>(!namespace.disableSameDayBooking)
             const [picture, setPicture] = useState<string | null>(namespace.picture)
             const [enabled, setEnabled] = useState<boolean>(!!namespace.enabled)
 
@@ -61,7 +62,18 @@ export default function DashboardNamespaceSettings() {
                 void apiOperation({
                     async action() {
                         if (!namespace) return
-                        await updateNamespace({ name, slug, id: namespace.id, picture: picture, allowUsersByDefault, multiDayBooking: allowMultiDay, description, title, enabled })
+                        await updateNamespace({
+                            name,
+                            slug,
+                            id: namespace.id,
+                            picture: picture,
+                            allowUsersByDefault,
+                            multiDayBooking: allowMultiDay,
+                            description,
+                            title,
+                            enabled,
+                            disableSameDayBooking: !allowSameDay
+                        })
                         window.location.href = `/${slug}`
                     },
                     onApiError(error) {
@@ -129,6 +141,13 @@ export default function DashboardNamespaceSettings() {
                                     onLabel="Activar"
                                     onChange={setEnabled}
                                     value={enabled}
+                                />
+                            </div>
+                            <div>
+                                <Label>Permitir hacer pedidos en el mismo día</Label>
+                                <Switch
+                                    onChange={setAllowSameDay}
+                                    value={allowSameDay}
                                 />
                             </div>
                             <div>

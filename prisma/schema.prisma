@@ -192,6 +192,9 @@ model NamespaceSettings {
     // Users cannot choose whatever time range they want. It should be one of these
     eligibleTimes ElegibleTime[]
 
+    // Disable same day booking
+    disableSameDayBooking Boolean @default(false)
+
     // Standard to all models
     createdAt            DateTime               @default(now())
     updatedAt            DateTime               @updatedAt
